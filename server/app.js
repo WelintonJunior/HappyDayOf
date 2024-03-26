@@ -10,7 +10,7 @@ const db = mysql.createPool({
     host: "localhost",
     user: "root",
     password: "2206",
-    database: "happyday"
+    database: "happyday2"
 })
 
 db.getConnection((err) => {
@@ -23,10 +23,41 @@ db.getConnection((err) => {
 app.use(cors());
 app.use(bodyParser.json())
 
+//Academia
+
+app.post("/Academia", (req, res) => {
+    const { acao, data } = req.body;
+
+    const cnpj = data.acaCnpj;
+    const nome = data.acaNome;
+    const date = data.acaDataCadastro;
+    // const status = data.acaStatus;
+    const celular = data.acaCelular;
+    const cep = data.acaCep;
+
+    switch (acao) {
+        case "CreateAcademia":
+            db.query("insert into tblAcademia values (DEFAULT,?,?,?,?,?,?)",
+                [cnpj, nome, date, 1, celular, cep], (err, results) => {
+                    if (err) {
+                        return res.json(err)
+                    }
+                    res.send(results)
+                })
+            break;
+        case "ReadAcademia":
+            break;
+        case "UpdateAcademia":
+            break;
+        case "DeleteAcademia":
+            break;
+    }
+})
+
 //FICHA TÉCNICA
 
 app.post("/Ficha", (req, res) => {
-    const { acao, /* DADOS */ } = req.body;
+    const { acao, idAcademia } = req.body;
 
     switch (acao) {
         case "CreateFicha":
@@ -43,7 +74,7 @@ app.post("/Ficha", (req, res) => {
 //CLIENTE
 
 app.post("/Cliente", (req, res) => {
-    const { acao, /* DADOS */ } = req.body;
+    const { acao, idAcademia } = req.body;
 
     switch (acao) {
         case "CreateCliente":
@@ -60,7 +91,7 @@ app.post("/Cliente", (req, res) => {
 //FUNCIONARIO
 
 app.post("/Funcionario", (req, res) => {
-    const { acao, /* DADOS */ } = req.body;
+    const { acao, idAcademia } = req.body;
 
     switch (acao) {
         case "CreateFuncionario":
@@ -77,10 +108,10 @@ app.post("/Funcionario", (req, res) => {
 //DASHBOARD
 
 app.post("/Dashboard", (req, res) => {
-    const { acao, /* DADOS */ } = req.body;
+    const { acao, idAcademia } = req.body;
 
     switch (acao) {
-       
+
     }
 })
 
