@@ -23,9 +23,9 @@ db.getConnection((err) => {
 app.use(cors());
 app.use(bodyParser.json())
 
-//Academia
+//Equipe
 
-app.post("/Academia", (req, res) => {
+app.post("/Equipe", (req, res) => {
     const { acao, data } = req.body;
 
     const cnpj = data.acaCnpj;
@@ -54,22 +54,6 @@ app.post("/Academia", (req, res) => {
     }
 })
 
-//FICHA TÉCNICA
-
-app.post("/Ficha", (req, res) => {
-    const { acao, idAcademia } = req.body;
-
-    switch (acao) {
-        case "CreateFicha":
-            break;
-        case "ReadFicha":
-            break;
-        case "UpdateFicha":
-            break;
-        case "DeleteFicha":
-            break;
-    }
-})
 
 //CLIENTE
 
@@ -77,13 +61,11 @@ app.post("/Cliente", (req, res) => {
     const { acao, idAcademia } = req.body;
 
     switch (acao) {
-        case "CreateCliente":
+        case "UpdateCliente":
             break;
         case "ReadCliente":
             break;
-        case "UpdateCliente":
-            break;
-        case "DeleteCliente":
+        case "RegisterAvaliacaoProfessor":
             break;
     }
 })
@@ -94,13 +76,39 @@ app.post("/Funcionario", (req, res) => {
     const { acao, idAcademia } = req.body;
 
     switch (acao) {
-        case "CreateFuncionario":
+        case "RegisterAtendimento":
             break;
-        case "ReadFuncionario":
+    }
+})
+
+//ADMINISTRADOR
+
+app.post("/Administrador", (req, res) => {
+    const { acao, idAcademia } = req.body;
+    switch (acao) {
+        case "ReadFicha":
             break;
-        case "UpdateFuncionario":
+        case "ReadClientes":
             break;
-        case "DeleteFuncionario":
+        case "ReadClienteDet":
+            break;
+        case "ReadFuncionarios":
+            break;
+        case "ReadFuncionarioDet":
+            break;
+        case "RegisterFuncionario":
+            break;
+        case "RegisterFicha":
+            break;
+        case "RegisterCliente":
+            break;
+        case "ArchiveCliente":
+            break;
+        case "ArchiveFuncionario":
+            break;
+        case "AddAdministrador":
+            break;
+        case "RegisterAvaliacaoSistema":
             break;
     }
 })
@@ -111,7 +119,33 @@ app.post("/Dashboard", (req, res) => {
     const { acao, idAcademia } = req.body;
 
     switch (acao) {
+        case 'TaxaAdocao':
+            break;
+        case 'Satisfacao':
+            break;
+        case 'ProdutividadeProfessores':
+            break;
+        case 'EngajamentoAlunos':
+            break;
+        case 'AvaliacaoPerformance':
+            break;
+        case 'Roi':
+            break;
 
+    }
+})
+
+//LOGIN
+
+app.post("/Login", (req, res) => {
+    const { acao } = req.body;
+    switch (acao) {
+        case "LoginCliente":
+            break;
+        case "LoginFuncionario":
+            break;
+        case "LoginAdministrador":
+            break;
     }
 })
 
