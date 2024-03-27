@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happyday</title>
+    <link rel="stylesheet" href="../styles/login.css" />
+  </head>
+  <body>
+    <form id="formLogin">
+      Qual o seu nível de usuário?
+      <select name="userType">
+        <option value="0">Cliente</option>
+        <option value="1">Funcionário</option>
+        <option value="2">Administrador</option>
+      </select>
+      <br />
+      <br />
+      Email: <input type="text" name="email" /> <br />
+      <br />
+      Senha: <input type="password" name="senha" /> <br />
+      <br />
+      <button type="submit">Login</button>
+    </form>
+    <script src="../service/reqLogin.js"></script>
+  </body>
+</html>

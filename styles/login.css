@@ -1,0 +1,13 @@
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+}
+
+form {
+  padding: 20px;
+  width: auto;
+  height: auto;
+  border: 1px solid black;
+}
