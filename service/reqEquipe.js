@@ -1,8 +1,6 @@
 //Form Create Academia
 
-document.getElementById('formAcademia').addEventListener('submit', handleSubmitFormAcademia)
-
-async function handleSubmitFormAcademia(e) {
+document.getElementById('formAcademia').addEventListener('submit', async (e) => {
     e.preventDefault();
     const fd = new FormData(e.target)
     const data = Object.fromEntries(fd.entries())
@@ -18,4 +16,6 @@ async function handleSubmitFormAcademia(e) {
 
     const result = await response.json()
     console.log(result)
-}
+
+})
+

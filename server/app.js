@@ -54,7 +54,6 @@ app.post("/Equipe", (req, res) => {
     }
 })
 
-
 //CLIENTE
 
 app.post("/Cliente", (req, res) => {
@@ -138,13 +137,61 @@ app.post("/Dashboard", (req, res) => {
 //LOGIN
 
 app.post("/Login", (req, res) => {
-    const { acao } = req.body;
+    const { acao, data } = req.body;
+    const email = data.email;
+    const senha = data.senha;
+    const nivel = data.userType
     switch (acao) {
         case "LoginCliente":
+            db.query("select * from tblCliente where cliEmail = ?",
+                [email], (err, results) => {
+                    if (err) {
+                        return res.json(err)
+                    }
+                    if (results.length === 0) {
+                        return res.json(false)
+                    }
+                    if (results[0].cliSenha === senha) {
+                        res.json(results[0])
+                    } else {
+                        res.json(false)
+                    }
+                })
             break;
         case "LoginFuncionario":
-            break;
-        case "LoginAdministrador":
+            if (nivel == '1') {
+                db.query("select * from tblFuncionario where funEmail = ? and funNivel = ?",
+                    [email, nivel], (err, results) => {
+                        if (err) {
+                            return res.json(err)
+                        }
+                        if (results.length === 0) {
+                            return res.json(false)
+                        }
+                        if (results[0].funSenha === senha) {
+                            res.send(results[0])
+                        } else {
+                            res.send(false)
+                        }
+                    })
+
+            } else if (nivel == '2') {
+                db.query("select * from tblFuncionario where funEmail = ? and funNivel = ?",
+                    [email, nivel], (err, results) => {
+                        if (err) {
+                            return res.json(err)
+                        }
+                        if (results.length === 0) {
+                            return res.json(false)
+                        }
+                        if (results[0].funSenha === senha) {
+                            res.send(results[0])
+                        } else {
+                            res.send(false)
+                        }
+                    })
+            }
+
             break;
     }
 })
