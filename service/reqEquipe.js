@@ -1,6 +1,5 @@
 //Front end
 
-
 let formAcademiaBox = document.getElementById("formAcademiaBox");
 let formAdministradorAcademiaBox = document.getElementById(
   "formAdministradorAcademiaBox"
@@ -14,6 +13,8 @@ document.getElementById("btnRegisterAcademia").addEventListener("click", () => {
 document.getElementById("btnReadAcademia").addEventListener("click", () => {
   MostrarTela("ListarAcademias");
 });
+
+//Função para carregar a tabela logo quando entra na pagina
 
 document.addEventListener("DOMContentLoaded", async function () {
   const response = await fetch("http://localhost:3000/Equipe", {
@@ -57,6 +58,7 @@ let formAdministradorAcademia = document.getElementById(
   "formAdministradorAcademia"
 );
 
+//Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
 const dados = JSON.parse(localStorage.getItem("dados"));
 console.log(dados);
 document.getElementById("eqpInfo").innerHTML = `Olá Equipe: ${dados.funNome}`;
