@@ -4,8 +4,83 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="../styles/index.css" />
+    <link rel="stylesheet" href="../styles/equipe.css" />
   </head>
   <body>
+    <h1 id="eqpInfo"></h1>
+    
+    <form id="formAcademia">
+      Cnpj: <input type="text" maxlength="18" id="acaCnpj" name="acaCnpj" />
+      <br />
+      <br />
+      Nome: <input type="text" name="acaNome" /><br />
+      <br />
+      Cep: <input type="text" name="acaCep" /><br />
+      <br />
+      Data: <input type="date" name="acaDataCadastro" /><br />
+      <br />
+      Celular:
+      <input
+        type="text"
+        maxlength="15"
+        id="acaCelular"
+        name="acaCelular"
+      /><br />
+      <br />
+      Telefone:
+      <input
+        type="text"
+        maxlength="9"
+        id="acaTelefone"
+        name="acaTelefone"
+      /><br />
+      <br />
+      Cor tema:
+      <input type="color" name="acaColor" value="#ff0000" /><br />
+      <br />
+      <button type="submit">Enviar</button>
+    </form>
+
+    <form id="formAdministradorAcademia">
+      Nome: <input type="text" name="admNome" /> <br />
+      <br />
+      Celular:
+      <input type="text" id="admCelular" maxlength="15" name="admCelular" />
+      <br />
+      <br />
+      Cep: <input type="text" id="admCep" name="admCep" /> <br />
+      <br />
+      Estado: <input type="text" id="admEstado" name="admEstado" /> <br />
+      <br />
+      Cidade: <input type="text" id="admCidade" name="admCidade" /> <br />
+      <br />
+      Rua: <input type="text" id="admRua" name="admRua" /> <br />
+      <br />
+      Numero Rua: <input type="text" name="admNumeroRua" /> <br />
+      <br />
+      Sexo:
+      <select name="admSexo">
+        <option value="M">Masculino</option>
+        <option value="F">Feminino</option>
+        <option value="P">Prefiro não dizer</option>
+      </select>
+      <br />
+      <br />
+      CPF: <input type="text" maxlength="14" id="admCpf" name="admCpf" /> <br />
+      <br />
+      Email: <input type="text" name="admEmail" /> <br />
+      <br />
+      Academia:
+      <select name="admAcademia" id="admAcademia"></select>
+      <br />
+      <br />
+      Senha: <input type="password" name="admSenha" id="" /> <br />
+      <br />
+      <button type="submit">Enviar</button>
+    </form>
+
     <script src="../service/reqEquipe.js"></script>
+    <script src="../service/Formatadores.js"></script>
   </body>
 </html>

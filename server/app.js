@@ -28,18 +28,20 @@ app.use(bodyParser.json());
 app.post("/Equipe", (req, res) => {
   const { acao, data } = req.body;
 
-  const cnpj = data.acaCnpj;
-  const nome = data.acaNome;
-  const date = data.acaDataCadastro;
-  // const status = data.acaStatus;
-  const celular = data.acaCelular;
-  const cep = data.acaCep;
-
   switch (acao) {
     case "CreateAcademia":
       db.query(
-        "insert into tblAcademia values (DEFAULT,?,?,?,?,?,?)",
-        [cnpj, nome, date, 1, celular, cep],
+        "insert into tblAcademia values (DEFAULT,?,?,?,?,?,?,?,?)",
+        [
+          data.acaCnpj,
+          data.acaNome,
+          data.acaDataCadastro,
+          1,
+          data.acaCelular,
+          data.acaCep,
+          data.acaColor,
+          data.acaTelefone,
+        ],
         (err, results) => {
           if (err) {
             return res.json(err);
@@ -49,10 +51,42 @@ app.post("/Equipe", (req, res) => {
       );
       break;
     case "ReadAcademia":
+      db.query("select * from tblAcademia", (err, results) => {
+        if (err) {
+          return res.json(err);
+        }
+        res.send(results);
+      });
       break;
     case "UpdateAcademia":
       break;
     case "DeleteAcademia":
+      break;
+    case "AddAdministrador":
+      db.query(
+        "insert into tblFuncionario values(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?, 2)",
+        [
+          data.admNome,
+          data.admCelular,
+          data.admCep,
+          data.admCidade,
+          data.admEstado,
+          data.admRua,
+          data.admNumeroRua,
+          data.admSexo,
+          data.admCpf,
+          data.admEmail,
+          data.admDataCmc,
+          data.admAcademia,
+          data.admSenha,
+        ],
+        (err, results) => {
+          if (err) {
+            return res.json(err);
+          }
+          res.send(results);
+        }
+      );
       break;
   }
 });
@@ -112,6 +146,21 @@ app.post("/Administrador", (req, res) => {
       break;
     case "RegisterAvaliacaoSistema":
       break;
+    case "ReadAcademia":
+      db.query(
+        "select * from tblAcademia where acaId = ?",
+        [idAcademia],
+        (err, results) => {
+          if (err) {
+            return res.json(err);
+          }
+          if (results[0].length === 0) {
+            return res.json(false);
+          }
+          res.send(results[0]);
+        }
+      );
+      break;
   }
 });
 
@@ -142,7 +191,6 @@ app.post("/Login", (req, res) => {
   const { acao, data } = req.body;
   const email = data.email;
   const senha = data.senha;
-  const nivel = data.userType;
   switch (acao) {
     case "LoginCliente":
       db.query(
