@@ -1,0 +1,22 @@
+body {
+  display: flex;
+}
+
+#formAcademia,
+#formAdministradorAcademia {
+  border: 1px solid black;
+  padding: 20px;
+}
+
+main {
+  width: 75%;
+}
+
+.formBox,
+.listBox {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

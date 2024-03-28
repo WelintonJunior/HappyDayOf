@@ -166,3 +166,58 @@ function FormatarCelular(campo) {
   }
   campo.value = valor;
 }
+
+//pegar data agora
+function getFormattedDateTime() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  const hours = String(now.getHours()).padStart(2, "0");
+  const minutes = String(now.getMinutes()).padStart(2, "0");
+  const seconds = String(now.getSeconds()).padStart(2, "0");
+
+  // Formato: YYYY-MM-DD HH:MM:SS
+  const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  return formattedDateTime;
+}
+
+async function InsertAcademiaToTheOptions() {
+  let admAcademia = document.getElementById("admAcademia");
+  const response = await fetch("http://localhost:3000/Equipe", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      acao: "ReadAcademia",
+    }),
+  });
+  const result = await response.json();
+  admAcademia.innerHTML = "";
+  for (i = 0; i < result.length; i++) {
+    admAcademia.innerHTML += `<option value='${result[i].acaId}'>${result[i].acaNome}</option>`;
+  }
+}
+
+//Cep automatico
+
+async function cepAutomatico(cep) {
+  const cepConsulta = cep.replace(/\D/g, "");
+
+  try {
+    const url = `https://viacep.com.br/ws/${cepConsulta}/json/`;
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Erro na consulta do CEP: ${response.statusText}`);
+    }
+    const data = await response.json();
+
+    if (data.erro) {
+      throw new Error("CEP não encontrado.");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Falha na requisição", error);
+    return null;
+  }
+}
