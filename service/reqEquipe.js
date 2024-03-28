@@ -1,6 +1,6 @@
 const dados = JSON.parse(localStorage.getItem("dados"));
 console.log(dados);
-document.getElementById("eqpInfo").innerHTML = `Olá Equipe: ${dados.funNome}`
+document.getElementById("eqpInfo").innerHTML = `Olá Equipe: ${dados.funNome}`;
 
 //Form Create Academia
 
@@ -21,6 +21,8 @@ document
     });
 
     const result = await response.json();
+    InsertAcademiaToTheOptions();
+    e.target.reset();
     console.log(result);
   });
 
@@ -33,7 +35,6 @@ document
     const fd = new FormData(e.target);
     const data = Object.fromEntries(fd.entries());
     data.admDataCmc = getFormattedDateTime();
-    console.log(data);
     const response = await fetch("http://localhost:3000/Equipe", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -43,26 +44,14 @@ document
       }),
     });
     const result = await response.json();
+    e.target.reset();
     console.log(result);
   });
 
 //Função para pegar as academias
 
 document.addEventListener("DOMContentLoaded", async function () {
-  const response = await fetch("http://localhost:3000/Equipe", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      acao: "ReadAcademia",
-    }),
-  });
-  const result = await response.json();
-
-  for (i = 0; i < result.length; i++) {
-    document.getElementById(
-      "admAcademia"
-    ).innerHTML += `<option value='${result[i].acaId}'>${result[i].acaNome}</option>`;
-  }
+  InsertAcademiaToTheOptions();
 });
 
 const admCep = document.getElementById("admCep");
@@ -113,4 +102,20 @@ function getFormattedDateTime() {
   // Formato: YYYY-MM-DD HH:MM:SS
   const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   return formattedDateTime;
+}
+
+async function InsertAcademiaToTheOptions() {
+  let admAcademia = document.getElementById("admAcademia");
+  const response = await fetch("http://localhost:3000/Equipe", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      acao: "ReadAcademia",
+    }),
+  });
+  const result = await response.json();
+  admAcademia.innerHTML = "";
+  for (i = 0; i < result.length; i++) {
+    admAcademia.innerHTML += `<option value='${result[i].acaId}'>${result[i].acaNome}</option>`;
+  }
 }
