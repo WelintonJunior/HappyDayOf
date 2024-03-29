@@ -4,14 +4,16 @@ let formAdministradorAcademiaBox = document.getElementById(
 );
 let listBox = document.getElementById("listBox");
 
+//Ao Clicar no botao Academia da nav ele mostra o conteudo da Tela Academia
+
 document.getElementById("btnAcademia").addEventListener("click", () => {
   MostrarTela("TelaAcademia");
 });
 
 //Função para carregar a tabela logo quando entra na pagina
 
-document.addEventListener("DOMContentLoaded", function () {
-  CarregarTabela();
+document.addEventListener("DOMContentLoaded", async function () {
+  await CarregarTabela();
 });
 
 //Modal
@@ -27,13 +29,19 @@ let spanFecharCadastrarAcademia = document.getElementsByClassName("fechar")[0];
 let spanFecharCadastrarAdministradorAcademia =
   document.getElementsByClassName("fechar")[1];
 
+//Ao Clicar no botao Cadastrar Academia abre o modal
+
 abrirModalRegisterAcademia.onclick = function () {
   modalCadastrarAcademia.style.display = "block";
 };
 
+// Ao clicar no X fecha o modal
+
 spanFecharCadastrarAcademia.onclick = function () {
   modalCadastrarAcademia.style.display = "none";
 };
+
+//Clicar Fora fecha o Modal
 
 window.onclick = function (event) {
   if (event.target == modalCadastrarAcademia) {
@@ -63,16 +71,6 @@ formAcademia.addEventListener("submit", async (e) => {
   console.log(result);
   modalCadastrarAcademia.style.display = "none";
   modalCadastrarAdministradorAcademia.style.display = "block";
-
-  spanFecharCadastrarAdministradorAcademia.onclick = function () {
-    modalCadastrarAdministradorAcademia.style.display = "none";
-  };
-
-  window.onclick = function (event) {
-    if (event.target == modalCadastrarAdministradorAcademia) {
-      modalCadastrarAdministradorAcademia.style.display = "none";
-    }
-  };
 });
 
 //Form Create Administrador para academia
@@ -113,7 +111,7 @@ function MostrarTela(tela) {
         return;
       }
       TelaAcademia.style.display = "block";
-      //  Desabilitar outras telas
+      //  Desabilitar outras telas (caso haja)
       // formAdministradorAcademiaBox.style.display = "none";
       break;
   }
