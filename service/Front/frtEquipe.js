@@ -1,5 +1,3 @@
-//Front end
-
 let formAcademiaBox = document.getElementById("formAcademiaBox");
 let formAdministradorAcademiaBox = document.getElementById(
   "formAdministradorAcademiaBox"
@@ -12,49 +10,8 @@ document.getElementById("btnAcademia").addEventListener("click", () => {
 
 //Função para carregar a tabela logo quando entra na pagina
 
-document.addEventListener("DOMContentLoaded", async function () {
-  const response = await fetch("http://localhost:3000/Equipe", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      acao: "ReadAcademia",
-    }),
-  });
-  const dados = await response.json();
-
-  const tabela = document.createElement("table");
-  tabela.setAttribute("border", "1");
-
-  const cabecalho = tabela.createTHead();
-  const linhaCabecalho = cabecalho.insertRow();
-  const titulos = [
-    "ID",
-    "Cnpj",
-    "Nome",
-    "Data Cadastro",
-    "Status",
-    "Celular",
-    "Cep",
-    "Cor Tema",
-    "Telefone",
-  ];
-  titulos.forEach((texto) => {
-    let th = document.createElement("th");
-    th.textContent = texto;
-    linhaCabecalho.appendChild(th);
-  });
-
-  const corpoTabela = tabela.appendChild(document.createElement("tbody"));
-
-  dados.forEach((item) => {
-    const linha = corpoTabela.insertRow();
-    Object.values(item).forEach((texto) => {
-      let celula = linha.insertCell();
-      celula.textContent = texto;
-    });
-  });
-
-  document.getElementById("table").appendChild(tabela);
+document.addEventListener("DOMContentLoaded", function () {
+  CarregarTabela();
 });
 
 //Modal
@@ -84,8 +41,6 @@ window.onclick = function (event) {
   }
 };
 
-//Back end
-
 let formAcademia = document.getElementById("formAcademia");
 let formAdministradorAcademia = document.getElementById(
   "formAdministradorAcademia"
@@ -102,20 +57,10 @@ formAcademia.addEventListener("submit", async (e) => {
   e.preventDefault();
   const fd = new FormData(e.target);
   const data = Object.fromEntries(fd.entries());
-
-  // const response = await fetch("http://localhost:3000/Equipe", {
-  //   method: "POST",
-  //   headers: { "Content-Type": "application/json" },
-  //   body: JSON.stringify({
-  //     acao: "CreateAcademia",
-  //     data,
-  //   }),
-  // });
-
-  // const result = await response.json();
-  // InsertAcademiaToTheOptions();
+  const result = await CreateAcademia(data);
+  InsertAcademiaToTheOptions();
   e.target.reset();
-  // console.log(result);
+  console.log(result);
   modalCadastrarAcademia.style.display = "none";
   modalCadastrarAdministradorAcademia.style.display = "block";
 
@@ -136,24 +81,11 @@ formAdministradorAcademia.addEventListener("submit", async (e) => {
   e.preventDefault();
   const fd = new FormData(e.target);
   const data = Object.fromEntries(fd.entries());
-  data.admDataCmc = getFormattedDateTime();
-  const response = await fetch("http://localhost:3000/Equipe", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      acao: "AddAdministrador",
-      data,
-    }),
-  });
-  const result = await response.json();
+  data.admDataCmc = await getFormattedDateTime();
+  const result = await AddAdministrador(data);
   e.target.reset();
+  modalCadastrarAdministradorAcademia.style.display = "none";
   console.log(result);
-});
-
-//Função para buscar as academias
-
-document.addEventListener("DOMContentLoaded", async function () {
-  InsertAcademiaToTheOptions();
 });
 
 //Função para pegar os dados da api de cep e jogar nos campos

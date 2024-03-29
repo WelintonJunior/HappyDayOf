@@ -182,22 +182,6 @@ function getFormattedDateTime() {
   return formattedDateTime;
 }
 
-async function InsertAcademiaToTheOptions() {
-  let admAcademia = document.getElementById("admAcademia");
-  const response = await fetch("http://localhost:3000/Equipe", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      acao: "ReadAcademia",
-    }),
-  });
-  const result = await response.json();
-  admAcademia.innerHTML = "";
-  for (i = 0; i < result.length; i++) {
-    admAcademia.innerHTML += `<option value='${result[i].acaId}'>${result[i].acaNome}</option>`;
-  }
-}
-
 //Cep automatico
 
 async function cepAutomatico(cep) {

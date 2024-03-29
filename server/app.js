@@ -58,6 +58,25 @@ app.post("/Equipe", (req, res) => {
         res.send(results);
       });
       break;
+    case "ReadAcademiaLista":
+      db.query("select acaNome, acaDataCadastro, acaStatus, acaCelular from tblAcademia", (err, results) => {
+        if (err) {
+          return res.json(err);
+        }
+        res.send(results);
+      });
+      break;
+    case "ReadLastAcademia":
+      db.query(
+        "SELECT * FROM tblAcademia ORDER BY acaId DESC LIMIT 1",
+        (err, results) => {
+          if (err) {
+            return res.json(err);
+          }
+          res.send(results);
+        }
+      );
+      break;
     case "UpdateAcademia":
       break;
     case "DeleteAcademia":
