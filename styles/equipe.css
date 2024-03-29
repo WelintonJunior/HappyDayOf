@@ -4,7 +4,6 @@ body {
 
 #formAcademia,
 #formAdministradorAcademia {
-  border: 1px solid black;
   padding: 20px;
 }
 
@@ -12,11 +11,112 @@ main {
   width: 75%;
 }
 
-.formBox,
-.listBox {
+.formBox {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+#btnAcademia,
+#btnReadAcademia {
+  width: 100%;
+  height: 50px;
+  cursor: pointer;
+}
+
+#abrirModalRegisterAcademia {
+  background-color: gray;
+  padding: 15px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+
+}
+
+#abrirModalRegisterAcademia:hover {
+  background-color: rgb(114, 114, 114);
+  transition: 0.5s;
+}
+
+/* Lista */
+
+.listBox {
+  font-family: Arial, sans-serif;
+  overflow-x: auto; 
+  margin: 20px;
+  width: auto;
+  max-height: 50%;
+}
+
+table {
+  width: 100%; 
+  border-collapse: collapse; 
+  table-layout: auto;
+}
+
+th, td {
+  text-align: left; 
+  padding: 8px; 
+}
+
+th {
+  background-color: #f2f2f2;
+  color: #333;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #e8f4ff; 
+}
+
+table, th, td {
+  border: 1px solid #ddd; 
+}
+
+@media screen and (max-width: 600px) {
+  .listBox {
+    border: 0;
+  }
+
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  table {
+    border: none;
+  }
+
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  tr { border: 1px solid #ccc; }
+
+  td {
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%; 
+    text-align: right; 
+  }
+
+  td:before {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: bold;
+    content: attr(data-th) ": ";
+  }
 }

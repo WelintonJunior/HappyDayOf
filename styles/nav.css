@@ -1,6 +1,52 @@
 nav {
-    width: 25%;
-    height: 100vh;
-    background-color: blue;
-    padding: 10px;
+  width: 25%;
+  height: 100vh;
+  background-color: gray;
+}
+
+.btnsNav {
+  height: 90%;
+  width: 100%;
+}
+
+.infoNav {
+  height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.boxBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.boxBtn button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: gray;
+  padding: 30px;
+  border: none;
+}
+
+.boxBtn button:hover {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    background-color: rgb(114, 114, 114);
+    transition: 0.2s ;
+}
+
+.boxImgButton {
+  width: 40%;
+  display: flex;
+  margin-left: 30px;
+}
+
+.boxTxtButton {
+  width: 60%;
+  color: black;
+  font-weight: bold;
+  font-size: 15px;
 }

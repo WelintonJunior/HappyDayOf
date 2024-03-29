@@ -1,0 +1,50 @@
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-conteudo {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 10px;
+  border: 1px solid #888;
+  width: 30%;
+  transform: translateY(-50%);
+  top: 50%;
+  position: relative;
+  border-radius: 20px;
+}
+
+.fechar {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.fechar:hover,
+.fechar:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .modal-conteudo {
+    width: 80%; 
+    margin: 20% auto; 
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-conteudo {
+    width: 90%;
+    margin: 25% auto; 
+  }
+}

@@ -6,12 +6,8 @@ let formAdministradorAcademiaBox = document.getElementById(
 );
 let listBox = document.getElementById("listBox");
 
-document.getElementById("btnRegisterAcademia").addEventListener("click", () => {
-  MostrarTela("CadastrarAcademia");
-});
-
-document.getElementById("btnReadAcademia").addEventListener("click", () => {
-  MostrarTela("ListarAcademias");
+document.getElementById("btnAcademia").addEventListener("click", () => {
+  MostrarTela("TelaAcademia");
 });
 
 //Função para carregar a tabela logo quando entra na pagina
@@ -31,7 +27,17 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   const cabecalho = tabela.createTHead();
   const linhaCabecalho = cabecalho.insertRow();
-  const titulos = ["ID", "Cnpj", "Nome", "Data Cadastro", "Status", "Celular", "Cep", "Cor Tema", "Telefone"];
+  const titulos = [
+    "ID",
+    "Cnpj",
+    "Nome",
+    "Data Cadastro",
+    "Status",
+    "Celular",
+    "Cep",
+    "Cor Tema",
+    "Telefone",
+  ];
   titulos.forEach((texto) => {
     let th = document.createElement("th");
     th.textContent = texto;
@@ -50,6 +56,33 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   document.getElementById("table").appendChild(tabela);
 });
+
+//Modal
+
+let modalCadastrarAcademia = document.getElementById("modalCadastrarAcademia");
+let modalCadastrarAdministradorAcademia = document.getElementById(
+  "modalCadastrarAdministradorAcademia"
+);
+let abrirModalRegisterAcademia = document.getElementById(
+  "abrirModalRegisterAcademia"
+);
+let spanFecharCadastrarAcademia = document.getElementsByClassName("fechar")[0];
+let spanFecharCadastrarAdministradorAcademia =
+  document.getElementsByClassName("fechar")[1];
+
+abrirModalRegisterAcademia.onclick = function () {
+  modalCadastrarAcademia.style.display = "block";
+};
+
+spanFecharCadastrarAcademia.onclick = function () {
+  modalCadastrarAcademia.style.display = "none";
+};
+
+window.onclick = function (event) {
+  if (event.target == modalCadastrarAcademia) {
+    modalCadastrarAcademia.style.display = "none";
+  }
+};
 
 //Back end
 
@@ -70,20 +103,31 @@ formAcademia.addEventListener("submit", async (e) => {
   const fd = new FormData(e.target);
   const data = Object.fromEntries(fd.entries());
 
-  const response = await fetch("http://localhost:3000/Equipe", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      acao: "CreateAcademia",
-      data,
-    }),
-  });
+  // const response = await fetch("http://localhost:3000/Equipe", {
+  //   method: "POST",
+  //   headers: { "Content-Type": "application/json" },
+  //   body: JSON.stringify({
+  //     acao: "CreateAcademia",
+  //     data,
+  //   }),
+  // });
 
-  const result = await response.json();
-  InsertAcademiaToTheOptions();
+  // const result = await response.json();
+  // InsertAcademiaToTheOptions();
   e.target.reset();
-  console.log(result);
-  MostrarTela("CadastrarAdministradorAcademia");
+  // console.log(result);
+  modalCadastrarAcademia.style.display = "none";
+  modalCadastrarAdministradorAcademia.style.display = "block";
+
+  spanFecharCadastrarAdministradorAcademia.onclick = function () {
+    modalCadastrarAdministradorAcademia.style.display = "none";
+  };
+
+  window.onclick = function (event) {
+    if (event.target == modalCadastrarAdministradorAcademia) {
+      modalCadastrarAdministradorAcademia.style.display = "none";
+    }
+  };
 });
 
 //Form Create Administrador para academia
@@ -127,34 +171,18 @@ admCep.addEventListener("blur", (e) => {
 
 //Funcao de mostrar tela
 
+const TelaAcademia = document.getElementById("TelaAcademia");
+
 function MostrarTela(tela) {
   switch (tela) {
-    case "CadastrarAcademia":
-      if (formAcademiaBox.style.display === "block") {
-        formAcademiaBox.style.display = "none";
-        return
+    case "TelaAcademia":
+      if (TelaAcademia.style.display === "block") {
+        TelaAcademia.style.display = "none";
+        return;
       }
-      formAcademiaBox.style.display = "block";
-      formAdministradorAcademiaBox.style.display = "none";
-      listBox.style.display = "none";
-      break;
-    case "ListarAcademias":
-      if (listBox.style.display === "block") {
-        listBox.style.display = "none";
-        return
-      }
-      formAcademiaBox.style.display = "none";
-      formAdministradorAcademiaBox.style.display = "none";
-      listBox.style.display = "block";
-      break;
-    case "CadastrarAdministradorAcademia":
-      if (formAdministradorAcademiaBox.style.display === "block") {
-        formAdministradorAcademiaBox.style.display = "none";
-        return
-      }
-      formAcademiaBox.style.display = "none";
-      formAdministradorAcademiaBox.style.display = "block";
-      listBox.style.display = "none";
+      TelaAcademia.style.display = "block";
+      //  Desabilitar outras telas
+      // formAdministradorAcademiaBox.style.display = "none";
       break;
   }
 }
