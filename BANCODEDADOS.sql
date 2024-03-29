@@ -35,7 +35,7 @@ CREATE TABLE `tblacademia` (
   `acaCor` varchar(7) DEFAULT NULL,
   `acaTelefone` varchar(14) DEFAULT NULL,
   PRIMARY KEY (`acaId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +44,7 @@ CREATE TABLE `tblacademia` (
 
 LOCK TABLES `tblacademia` WRITE;
 /*!40000 ALTER TABLE `tblacademia` DISABLE KEYS */;
-INSERT INTO `tblacademia` VALUES (1,'35.742.648/0001-18','HappyDay','2024-03-28','1','(12) 3105-7200','12570-114','#ff0000',''),(2,'07.594.978/0001-78','Smart Fit','2024-03-28','1','(11) 3365-0800','36062-340','#ffa200',''),(3,'11.472.527/0001-35','Esporte e ação','2024-03-28','1','(12) 3125-9225','12517-550','#e1ff00','');
+INSERT INTO `tblacademia` VALUES (1,'35.742.648/0001-18','HappyDay','2024-03-28','1','(12) 3105-7200','12570-114','#ff0000',''),(2,'07.594.978/0001-78','Smart Fit','2024-03-28','1','(11) 3365-0800','36062-340','#ffa200',''),(3,'11.472.527/0001-35','Esporte e ação','2024-03-28','1','(12) 3125-9225','12517-550','#e1ff00',''),(4,'28.398.134/0001-21','Guara Fit','2024-03-29','1','(12) 98257-2400','12600-500','#ffa200',''),(7,'26.234.372/0001-76','Skull Gym','2024-03-29','1','(12) 09381-2389','12520100','#000000','');
 /*!40000 ALTER TABLE `tblacademia` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -212,7 +212,7 @@ CREATE TABLE `tblfuncionario` (
   PRIMARY KEY (`funId`),
   KEY `funAcad` (`funIdAcad`),
   CONSTRAINT `tblfuncionario_ibfk_1` FOREIGN KEY (`funIdAcad`) REFERENCES `tblacademia` (`acaId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -221,7 +221,7 @@ CREATE TABLE `tblfuncionario` (
 
 LOCK TABLES `tblfuncionario` WRITE;
 /*!40000 ALTER TABLE `tblfuncionario` DISABLE KEYS */;
-INSERT INTO `tblfuncionario` VALUES (1,'Welinton','(12)99613-8271','12520110','Guaratingueta','SP','Rua Filadelfo Gandra Martins',74,'M','111.111.111-11','equipe@gmail.com','2022-02-13 00:00:00','1',NULL,'123123',3),(2,'Rodrigo','(12) 98850-3412','12570100','Aparecida','SP','Avenida Antonio Samaha',10,'M','490.370.978-71','rodrigo@gmail.com','2024-03-28 12:03:18','1',1,'123123',2);
+INSERT INTO `tblfuncionario` VALUES (1,'Welinton','(12)99613-8271','12520110','Guaratingueta','SP','Rua Filadelfo Gandra Martins',74,'M','111.111.111-11','equipe@gmail.com','2022-02-13 00:00:00','1',NULL,'123123',3),(2,'Rodrigo','(12) 98850-3412','12570100','Aparecida','SP','Avenida Antonio Samaha',10,'M','490.370.978-71','rodrigo@gmail.com','2024-03-28 12:03:18','1',1,'123123',2),(3,'Marcos','(12) 93812-9831','12520110','Guaratinguetá','SP','Rua Filadelfo Gandra Martins',10,'M','123.123.123-12','marcos@gmail.com','2024-03-29 10:54:12','1',1,'123123',2),(4,'Joao','(18) 23901-2839','12520110','Guaratinguetá','SP','Rua Filadelfo Gandra Martins',74,'M','577.182.379-12','joao2@gmail.com','2024-03-29 11:11:04','1',7,'123123',2);
 /*!40000 ALTER TABLE `tblfuncionario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -326,4 +326,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-28 12:37:03
+-- Dump completed on 2024-03-29 14:45:52
