@@ -59,12 +59,15 @@ app.post("/Equipe", (req, res) => {
       });
       break;
     case "ReadAcademiaLista":
-      db.query("select acaNome, acaDataCadastro, acaStatus, acaCelular from tblAcademia", (err, results) => {
-        if (err) {
-          return res.json(err);
+      db.query(
+        "select acaNome, acaDataCadastro, acaStatus, acaCelular from tblAcademia",
+        (err, results) => {
+          if (err) {
+            return res.json(err);
+          }
+          res.send(results);
         }
-        res.send(results);
-      });
+      );
       break;
     case "ReadLastAcademia":
       db.query(
@@ -128,10 +131,20 @@ app.post("/Cliente", (req, res) => {
 //FUNCIONARIO
 
 app.post("/Funcionario", (req, res) => {
-  const { acao, idAcademia } = req.body;
+  const { acao, data, idAcademia } = req.body;
 
   switch (acao) {
     case "RegisterAtendimento":
+      db.query(
+        "insert into tblAtendimento values (default, ?, ?, ?, ?)",
+        [data.cliId, data.funId, data.dateNow, idAcademia],
+        (err, results) => {
+          if (err) {
+            return res.json(err);
+          }
+          res.send(results);
+        }
+      );
       break;
   }
 });
@@ -139,11 +152,24 @@ app.post("/Funcionario", (req, res) => {
 //ADMINISTRADOR
 
 app.post("/Administrador", (req, res) => {
-  const { acao, idAcademia } = req.body;
+  const { acao, idAcademia, data } = req.body;
   switch (acao) {
     case "ReadFicha":
       break;
     case "ReadClientes":
+      db.query(
+        "select * from tblCliente where cliIdAcad = ? and cliStatus = ?",
+        [idAcademia, 1],
+        (err, results) => {
+          if (err) {
+            return res.json(err);
+          }
+          if (results[0].length === 0) {
+            return res.json(false);
+          }
+          return results[0];
+        }
+      );
       break;
     case "ReadClienteDet":
       break;
@@ -151,19 +177,7 @@ app.post("/Administrador", (req, res) => {
       break;
     case "ReadFuncionarioDet":
       break;
-    case "RegisterFuncionario":
-      break;
-    case "RegisterFicha":
-      break;
-    case "RegisterCliente":
-      break;
-    case "ArchiveCliente":
-      break;
-    case "ArchiveFuncionario":
-      break;
-    case "AddAdministrador":
-      break;
-    case "RegisterAvaliacaoSistema":
+    case "ReadPlanos":
       break;
     case "ReadAcademia":
       db.query(
@@ -179,6 +193,89 @@ app.post("/Administrador", (req, res) => {
           res.send(results[0]);
         }
       );
+      break;
+    case "RegisterFuncionario":
+      db.query(
+        "insert into tblFuncionario values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+          data.funNome,
+          data.funCelular,
+          data.funCep,
+          data.funCidade,
+          data.funEstado,
+          data.funRua,
+          data.funNumeroRua,
+          data.funSexo,
+          data.funCpf,
+          data.funEmail,
+          data.funDataCmc,
+          1,
+          idAcademia,
+          data.funSenha,
+          1,
+        ],
+        (err, results) => {
+          if (err) {
+            return res.json(err);
+          }
+          res.send(results);
+        }
+      );
+      break;
+    case "RegisterFicha":
+      break;
+    case "RegisterCliente":
+      db.query(
+        "insert into tblCliente values (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,? ,? ,? ,? ,? ,?)",
+        [
+          data.cliNome,
+          data.cliCelular,
+          data.cliCep,
+          data.cliCidade,
+          data.cliEstado,
+          data.cliRua,
+          data.cliNumeroRua,
+          data.cliSexo,
+          data.cliCpf,
+          data.cliEmail,
+          data.cliDataCmc,
+          1,
+          data.cliPlano,
+          idAcademia,
+          data.cliSenha,
+          null,
+        ],
+        (err, results) => {
+          if (err) {
+            return res.json(err);
+          }
+          res.send(results);
+        }
+      );
+      break;
+    case "RegisterPlanos":
+      break;
+    case "ArchiveCliente":
+      db.query(
+        "update tblCliente set cliStatus = ? where cliId = ?)",
+        [0, data.cliId],
+        (err, results) => {
+          if (err) {
+            return rse.json(err);
+          }
+          res.send(results);
+        }
+      );
+      break;
+    case "ArchiveFuncionario":
+      break;
+    case "AddAdministrador":
+      break;
+    case "RegisterAvaliacaoSistema":
+      break;
+    case "ArchivePlanos":
+      break;
+    case "UpdatePlanos":
       break;
   }
 });
