@@ -154,8 +154,6 @@ app.post("/Funcionario", (req, res) => {
 app.post("/Administrador", (req, res) => {
   const { acao, idAcademia, data } = req.body;
   switch (acao) {
-    case "ReadFicha":
-      break;
     case "ReadClientes":
       db.query(
         "select * from tblCliente where cliIdAcad = ? and cliStatus = ?",
@@ -222,8 +220,6 @@ app.post("/Administrador", (req, res) => {
         }
       );
       break;
-    case "RegisterFicha":
-      break;
     case "RegisterCliente":
       db.query(
         "insert into tblCliente values (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,? ,? ,? ,? ,? ,?)",
@@ -276,6 +272,98 @@ app.post("/Administrador", (req, res) => {
     case "ArchivePlanos":
       break;
     case "UpdatePlanos":
+      break;
+  }
+});
+
+//FICHA
+
+app.post("/Ficha", (req, res) => {
+  const { acao, data, idAcademia } = req.body;
+  switch (acao) {
+    case "ReadFicha":
+      db.query(
+        "select * from tblFicha where ficIdCliente = ? and ficIdAcademia = ?",
+        [data.cliId, idAcademia],
+        (err, results) => {
+          if (err) {
+            return res.json(err);
+          }
+          if (results[0].length === 0) {
+            return res.json(false);
+          }
+          const DadosFicha = results[0];
+          db.query(
+            "select * tblFichaDetalhes where detIdFicha = ?",
+            [DadosFicha.ficId],
+            (err, result) => {
+              if (err) {
+                return res.json(err);
+              }
+              if (result[0].length) {
+                return res.json(false);
+              }
+              const DadosFichaDetalhes = result[0];
+              res.send(DadosFichaDetalhes);
+            }
+          );
+        }
+      );
+      break;
+    case "ReadLastFicha":
+      db.query(
+        "SELECT * FROM tblFicha ORDER BY ficId DESC LIMIT 1",
+        (err, results) => {
+          if (err) {
+            return res.json(err);
+          }
+          res.send(results);
+        }
+      );
+      break;
+    case "RegisterFicha":
+      db.query(
+        "insert into tblFicha values (default, ?, ?, ?)",
+        [data.cliId, data.funId, idAcademia],
+        (err, results) => {
+          if (err) {
+            return res.json(err);
+          }
+          res.send(results);
+        }
+      );
+      break;
+    case "RegisterDetalhesFicha":
+      db.query(
+        "insert into tblFichaDetalhes values (default, ?, ?, ?, ?, ?, ?)",
+        [
+          data.apaId,
+          data.detVariacao,
+          data.detCarga,
+          data.detSerie,
+          data.detRepeticao,
+          data.lastFicha,
+        ],
+        (err, results) => {
+          if (err) {
+            return res.json(err);
+          }
+          res.send(results);
+        }
+      );
+      break;
+    case "UpdateDetalhesFicha":
+      db.query(
+        "update tblFichaDetalhes set detIdAparelho = ?, detVariacao = ?, detCarga = ?, detSerie = ?, detRepeticao = ? where detId = ?",
+        [
+          data.apaId,
+          data.detVariacao,
+          data.detCarga,
+          data.detSerie,
+          data.detRepeticao,
+          data.detId,
+        ]
+      );
       break;
   }
 });
