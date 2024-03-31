@@ -1,4 +1,3 @@
-
 async function ReadAcademia(idAcademia) {
   const response = await fetch("http://localhost:3000/Administrador", {
     method: "POST",
@@ -12,19 +11,21 @@ async function ReadAcademia(idAcademia) {
   return result;
 }
 
-async function ReadCliente(idAcademia) {
-  const response = await fetch("http://localhost:3000/Administrador", {
+async function RegisterAtendimento(idAcademia, data) {
+  const response = await fetch("http://localhost:3000/Funcionario", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      acao: "ReadClientes",
+      data,
       idAcademia,
+      acao: "RegisterAtendimento",
     }),
   });
   const result = await response.json();
+  return result;
 }
 
-async function RegisterCliente(data, idAcademia) {
+async function RegisterCliente(idAcademia, data) {
   const response = await fetch("http://localhost:3000/Administrador", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -32,20 +33,6 @@ async function RegisterCliente(data, idAcademia) {
       data,
       idAcademia,
       acao: "RegisterCliente",
-    }),
-  });
-  const result = await response.json();
-  return result;
-}
-
-async function RegisterFuncionario(data, idAcademia) {
-  const response = await fetch("http://localhost:3000/Administrador", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      data,
-      idAcademia,
-      acao: "RegisterFuncionario",
     }),
   });
   const result = await response.json();
@@ -61,7 +48,19 @@ async function ArchiveCliente(idCliente) {
       acao: "ArchiveCliente",
     }),
   });
+  const result = await response.json();
+  return result;
+}
 
+async function ReadClientes(idAcademia) {
+  const response = await fetch("http://localhost:3000/Administrador", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      idAcademia,
+      acao: "ReadClientes",
+    }),
+  });
   const result = await response.json();
   return result;
 }
