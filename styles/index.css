@@ -1,10 +1,108 @@
-body {
-    font-family: sans-serif;
-    padding: 0;
-    margin: 0;
-    
+body{
+    align-items: center;
+    height: 100vh;
+    display: flex;
+    width: 100%;
+    padding: 2px;
 }
+
 
 .d-none {
     display: none;
 }
+
+
+.box1 {
+  border: 1px solid red;
+  width: 100%;
+}
+
+
+
+
+/* Para telas com largura maior ou igual a 768px */
+@media (min-width: 768px) {
+  .responsive-image {
+      height: 500px;
+      width: auto;
+  }
+}
+
+/* Para telas com largura maior ou igual a 576px e menor que 768px */
+@media (min-width: 576px) and (max-width: 767px) {
+  .responsive-image {
+      height: 300px;
+      width: auto;
+  }
+}
+
+/* Para telas com largura maior ou igual a 420px e menor que 576px */
+@media (min-width: 100px) and (max-width: 575px) {
+  .responsive-image {
+      height: 150px;
+      width: auto;
+  }
+}
+
+
+
+
+
+
+
+.btnhappy {
+    font-size: 17px;
+    background: transparent;
+    border: none;
+    padding: 1em 1.5em;
+    color: #ff0000;
+    text-transform: uppercase;
+    position: relative;
+    transition: 0.5s ease;
+    cursor: pointer;
+  }
+  
+  .btnhappy::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 0;
+    background-color: #ff0000;
+    transition: 0.5s ease;
+  }
+  
+  .btnhappy:hover {
+    color: #ffffff;
+    transition-delay: 0.5s;
+  }
+  
+  .btnhappy:hover::before {
+    width: 100%;
+  }
+  
+  .btnhappy::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 0;
+    width: 100%;
+    background-color: #ff0000;
+    transition: 0.4s ease;
+    z-index: -1;
+  }
+  
+  .btnhappy:hover::after {
+    height: 100%;
+    transition-delay: 0.4s;
+    color: aliceblue;
+  }
+  
+
+
+ 
+
+
+  
