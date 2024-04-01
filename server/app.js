@@ -9,7 +9,7 @@ const port = 3000;
 const db = mysql.createPool({
   host: "localhost",
   user: "root",
-  password: "1234",
+  password: "2206",
   database: "happyday2",
 });
 
@@ -165,17 +165,43 @@ app.post("/Administrador", (req, res) => {
           if (results[0].length === 0) {
             return res.json(false);
           }
-          return results[0];
+          res.send(results);
         }
       );
       break;
     case "ReadClienteDet":
       break;
     case "ReadFuncionarios":
+      db.query(
+        "select * from tblFuncionario where funIdAcad = ? ",
+        [idAcademia],
+        (err, results) => {
+          if (err) {
+            return res.json(err);
+          }
+          if (results[0].length === 0) {
+            return res.json(false);
+          }
+          res.send(results);
+        }
+      );
       break;
     case "ReadFuncionarioDet":
       break;
     case "ReadPlanos":
+      db.query(
+        "select * from tblPlanos where plaIdAcad = ?",
+        [idAcademia],
+        (err, results) => {
+          if (err) {
+            return res.json(err);
+          }
+          if (results[0].length === 0) {
+            return res.json(false);
+          }
+          res.send(results);
+        }
+      );
       break;
     case "ReadAcademia":
       db.query(

@@ -143,12 +143,16 @@ a.btn2:hover {
     color: #fff !important;
 }
 
+.list-unstyled li {
+    cursor: pointer;
+}
+
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */
 
 #content {
-    width: 10%;
+    width: 100%;
     padding: 20px;
     min-height: 100vh;
     transition: all 0.3s;

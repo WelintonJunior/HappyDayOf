@@ -1,4 +1,3 @@
-
 async function ReadAcademia(idAcademia) {
   const response = await fetch("http://localhost:3000/Administrador", {
     method: "POST",
@@ -17,11 +16,25 @@ async function ReadCliente(idAcademia) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      acao: "ReadClientes",
       idAcademia,
+      acao: "ReadClientes",
     }),
   });
   const result = await response.json();
+  return result;
+}
+
+async function ReadFuncionario(idAcademia) {
+  const response = await fetch("http://localhost:3000/Administrador", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      idAcademia,
+      acao: "ReadFuncionarios",
+    }),
+  });
+  const result = await response.json();
+  return result;
 }
 
 async function RegisterCliente(data, idAcademia) {
@@ -62,6 +75,19 @@ async function ArchiveCliente(idCliente) {
     }),
   });
 
+  const result = await response.json();
+  return result;
+}
+
+async function ReadPlanos(idAcademia) {
+  const response = await fetch("http://localhost:3000/Administrador", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      idAcademia,
+      acao: "ReadPlanos",
+    }),
+  });
   const result = await response.json();
   return result;
 }

@@ -1,8 +1,24 @@
 //CPF
 
-const admCpf = document.getElementById("admCpf");
-admCpf.addEventListener("input", () => HandleInputCpf(admCpf));
-// admCpf.addEventListener("blur", () => validarCPF(admCpf.value));
+if (ADMINISTRADOR === 1) {
+  const cliCelular = document.getElementById("cliCelular");
+  cliCelular.addEventListener("input", () => FormatarCelular(cliCelular));
+} else if (EQUIPE === 1) {
+  const admCpf = document.getElementById("admCpf");
+  const acaTelefone = document.getElementById("acaTelefone");
+  const acaCnpj = document.getElementById("acaCnpj");
+  const acaCelular = document.getElementById("acaCelular");
+  const admCelular = document.getElementById("admCelular");
+  admCpf.addEventListener("input", () => HandleInputCpf(admCpf));
+  acaCnpj.addEventListener("input", () => HandleInputCnpj(acaCnpj));
+  acaCnpj.addEventListener("blur", () => HandleBlurCnpj(acaCnpj));
+  acaTelefone.addEventListener("input", () => FormatarTelefone(acaTelefone));
+  // admCpf.addEventListener("blur", () => validarCPF(admCpf.value));
+  acaCelular.addEventListener("input", () => FormatarCelular(acaCelular));
+  admCelular.addEventListener("input", () => FormatarCelular(admCelular));
+} else if (CLIENTE === 1) {
+} else if (FUNCIONARIO === 1) {
+}
 
 function HandleInputCpf(campo) {
   let valorCpf = campo.value;
@@ -14,11 +30,9 @@ function HandleInputCpf(campo) {
   campo.value = valorCpf;
 }
 
-// Função para formatar o CPF
 function formatarCPF(cpf) {
   return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
 }
-
 // function validarCPF(cpf) {
 //   var cpfRegex = /^(?:(\d{3}).(\d{3}).(\d{3})-(\d{2}))$/;
 //   if (!cpfRegex.test(cpf)) {
@@ -64,10 +78,6 @@ function formatarCPF(cpf) {
 // }
 
 //CNPJ
-
-let acaCnpj = document.getElementById("acaCnpj");
-acaCnpj.addEventListener("input", () => HandleInputCnpj(acaCnpj));
-acaCnpj.addEventListener("blur", () => HandleBlurCnpj(acaCnpj));
 
 function HandleBlurCnpj(campo) {
   let valorCnpj = campo.value;
@@ -137,24 +147,12 @@ function validarCNPJ(cnpj) {
   return true;
 }
 
-//Telefone
-
-const acaTelefone = document.getElementById("acaTelefone");
-acaTelefone.addEventListener("input", () => FormatarTelefone(acaTelefone));
-
 function FormatarTelefone(campo) {
   let valorNumero = campo.value;
   let numeroAtual = valorNumero.replace(/\D/g, "");
   numeroAtual = numeroAtual.replace(/^(\d{4})(\d{4})$/, "$1-$2");
   campo.value = numeroAtual;
 }
-
-//Celular
-
-const acaCelular = document.getElementById("acaCelular");
-acaCelular.addEventListener("input", () => FormatarCelular(acaCelular));
-const admCelular = document.getElementById("admCelular");
-admCelular.addEventListener("input", () => FormatarCelular(admCelular));
 
 function FormatarCelular(campo) {
   let valor = campo.value;

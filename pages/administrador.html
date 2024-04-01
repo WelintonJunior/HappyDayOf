@@ -5,13 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Administrador</title>
     <link rel="stylesheet" href="../styles/index.css" />
+    <link rel="stylesheet" href="../styles/administrador.css" />
     <link rel="stylesheet" href="../styles/nav.css" />
+    <link rel="stylesheet" href="../styles/modal.css" />
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sidebars/">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Bootstrap core CSS -->
-  <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet"> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 <style>
@@ -42,18 +44,17 @@
           </div>
 
           <ul class="list-unstyled components ps-2">
-              
-              <li>
-                  <a id="btnResumo"> <i class="bi bi-pie-chart-fill"></i> </i>   Resumo</a>
+              <li id="btnResumo">
+                  <a > <i class="bi bi-pie-chart-fill"></i> </i>   Resumo</a>
               </li>
-              <li>
-                <a id="btnResumo"><i class="bi bi-card-list"></i> Ficha</a>
+              <li id="btnFicha">
+                <a ><i class="bi bi-card-list"></i> Ficha</a>
               </li>
-              <li>
-                  <a id="btnResumo"> <i class="bi bi-people"></i> Clientes</a>
+              <li id="btnCliente">
+                  <a > <i class="bi bi-people"></i> Clientes</a>
               </li>
-              <li>
-                  <a id="btnResumo"> <i class="bi bi-file-earmark-person-fill"> </i>Funcionários</a>
+              <li id="btnFuncionario">
+                  <a > <i class="bi bi-file-earmark-person-fill"> </i>Funcionários</a>
               </li>
 
               <li>
@@ -93,18 +94,133 @@
    
          </div>
 
-      </div>
+         <!-- Tela Dashboard -->
+
+         <div id="TelaResumo" style="display: block;">Resumo</div>
+        
+         <!-- Tela Ficha -->
+
+         <div id="TelaFicha" style="display: none;">
+        
+        </div>
+
+        <!-- Tela Clientes -->
+         <div id="TelaClientes" style="display: none;">
+          <div class="listBoxCliente" id="listBoxCliente">
+            <div id="tableClientes"></div>
+                <button id="abrirModalRegisterCliente">Cadastrar Cliente</button>
+            </div>
+        </div>
+
+         <!-- Tela Funcionarios -->
+
+         <div id="TelaFuncionarios" style="display: none;">
+          <div class="listBoxFuncionario" id="listBoxFuncionario">
+            <div id="tableFuncionarios"></div>
+                <button id="abrirModalRegisterFuncionario">Cadastrar Funcionario</button>
+            </div></div>
+
+         <!-- Tela Detalhes Clientes -->
+
+         <div id="TelaDetalhesClientes" style="display: none;"></div>
+
+        </div>
 
 
 
 
     </div>
      
-    
+    <div id="modalCadastrarCliente" class="modal">
+      <div class="modal-conteudo">
+        <span id="fecharModalCadastrarCliente" class="fechar">&times;</span>
+        <form id="formCadastrarCliente">
+          <h2>Cadastrar Cliente</h3>
+          Nome: <input type="text" name="cliNome" /> <br />
+          <br />
+          Plano: <select name="cliPlano" id="cliPlano"></select> <br />
+          <br />
+          Celular:
+          <input type="text" id="cliCelular" maxlength="15" name="cliCelular" />
+          <br />
+          <br />
+          Cep: <input type="text" id="cliCep" name="cliCep" /> <br />
+          <br />
+          Estado: <input type="text" id="cliEstado" name="cliEstado" /> <br />
+          <br />
+          Cidade: <input type="text" id="cliCidade" name="cliCidade" /> <br />
+          <br />
+          Rua: <input type="text" id="cliRua" name="cliRua" /> <br />
+          <br />
+          Numero Rua: <input type="text" name="cliNumeroRua" /> <br />
+          <br />
+          Sexo:
+          <select name="cliSexo">
+            <option value="M">Masculino</option>
+            <option value="F">Feminino</option>
+            <option value="P">Prefiro não dizer</option>
+          </select>
+          <br />
+          <br />
+          CPF: <input type="text" maxlength="14" id="cliCpf" name="cliCpf" />
+          <br />
+          <br />
+          Email: <input type="text" name="cliEmail" /> <br />
+          <br />
+          <select class="d-none" name="cliAcademia" id="cliAcademia"></select>
+          Senha: <input type="password" name="cliSenha" id="cliSenha" /> <br />
+          <br />
+          <button type="submit">Enviar</button>
+        </form>
+      </div>
+    </div>
+    <div id="modalCadastrarFuncionario" class="modal">
+      <div class="modal-conteudo">
+        <span id="fecharModalCadastrarFuncionario" class="fechar">&times;</span>
+        <form id="formCadastrarFuncionario">
+          <h2>Cadastrar Funcionario</h3>
+          Nome: <input type="text" name="funNome" /> <br />
+          <br />
+          Celular:
+          <input type="text" id="funCelular" maxlength="15" name="funCelular" />
+          <br />
+          <br />
+          Cep: <input type="text" id="funCep" name="funCep" /> <br />
+          <br />
+          Estado: <input type="text" id="funEstado" name="funEstado" /> <br />
+          <br />
+          Cidade: <input type="text" id="funCidade" name="funCidade" /> <br />
+          <br />
+          Rua: <input type="text" id="funRua" name="funRua" /> <br />
+          <br />
+          Numero Rua: <input type="text" name="funNumeroRua" /> <br />
+          <br />
+          Sexo:
+          <select name="funSexo">
+            <option value="M">Masculino</option>
+            <option value="F">Feminino</option>
+            <option value="P">Prefiro não dizer</option>
+          </select>
+          <br />
+          <br />
+          CPF: <input type="text" maxlength="14" id="funCpf" name="funCpf" />
+          <br />
+          <br />
+          Email: <input type="text" name="funEmail" /> <br />
+          <br />
+          <select class="d-none" name="funAcademia" id="funAcademia"></select>
+          Senha: <input type="password" name="funSenha" id="funSenha" /> <br />
+          <br />
+          <button type="submit">Enviar</button>
+        </form>
+      </div>
+    </div>
 
     <script src="../service/Back/reqAdministrador.js"></script>
+    <script src="../service/Front/frtAdministrador.js"></script>
+    <script src="../service/Front/Validacao.js"></script>
 
-    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="../assets/dist/js/bootstrap.bundle.min.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/js/bootstrap.bundle.min.js"></script>
 
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
@@ -116,7 +232,7 @@
     <!-- Popper.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script> -->
       <script src="../service/Front/nav.js"></script>
   </body>
 </html>
