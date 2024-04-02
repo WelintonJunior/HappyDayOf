@@ -1,66 +1,57 @@
-async function ReadAcademia(idAcademia) {
-  const response = await fetch("http://localhost:3000/Administrador", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      idAcademia,
-      acao: "ReadAcademia",
-    }),
-  });
-  const result = await response.json();
-  return result;
-}
+const FUNCIONARIO = 0;
 
-async function RegisterAtendimento(idAcademia, data) {
-  const response = await fetch("http://localhost:3000/Funcionario", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      data,
-      idAcademia,
-      acao: "RegisterAtendimento",
-    }),
-  });
-  const result = await response.json();
-  return result;
-}
+//Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
 
-async function RegisterCliente(idAcademia, data) {
-  const response = await fetch("http://localhost:3000/Administrador", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      data,
-      idAcademia,
-      acao: "RegisterCliente",
-    }),
-  });
-  const result = await response.json();
-  return result;
-}
+const dados = JSON.parse(localStorage.getItem("dados"));
+console.log(dados);
+const idAcademia = dados.funIdAcad;
 
-async function ArchiveCliente(idCliente) {
-  const response = await fetch("http://localhost:3000/Administrador", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      data: idCliente,
-      acao: "ArchiveCliente",
-    }),
-  });
-  const result = await response.json();
-  return result;
-}
+document.addEventListener("DOMContentLoaded", async function () {
+  const result = await ReadAcademia(idAcademia);
+  document.getElementById(
+    "funInfo"
+  ).innerHTML = `Olá Funcionario: ${dados.funNome} da Academia: ${result.acaNome}`;
+});
 
-async function ReadClientes(idAcademia) {
-  const response = await fetch("http://localhost:3000/Administrador", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      idAcademia,
-      acao: "ReadClientes",
-    }),
+// Cadastrar Atendimento
+
+document
+  .getElementById("formCadastrarAtendimento")
+  .addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const data = Object.fromEntries(fd.entries());
+    const result = await RegisterAtendimento(idAcademia, data);
+    console.log(result);
   });
-  const result = await response.json();
-  return result;
-}
+
+// Cadastrar Cliente
+
+document
+  .getElementById("formCadastrarCliente")
+  .addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const data = Object.fromEntries(fd.entries());
+    const result = await RegisterCliente(idAcademia, data);
+    console.log(result);
+  });
+
+//Arquivar Cliente
+
+document.querySelectorAll(".arquivarCliente").forEach((element) => {
+  element.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const idCliente = e.target.value;
+    const result = await ArchiveCliente(idCliente);
+    console.log(result);
+  });
+});
+
+// Ver Clientes
+
+document.addEventListener("DOMContentLoaded", async function () {
+  const result = await ReadClientes(idAcademia);
+  //Colocar em alguma lista
+  console.log(result);
+});

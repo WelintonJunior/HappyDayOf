@@ -1,9 +1,19 @@
 //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
 
 const ADMINISTRADOR = 1;
-
-const dados = JSON.parse(localStorage.getItem("dados"));
-// console.log(dados);
+let dados = [];
+try {
+  const dadosFromLocalStorage = JSON.parse(localStorage.getItem("dados"));
+  if (dadosFromLocalStorage !== null) {
+    dados = dadosFromLocalStorage;
+  } else {
+    alert("Acesso Negado")
+    window.location.href = "../index.html";
+  }
+} catch(err) {
+  alert("Acesso Negado")
+  window.location.href = "../index.html";
+}
 
 const idAcademia = dados.funIdAcad;
 let tela = "";
@@ -68,7 +78,7 @@ btnFuncionario.addEventListener("click", (e) => {
   MostrarTela("TelaFuncionarios");
 });
 
-//Ver Clientes
+//Ver Clientes/Funcionarios
 
 document.addEventListener("DOMContentLoaded", async function () {
   await UpdateListaCliente();
@@ -162,6 +172,7 @@ funDetCep.addEventListener("blur", (e) => {
     }
   });
 });
+
 const cliDetCep = document.getElementById("cliDetCep");
 cliDetCep.addEventListener("blur", (e) => {
   cepAutomatico(e.target.value).then((data) => {
@@ -532,3 +543,9 @@ formArquivarFuncionario.addEventListener("submit", async (e) => {
   await UpdateListaFuncionario();
   MostrarTela("TelaFuncionarios");
 });
+
+document.getElementById("btnLogout").addEventListener("click", (e) => {
+  e.preventDefault();
+  localStorage.setItem("dados", "");
+  window.location.href = "../index.html";
+})
