@@ -7,11 +7,11 @@ try {
   if (dadosFromLocalStorage !== null) {
     dados = dadosFromLocalStorage;
   } else {
-    alert("Acesso Negado")
+    alert("Acesso Negado");
     window.location.href = "../index.html";
   }
-} catch(err) {
-  alert("Acesso Negado")
+} catch (err) {
+  alert("Acesso Negado");
   window.location.href = "../index.html";
 }
 
@@ -58,6 +58,7 @@ const formDetFuncionario = document.getElementById("formDetalhesFuncionario");
 const modalCadastrarCliente = document.getElementById("modalCadastrarCliente");
 
 //btnResumo
+btnResumo.firstChild.parentNode.style.backgroundColor = "#FC0404";
 btnResumo.addEventListener("click", (e) => {
   e.preventDefault();
   MostrarTela("TelaResumo");
@@ -240,6 +241,10 @@ function MostrarTela(tela) {
 
   switch (tela) {
     case "TelaResumo":
+      btnResumo.firstChild.parentNode.style.backgroundColor = "#FC0404";
+      btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnCliente.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnFuncionario.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
       TelaResumo.style.display = "block";
       TelaFicha.style.display = "none";
       TelaClientes.style.display = "none";
@@ -250,8 +255,14 @@ function MostrarTela(tela) {
       if (TelaFicha.style.display === "block") {
         TelaFicha.style.display = "none";
         TelaResumo.style.display = "block";
+        btnResumo.firstChild.parentNode.style.backgroundColor = "#FC0404";
+        btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
         return;
       }
+      btnResumo.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnFicha.firstChild.parentNode.style.backgroundColor = "#FC0404";
+      btnCliente.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnFuncionario.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
       TelaResumo.style.display = "none";
       TelaFicha.style.display = "block";
       TelaClientes.style.display = "none";
@@ -261,8 +272,14 @@ function MostrarTela(tela) {
       if (TelaClientes.style.display === "block") {
         TelaClientes.style.display = "none";
         TelaResumo.style.display = "block";
+        btnResumo.firstChild.parentNode.style.backgroundColor = "#FC0404";
+        btnCliente.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
         return;
       }
+      btnResumo.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnCliente.firstChild.parentNode.style.backgroundColor = "#FC0404";
+      btnFuncionario.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
       TelaResumo.style.display = "none";
       TelaFicha.style.display = "none";
       TelaClientes.style.display = "block";
@@ -272,14 +289,24 @@ function MostrarTela(tela) {
       if (TelaFuncionarios.style.display === "block") {
         TelaFuncionarios.style.display = "none";
         TelaResumo.style.display = "block";
+        btnResumo.firstChild.parentNode.style.backgroundColor = "#FC0404";
+        btnFuncionario.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
         return;
       }
+      btnResumo.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnCliente.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnFuncionario.firstChild.parentNode.style.backgroundColor = "#FC0404";
       TelaResumo.style.display = "none";
       TelaFicha.style.display = "none";
       TelaClientes.style.display = "none";
       TelaFuncionarios.style.display = "block";
       break;
     default:
+      btnResumo.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnCliente.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnFuncionario.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
       TelaResumo.style.display = "none";
       TelaFicha.style.display = "none";
       TelaClientes.style.display = "none";
@@ -548,4 +575,4 @@ document.getElementById("btnLogout").addEventListener("click", (e) => {
   e.preventDefault();
   localStorage.setItem("dados", "");
   window.location.href = "../index.html";
-})
+});
