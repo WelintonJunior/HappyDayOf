@@ -79,6 +79,20 @@ async function ArchiveCliente(idCliente) {
   return result;
 }
 
+async function ArchiveFuncionario(idFuncionario) {
+  const response = await fetch("http://localhost:3000/Administrador", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      data: idFuncionario,
+      acao: "ArchiveFuncionario",
+    }),
+  });
+
+  const result = await response.json();
+  return result;
+}
+
 async function ReadPlanos(idAcademia) {
   const response = await fetch("http://localhost:3000/Administrador", {
     method: "POST",
@@ -86,6 +100,60 @@ async function ReadPlanos(idAcademia) {
     body: JSON.stringify({
       idAcademia,
       acao: "ReadPlanos",
+    }),
+  });
+  const result = await response.json();
+  return result;
+}
+
+async function ReadFuncionarioDetalhes(idAcademia, funId) {
+  const response = await fetch("http://localhost:3000/Administrador", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      data: funId,
+      idAcademia,
+      acao: "ReadFuncionarioDet",
+    }),
+  });
+  const result = await response.json();
+  return result;
+}
+
+async function ReadClienteDetalhes(idAcademia, cliId) {
+  const response = await fetch("http://localhost:3000/Administrador", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      data: cliId,
+      idAcademia,
+      acao: "ReadClienteDet",
+    }),
+  });
+  const result = await response.json();
+  return result;
+}
+
+async function UpdateFuncionarioDetalhes(data) {
+  const response = await fetch("http://localhost:3000/Administrador", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      data,
+      acao: "UpdateFuncionarioDetalhes",
+    }),
+  });
+  const result = await response.json();
+  return result;
+}
+
+async function UpdateClienteDetalhes(data) {
+  const response = await fetch("http://localhost:3000/Administrador", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      data,
+      acao: "UpdateClienteDetalhes",
     }),
   });
   const result = await response.json();

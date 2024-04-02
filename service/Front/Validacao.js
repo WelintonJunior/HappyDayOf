@@ -2,7 +2,21 @@
 
 if (ADMINISTRADOR === 1) {
   const cliCelular = document.getElementById("cliCelular");
+  const funCelular = document.getElementById("funCelular");
+  const cliDetCelular = document.getElementById("cliDetCelular");
+  const funDetCelular = document.getElementById("funDetCelular");
+  const funDetCpf = document.getElementById("funDetCpf");
+  const cliDetCpf = document.getElementById("cliDetCpf");
+  const cliCpf = document.getElementById("cliCpf");
+  const funCpf = document.getElementById("funCpf");
+  funCelular.addEventListener("input", () => FormatarCelular(funCelular));
   cliCelular.addEventListener("input", () => FormatarCelular(cliCelular));
+  cliDetCelular.addEventListener("input", () => FormatarCelular(cliDetCelular));
+  funDetCelular.addEventListener("input", () => FormatarCelular(funDetCelular));
+  funDetCpf.addEventListener("input", () => HandleInputCpf(funDetCpf));
+  cliDetCpf.addEventListener("input", () => HandleInputCpf(cliDetCpf));
+  cliCpf.addEventListener("input", () => HandleInputCpf(cliCpf));
+  funCpf.addEventListener("input", () => HandleInputCpf(funCpf));
 } else if (EQUIPE === 1) {
   const admCpf = document.getElementById("admCpf");
   const acaTelefone = document.getElementById("acaTelefone");
