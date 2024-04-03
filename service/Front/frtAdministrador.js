@@ -554,7 +554,11 @@ async function UpdateListaClienteFicha() {
     } else {
       let botaoCriarFicha = document.createElement("button");
       botaoCriarFicha.textContent = "Criar";
-      botaoCriarFicha.addEventListener("click", function () {
+      botaoCriarFicha.addEventListener("click", async function () {
+        document.getElementById(
+          "funFicha"
+        ).innerHTML = "";
+        await PreencherSelectProfessores();
         modalCriarBaseFicha.style.display = "block";
         document.getElementById("cliIdFicha").value = item.cliId;
       });
@@ -965,6 +969,7 @@ async function MostrarTelaCriarFicha(cliId) {
   ) {
     document.getElementById("cliRestricoesTipoCriarFicha").style.display =
       "block";
+    document.getElementById("cliRestricoesTipoCriarFicha").innerHTML = "Tipo de restrições: ";
     document.getElementById("cliRestricoesTipoCriarFicha").innerHTML +=
       result.length > 0
         ? result[0].ficTipoRestricoes
