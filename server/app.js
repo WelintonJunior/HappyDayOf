@@ -23,7 +23,7 @@ db.getConnection((err) => {
 app.use(cors());
 app.use(bodyParser.json());
 
-//Equipe
+//EQUIPE
 
 app.post("/Equipe", (req, res) => {
   const { acao, data } = req.body;
@@ -162,7 +162,7 @@ app.post("/Administrador", (req, res) => {
           if (err) {
             return res.json(err);
           }
-          if (results[0].length === 0) {
+          if (results.length > 0 ? results[0].length === 0 : results.length === 0) {
             return res.json(false);
           }
           res.send(results);
@@ -192,7 +192,7 @@ app.post("/Administrador", (req, res) => {
           if (err) {
             return res.json(err);
           }
-          if (results[0].length === 0) {
+          if (results.length > 0 ? results[0].length === 0 : results.length === 0) {
             return res.json(false);
           }
           res.send(results);
@@ -404,7 +404,7 @@ app.post("/Ficha", (req, res) => {
           if (err) {
             return res.json(err);
           }
-          if (results[0].length === 0) {
+          if (results.lenght > 0 ? results[0].length === 0 : results.length === 0) {
             return res.json(false);
           }
           res.send(results);

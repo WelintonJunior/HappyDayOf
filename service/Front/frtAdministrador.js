@@ -73,9 +73,7 @@ const modalCriarBaseFicha = document.getElementById("modalCriarBaseFicha");
 const modalCadastrarFuncionario = document.getElementById(
   "modalCadastrarFuncionario"
 );
-const modalArquivarCliente = document.getElementById(
-  "modalArquivarCliente"
-);
+const modalArquivarCliente = document.getElementById("modalArquivarCliente");
 const modalArquivarFuncionario = document.getElementById(
   "modalArquivarFuncionario"
 );
@@ -267,9 +265,9 @@ document
     e.preventDefault();
     const fd = new FormData(e.target);
     const data = Object.fromEntries(fd.entries());
-    if(verificarNumeros(data.cliNome)) {
+    if (verificarNumeros(data.cliNome)) {
       alert("O nome não pode conter números");
-      return
+      return;
     }
     await RegisterCliente(data, idAcademia);
     await UpdateListaCliente();
@@ -285,9 +283,9 @@ document
     e.preventDefault();
     const fd = new FormData(e.target);
     const data = Object.fromEntries(fd.entries());
-    if(verificarNumeros(data.funNome)) {
+    if (verificarNumeros(data.funNome)) {
       alert("O nome não pode conter números");
-      return
+      return;
     }
     await RegisterFuncionario(data, idAcademia);
     await UpdateListaFuncionario();
@@ -425,25 +423,31 @@ async function UpdateListaCliente() {
   });
 
   const corpoTabela = tabela.appendChild(document.createElement("tbody"));
+  if (result) {
+    result.forEach((item) => {
+      const linha = corpoTabela.insertRow();
+      const camposSelecionados = [
+        "cliId",
+        "cliNome",
+        "cliCelular",
+        "cliStatus",
+      ];
 
-  result.forEach((item) => {
-    const linha = corpoTabela.insertRow();
-    const camposSelecionados = ["cliId", "cliNome", "cliCelular", "cliStatus"];
-
-    camposSelecionados.forEach((campo) => {
-      if (item.hasOwnProperty(campo)) {
-        let celula = linha.insertCell();
-        celula.textContent = item[campo];
-      }
+      camposSelecionados.forEach((campo) => {
+        if (item.hasOwnProperty(campo)) {
+          let celula = linha.insertCell();
+          celula.textContent = item[campo];
+        }
+      });
+      let celulaBotao = linha.insertCell();
+      let botaoDetalhes = document.createElement("button");
+      botaoDetalhes.textContent = "Ver";
+      botaoDetalhes.addEventListener("click", function () {
+        MostrarTelaDetalhesCliente(item.cliId);
+      });
+      celulaBotao.appendChild(botaoDetalhes);
     });
-    let celulaBotao = linha.insertCell();
-    let botaoDetalhes = document.createElement("button");
-    botaoDetalhes.textContent = "Ver";
-    botaoDetalhes.addEventListener("click", function () {
-      MostrarTelaDetalhesCliente(item.cliId);
-    });
-    celulaBotao.appendChild(botaoDetalhes);
-  });
+  }
 
   document.getElementById("tableClientes").appendChild(tabela);
 
@@ -478,7 +482,7 @@ async function UpdateListaFuncionario() {
   });
 
   const corpoTabela = tabela.appendChild(document.createElement("tbody"));
-
+if(result) {
   result.forEach((item) => {
     const linha = corpoTabela.insertRow();
     const camposSelecionados = ["funId", "funNome", "funCelular", "funStatus"];
@@ -493,15 +497,16 @@ async function UpdateListaFuncionario() {
         }
       }
     });
-
+    
     let celulaBotao = linha.insertCell();
     let botaoDetalhes = document.createElement("button");
     botaoDetalhes.textContent = "Ver";
-
+    
     botaoDetalhes.addEventListener("click", () => Detalhes(linha));
-
+    
     celulaBotao.appendChild(botaoDetalhes);
   });
+}
 
   document.getElementById("tableFuncionarios").appendChild(tabela);
 }
@@ -555,9 +560,7 @@ async function UpdateListaClienteFicha() {
       let botaoCriarFicha = document.createElement("button");
       botaoCriarFicha.textContent = "Criar";
       botaoCriarFicha.addEventListener("click", async function () {
-        document.getElementById(
-          "funFicha"
-        ).innerHTML = "";
+        document.getElementById("funFicha").innerHTML = "";
         await PreencherSelectProfessores();
         modalCriarBaseFicha.style.display = "block";
         document.getElementById("cliIdFicha").value = item.cliId;
@@ -776,9 +779,9 @@ btnEnviarDetalhesCliente.addEventListener("click", async (e) => {
   const fd = new FormData(formDetCliente);
   const data = Object.fromEntries(fd.entries());
   data.cliId = cliId;
-  if(verificarNumeros(data.cliNome)) {
+  if (verificarNumeros(data.cliNome)) {
     alert("O nome não pode conter números");
-    return
+    return;
   }
   const result = await UpdateClienteDetalhes(data);
   Object.keys(result).forEach((key) => {
@@ -788,6 +791,7 @@ btnEnviarDetalhesCliente.addEventListener("click", async (e) => {
     }
   });
   formDetCliente.reset();
+  await UpdateListaClienteFicha();
   await UpdateListaCliente();
   MostrarTela("TelaClientes");
 });
@@ -854,9 +858,9 @@ btnEnviarDetalhesFuncionario.addEventListener("click", async (e) => {
   const data = Object.fromEntries(fd.entries());
 
   data.funId = funId;
-  if(verificarNumeros(data.funNome)) {
+  if (verificarNumeros(data.funNome)) {
     alert("O nome não pode conter números");
-    return
+    return;
   }
   const result = await UpdateFuncionarioDetalhes(data);
   Object.keys(result).forEach((key) => {
@@ -867,6 +871,7 @@ btnEnviarDetalhesFuncionario.addEventListener("click", async (e) => {
   });
   formDetFuncionario.reset();
   await UpdateListaFuncionario();
+  await PreencherSelectProfessores();
   MostrarTela("TelaFuncionarios");
 });
 
@@ -969,7 +974,8 @@ async function MostrarTelaCriarFicha(cliId) {
   ) {
     document.getElementById("cliRestricoesTipoCriarFicha").style.display =
       "block";
-    document.getElementById("cliRestricoesTipoCriarFicha").innerHTML = "Tipo de restrições: ";
+    document.getElementById("cliRestricoesTipoCriarFicha").innerHTML =
+      "Tipo de restrições: ";
     document.getElementById("cliRestricoesTipoCriarFicha").innerHTML +=
       result.length > 0
         ? result[0].ficTipoRestricoes
@@ -984,11 +990,16 @@ async function MostrarTelaCriarFicha(cliId) {
 
 async function PreencherSelectProfessores() {
   const result = await ReadFuncionario(1, idAcademia);
-  result.forEach((item) => {
-    document.getElementById(
-      "funFicha"
-    ).innerHTML += `<option value=${item.funId}>${item.funNome}</option>`;
-  });
+  document.getElementById(
+    "funFicha"
+    ).innerHTML = "";
+  if(result) {
+    result.forEach((item) => {
+      document.getElementById(
+        "funFicha"
+        ).innerHTML += `<option value=${item.funId}>${item.funNome}</option>`;
+      });
+    }
 }
 
 formInserirTreinoA.addEventListener("submit", async (e) => {

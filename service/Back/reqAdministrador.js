@@ -149,20 +149,6 @@ async function RegisterFuncionario(data, idAcademia) {
   return result;
 }
 
-async function ArchiveCliente(idCliente) {
-  const response = await fetch("http://localhost:3000/Administrador", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      data: idCliente,
-      acao: "ArchiveCliente",
-    }),
-  });
-
-  const result = await response.json();
-  return result;
-}
-
 async function RegisterBaseFicha(idAcademia, data) {
   const response = await fetch("http://localhost:3000/Ficha", {
     method: "POST",
@@ -191,6 +177,20 @@ async function RegisterDetalhesFicha(data) {
 }
 
 //ARCHIVE
+
+async function ArchiveCliente(idCliente) {
+  const response = await fetch("http://localhost:3000/Administrador", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      data: idCliente,
+      acao: "ArchiveCliente",
+    }),
+  });
+
+  const result = await response.json();
+  return result;
+}
 
 async function ArchiveFuncionario(idFuncionario) {
   const response = await fetch("http://localhost:3000/Administrador", {
