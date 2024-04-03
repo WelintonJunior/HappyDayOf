@@ -354,127 +354,138 @@
 
         <div id="TelaCriarFicha" style="display: none">
           <form>
-            Cliente: <span id="cliNomeCriarFicha"></span> <br>
-            Professor:<span id="funNomeCriarFicha"></span> <br>
+            Cliente: <span id="cliNomeCriarFicha"></span> <br />
+            Professor:<span id="funNomeCriarFicha"></span> <br />
             <select
-              style="display: none;"
+              style="display: none"
               name="funSelectCriarFicha"
               id="funSelectCriarFicha"
-            ></select> 
-            Restrições: <input type="checkbox" name="cliRestricoesCriarFicha" id="cliRestricoesCriarFicha">
-            <span style="display: none;" id="cliRestricoesTipoCriarFicha">Tipo de Restrições: </span>
-            Intervalo: <span id="cliIntervaloCriarFicha"></span><br>
+            ></select>
+            Restrições:
+            <input
+              type="checkbox"
+              name="cliRestricoesCriarFicha"
+              id="cliRestricoesCriarFicha"
+            />
+            <span style="display: none" id="cliRestricoesTipoCriarFicha"
+              >Tipo de Restrições:
+            </span>
+            Intervalo: <span id="cliIntervaloCriarFicha"></span><br />
           </form>
 
-          <br>
+          <br />
+          <div class="row ">
+            <!-- Treino A -->
+            <div class="col-4 px-4">
+              Insira Para o treino A:
+              <div class="row" style="width: 100%">
+                <form id="formInserirTreinoA">
+                  <input type="text" class="d-none" id="cliIdFichaTreinoA" />
+                  <input type="text" class="d-none" id="idFichaTreinoA" />
+                  <input
+                    class="col-4"
+                    placeholder="Variação"
+                    type="text"
+                    name="detVariacao"
+                  />
+                  <input
+                    class="col-2"
+                    placeholder="Séries"
+                    type="text"
+                    name="detSerie"
+                  />
+                  <input
+                    class="col-2"
+                    placeholder="Repetições"
+                    type="text"
+                    name="detRepeticao"
+                  />
+                  <input
+                    class="col-2"
+                    placeholder="Carga"
+                    type="text"
+                    name="detCarga"
+                  />
+                  <button type="submit" class="col-2">Enter</button>
+                </form>
 
-          Insira Para o treino A:
-          <div class="row" style="width: 60%">
-            <form id="formInserirTreinoA">
-              <input type="text" class="d-none" id="cliIdFichaTreinoA">
-              <input type="text" class="d-none" id="idFichaTreinoA">
-            <input
-              class="col-4"
-              placeholder="Variação"
-              type="text"
-              name="detVariacao"
-            />
-            <input
-              class="col-2"
-              placeholder="Séries"
-              type="text"
-              name="detSerie"
-            />
-            <input
-              class="col-2"
-              placeholder="Repetições"
-              type="text"
-              name="detRepeticao"
-            />
-            <input
-              class="col-2"
-              placeholder="Carga"
-              type="text"
-              name="detCarga"
-            />
-            <button type="submit" class="col-2">Enter</button>
-          </form>
-          </div>
-          <br>
-          <div id="listaTreinoA">
+                <div class="mt-2" id="listaTreinoA"></div>
+              </div>
+            </div>
+            <!-- Treino B -->
+            <div class="col-4 px-4">
+              Insira Para o treino B:
+              <div class="row">
+                <form id="formInserirTreinoB">
+                  <input type="text" class="d-none" id="cliIdFichaTreinoB" />
+                  <input type="text" class="d-none" id="idFichaTreinoB" />
+                  <input
+                    class="col-4"
+                    placeholder="Variação"
+                    type="text"
+                    name="detVariacao"
+                  />
+                  <input
+                    class="col-2"
+                    placeholder="Séries"
+                    type="text"
+                    name="detSerie"
+                  />
+                  <input
+                    class="col-2"
+                    placeholder="Repetições"
+                    type="text"
+                    name="detRepeticao"
+                  />
+                  <input
+                    class="col-2"
+                    placeholder="Carga"
+                    type="text"
+                    name="detCarga"
+                  />
+                  <button type="submit" class="col-2">Enter</button>
+                </form>
 
-          </div>
-          Insira Para o treino B:
-          <div class="row" style="width: 60%">
-            <form id="formInserirTreinoB">
-              <input type="text" class="d-none" id="cliIdFichaTreinoB">
-              <input type="text" class="d-none" id="idFichaTreinoB">
-            <input
-              class="col-4"
-              placeholder="Variação"
-              type="text"
-              name="detVariacao"
-            />
-            <input
-              class="col-2"
-              placeholder="Séries"
-              type="text"
-              name="detSerie"
-            />
-            <input
-              class="col-2"
-              placeholder="Repetições"
-              type="text"
-              name="detRepeticao"
-            />
-            <input
-              class="col-2"
-              placeholder="Carga"
-              type="text"
-              name="detCarga"
-            />
-            <button type="submit" class="col-2">Enter</button>
-          </form>
-          </div>
-          <br>
-          <div id="listaTreinoB">
+                <div class="mt-2" id="listaTreinoB"></div>
+              </div>
+            </div>
+            <!-- Treino C -->
+            <div class="col-4 px-4">
+              Insira Para o treino C:
+              <div class="row" style="width: 100%">
+                <form id="formInserirTreinoC">
+                  <input type="text" class="d-none" id="cliIdFichaTreinoC" />
+                  <input type="text" class="d-none" id="idFichaTreinoC" />
+                  <input
+                    class="col-4"
+                    placeholder="Variação"
+                    type="text"
+                    name="detVariacao"
+                  />
+                  <input
+                    class="col-2"
+                    placeholder="Séries"
+                    type="text"
+                    name="detSerie"
+                  />
+                  <input
+                    class="col-2"
+                    placeholder="Repetições"
+                    type="text"
+                    name="detRepeticao"
+                  />
+                  <input
+                    class="col-2"
+                    placeholder="Carga"
+                    type="text"
+                    name="detCarga"
+                  />
+                  <button type="submit" class="col-2">Enter</button>
+                </form>
 
-          </div>
-          Insira Para o treino C:
-          <div class="row" style="width: 60%">
-            <form id="formInserirTreinoC">
-              <input type="text" class="d-none" id="cliIdFichaTreinoC">
-              <input type="text" class="d-none" id="idFichaTreinoC">
-            <input
-              class="col-4"
-              placeholder="Variação"
-              type="text"
-              name="detVariacao"
-            />
-            <input
-              class="col-2"
-              placeholder="Séries"
-              type="text"
-              name="detSerie"
-            />
-            <input
-              class="col-2"
-              placeholder="Repetições"
-              type="text"
-              name="detRepeticao"
-            />
-            <input
-              class="col-2"
-              placeholder="Carga"
-              type="text"
-              name="detCarga"
-            />
-            <button type="submit" class="col-2">Enter</button>
-          </form>
-          </div>
-          <br>
-          <div id="listaTreinoC">
-
+                <div class="mt-2" id="listaTreinoC"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

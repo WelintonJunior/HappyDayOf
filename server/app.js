@@ -549,17 +549,6 @@ app.post("/Ficha", (req, res) => {
       break;
   }
 });
-// case "ReadLastFicha":
-//   db.query(
-//     "SELECT * FROM tblFicha ORDER BY ficId DESC LIMIT 1",
-//     (err, results) => {
-//       if (err) {
-//         return res.json(err);
-//       }
-//       res.send(results);
-//     }
-//   );
-//   break;
 
 //DASHBOARD
 
