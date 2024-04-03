@@ -1,8 +1,7 @@
-//Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
-
 const ADMINISTRADOR = 1;
 let dados = [];
 try {
+  //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
   const dadosFromLocalStorage = JSON.parse(localStorage.getItem("dados"));
   if (dadosFromLocalStorage !== null) {
     dados = dadosFromLocalStorage;
@@ -15,12 +14,17 @@ try {
   window.location.href = "../index.html";
 }
 
+//Pega o id da Academia de acordo com o usuario logado no momento
 const idAcademia = dados.funIdAcad;
 let tela = "";
+
+//Declara os botoes da nav laterais
 const btnResumo = document.getElementById("btnResumo");
 const btnCliente = document.getElementById("btnCliente");
 const btnFicha = document.getElementById("btnFicha");
 const btnFuncionario = document.getElementById("btnFuncionario");
+
+//Dados de Boas vindas
 
 document.addEventListener("DOMContentLoaded", async function () {
   const result = await ReadAcademia(idAcademia);
@@ -29,6 +33,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   ).innerHTML = `Olá Administrador: ${dados.funNome} da Academia: ${result.acaNome}`;
 });
 
+//Declara as telas que são mostradas após clicar em algum botao
 const TelaResumo = document.getElementById("TelaResumo");
 const TelaFicha = document.getElementById("TelaFicha");
 const TelaClientes = document.getElementById("TelaClientes");
@@ -37,6 +42,8 @@ const TelaFuncionarios = document.getElementById("TelaFuncionarios");
 const TelaDetalhesFuncionarios = document.getElementById(
   "TelaDetalhesFuncionarios"
 );
+
+//Declara botoes para uso posterior
 const btnEditarDetalhesFuncionario = document.getElementById(
   "btnEditarDetalhesFuncionario"
 );
@@ -52,10 +59,41 @@ const btnEnviarDetalhesCliente = document.getElementById(
 const btnArchiveCliente = document.getElementById("btnArchiveCliente");
 const btnArchiveFuncionario = document.getElementById("btnArchiveFuncionario");
 
+//Declara Formularios
 const formDetCliente = document.getElementById("formDetalhesCliente");
 const formDetFuncionario = document.getElementById("formDetalhesFuncionario");
+const formCriarBaseFicha = document.getElementById("formCriarBaseFicha");
+const formInserirTreinoA = document.getElementById("formInserirTreinoA");
+const formInserirTreinoB = document.getElementById("formInserirTreinoB");
+const formInserirTreinoC = document.getElementById("formInserirTreinoC");
 
+//Declara Modal
 const modalCadastrarCliente = document.getElementById("modalCadastrarCliente");
+const modalCriarBaseFicha = document.getElementById("modalCriarBaseFicha");
+const modalCadastrarFuncionario = document.getElementById(
+  "modalCadastrarFuncionario"
+);
+const modalArquivarCliente = document.getElementById(
+  "modalArquivarCliente"
+);
+const modalArquivarFuncionario = document.getElementById(
+  "modalArquivarFuncionario"
+);
+const fecharModalCadastrarCliente = document.getElementById(
+  "fecharModalCadastrarCliente"
+);
+const fecharModalCadastrarFuncionario = document.getElementById(
+  "fecharModalCadastrarFuncionario"
+);
+const fecharModalCriarBaseFicha = document.getElementById(
+  "fecharModalCriarBaseFicha"
+);
+const fecharModalArquivarCliente = document.getElementById(
+  "fecharModalArquivarCliente"
+);
+const fecharModalArquivarFuncionario = document.getElementById(
+  "fecharModalArquivarFuncionario"
+);
 
 //btnResumo
 btnResumo.firstChild.parentNode.style.backgroundColor = "#FC0404";
@@ -84,6 +122,8 @@ btnFuncionario.addEventListener("click", (e) => {
 document.addEventListener("DOMContentLoaded", async function () {
   await UpdateListaCliente();
   await UpdateListaFuncionario();
+  await UpdateListaClienteFicha();
+  await PreencherSelectProfessores();
 });
 
 //Abrir Modal Cliente
@@ -95,11 +135,7 @@ document
     modalCadastrarCliente.style.display = "block";
   });
 
-//Fechar Modal Cliente
-
-const fecharModalCadastrarCliente = document.getElementById(
-  "fecharModalCadastrarCliente"
-);
+//Fechar Modal Cadastrar Cliente
 
 fecharModalCadastrarCliente.onclick = function () {
   modalCadastrarCliente.style.display = "none";
@@ -112,6 +148,48 @@ window.onclick = function (event) {
     modalCadastrarCliente.style.display = "none";
   }
 };
+
+//Fechar Modal Arquivar Cliente
+
+fecharModalArquivarCliente.onclick = function () {
+  modalArquivarCliente.style.display = "none";
+};
+
+//Clicar Fora fecha o Modal Arquivar Cliente
+
+window.onclick = function (event) {
+  if (event.target == modalArquivarCliente) {
+    modalArquivarCliente.style.display = "none";
+  }
+};
+
+//Fechar Modal Arquivar Funcionario
+
+fecharModalArquivarFuncionario.onclick = function () {
+  modalArquivarFuncionario.style.display = "none";
+};
+
+//Clicar Fora fecha o Modal Arquivar Funcionario
+
+window.onclick = function (event) {
+  if (event.target == modalArquivarFuncionario) {
+    modalArquivarFuncionario.style.display = "none";
+  }
+};
+
+//Fechar Modal Criar Base Ficha
+
+fecharModalCriarBaseFicha.onclick = function () {
+  modalCriarBaseFicha.style.display = "none";
+};
+
+//Clicar Fora fecha o Modal Criar Base Ficha
+
+window.onclick = function (event) {
+  if (event.target == modalCriarBaseFicha) {
+    modalCriarBaseFicha.style.display = "none";
+  }
+};
 //Abrir Modal Funcionario
 
 document
@@ -122,10 +200,6 @@ document
   });
 
 //Fechar Modal Funcionario
-
-const fecharModalCadastrarFuncionario = document.getElementById(
-  "fecharModalCadastrarFuncionario"
-);
 
 fecharModalCadastrarFuncionario.onclick = function () {
   modalCadastrarFuncionario.style.display = "none";
@@ -224,7 +298,6 @@ function MostrarTela(tela) {
   });
   btnEnviarDetalhesCliente.style.display = "none";
   btnEditarDetalhesCliente.style.display = "block";
-  formDetCliente.reset();
 
   let inputsFuncionario = formDetFuncionario.querySelectorAll(
     "input, select, textarea"
@@ -234,11 +307,19 @@ function MostrarTela(tela) {
     btnEnviarDetalhesFuncionario.style.display = "none";
     btnEditarDetalhesFuncionario.style.display = "block";
   });
-  formDetFuncionario.reset();
 
   TelaDetalhesClientes.style.display = "none";
   TelaDetalhesFuncionarios.style.display = "none";
-
+  TelaCriarFicha.style.display = "none";
+  document.getElementById("listaTreinoA").innerHTML = "";
+  document.getElementById("listaTreinoB").innerHTML = "";
+  document.getElementById("listaTreinoC").innerHTML = "";
+  formDetCliente.reset();
+  formDetFuncionario.reset();
+  formCriarBaseFicha.reset();
+  formInserirTreinoA.reset();
+  formInserirTreinoB.reset();
+  formInserirTreinoC.reset();
   switch (tela) {
     case "TelaResumo":
       btnResumo.firstChild.parentNode.style.backgroundColor = "#FC0404";
@@ -367,7 +448,7 @@ async function UpdateListaCliente() {
 }
 
 async function UpdateListaFuncionario() {
-  const result = await ReadFuncionario(idAcademia);
+  const result = await ReadFuncionario(1, idAcademia);
   const containerTabela = document.getElementById("tableFuncionarios");
   const tabelaExistente = containerTabela.querySelector("table");
 
@@ -415,6 +496,227 @@ async function UpdateListaFuncionario() {
   });
 
   document.getElementById("tableFuncionarios").appendChild(tabela);
+}
+
+async function UpdateListaClienteFicha() {
+  const result = await ReadClienteFicha(idAcademia);
+  //Colocar em alguma lista
+  const containerTabela = document.getElementById("tableClientesFicha");
+  const tabelaExistente = containerTabela.querySelector("table");
+  if (tabelaExistente) {
+    containerTabela.removeChild(tabelaExistente);
+  }
+  const tabela = document.createElement("table");
+  tabela.setAttribute("border", "1");
+
+  const cabecalho = tabela.createTHead();
+  const linhaCabecalho = cabecalho.insertRow();
+  const titulos = ["Id", "Nome", "Possui Ficha", "Ficha"];
+  titulos.forEach((texto) => {
+    let th = document.createElement("th");
+    th.textContent = texto;
+    linhaCabecalho.appendChild(th);
+  });
+
+  const corpoTabela = tabela.appendChild(document.createElement("tbody"));
+
+  result.forEach((item) => {
+    const linha = corpoTabela.insertRow();
+    let PossuiFicha = item.ClienteExisteNaFicha === 0 ? "Não" : "Sim";
+    const camposSelecionados = ["cliId", "cliNome"];
+
+    camposSelecionados.forEach((campo) => {
+      if (item.hasOwnProperty(campo)) {
+        let celula = linha.insertCell();
+        celula.textContent = item[campo];
+      }
+    });
+
+    let celulaPossuiFicha = linha.insertCell();
+    celulaPossuiFicha.textContent = PossuiFicha;
+
+    let celulaBotao = linha.insertCell();
+    if (item.ClienteExisteNaFicha === 1) {
+      let botaoDetalhes = document.createElement("button");
+      botaoDetalhes.textContent = "Ver";
+      botaoDetalhes.addEventListener("click", function () {
+        MostrarTelaCriarFicha(item.cliId);
+      });
+      celulaBotao.appendChild(botaoDetalhes);
+    } else {
+      let botaoCriarFicha = document.createElement("button");
+      botaoCriarFicha.textContent = "Criar";
+      botaoCriarFicha.addEventListener("click", function () {
+        modalCriarBaseFicha.style.display = "block";
+        document.getElementById("cliIdFicha").value = item.cliId;
+      });
+      celulaBotao.appendChild(botaoCriarFicha);
+    }
+  });
+
+  document.getElementById("tableClientesFicha").appendChild(tabela);
+}
+
+async function UpdateClienteFichaTreinoA(cliId) {
+  const result = await ReadFichaDetalhes(cliId, "A");
+  //Colocar em alguma lista
+  if (result.length > 0) {
+    const containerTabela = document.getElementById("listaTreinoA");
+    const tabelaExistente = containerTabela.querySelector("table");
+    if (tabelaExistente) {
+      containerTabela.removeChild(tabelaExistente);
+    }
+    const tabela = document.createElement("table");
+    tabela.setAttribute("border", "1");
+
+    const cabecalho = tabela.createTHead();
+    const linhaCabecalho = cabecalho.insertRow();
+    const titulos = ["Variação", "Carga", "Serie", "Repetição"];
+    titulos.forEach((texto) => {
+      let th = document.createElement("th");
+      th.textContent = texto;
+      linhaCabecalho.appendChild(th);
+    });
+
+    const corpoTabela = tabela.appendChild(document.createElement("tbody"));
+
+    result.forEach((item) => {
+      const linha = corpoTabela.insertRow();
+      const camposSelecionados = [
+        "detVariacao",
+        "detCarga",
+        "detSerie",
+        "detRepeticao",
+      ];
+
+      camposSelecionados.forEach((campo) => {
+        if (item.hasOwnProperty(campo)) {
+          let celula = linha.insertCell();
+          celula.textContent = item[campo];
+        }
+      });
+
+      //Fazer botao Editar
+      // let celulaBotao = linha.insertCell();
+      //   let botaoCriarFicha = document.createElement("button");
+      //   botaoCriarFicha.textContent = "Criar";
+      //   botaoCriarFicha.addEventListener("click", function () {
+      //     document.getElementById("modalCriarBaseFicha").style.display = "block";
+      //     document.getElementById("cliIdFicha").value = item.cliId
+      //   });
+      //   celulaBotao.appendChild(botaoCriarFicha);
+    });
+
+    document.getElementById("listaTreinoA").appendChild(tabela);
+  }
+}
+
+async function UpdateClienteFichaTreinoB(cliId) {
+  const result = await ReadFichaDetalhes(cliId, "B");
+  //Colocar em alguma lista
+  if (result.length > 0) {
+    const containerTabela = document.getElementById("listaTreinoB");
+    const tabelaExistente = containerTabela.querySelector("table");
+    if (tabelaExistente) {
+      containerTabela.removeChild(tabelaExistente);
+    }
+    const tabela = document.createElement("table");
+    tabela.setAttribute("border", "1");
+
+    const cabecalho = tabela.createTHead();
+    const linhaCabecalho = cabecalho.insertRow();
+    const titulos = ["Variação", "Carga", "Serie", "Repetição"];
+    titulos.forEach((texto) => {
+      let th = document.createElement("th");
+      th.textContent = texto;
+      linhaCabecalho.appendChild(th);
+    });
+
+    const corpoTabela = tabela.appendChild(document.createElement("tbody"));
+
+    result.forEach((item) => {
+      const linha = corpoTabela.insertRow();
+      const camposSelecionados = [
+        "detVariacao",
+        "detCarga",
+        "detSerie",
+        "detRepeticao",
+      ];
+
+      camposSelecionados.forEach((campo) => {
+        if (item.hasOwnProperty(campo)) {
+          let celula = linha.insertCell();
+          celula.textContent = item[campo];
+        }
+      });
+
+      //Fazer botao Editar
+      // let celulaBotao = linha.insertCell();
+      //   let botaoCriarFicha = document.createElement("button");
+      //   botaoCriarFicha.textContent = "Criar";
+      //   botaoCriarFicha.addEventListener("click", function () {
+      //     document.getElementById("modalCriarBaseFicha").style.display = "block";
+      //     document.getElementById("cliIdFicha").value = item.cliId
+      //   });
+      //   celulaBotao.appendChild(botaoCriarFicha);
+    });
+
+    document.getElementById("listaTreinoB").appendChild(tabela);
+  }
+}
+
+async function UpdateClienteFichaTreinoC(cliId) {
+  const result = await ReadFichaDetalhes(cliId, "C");
+  //Colocar em alguma lista
+  if (result.length > 0) {
+    const containerTabela = document.getElementById("listaTreinoC");
+    const tabelaExistente = containerTabela.querySelector("table");
+    if (tabelaExistente) {
+      containerTabela.removeChild(tabelaExistente);
+    }
+    const tabela = document.createElement("table");
+    tabela.setAttribute("border", "1");
+
+    const cabecalho = tabela.createTHead();
+    const linhaCabecalho = cabecalho.insertRow();
+    const titulos = ["Variação", "Carga", "Serie", "Repetição"];
+    titulos.forEach((texto) => {
+      let th = document.createElement("th");
+      th.textContent = texto;
+      linhaCabecalho.appendChild(th);
+    });
+
+    const corpoTabela = tabela.appendChild(document.createElement("tbody"));
+
+    result.forEach((item) => {
+      const linha = corpoTabela.insertRow();
+      const camposSelecionados = [
+        "detVariacao",
+        "detCarga",
+        "detSerie",
+        "detRepeticao",
+      ];
+
+      camposSelecionados.forEach((campo) => {
+        if (item.hasOwnProperty(campo)) {
+          let celula = linha.insertCell();
+          celula.textContent = item[campo];
+        }
+      });
+
+      //Fazer botao Editar
+      // let celulaBotao = linha.insertCell();
+      //   let botaoCriarFicha = document.createElement("button");
+      //   botaoCriarFicha.textContent = "Criar";
+      //   botaoCriarFicha.addEventListener("click", function () {
+      //     document.getElementById("modalCriarBaseFicha").style.display = "block";
+      //     document.getElementById("cliIdFicha").value = item.cliId
+      //   });
+      //   celulaBotao.appendChild(botaoCriarFicha);
+    });
+
+    document.getElementById("listaTreinoC").appendChild(tabela);
+  }
 }
 
 function Detalhes(linha) {
@@ -478,7 +780,7 @@ btnEnviarDetalhesCliente.addEventListener("click", async (e) => {
 
 btnArchiveCliente.addEventListener("click", async (e) => {
   e.preventDefault();
-  document.getElementById("modalArquivarCliente").style.display = "block";
+  modalArquivarCliente.style.display = "block";
 });
 
 const formArquivarCliente = document.getElementById("formArquivarCliente");
@@ -490,7 +792,7 @@ formArquivarCliente.addEventListener("submit", async (e) => {
   let cliId = document.getElementById("cliDetId").value;
   await ArchiveCliente(cliId);
   formDetCliente.reset();
-  document.getElementById("modalArquivarCliente").style.display = "none";
+  modalArquivarCliente.style.display = "none";
   await UpdateListaCliente();
   MostrarTela("TelaClientes");
 });
@@ -552,7 +854,7 @@ btnEnviarDetalhesFuncionario.addEventListener("click", async (e) => {
 
 btnArchiveFuncionario.addEventListener("click", (e) => {
   e.preventDefault();
-  document.getElementById("modalArquivarFuncionario").style.display = "block";
+  modalArquivarFuncionario.style.display = "block";
 });
 
 const formArquivarFuncionario = document.getElementById(
@@ -566,13 +868,150 @@ formArquivarFuncionario.addEventListener("submit", async (e) => {
   let funId = document.getElementById("funDetId").value;
   await ArchiveFuncionario(funId);
   formDetFuncionario.reset();
-  document.getElementById("modalArquivarFuncionario").style.display = "none";
+  modalArquivarFuncionario.style.display = "none";
   await UpdateListaFuncionario();
   MostrarTela("TelaFuncionarios");
 });
+
+//LOGOUT
 
 document.getElementById("btnLogout").addEventListener("click", (e) => {
   e.preventDefault();
   localStorage.setItem("dados", "");
   window.location.href = "../index.html";
+});
+
+//CHECKBOX POSSUI RESTRIÇÕES
+
+let CheckBoxRestricoes = document.getElementById("ficRestricoes");
+CheckBoxRestricoes.addEventListener("change", (e) => {
+  document.getElementById("ficTipoRestricoes").value = "";
+  if (CheckBoxRestricoes.checked) {
+    document.getElementById("ficTipoRestricoesSpan").style.display = "block";
+  } else {
+    document.getElementById("ficTipoRestricoesSpan").style.display = "none";
+  }
+});
+
+//Form criar base da ficha (parte de cima da foto)
+formCriarBaseFicha.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const data = Object.fromEntries(fd.entries());
+  data.ficRestricoes === "on"
+    ? (data.ficRestricoes = 1)
+    : (data.ficRestricoes = 0);
+  const result = await RegisterBaseFicha(idAcademia, data);
+  await UpdateListaClienteFicha();
+  document.getElementById("modalCriarBaseFicha").style.display = "none";
+  MostrarTelaCriarFicha(data.ficCliId);
+});
+
+async function MostrarTelaCriarFicha(cliId) {
+  MostrarTela();
+  TelaCriarFicha.style.display = "block";
+  await UpdateClienteFichaTreinoA(cliId);
+  await UpdateClienteFichaTreinoB(cliId);
+  await UpdateClienteFichaTreinoC(cliId);
+  const result = await ReadFichaDetalhesGeral(cliId);
+  const dadosCliente = await ReadClienteDetalhes(
+    idAcademia,
+    result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente
+  );
+  const dadosFuncionario = await ReadFuncionarioDetalhes(
+    idAcademia,
+    result.length > 0 ? result[0].ficIdFuncionario : result.ficIdFuncionario
+  );
+  document.getElementById("idFichaTreinoA").value =
+    result.length > 0 ? result[0].ficId : result.ficId;
+  document.getElementById("idFichaTreinoB").value =
+    result.length > 0 ? result[0].ficId : result.ficId;
+  document.getElementById("idFichaTreinoC").value =
+    result.length > 0 ? result[0].ficId : result.ficId;
+  document.getElementById("cliIdFichaTreinoA").value =
+    result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente;
+  document.getElementById("cliIdFichaTreinoB").value =
+    result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente;
+  document.getElementById("cliIdFichaTreinoC").value =
+    result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente;
+  document.getElementById("cliNomeCriarFicha").innerHTML = dadosCliente.cliNome;
+  document.getElementById("funNomeCriarFicha").innerHTML =
+    dadosFuncionario.funNome;
+  document.getElementById("funSelectCriarFicha");
+  document.getElementById("cliRestricoesCriarFicha").checked =
+    result.length > 0
+      ? result[0].ficRestricoes == 1
+      : result.ficRestricoes == 1;
+  if (
+    result.length > 0 ? result[0].ficRestricoes == 1 : result.ficRestricoes == 1
+  ) {
+    document.getElementById("cliRestricoesTipoCriarFicha").style.display =
+      "block";
+    document.getElementById("cliRestricoesTipoCriarFicha").innerHTML +=
+      result.length > 0
+        ? result[0].ficTipoRestricoes
+        : result.ficTipoRestricoes;
+  } else {
+    document.getElementById("cliRestricoesTipoCriarFicha").style.display =
+      "none";
+  }
+  document.getElementById("cliIntervaloCriarFicha").innerHTML =
+    result.length > 0 ? result[0].ficIntervalo : result.ficIntervalo;
+}
+
+async function PreencherSelectProfessores() {
+  const result = await ReadFuncionario(1, idAcademia);
+  result.forEach((item) => {
+    document.getElementById(
+      "funFicha"
+    ).innerHTML += `<option value=${item.funId}>${item.funNome}</option>`;
+  });
+}
+
+formInserirTreinoA.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const data = Object.fromEntries(fd.entries());
+  const cliIdFichaTreinoA = document.getElementById("cliIdFichaTreinoA").value;
+  const idFicha = document.getElementById("idFichaTreinoA").value;
+  data.detIdFicha = idFicha;
+  data.detTreino = "A";
+  const result = await RegisterDetalhesFicha(data);
+  await UpdateClienteFichaTreinoA(cliIdFichaTreinoA);
+  formInserirTreinoA.querySelector(`[name="detVariacao"]`).value = "";
+  formInserirTreinoA.querySelector(`[name="detSerie"]`).value = "";
+  formInserirTreinoA.querySelector(`[name="detRepeticao"]`).value = "";
+  formInserirTreinoA.querySelector(`[name="detCarga"]`).value = "";
+});
+
+formInserirTreinoB.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const data = Object.fromEntries(fd.entries());
+  const cliIdFichaTreinoB = document.getElementById("cliIdFichaTreinoB").value;
+  const idFicha = document.getElementById("idFichaTreinoB").value;
+  data.detIdFicha = idFicha;
+  data.detTreino = "B";
+  const result = await RegisterDetalhesFicha(data);
+  await UpdateClienteFichaTreinoB(cliIdFichaTreinoB);
+  formInserirTreinoB.querySelector(`[name="detVariacao"]`).value = "";
+  formInserirTreinoB.querySelector(`[name="detSerie"]`).value = "";
+  formInserirTreinoB.querySelector(`[name="detRepeticao"]`).value = "";
+  formInserirTreinoB.querySelector(`[name="detCarga"]`).value = "";
+});
+
+formInserirTreinoC.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const data = Object.fromEntries(fd.entries());
+  const cliIdFichaTreinoC = document.getElementById("cliIdFichaTreinoC").value;
+  const idFicha = document.getElementById("idFichaTreinoC").value;
+  data.detIdFicha = idFicha;
+  data.detTreino = "C";
+  const result = await RegisterDetalhesFicha(data);
+  await UpdateClienteFichaTreinoC(cliIdFichaTreinoC);
+  formInserirTreinoC.querySelector(`[name="detVariacao"]`).value = "";
+  formInserirTreinoC.querySelector(`[name="detSerie"]`).value = "";
+  formInserirTreinoC.querySelector(`[name="detRepeticao"]`).value = "";
+  formInserirTreinoC.querySelector(`[name="detCarga"]`).value = "";
 });

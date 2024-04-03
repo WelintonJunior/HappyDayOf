@@ -1,4 +1,3 @@
-
 //READ
 
 async function ReadPlanos(idAcademia) {
@@ -68,15 +67,54 @@ async function ReadCliente(idAcademia) {
   return result;
 }
 
-async function ReadFuncionario(idAcademia) {
+async function ReadFuncionario(nivel, idAcademia) {
   const response = await fetch("http://localhost:3000/Administrador", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
+      data: nivel,
       idAcademia,
       acao: "ReadFuncionarios",
     }),
   });
+  const result = await response.json();
+  return result;
+}
+
+async function ReadClienteFicha() {
+  const response = await fetch("http://localhost:3000/Ficha", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      acao: "ReadClienteFicha",
+    }),
+  });
+  const result = await response.json();
+  return result;
+}
+
+async function ReadFichaDetalhes (cliId, tipo) {
+  const response = await fetch("http://localhost:3000/Ficha", {
+    method: "POST",
+    headers: {"Content-Type" : "application/json"},
+    body: JSON.stringify({
+      data: {cliId, tipo},
+      acao: "ReadFichaDetalhes"
+    })
+  })
+  const result = await response.json();
+  return result;
+}
+
+async function ReadFichaDetalhesGeral (cliId) {
+  const response = await fetch("http://localhost:3000/Ficha", {
+    method: "POST",
+    headers: {"Content-Type" : "application/json"},
+    body: JSON.stringify({
+      data: cliId,
+      acao: "ReadFichaDetalhesGeral"
+    })
+  })
   const result = await response.json();
   return result;
 }
@@ -123,6 +161,33 @@ async function ArchiveCliente(idCliente) {
 
   const result = await response.json();
   return result;
+}
+
+async function RegisterBaseFicha(idAcademia, data) {
+  const response = await fetch("http://localhost:3000/Ficha", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      data,
+      idAcademia,
+      acao: "RegisterFicha",
+    }),
+  });
+  const result = await response.json();
+  return result;
+}
+
+async function RegisterDetalhesFicha(data) {
+  const response = await fetch("http://localhost:3000/Ficha", {
+    method: "POST",
+    headers: {"Content-Type" : "application/json"},
+    body: JSON.stringify({
+      data,
+      acao: "RegisterDetalhesFicha"
+    })
+  })
+  const result = await response.json();
+  return result
 }
 
 //ARCHIVE

@@ -186,8 +186,8 @@ app.post("/Administrador", (req, res) => {
       break;
     case "ReadFuncionarios":
       db.query(
-        "select * from tblFuncionario where funIdAcad = ? order by funStatus desc",
-        [idAcademia],
+        "select * from tblFuncionario where funIdAcad = ? and funNivel = ? order by funStatus desc",
+        [idAcademia, data],
         (err, results) => {
           if (err) {
             return res.json(err);
@@ -397,6 +397,20 @@ app.post("/Administrador", (req, res) => {
 app.post("/Ficha", (req, res) => {
   const { acao, data, idAcademia } = req.body;
   switch (acao) {
+    case "ReadClienteFicha":
+      db.query(
+        "SELECT c.*, CASE WHEN f.ficIdCliente IS NOT NULL THEN 1 ELSE 0 END AS ClienteExisteNaFicha  FROM tblCliente AS c LEFT JOIN tblFicha AS f ON c.cliId = f.ficIdCliente GROUP BY c.cliId",
+        (err, results) => {
+          if (err) {
+            return res.json(err);
+          }
+          if (results[0].length === 0) {
+            return res.json(false);
+          }
+          res.send(results);
+        }
+      );
+      break;
     case "ReadFicha":
       db.query(
         "select * from tblFicha where ficIdCliente = ? and ficIdAcademia = ?",
@@ -426,21 +440,73 @@ app.post("/Ficha", (req, res) => {
         }
       );
       break;
-    case "ReadLastFicha":
+    case "ReadFichaDetalhes":
       db.query(
-        "SELECT * FROM tblFicha ORDER BY ficId DESC LIMIT 1",
+        "select fic.*, det.* from tblFicha as fic join tblFichaDetalhes as det on fic.ficId = det.detIdFicha where fic.ficIdCliente = ? and det.detTreino = ?",
+        [data.cliId, data.tipo],
         (err, results) => {
           if (err) {
             return res.json(err);
           }
-          res.send(results);
+          if (results.length === 0) {
+            db.query(
+              "select * from tblFicha where ficIdCliente = ?",
+              [data],
+              (err, result) => {
+                if (err) {
+                  return res.json(err);
+                }
+                if (result[0].length === 0) {
+                  return res.json(false);
+                }
+                res.send(result[0]);
+              }
+            );
+          } else {
+            res.send(results);
+          }
+        }
+      );
+      break;
+    case "ReadFichaDetalhesGeral":
+      db.query(
+        "select fic.*, det.* from tblFicha as fic join tblFichaDetalhes as det on fic.ficId = det.detIdFicha where fic.ficIdCliente = ?",
+        [data],
+        (err, results) => {
+          if (err) {
+            return res.json(err);
+          }
+          if (results.length === 0) {
+            db.query(
+              "select * from tblFicha where ficIdCliente = ?",
+              [data],
+              (err, result) => {
+                if (err) {
+                  return res.json(err);
+                }
+                if (result[0].length === 0) {
+                  return res.json(false);
+                }
+                res.send(result[0]);
+              }
+            );
+          } else {
+            res.send(results);
+          }
         }
       );
       break;
     case "RegisterFicha":
       db.query(
-        "insert into tblFicha values (default, ?, ?, ?)",
-        [data.cliId, data.funId, idAcademia],
+        "insert into tblFicha values (default, ?, ?, ?, ?, ? ,?)",
+        [
+          data.ficCliId,
+          data.funId,
+          idAcademia,
+          data.ficIntervalo,
+          data.ficRestricoes,
+          data.ficTipoRestricoes,
+        ],
         (err, results) => {
           if (err) {
             return res.json(err);
@@ -453,12 +519,12 @@ app.post("/Ficha", (req, res) => {
       db.query(
         "insert into tblFichaDetalhes values (default, ?, ?, ?, ?, ?, ?)",
         [
-          data.apaId,
           data.detVariacao,
           data.detCarga,
           data.detSerie,
           data.detRepeticao,
-          data.lastFicha,
+          data.detIdFicha,
+          data.detTreino,
         ],
         (err, results) => {
           if (err) {
@@ -483,6 +549,17 @@ app.post("/Ficha", (req, res) => {
       break;
   }
 });
+// case "ReadLastFicha":
+//   db.query(
+//     "SELECT * FROM tblFicha ORDER BY ficId DESC LIMIT 1",
+//     (err, results) => {
+//       if (err) {
+//         return res.json(err);
+//       }
+//       res.send(results);
+//     }
+//   );
+//   break;
 
 //DASHBOARD
 

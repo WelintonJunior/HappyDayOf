@@ -1,41 +1,53 @@
-
+body {
+  padding: 0;
+}
 
 /* Lista */
 
 .listBoxCliente,
 .listBoxFuncionario {
-    font-family: Arial, sans-serif;
-    overflow-x: auto; 
-    margin: 20px;
-    width: auto;
-    max-height: 300px;
-  }
-  
-  table {
-    width: 100%; 
-    border-collapse: collapse; 
-    table-layout: auto;
-  }
-  
-  th, td {
-    text-align: left; 
-    padding: 8px; 
-  }
-  
-  th {
-    background-color: #f2f2f2;
-    color: #333;
-  }
-  
-  tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  tr:hover {
-    background-color: #e8f4ff; 
-  }
-  
-  table, th, td {
-    border: 1px solid #ddd; 
-  }
-  
+  font-family: Arial, sans-serif;
+  overflow-x: auto;
+  margin: 20px;
+  width: auto;
+  max-height: 300px;
+}
+
+.listBoxClienteFicha {
+  font-family: Arial, sans-serif;
+  overflow-x: auto;
+  margin: 20px;
+  width: 40%;
+  max-height: 300px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 8px;
+}
+
+th {
+  background-color: #f2f2f2;
+  color: #333;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #e8f4ff;
+}
+
+table,
+th,
+td {
+  border: 1px solid #ddd;
+}
