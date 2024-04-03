@@ -267,6 +267,10 @@ document
     e.preventDefault();
     const fd = new FormData(e.target);
     const data = Object.fromEntries(fd.entries());
+    if(verificarNumeros(data.cliNome)) {
+      alert("O nome não pode conter números");
+      return
+    }
     await RegisterCliente(data, idAcademia);
     await UpdateListaCliente();
     modalCadastrarCliente.style.display = "none";
@@ -281,6 +285,10 @@ document
     e.preventDefault();
     const fd = new FormData(e.target);
     const data = Object.fromEntries(fd.entries());
+    if(verificarNumeros(data.funNome)) {
+      alert("O nome não pode conter números");
+      return
+    }
     await RegisterFuncionario(data, idAcademia);
     await UpdateListaFuncionario();
     modalCadastrarFuncionario.style.display = "none";
@@ -756,7 +764,7 @@ async function MostrarTelaDetalhesCliente(cliId) {
   });
 }
 
-//Função de Edição
+//Função de Edição CLiente
 
 btnEnviarDetalhesCliente.addEventListener("click", async (e) => {
   e.preventDefault();
@@ -764,6 +772,10 @@ btnEnviarDetalhesCliente.addEventListener("click", async (e) => {
   const fd = new FormData(formDetCliente);
   const data = Object.fromEntries(fd.entries());
   data.cliId = cliId;
+  if(verificarNumeros(data.cliNome)) {
+    alert("O nome não pode conter números");
+    return
+  }
   const result = await UpdateClienteDetalhes(data);
   Object.keys(result).forEach((key) => {
     let input = formDetCliente.querySelector(`[name="${key}"]`);
@@ -776,7 +788,7 @@ btnEnviarDetalhesCliente.addEventListener("click", async (e) => {
   MostrarTela("TelaClientes");
 });
 
-//Função de mostrar o modal
+//Função de mostrar o modal Arquivar Cliente
 
 btnArchiveCliente.addEventListener("click", async (e) => {
   e.preventDefault();
@@ -785,7 +797,7 @@ btnArchiveCliente.addEventListener("click", async (e) => {
 
 const formArquivarCliente = document.getElementById("formArquivarCliente");
 
-//Função de Arquivamento
+//Função de Arquivamento Cliente
 
 formArquivarCliente.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -829,7 +841,7 @@ async function MostrarTelaDetalhesFuncionario(funId) {
   });
 }
 
-//Função de Edição
+//Função de Edição Funcionario
 
 btnEnviarDetalhesFuncionario.addEventListener("click", async (e) => {
   e.preventDefault();
@@ -838,6 +850,10 @@ btnEnviarDetalhesFuncionario.addEventListener("click", async (e) => {
   const data = Object.fromEntries(fd.entries());
 
   data.funId = funId;
+  if(verificarNumeros(data.funNome)) {
+    alert("O nome não pode conter números");
+    return
+  }
   const result = await UpdateFuncionarioDetalhes(data);
   Object.keys(result).forEach((key) => {
     let input = formDetFuncionario.querySelector(`[name="${key}"]`);
@@ -850,12 +866,14 @@ btnEnviarDetalhesFuncionario.addEventListener("click", async (e) => {
   MostrarTela("TelaFuncionarios");
 });
 
-//Função de Mostrar o Modal
+//Função de Mostrar o Modal Arquivar Cliente
 
 btnArchiveFuncionario.addEventListener("click", (e) => {
   e.preventDefault();
   modalArquivarFuncionario.style.display = "block";
 });
+
+//Função de arquivar o cliente
 
 const formArquivarFuncionario = document.getElementById(
   "formArquivarFuncionario"

@@ -217,3 +217,13 @@ async function cepAutomatico(cep) {
     return null;
   }
 }
+
+function verificarNumeros(string) {
+  const regex = /\d/;
+
+  if (regex.test(string)) {
+    return "A string não pode conter números.";
+  } else {
+    return null;
+  }
+}
