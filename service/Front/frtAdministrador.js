@@ -1,5 +1,7 @@
 ADMINISTRADOR = 1;
 let dados = [];
+
+//Verifica se está logado
 try {
   //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
   const dadosFromLocalStorage = JSON.parse(localStorage.getItem("dados"));
@@ -623,8 +625,8 @@ async function UpdateClienteFichaTreinoA(cliId) {
         if (item.hasOwnProperty(campo)) {
           let celula = linha.insertCell();
           celula.innerHTML = item[campo];
-          celula.setAttribute("data-detId", item.detId);
-          celula.setAttribute("data-campo", campo); // Adiciona um atributo data-campo com o nome do campo
+          celula.setAttribute("data-detId", item.detId); 
+          celula.setAttribute("data-campo", campo); 
 
           celula.addEventListener("dblclick", async (e) => {
             if (celula.querySelector("input")) return;
@@ -661,16 +663,6 @@ async function UpdateClienteFichaTreinoA(cliId) {
         }
       });
     });
-
-    //Fazer botao Editar
-    // let celulaBotao = linha.insertCell();
-    //   let botaoCriarFicha = document.createElement("button");
-    //   botaoCriarFicha.textContent = "Criar";
-    //   botaoCriarFicha.addEventListener("click", function () {
-    //     document.getElementById("modalCriarBaseFicha").style.display = "block";
-    //     document.getElementById("cliIdFicha").value = item.cliId
-    //   });
-    //   celulaBotao.appendChild(botaoCriarFicha);
 
     document.getElementById("listaTreinoA").appendChild(tabela);
   }
@@ -713,7 +705,7 @@ async function UpdateClienteFichaTreinoB(cliId) {
           let celula = linha.insertCell();
           celula.innerHTML = item[campo];
           celula.setAttribute("data-detId", item.detId);
-          celula.setAttribute("data-campo", campo); // Adiciona um atributo data-campo com o nome do campo
+          celula.setAttribute("data-campo", campo);
 
           celula.addEventListener("dblclick", async (e) => {
             if (celula.querySelector("input")) return;
@@ -792,7 +784,7 @@ async function UpdateClienteFichaTreinoC(cliId) {
           let celula = linha.insertCell();
           celula.innerHTML = item[campo];
           celula.setAttribute("data-detId", item.detId);
-          celula.setAttribute("data-campo", campo); // Adiciona um atributo data-campo com o nome do campo
+          celula.setAttribute("data-campo", campo); 
 
           celula.addEventListener("dblclick", async (e) => {
             if (celula.querySelector("input")) return;
