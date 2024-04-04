@@ -1,5 +1,3 @@
-FUNCIONARIO = 1;
-
 //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
 
 const dados = JSON.parse(localStorage.getItem("dados"));

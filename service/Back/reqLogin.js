@@ -8,6 +8,7 @@ document.getElementById("formLogin").addEventListener("submit", async (e) => {
       if (sucessCliente) {
         alert("Sucesso!");
         localStorage.setItem("dados", JSON.stringify(sucessCliente));
+
         window.location.href = "../pages/cliente.html";
       } else {
         alert("Algo deu errado, verifique seu email e sua senha");

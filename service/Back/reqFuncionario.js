@@ -52,3 +52,14 @@ async function UpdateStatusAtendimento(idAcademia, data) {
   const result = await response.json();
   return result;
 }
+
+//Validação
+
+// const cliCelular = document.getElementById("cliCelular");
+// const cliDetCelular = document.getElementById("cliDetCelular");
+// const cliDetCpf = document.getElementById("cliDetCpf");
+// const cliCpf = document.getElementById("cliCpf");
+// cliCelular.addEventListener("input", () => FormatarCelular(cliCelular));
+// cliDetCelular.addEventListener("input", () => FormatarCelular(cliDetCelular));
+// cliDetCpf.addEventListener("input", () => HandleInputCpf(cliDetCpf));
+// cliCpf.addEventListener("input", () => HandleInputCpf(cliCpf));

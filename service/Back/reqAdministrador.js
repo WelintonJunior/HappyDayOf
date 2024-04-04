@@ -170,3 +170,24 @@ async function UpdateClienteDetalhes(data) {
   const result = await response.json();
   return result;
 }
+
+//Validação
+
+const cliCelular = document.getElementById("cliCelular");
+  const funCelular = document.getElementById("funCelular");
+  const cliDetCelular = document.getElementById("cliDetCelular");
+  const funDetCelular = document.getElementById("funDetCelular");
+  const funDetCpf = document.getElementById("funDetCpf");
+  const cliDetCpf = document.getElementById("cliDetCpf");
+  const cliCpf = document.getElementById("cliCpf");
+  const funCpf = document.getElementById("funCpf");
+  if(funCelular) {
+    funCelular.addEventListener("input", () => FormatarCelular(funCelular));
+    funDetCelular.addEventListener("input", () => FormatarCelular(funDetCelular));
+    funDetCpf.addEventListener("input", () => HandleInputCpf(funDetCpf));
+    funCpf.addEventListener("input", () => HandleInputCpf(funCpf));
+  }
+  cliCelular.addEventListener("input", () => FormatarCelular(cliCelular));
+  cliDetCelular.addEventListener("input", () => FormatarCelular(cliDetCelular));
+  cliDetCpf.addEventListener("input", () => HandleInputCpf(cliDetCpf));
+  cliCpf.addEventListener("input", () => HandleInputCpf(cliCpf));

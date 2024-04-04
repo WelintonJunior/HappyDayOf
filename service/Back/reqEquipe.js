@@ -79,3 +79,18 @@ async function InsertAcademiaToTheOptions() {
   admAcademia.innerHTML = "";
   admAcademia.innerHTML += `<option value='${result[0].acaId}'></option>`;
 }
+
+//Validação
+
+const admCpf = document.getElementById("admCpf");
+const acaTelefone = document.getElementById("acaTelefone");
+const acaCnpj = document.getElementById("acaCnpj");
+const acaCelular = document.getElementById("acaCelular");
+const admCelular = document.getElementById("admCelular");
+admCpf.addEventListener("input", () => HandleInputCpf(admCpf));
+acaCnpj.addEventListener("input", () => HandleInputCnpj(acaCnpj));
+acaCnpj.addEventListener("blur", () => HandleBlurCnpj(acaCnpj));
+acaTelefone.addEventListener("input", () => FormatarTelefone(acaTelefone));
+// admCpf.addEventListener("blur", () => validarCPF(admCpf.value));
+acaCelular.addEventListener("input", () => FormatarCelular(acaCelular));
+admCelular.addEventListener("input", () => FormatarCelular(admCelular));

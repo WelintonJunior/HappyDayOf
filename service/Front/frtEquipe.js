@@ -1,5 +1,3 @@
-EQUIPE = 1;
-
 let formAcademiaBox = document.getElementById("formAcademiaBox");
 let formAdministradorAcademiaBox = document.getElementById(
   "formAdministradorAcademiaBox"

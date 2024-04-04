@@ -1,4 +1,3 @@
-ADMINISTRADOR = 1;
 let dados = [];
 
 //Verifica se está logado
@@ -628,6 +627,7 @@ async function UpdateClienteFichaTreinoA(cliId) {
           celula.setAttribute("data-detId", item.detId); 
           celula.setAttribute("data-campo", campo); 
 
+          //Pra celular não funciona(LEMBRANDO EU MESMO) talvez mudar apenas para click
           celula.addEventListener("dblclick", async (e) => {
             if (celula.querySelector("input")) return;
 
