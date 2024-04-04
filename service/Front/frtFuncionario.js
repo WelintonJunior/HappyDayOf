@@ -437,19 +437,44 @@ async function UpdateClienteFichaTreinoA(cliId) {
       camposSelecionados.forEach((campo) => {
         if (item.hasOwnProperty(campo)) {
           let celula = linha.insertCell();
-          celula.textContent = item[campo];
+          celula.innerHTML = item[campo];
+          celula.setAttribute("data-detId", item.detId);
+          celula.setAttribute("data-campo", campo); // Adiciona um atributo data-campo com o nome do campo
+
+          celula.addEventListener("dblclick", async (e) => {
+            if (celula.querySelector("input")) return;
+
+            let valorAnterior = celula.textContent;
+
+            let input = document.createElement("input");
+            input.setAttribute("placeholder", item[campo]);
+
+            input.value = valorAnterior;
+
+            celula.innerHTML = "";
+            celula.appendChild(input);
+
+            input.focus();
+
+            input.addEventListener("blur", async (e) => {
+              let novoValor = input.value;
+              const detId = celula.getAttribute("data-detid");
+              const campoEditado = celula.getAttribute("data-campo");
+
+              if (novoValor === "") {
+                celula.textContent = valorAnterior;
+              } else {
+                const data = {};
+                data.detId = detId;
+                data.detCampo = campoEditado;
+                data.valor = novoValor;
+                await UpdateCampoFicha(data);
+              }
+              celula.textContent = novoValor;
+            });
+          });
         }
       });
-
-      //Fazer botao Editar
-      // let celulaBotao = linha.insertCell();
-      //   let botaoCriarFicha = document.createElement("button");
-      //   botaoCriarFicha.textContent = "Criar";
-      //   botaoCriarFicha.addEventListener("click", function () {
-      //     document.getElementById("modalCriarBaseFicha").style.display = "block";
-      //     document.getElementById("cliIdFicha").value = item.cliId
-      //   });
-      //   celulaBotao.appendChild(botaoCriarFicha);
     });
 
     document.getElementById("listaTreinoA").appendChild(tabela);
@@ -491,19 +516,44 @@ async function UpdateClienteFichaTreinoB(cliId) {
       camposSelecionados.forEach((campo) => {
         if (item.hasOwnProperty(campo)) {
           let celula = linha.insertCell();
-          celula.textContent = item[campo];
+          celula.innerHTML = item[campo];
+          celula.setAttribute("data-detId", item.detId);
+          celula.setAttribute("data-campo", campo); // Adiciona um atributo data-campo com o nome do campo
+
+          celula.addEventListener("dblclick", async (e) => {
+            if (celula.querySelector("input")) return;
+
+            let valorAnterior = celula.textContent;
+
+            let input = document.createElement("input");
+            input.setAttribute("placeholder", item[campo]);
+
+            input.value = valorAnterior;
+
+            celula.innerHTML = "";
+            celula.appendChild(input);
+
+            input.focus();
+
+            input.addEventListener("blur", async (e) => {
+              let novoValor = input.value;
+              const detId = celula.getAttribute("data-detid");
+              const campoEditado = celula.getAttribute("data-campo");
+
+              if (novoValor === "") {
+                celula.textContent = valorAnterior;
+              } else {
+                const data = {};
+                data.detId = detId;
+                data.detCampo = campoEditado;
+                data.valor = novoValor;
+                await UpdateCampoFicha(data);
+              }
+              celula.textContent = novoValor;
+            });
+          });
         }
       });
-
-      //Fazer botao Editar
-      // let celulaBotao = linha.insertCell();
-      //   let botaoCriarFicha = document.createElement("button");
-      //   botaoCriarFicha.textContent = "Criar";
-      //   botaoCriarFicha.addEventListener("click", function () {
-      //     document.getElementById("modalCriarBaseFicha").style.display = "block";
-      //     document.getElementById("cliIdFicha").value = item.cliId
-      //   });
-      //   celulaBotao.appendChild(botaoCriarFicha);
     });
 
     document.getElementById("listaTreinoB").appendChild(tabela);
@@ -545,19 +595,44 @@ async function UpdateClienteFichaTreinoC(cliId) {
       camposSelecionados.forEach((campo) => {
         if (item.hasOwnProperty(campo)) {
           let celula = linha.insertCell();
-          celula.textContent = item[campo];
+          celula.innerHTML = item[campo];
+          celula.setAttribute("data-detId", item.detId);
+          celula.setAttribute("data-campo", campo); // Adiciona um atributo data-campo com o nome do campo
+
+          celula.addEventListener("dblclick", async (e) => {
+            if (celula.querySelector("input")) return;
+
+            let valorAnterior = celula.textContent;
+
+            let input = document.createElement("input");
+            input.setAttribute("placeholder", item[campo]);
+
+            input.value = valorAnterior;
+
+            celula.innerHTML = "";
+            celula.appendChild(input);
+
+            input.focus();
+
+            input.addEventListener("blur", async (e) => {
+              let novoValor = input.value;
+              const detId = celula.getAttribute("data-detid");
+              const campoEditado = celula.getAttribute("data-campo");
+
+              if (novoValor === "") {
+                celula.textContent = valorAnterior;
+              } else {
+                const data = {};
+                data.detId = detId;
+                data.detCampo = campoEditado;
+                data.valor = novoValor;
+                await UpdateCampoFicha(data);
+              }
+              celula.textContent = novoValor;
+            });
+          });
         }
       });
-
-      //Fazer botao Editar
-      // let celulaBotao = linha.insertCell();
-      //   let botaoCriarFicha = document.createElement("button");
-      //   botaoCriarFicha.textContent = "Criar";
-      //   botaoCriarFicha.addEventListener("click", function () {
-      //     document.getElementById("modalCriarBaseFicha").style.display = "block";
-      //     document.getElementById("cliIdFicha").value = item.cliId
-      //   });
-      //   celulaBotao.appendChild(botaoCriarFicha);
     });
 
     document.getElementById("listaTreinoC").appendChild(tabela);
