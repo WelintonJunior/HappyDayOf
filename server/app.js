@@ -136,8 +136,49 @@ app.post("/Funcionario", (req, res) => {
   switch (acao) {
     case "RegisterAtendimento":
       db.query(
-        "insert into tblAtendimento values (default, ?, ?, ?, ?)",
-        [data.cliId, data.funId, data.dateNow, idAcademia],
+        "insert into tblAtendimento values (default, ?, ?, ?, ?, 1, null)",
+        [data.ateIdCliente, data.funId, data.dateNow, idAcademia],
+        (err, results) => {
+          if (err) {
+            return res.json(err);
+          }
+          res.send(results);
+        }
+      );
+      break;
+    case "ReadAtendimento":
+      db.query(
+        "select a.*,f.funId,c.cliNome from tblAtendimento as a join tblCliente as c on a.ateIdCliente = c.cliId join tblFuncionario as f on a.ateIdFuncionario = f.funId where a.ateIdAcad = ? and a.ateIdFuncionario = ? order by a.ateStatus desc",
+        [idAcademia, data],
+        (err, results) => {
+          if (err) {
+            return res.json(err);
+          }
+          res.send(results);
+        }
+      );
+      break;
+    case "ValidacaoAtendimento":
+      db.query(
+        "select a.*,f.funId,c.cliNome from tblAtendimento as a join tblCliente as c on a.ateIdCliente = c.cliId join tblFuncionario as f on a.ateIdFuncionario = f.funId where a.ateIdAcad = ? and a.ateIdFuncionario = ? and c.cliId = ? and a.ateStatus = 1",
+        [idAcademia, data.funId, data.ateIdCliente],
+        (err, results) => {
+          if (err) { 
+            return res.json(err);
+          }
+          if (
+            results.length > 0 ? results[0].length === 0 : results.length === 0
+          ) {
+            return res.json(true);
+          }
+          res.send(false);
+        }
+      );
+      break;
+    case "UpdateStatusAtendimento":
+      db.query(
+        "update tblAtendimento set ateStatus = 0, ateDateEncerramento = ? where ateId = ? and ateIdAcad = ?",
+        [data.dateNow, data.ateId, idAcademia],
         (err, results) => {
           if (err) {
             return res.json(err);
@@ -162,7 +203,9 @@ app.post("/Administrador", (req, res) => {
           if (err) {
             return res.json(err);
           }
-          if (results.length > 0 ? results[0].length === 0 : results.length === 0) {
+          if (
+            results.length > 0 ? results[0].length === 0 : results.length === 0
+          ) {
             return res.json(false);
           }
           res.send(results);
@@ -192,7 +235,9 @@ app.post("/Administrador", (req, res) => {
           if (err) {
             return res.json(err);
           }
-          if (results.length > 0 ? results[0].length === 0 : results.length === 0) {
+          if (
+            results.length > 0 ? results[0].length === 0 : results.length === 0
+          ) {
             return res.json(false);
           }
           res.send(results);
@@ -222,7 +267,9 @@ app.post("/Administrador", (req, res) => {
           if (err) {
             return res.json(err);
           }
-          if (results.length > 0 ? results[0].length === 0 : results.length === 0) {
+          if (
+            results.length > 0 ? results[0].length === 0 : results.length === 0
+          ) {
             return res.json(false);
           }
           res.send(results);
@@ -399,12 +446,15 @@ app.post("/Ficha", (req, res) => {
   switch (acao) {
     case "ReadClienteFicha":
       db.query(
-        "SELECT c.*, CASE WHEN f.ficIdCliente IS NOT NULL THEN 1 ELSE 0 END AS ClienteExisteNaFicha  FROM tblCliente AS c LEFT JOIN tblFicha AS f ON c.cliId = f.ficIdCliente where c.cliIdAcad = ? GROUP BY c.cliId", [idAcademia],
+        "SELECT c.*, CASE WHEN f.ficIdCliente IS NOT NULL THEN 1 ELSE 0 END AS ClienteExisteNaFicha  FROM tblCliente AS c LEFT JOIN tblFicha AS f ON c.cliId = f.ficIdCliente where c.cliIdAcad = ? GROUP BY c.cliId",
+        [idAcademia],
         (err, results) => {
           if (err) {
             return res.json(err);
           }
-          if (results.lenght > 0 ? results[0].length === 0 : results.length === 0) {
+          if (
+            results.lenght > 0 ? results[0].length === 0 : results.length === 0
+          ) {
             return res.json(false);
           }
           res.send(results);

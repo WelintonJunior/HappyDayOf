@@ -3,11 +3,525 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Professor</title>
     <link rel="stylesheet" href="../styles/index.css" />
+    <link rel="stylesheet" href="../styles/funcionario.css" />
     <link rel="stylesheet" href="../styles/nav.css" />
+    <link rel="stylesheet" href="../styles/modal.css" />
+    <link
+      rel="stylesheet"
+      href="../node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+
+    <link
+      rel="canonical"
+      href="https://getbootstrap.com/docs/5.0/examples/sidebars/"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+      integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+      crossorigin="anonymous"
+    />
+    <!-- Bootstrap core CSS -->
+    <!-- <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.34/moment-timezone-with-data.min.js"></script>
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
   </head>
   <body>
+    <div class="wrapper">
+      <nav id="sidebar">
+        <div class="sidebar-header">
+          <h4 id="funInfo"></h4>
+        </div>
+
+        <ul class="list-unstyled components ps-2">
+          <li id="btnAtendimento">
+            <a> <i class="bi bi-file-earmark-person-fill"> </i>Atendimento</a>
+          </li>
+          <li id="btnFicha">
+            <a><i class="bi bi-card-list"></i> Ficha</a>
+          </li>
+          <li id="btnCliente">
+            <a> <i class="bi bi-people"></i> Clientes</a>
+          </li>
+
+          <li>
+            <a
+              href="#pagSubmenu"
+              data-toggle="collapse"
+              aria-expanded="false"
+              class="dropdown-toggle"
+              id="maisPaginas"
+              >Mais Páginas</a
+            >
+            <ul class="collapse list-unstyled" id="pagSubmenu">
+              <li>
+                <a>Pag 1</a>
+              </li>
+              <li>
+                <a>Pag 2</a>
+              </li>
+              <li>
+                <a>Pag 3</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+
+        <ul class="list-unstyled CTAs">
+          <li>
+            <a href="#" class="btn1">Botão 1</a>
+          </li>
+          <li>
+            <a id="btnLogout" class="btn2">Logout</a>
+          </li>
+        </ul>
+      </nav>
+
+      <div id="content">
+        <button type="button" id="menuCollapse" class="btn btn-danger">
+          <i class="fas fa-align-left"></i>
+          <span>Alternar menu</span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent"></div>
+
+        <!-- Tela Atendimento -->
+
+        <div id="TelaAtendimento" style="display: block">
+          <div class="listBoxAtendimento" id="listBoxAtendimento">
+            <div id="tableAtendimento"></div>
+          </div>
+          <button id="btnCadastrarAtendimento">Cadastrar Atendimento</button>
+        </div>
+
+        <!-- Tela Ficha -->
+
+        <div id="TelaFicha" style="display: none">
+          <div class="listBoxClienteFicha" id="listBoxClienteFicha">
+            <div id="tableClientesFicha"></div>
+          </div>
+        </div>
+
+        <!-- Tela Clientes -->
+        <div id="TelaClientes" style="display: none">
+          <div class="listBoxCliente" id="listBoxCliente">
+            <div id="tableClientes"></div>
+          </div>
+          <button id="abrirModalRegisterCliente">Cadastrar Cliente</button>
+        </div>
+
+        <!-- Tela Detalhes Clientes -->
+
+        <div id="TelaDetalhesClientes" style="display: none">
+          <form id="formDetalhesCliente">
+            <br />
+            <div class="row">
+              <input type="text" class="d-none" id="cliDetId" name="cliId" />
+              <div class="col-6">
+                Nome: <input type="text" disabled name="cliNome" />
+              </div>
+              <div class="col-6">
+                Celular:
+                <input
+                  type="text"
+                  id="cliDetCelular"
+                  disabled
+                  name="cliCelular"
+                  maxlength="15"
+                />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6">
+                Cep: <input type="text" id="cliDetCep" disabled name="cliCep" />
+              </div>
+              <div class="col-6">
+                Cidade:
+                <input
+                  type="text"
+                  id="cliDetCidade"
+                  disabled
+                  name="cliCidade"
+                />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6">
+                Estado:
+                <input
+                  type="text"
+                  id="cliDetEstado"
+                  disabled
+                  name="cliEstado"
+                />
+              </div>
+              <div class="col-6">
+                Rua: <input type="text" disabled id="cliDetRua" name="cliRua" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                Numero: <input type="text" disabled name="cliNumeroRua" />
+              </div>
+              <div class="col-6">
+                Sexo: <input type="text" disabled name="cliSexo" />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6">
+                CPF:
+                <input
+                  type="text"
+                  id="cliDetCpf"
+                  maxlength="14"
+                  disabled
+                  name="cliCpf"
+                />
+              </div>
+              <div class="col-6">
+                Email: <input type="email" disabled name="cliEmail" />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6">
+                Data Inicio: <input type="date" disabled name="cliDataCmc" />
+              </div>
+              <div class="col-6">
+                Status: <input type="text" disabled name="cliStatus" />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6">
+                Plano: <input type="text" disabled name="cliPlano" />
+              </div>
+              <div class="col-6">
+                <button id="btnEditarDetalhesCliente" style="display: block">
+                  Editar
+                </button>
+                <button
+                  id="btnEnviarDetalhesCliente"
+                  style="display: none"
+                  type="submit"
+                >
+                  Enviar
+                </button>
+              </div>
+            </div>
+            <button id="btnArchiveCliente">Arquivar Cliente</button>
+          </form>
+        </div>
+
+        <!-- Tela Criar Ficha -->
+
+        <div id="TelaCriarFicha" style="display: none">
+          <form>
+            Cliente: <span id="cliNomeCriarFicha"></span> <br />
+            Professor:<span id="funNomeCriarFicha"></span> <br />
+            <select
+              style="display: none"
+              name="funSelectCriarFicha"
+              id="funSelectCriarFicha"
+            ></select>
+            Restrições:
+            <input
+              type="checkbox"
+              name="cliRestricoesCriarFicha"
+              id="cliRestricoesCriarFicha"
+            />
+            <span style="display: none" id="cliRestricoesTipoCriarFicha"
+              >Tipo de Restrições:
+            </span>
+            Intervalo: <span id="cliIntervaloCriarFicha"></span><br />
+          </form>
+
+          <br />
+          <div class="row">
+            <!-- Treino A -->
+            <div class="col-4 px-4">
+              Insira Para o treino A:
+              <div class="row" style="width: 100%">
+                <form id="formInserirTreinoA">
+                  <input type="text" class="d-none" id="cliIdFichaTreinoA" />
+                  <input type="text" class="d-none" id="idFichaTreinoA" />
+                  <input
+                    class="col-4"
+                    placeholder="Variação"
+                    type="text"
+                    name="detVariacao"
+                  />
+                  <input
+                    class="col-2"
+                    placeholder="Séries"
+                    type="text"
+                    name="detSerie"
+                  />
+                  <input
+                    class="col-2"
+                    placeholder="Repetições"
+                    type="text"
+                    name="detRepeticao"
+                  />
+                  <input
+                    class="col-2"
+                    placeholder="Carga"
+                    type="text"
+                    name="detCarga"
+                  />
+                  <button type="submit" class="col-2">Enter</button>
+                </form>
+
+                <div class="mt-2" id="listaTreinoA"></div>
+              </div>
+            </div>
+            <!-- Treino B -->
+            <div class="col-4 px-4">
+              Insira Para o treino B:
+              <div class="row">
+                <form id="formInserirTreinoB">
+                  <input type="text" class="d-none" id="cliIdFichaTreinoB" />
+                  <input type="text" class="d-none" id="idFichaTreinoB" />
+                  <input
+                    class="col-4"
+                    placeholder="Variação"
+                    type="text"
+                    name="detVariacao"
+                  />
+                  <input
+                    class="col-2"
+                    placeholder="Séries"
+                    type="text"
+                    name="detSerie"
+                  />
+                  <input
+                    class="col-2"
+                    placeholder="Repetições"
+                    type="text"
+                    name="detRepeticao"
+                  />
+                  <input
+                    class="col-2"
+                    placeholder="Carga"
+                    type="text"
+                    name="detCarga"
+                  />
+                  <button type="submit" class="col-2">Enter</button>
+                </form>
+
+                <div class="mt-2" id="listaTreinoB"></div>
+              </div>
+            </div>
+            <!-- Treino C -->
+            <div class="col-4 px-4">
+              Insira Para o treino C:
+              <div class="row" style="width: 100%">
+                <form id="formInserirTreinoC">
+                  <input type="text" class="d-none" id="cliIdFichaTreinoC" />
+                  <input type="text" class="d-none" id="idFichaTreinoC" />
+                  <input
+                    class="col-4"
+                    placeholder="Variação"
+                    type="text"
+                    name="detVariacao"
+                  />
+                  <input
+                    class="col-2"
+                    placeholder="Séries"
+                    type="text"
+                    name="detSerie"
+                  />
+                  <input
+                    class="col-2"
+                    placeholder="Repetições"
+                    type="text"
+                    name="detRepeticao"
+                  />
+                  <input
+                    class="col-2"
+                    placeholder="Carga"
+                    type="text"
+                    name="detCarga"
+                  />
+                  <button type="submit" class="col-2">Enter</button>
+                </form>
+
+                <div class="mt-2" id="listaTreinoC"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="modalCadastrarCliente" class="modal">
+      <div class="modal-conteudo">
+        <span id="fecharModalCadastrarCliente" class="fechar">&times;</span>
+        <form id="formCadastrarCliente">
+          <h2>Cadastrar Cliente</h2>
+          Nome: <input type="text" name="cliNome" required /> <br />
+          <br />
+          Plano:
+          <select name="cliPlano" id="cliPlano" required></select>
+          <br />
+          <br />
+          Celular:
+          <input
+            type="text"
+            id="cliCelular"
+            maxlength="15"
+            name="cliCelular"
+            required
+          />
+          <br />
+          <br />
+          Cep: <input type="text" id="cliCep" name="cliCep" /> <br />
+          <br />
+          Estado: <input type="text" id="cliEstado" name="cliEstado" /> <br />
+          <br />
+          Cidade: <input type="text" id="cliCidade" name="cliCidade" /> <br />
+          <br />
+          Rua: <input type="text" id="cliRua" name="cliRua" /> <br />
+          <br />
+          Numero Rua: <input type="text" name="cliNumeroRua" /> <br />
+          <br />
+          Sexo:
+          <select name="cliSexo" required>
+            <option value="M">Masculino</option>
+            <option value="F">Feminino</option>
+            <option value="P">Prefiro não dizer</option>
+          </select>
+          <br />
+          <br />
+          CPF:
+          <input
+            type="text"
+            maxlength="14"
+            id="cliCpf"
+            name="cliCpf"
+            required
+          />
+          <br />
+          <br />
+          Email: <input type="email" name="cliEmail" required /> <br />
+          <br />
+          <select class="d-none" name="cliAcademia" id="cliAcademia"></select>
+          Senha:
+          <input type="password" name="cliSenha" id="cliSenha" required />
+          <br />
+          <br />
+          <button type="submit">Enviar</button>
+        </form>
+      </div>
+    </div>
+    <div id="modalCadastrarAtendimento" class="modal">
+      <div class="modal-conteudo">
+        <span id="fecharModalCadastrarAtendimento" class="fechar">&times;</span>
+        <form id="formCadastrarAtendimento">
+          <h2>Cadastrar Atendimento</h2>
+          Selecione o Cliente:
+          <select name="ateIdCliente" id="selectClienteAtendimento"></select>
+          <button type="submit">Enviar</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="modalArquivarCliente" class="modal">
+      <div class="modal-conteudo">
+        <form id="formArquivarCliente">
+          <span id="fecharModalArquivarCliente" class="fechar">&times;</span>
+          Tem certeza?
+          <button type="submit">Enviar</button>
+        </form>
+      </div>
+    </div>
+    <div id="modalCriarBaseFicha" class="modal">
+      <div class="modal-conteudo">
+        <form id="formCriarBaseFicha">
+          <span id="fecharModalCriarBaseFicha" class="fechar">&times;</span>
+          <input class="d-none" name="ficCliId" type="text" id="cliIdFicha" />
+          Escolha um professor:
+          <select name="funId" id="funFicha"></select
+          ><br />
+          <br />
+          Possui Restrições?:
+          <input type="checkbox" name="ficRestricoes" id="ficRestricoes" />
+          <span id="ficTipoRestricoesSpan" style="display: none"
+            >Quais?:
+            <textarea
+              name="ficTipoRestricoes"
+              id="ficTipoRestricoes"
+              cols="30"
+              rows="1"
+            ></textarea></span
+          ><br />
+          <br />
+          Insira o Intervalo: <input name="ficIntervalo" type="time" /><br />
+          <br />
+          <button type="submit">Enviar</button>
+        </form>
+      </div>
+    </div>
+
     <script src="../service/Back/reqFuncionario.js"></script>
+    <script src="../service/Back/reqAdministrador.js"></script>
+    <script src="../service/Front/frtFuncionario.js"></script>
+    <script src="../service/Front/Validacao.js"></script>
+
+    <!-- <script src="../assets/dist/js/bootstrap.bundle.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/js/bootstrap.bundle.min.js"></script>
+
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
+      integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
+      integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Popper.JS -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+      integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Bootstrap JS -->
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+      integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+      crossorigin="anonymous"
+    ></script>
+    <script src="../service/Front/nav.js"></script>
   </body>
 </html>

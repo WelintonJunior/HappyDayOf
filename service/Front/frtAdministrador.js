@@ -1,4 +1,4 @@
-const ADMINISTRADOR = 1;
+ADMINISTRADOR = 1;
 let dados = [];
 try {
   //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
@@ -116,7 +116,6 @@ btnFuncionario.addEventListener("click", (e) => {
 });
 
 //Ver Clientes/Funcionarios
-
 document.addEventListener("DOMContentLoaded", async function () {
   await UpdateListaCliente();
   await UpdateListaFuncionario();
@@ -404,6 +403,8 @@ function MostrarTela(tela) {
   }
 }
 
+//Atualizar a Lista de Clientes
+
 async function UpdateListaCliente() {
   const result = await ReadCliente(idAcademia);
   //Colocar em alguma lista
@@ -461,6 +462,8 @@ async function UpdateListaCliente() {
   }
 }
 
+//Atualizar a Lista de Funcionarios
+
 async function UpdateListaFuncionario() {
   const result = await ReadFuncionario(1, idAcademia);
   const containerTabela = document.getElementById("tableFuncionarios");
@@ -517,6 +520,8 @@ async function UpdateListaFuncionario() {
 
   document.getElementById("tableFuncionarios").appendChild(tabela);
 }
+
+//Atualizar a Lista de Fichas
 
 async function UpdateListaClienteFicha() {
   const result = await ReadClienteFicha(idAcademia);
@@ -580,6 +585,8 @@ async function UpdateListaClienteFicha() {
 
   document.getElementById("tableClientesFicha").appendChild(tabela);
 }
+
+//Atualizar a A,B e C
 
 async function UpdateClienteFichaTreinoA(cliId) {
   const result = await ReadFichaDetalhes(cliId, "A");
@@ -742,6 +749,8 @@ async function UpdateClienteFichaTreinoC(cliId) {
     document.getElementById("listaTreinoC").appendChild(tabela);
   }
 }
+
+//Função de mostrar a tela de detalhes do Funcionario
 
 function Detalhes(linha) {
   const funId = linha.querySelector("[data-id]").getAttribute("data-id");

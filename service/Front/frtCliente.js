@@ -1,1 +1,1 @@
-const CLIENTE = 0;
+CLIENTE = 1;

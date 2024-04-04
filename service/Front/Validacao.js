@@ -1,5 +1,10 @@
 //CPF
 
+const ADMINISTRADOR = 0;
+const FUNCIONARIO = 0;
+const EQUIPE = 0;
+const CLIENTE = 0;
+
 if (ADMINISTRADOR === 1) {
   const cliCelular = document.getElementById("cliCelular");
   const funCelular = document.getElementById("funCelular");
@@ -181,16 +186,9 @@ function FormatarCelular(campo) {
 
 //pegar data agora
 function getFormattedDateTime() {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  const day = String(now.getDate()).padStart(2, "0");
-  const hours = String(now.getHours()).padStart(2, "0");
-  const minutes = String(now.getMinutes()).padStart(2, "0");
-  const seconds = String(now.getSeconds()).padStart(2, "0");
+  const now = moment().tz('America/Sao_Paulo');
 
-  // Formato: YYYY-MM-DD HH:MM:SS
-  const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  const formattedDateTime = now.format('YYYY-MM-DD HH:mm:ss');
   return formattedDateTime;
 }
 
