@@ -270,6 +270,7 @@ document
       return;
     }
     await RegisterCliente(data, idAcademia);
+    await UpdateListaClienteFicha();
     await UpdateListaCliente();
     modalCadastrarCliente.style.display = "none";
     e.target.reset();
@@ -289,6 +290,7 @@ document
     }
     await RegisterFuncionario(data, idAcademia);
     await UpdateListaFuncionario();
+    await UpdateListaClienteFicha();
     modalCadastrarFuncionario.style.display = "none";
     e.target.reset();
   });
@@ -482,31 +484,36 @@ async function UpdateListaFuncionario() {
   });
 
   const corpoTabela = tabela.appendChild(document.createElement("tbody"));
-if(result) {
-  result.forEach((item) => {
-    const linha = corpoTabela.insertRow();
-    const camposSelecionados = ["funId", "funNome", "funCelular", "funStatus"];
+  if (result) {
+    result.forEach((item) => {
+      const linha = corpoTabela.insertRow();
+      const camposSelecionados = [
+        "funId",
+        "funNome",
+        "funCelular",
+        "funStatus",
+      ];
 
-    camposSelecionados.forEach((campo) => {
-      if (item.hasOwnProperty(campo)) {
-        let celula = linha.insertCell();
-        celula.textContent = item[campo];
+      camposSelecionados.forEach((campo) => {
+        if (item.hasOwnProperty(campo)) {
+          let celula = linha.insertCell();
+          celula.textContent = item[campo];
 
-        if (campo === "funId") {
-          celula.setAttribute("data-id", item[campo]);
+          if (campo === "funId") {
+            celula.setAttribute("data-id", item[campo]);
+          }
         }
-      }
+      });
+
+      let celulaBotao = linha.insertCell();
+      let botaoDetalhes = document.createElement("button");
+      botaoDetalhes.textContent = "Ver";
+
+      botaoDetalhes.addEventListener("click", () => Detalhes(linha));
+
+      celulaBotao.appendChild(botaoDetalhes);
     });
-    
-    let celulaBotao = linha.insertCell();
-    let botaoDetalhes = document.createElement("button");
-    botaoDetalhes.textContent = "Ver";
-    
-    botaoDetalhes.addEventListener("click", () => Detalhes(linha));
-    
-    celulaBotao.appendChild(botaoDetalhes);
-  });
-}
+  }
 
   document.getElementById("tableFuncionarios").appendChild(tabela);
 }
@@ -533,44 +540,43 @@ async function UpdateListaClienteFicha() {
 
   const corpoTabela = tabela.appendChild(document.createElement("tbody"));
 
-  if(result) {
-  result.forEach((item) => {
-    const linha = corpoTabela.insertRow();
-    let PossuiFicha = item.ClienteExisteNaFicha === 0 ? "Não" : "Sim";
-    const camposSelecionados = ["cliId", "cliNome"];
+  if (result) {
+    result.forEach((item) => {
+      const linha = corpoTabela.insertRow();
+      let PossuiFicha = item.ClienteExisteNaFicha === 0 ? "Não" : "Sim";
+      const camposSelecionados = ["cliId", "cliNome"];
 
-    camposSelecionados.forEach((campo) => {
-      if (item.hasOwnProperty(campo)) {
-        let celula = linha.insertCell();
-        celula.textContent = item[campo];
+      camposSelecionados.forEach((campo) => {
+        if (item.hasOwnProperty(campo)) {
+          let celula = linha.insertCell();
+          celula.textContent = item[campo];
+        }
+      });
+
+      let celulaPossuiFicha = linha.insertCell();
+      celulaPossuiFicha.textContent = PossuiFicha;
+
+      let celulaBotao = linha.insertCell();
+      if (item.ClienteExisteNaFicha === 1) {
+        let botaoDetalhes = document.createElement("button");
+        botaoDetalhes.textContent = "Ver";
+        botaoDetalhes.addEventListener("click", function () {
+          MostrarTelaCriarFicha(item.cliId);
+        });
+        celulaBotao.appendChild(botaoDetalhes);
+      } else {
+        let botaoCriarFicha = document.createElement("button");
+        botaoCriarFicha.textContent = "Criar";
+        botaoCriarFicha.addEventListener("click", async function () {
+          document.getElementById("funFicha").innerHTML = "";
+          await PreencherSelectProfessores();
+          modalCriarBaseFicha.style.display = "block";
+          document.getElementById("cliIdFicha").value = item.cliId;
+        });
+        celulaBotao.appendChild(botaoCriarFicha);
       }
     });
-
-    let celulaPossuiFicha = linha.insertCell();
-    celulaPossuiFicha.textContent = PossuiFicha;
-
-    let celulaBotao = linha.insertCell();
-    if (item.ClienteExisteNaFicha === 1) {
-      let botaoDetalhes = document.createElement("button");
-      botaoDetalhes.textContent = "Ver";
-      botaoDetalhes.addEventListener("click", function () {
-        MostrarTelaCriarFicha(item.cliId);
-      });
-      celulaBotao.appendChild(botaoDetalhes);
-    } else {
-      let botaoCriarFicha = document.createElement("button");
-      botaoCriarFicha.textContent = "Criar";
-      botaoCriarFicha.addEventListener("click", async function () {
-        document.getElementById("funFicha").innerHTML = "";
-        await PreencherSelectProfessores();
-        modalCriarBaseFicha.style.display = "block";
-        document.getElementById("cliIdFicha").value = item.cliId;
-      });
-      celulaBotao.appendChild(botaoCriarFicha);
-    }
-  });
-}
-
+  }
 
   document.getElementById("tableClientesFicha").appendChild(tabela);
 }
@@ -795,6 +801,7 @@ btnEnviarDetalhesCliente.addEventListener("click", async (e) => {
   });
   formDetCliente.reset();
   await UpdateListaClienteFicha();
+  await UpdateListaClienteFicha();
   await UpdateListaCliente();
   MostrarTela("TelaClientes");
 });
@@ -874,6 +881,7 @@ btnEnviarDetalhesFuncionario.addEventListener("click", async (e) => {
   });
   formDetFuncionario.reset();
   await UpdateListaFuncionario();
+  await UpdateListaClienteFicha();
   await PreencherSelectProfessores();
   MostrarTela("TelaFuncionarios");
 });
@@ -993,16 +1001,14 @@ async function MostrarTelaCriarFicha(cliId) {
 
 async function PreencherSelectProfessores() {
   const result = await ReadFuncionario(1, idAcademia);
-  document.getElementById(
-    "funFicha"
-    ).innerHTML = "";
-  if(result) {
+  document.getElementById("funFicha").innerHTML = "";
+  if (result) {
     result.forEach((item) => {
       document.getElementById(
         "funFicha"
-        ).innerHTML += `<option value=${item.funId}>${item.funNome}</option>`;
-      });
-    }
+      ).innerHTML += `<option value=${item.funId}>${item.funNome}</option>`;
+    });
+  }
 }
 
 formInserirTreinoA.addEventListener("submit", async (e) => {
