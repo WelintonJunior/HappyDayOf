@@ -890,15 +890,3 @@ function MostrarTela(tela) {
       break;
   }
 }
-
-// Cadastrar Atendimento
-
-// document
-//   .getElementById("formCadastrarAtendimento")
-//   .addEventListener("submit", async (e) => {
-//     e.preventDefault();
-//     const fd = new FormData(e.target);
-//     const data = Object.fromEntries(fd.entries());
-//     const result = await RegisterAtendimento(idAcademia, data);
-//     console.log(result);
-//   });
