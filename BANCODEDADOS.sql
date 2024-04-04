@@ -110,7 +110,7 @@ CREATE TABLE `tblcliente` (
   CONSTRAINT `fk_cliPlano` FOREIGN KEY (`cliPlano`) REFERENCES `tblplanos` (`plaId`),
   CONSTRAINT `tblcliente_ibfk_1` FOREIGN KEY (`cliIdAcad`) REFERENCES `tblacademia` (`acaId`),
   CONSTRAINT `tblcliente_ibfk_2` FOREIGN KEY (`cliIdFun`) REFERENCES `tblfuncionario` (`funId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -119,7 +119,7 @@ CREATE TABLE `tblcliente` (
 
 LOCK TABLES `tblcliente` WRITE;
 /*!40000 ALTER TABLE `tblcliente` DISABLE KEYS */;
-INSERT INTO `tblcliente` VALUES (1,'Cliente','12996138271','12520110','Guara','São Paulo','Rua lalalala',74,'M','5778218239','cliente@gmail.com','2022-02-13 00:00:00','1',1,1,'123123',1);
+INSERT INTO `tblcliente` VALUES (1,'Yasminn','(12) 90380-9123','12570110','Aparecida','SP','Rua João Antonio de Oliveira',28,'F','712.083.712-93','yasmin@gmail.com','1970-01-01 00:00:00','1',1,7,'123123',NULL),(2,'Welinton','(12) 93812-0938','12520110','Guaratinguetá','SP','Rua Filadelfo Gandra Martins',74,'M','278.031.289-38','welinton@gmail.com','1970-01-01 00:00:00','1',1,7,'123123',NULL);
 /*!40000 ALTER TABLE `tblcliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -166,6 +166,9 @@ CREATE TABLE `tblficha` (
   `ficIdCliente` int NOT NULL,
   `ficIdFuncionario` int NOT NULL,
   `ficIdAcademia` int NOT NULL,
+  `ficIntervalo` time DEFAULT NULL,
+  `ficRestricoes` char(1) DEFAULT NULL,
+  `ficTipoRestricoes` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ficId`),
   KEY `fk_acaFic` (`ficIdAcademia`),
   KEY `fk_acaCli` (`ficIdCliente`),
@@ -173,7 +176,7 @@ CREATE TABLE `tblficha` (
   CONSTRAINT `fk_acaCli` FOREIGN KEY (`ficIdCliente`) REFERENCES `tblcliente` (`cliId`),
   CONSTRAINT `fk_acaFic` FOREIGN KEY (`ficIdAcademia`) REFERENCES `tblacademia` (`acaId`),
   CONSTRAINT `fk_funfic` FOREIGN KEY (`ficIdFuncionario`) REFERENCES `tblfuncionario` (`funId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -182,7 +185,39 @@ CREATE TABLE `tblficha` (
 
 LOCK TABLES `tblficha` WRITE;
 /*!40000 ALTER TABLE `tblficha` DISABLE KEYS */;
+INSERT INTO `tblficha` VALUES (1,1,1,7,'00:02:00','1','Linda demais'),(2,2,2,7,'00:02:00','1','Ombro mais alto que o outro');
 /*!40000 ALTER TABLE `tblficha` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tblfichadetalhes`
+--
+
+DROP TABLE IF EXISTS `tblfichadetalhes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tblfichadetalhes` (
+  `detId` int NOT NULL AUTO_INCREMENT,
+  `detVariacao` varchar(50) DEFAULT NULL,
+  `detCarga` varchar(50) DEFAULT NULL,
+  `detSerie` varchar(10) DEFAULT NULL,
+  `detRepeticao` varchar(50) DEFAULT NULL,
+  `detIdFicha` int DEFAULT NULL,
+  `detTreino` char(1) DEFAULT NULL,
+  PRIMARY KEY (`detId`),
+  KEY `detIdFicha` (`detIdFicha`),
+  CONSTRAINT `tblfichadetalhes_ibfk_1` FOREIGN KEY (`detIdFicha`) REFERENCES `tblficha` (`ficId`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tblfichadetalhes`
+--
+
+LOCK TABLES `tblfichadetalhes` WRITE;
+/*!40000 ALTER TABLE `tblfichadetalhes` DISABLE KEYS */;
+INSERT INTO `tblfichadetalhes` VALUES (1,'Alongamento','10','10','10',1,'A'),(2,'Alongamento','10','10','10',2,'A'),(3,'Remada','10','10','10',2,'B'),(4,'Pu Docks','10','10','10',2,'B'),(5,'Flexao','10','10','10',2,'C');
+/*!40000 ALTER TABLE `tblfichadetalhes` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -212,7 +247,7 @@ CREATE TABLE `tblfuncionario` (
   PRIMARY KEY (`funId`),
   KEY `funAcad` (`funIdAcad`),
   CONSTRAINT `tblfuncionario_ibfk_1` FOREIGN KEY (`funIdAcad`) REFERENCES `tblacademia` (`acaId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -221,7 +256,7 @@ CREATE TABLE `tblfuncionario` (
 
 LOCK TABLES `tblfuncionario` WRITE;
 /*!40000 ALTER TABLE `tblfuncionario` DISABLE KEYS */;
-INSERT INTO `tblfuncionario` VALUES (1,'Welinton','(12)99613-8271','12520110','Guaratingueta','SP','Rua Filadelfo Gandra Martins',74,'M','111.111.111-11','equipe@gmail.com','2022-02-13 00:00:00','1',NULL,'123123',3),(2,'Rodrigo','(12) 98850-3412','12570100','Aparecida','SP','Avenida Antonio Samaha',10,'M','490.370.978-71','rodrigo@gmail.com','2024-03-28 12:03:18','1',1,'123123',2),(3,'Marcos','(12) 93812-9831','12520110','Guaratinguetá','SP','Rua Filadelfo Gandra Martins',10,'M','123.123.123-12','marcos@gmail.com','2024-03-29 10:54:12','1',1,'123123',2),(4,'Joao','(18) 23901-2839','12520110','Guaratinguetá','SP','Rua Filadelfo Gandra Martins',74,'M','577.182.379-12','joao2@gmail.com','2024-03-29 11:11:04','1',7,'123123',2);
+INSERT INTO `tblfuncionario` VALUES (1,'Professor José','(12) 09830-9128','12520110','Guaratinguetá','SP','Rua Filadelfo Gandra Martins',20,'M','812.903.812-90','profJose@gmail.com',NULL,'1',7,'123123',2),(2,'Daniel','(12) 83901-2890','12570100','Aparecida','SP','Avenida Antonio Samaha',10,'M','748.972.139-04','daniel@gmail.com',NULL,'1',7,'123123',1);
 /*!40000 ALTER TABLE `tblfuncionario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -280,7 +315,7 @@ CREATE TABLE `tblplanos` (
 
 LOCK TABLES `tblplanos` WRITE;
 /*!40000 ALTER TABLE `tblplanos` DISABLE KEYS */;
-INSERT INTO `tblplanos` VALUES (1,'Plano Power',200,12,1);
+INSERT INTO `tblplanos` VALUES (1,'Plano Power',200,12,7);
 /*!40000 ALTER TABLE `tblplanos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -326,4 +361,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-29 14:45:52
+-- Dump completed on 2024-04-03 21:14:10
