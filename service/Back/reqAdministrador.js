@@ -81,45 +81,6 @@ async function ReadFuncionario(nivel, idAcademia) {
   return result;
 }
 
-async function ReadClienteFicha(idAcademia) {
-  const response = await fetch("http://localhost:3000/Ficha", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      idAcademia,
-      acao: "ReadClienteFicha",
-    }),
-  });
-  const result = await response.json();
-  return result;
-}
-
-async function ReadFichaDetalhes (cliId, tipo) {
-  const response = await fetch("http://localhost:3000/Ficha", {
-    method: "POST",
-    headers: {"Content-Type" : "application/json"},
-    body: JSON.stringify({
-      data: {cliId, tipo},
-      acao: "ReadFichaDetalhes"
-    })
-  })
-  const result = await response.json();
-  return result;
-}
-
-async function ReadFichaDetalhesGeral (cliId) {
-  const response = await fetch("http://localhost:3000/Ficha", {
-    method: "POST",
-    headers: {"Content-Type" : "application/json"},
-    body: JSON.stringify({
-      data: cliId,
-      acao: "ReadFichaDetalhesGeral"
-    })
-  })
-  const result = await response.json();
-  return result;
-}
-
 //REGISTER
 
 async function RegisterCliente(data, idAcademia) {
@@ -150,32 +111,7 @@ async function RegisterFuncionario(data, idAcademia) {
   return result;
 }
 
-async function RegisterBaseFicha(idAcademia, data) {
-  const response = await fetch("http://localhost:3000/Ficha", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      data,
-      idAcademia,
-      acao: "RegisterFicha",
-    }),
-  });
-  const result = await response.json();
-  return result;
-}
 
-async function RegisterDetalhesFicha(data) {
-  const response = await fetch("http://localhost:3000/Ficha", {
-    method: "POST",
-    headers: {"Content-Type" : "application/json"},
-    body: JSON.stringify({
-      data,
-      acao: "RegisterDetalhesFicha"
-    })
-  })
-  const result = await response.json();
-  return result
-}
 
 //ARCHIVE
 

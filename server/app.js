@@ -597,6 +597,42 @@ app.post("/Ficha", (req, res) => {
         ]
       );
       break;
+    case "UpdateCampoFicha":
+      switch(data.detCampo) {
+        case "detVariacao":
+          db.query("update tblFichaDetalhes set detVariacao = ? where detId = ?", [data.valor, data.detId], (err, results) => {
+            if(err) {
+              return res.json(err)
+            }
+            res.send(results)
+          })
+          break;
+        case "detCarga":
+          db.query("update tblFichaDetalhes set detCarga = ? where detId = ?", [data.valor, data.detId], (err, results) => {
+            if(err) {
+              return res.json(err)
+            }
+            res.send(results)
+          })
+          break;
+        case "detSerie":
+          db.query("update tblFichaDetalhes set detSerie = ? where detId = ?", [data.valor, data.detId], (err, results) => {
+            if(err) {
+              return res.json(err)
+            }
+            res.send(results)
+          })
+          break;
+        case "detRepeticao":
+          db.query("update tblFichaDetalhes set detRepeticao = ? where detId = ?", [data.valor, data.detId], (err, results) => {
+            if(err) {
+              return res.json(err)
+            }
+            res.send(results)
+          })
+          break;
+      }
+        break;
   }
 });
 
