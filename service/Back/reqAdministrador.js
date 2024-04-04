@@ -81,11 +81,12 @@ async function ReadFuncionario(nivel, idAcademia) {
   return result;
 }
 
-async function ReadClienteFicha() {
+async function ReadClienteFicha(idAcademia) {
   const response = await fetch("http://localhost:3000/Ficha", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
+      idAcademia,
       acao: "ReadClienteFicha",
     }),
   });

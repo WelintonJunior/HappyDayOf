@@ -222,7 +222,7 @@ app.post("/Administrador", (req, res) => {
           if (err) {
             return res.json(err);
           }
-          if (results[0].length === 0) {
+          if (results.length > 0 ? results[0].length === 0 : results.length === 0) {
             return res.json(false);
           }
           res.send(results);
@@ -399,7 +399,7 @@ app.post("/Ficha", (req, res) => {
   switch (acao) {
     case "ReadClienteFicha":
       db.query(
-        "SELECT c.*, CASE WHEN f.ficIdCliente IS NOT NULL THEN 1 ELSE 0 END AS ClienteExisteNaFicha  FROM tblCliente AS c LEFT JOIN tblFicha AS f ON c.cliId = f.ficIdCliente GROUP BY c.cliId",
+        "SELECT c.*, CASE WHEN f.ficIdCliente IS NOT NULL THEN 1 ELSE 0 END AS ClienteExisteNaFicha  FROM tblCliente AS c LEFT JOIN tblFicha AS f ON c.cliId = f.ficIdCliente where c.cliIdAcad = ? GROUP BY c.cliId", [idAcademia],
         (err, results) => {
           if (err) {
             return res.json(err);

@@ -533,6 +533,7 @@ async function UpdateListaClienteFicha() {
 
   const corpoTabela = tabela.appendChild(document.createElement("tbody"));
 
+  if(result) {
   result.forEach((item) => {
     const linha = corpoTabela.insertRow();
     let PossuiFicha = item.ClienteExisteNaFicha === 0 ? "Não" : "Sim";
@@ -568,6 +569,8 @@ async function UpdateListaClienteFicha() {
       celulaBotao.appendChild(botaoCriarFicha);
     }
   });
+}
+
 
   document.getElementById("tableClientesFicha").appendChild(tabela);
 }
