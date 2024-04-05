@@ -36,7 +36,7 @@ app.get("/Administrador", (req, res) => {
 
 app.get("/Cliente", (req, res) => {
   const clientePath = path.resolve(__dirname, "../pages/cliente.html");
-  res.sendFile(ClientePath);
+  res.sendFile(clientePath);
 })
 
 app.get("/Equipe", (req, res) => {
