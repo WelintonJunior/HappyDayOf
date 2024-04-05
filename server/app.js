@@ -35,18 +35,18 @@ app.get("/Administrador", (req, res) => {
 })
 
 app.get("/Cliente", (req, res) => {
-  const administradorPath = path.resolve(__dirname, "../pages/cliente.html");
-  res.sendFile(administradorPath);
+  const clientePath = path.resolve(__dirname, "../pages/cliente.html");
+  res.sendFile(ClientePath);
 })
 
 app.get("/Equipe", (req, res) => {
-  const administradorPath = path.resolve(__dirname, "../pages/equipe.html");
-  res.sendFile(administradorPath);
+  const equipePath = path.resolve(__dirname, "../pages/equipe.html");
+  res.sendFile(equipePath);
 })
 
 app.get("/Funcionario", (req, res) => {
-  const administradorPath = path.resolve(__dirname, "../pages/funcionario.html");
-  res.sendFile(administradorPath);
+  const funcionarioPath = path.resolve(__dirname, "../pages/funcionario.html");
+  res.sendFile(funcionarioPath);
 })
 
 
