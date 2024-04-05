@@ -3,9 +3,9 @@ function setDefaultBackground() {
     var userType = document.getElementById("userType").value;
 
     if (userType === "0") {
-        document.body.style.background = "url('../images/cliente.jpg')"; // Define o background para Cliente
+        document.body.style.background = "url('./images/cliente.jpg')"; // Define o background para Cliente
     } else if (userType === "1") {
-        document.body.style.background = "url('../images/funcionario.jpg')"; // Define o background para Funcionário
+        document.body.style.background = "url('./images/funcionario.jpg')"; // Define o background para Funcionário
     }
 
     // Ajusta a imagem para cobrir a tela inteira

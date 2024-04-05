@@ -9,7 +9,7 @@ document.getElementById("formLogin").addEventListener("submit", async (e) => {
         alert("Sucesso!");
         localStorage.setItem("dados", JSON.stringify(sucessCliente));
 
-        window.location.href = "../pages/cliente.html";
+        window.location.href = "/Cliente";
       } else {
         alert("Algo deu errado, verifique seu email e sua senha");
       }
@@ -21,13 +21,13 @@ document.getElementById("formLogin").addEventListener("submit", async (e) => {
         localStorage.setItem("dados", JSON.stringify(sucessFuncionario));
         switch (sucessFuncionario.funNivel) {
           case 1:
-            window.location.href = "../pages/funcionario.html";
+            window.location.href = "/Funcionario";
             break;
           case 2:
-            window.location.href = "../pages/administrador.html";
+            window.location.href = "/Administrador";
             break;
           case 3:
-            window.location.href = "../pages/equipe.html";
+            window.location.href = "/Equipe";
             break;
         }
       } else {

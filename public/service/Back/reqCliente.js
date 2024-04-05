@@ -1,8 +1,5 @@
 //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
 
-const dados = JSON.parse(localStorage.getItem("dados"));
-console.log(dados);
-
 document.addEventListener("DOMContentLoaded", async function () {
   const response = await fetch("http://localhost:3000/Administrador", {
     method: "POST",

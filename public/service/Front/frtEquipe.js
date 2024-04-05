@@ -1,3 +1,26 @@
+let dados = [];
+//Verifica se está logado
+try {
+  //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
+  const dadosFromLocalStorage = JSON.parse(localStorage.getItem("dados"));
+  if (dadosFromLocalStorage !== null) {
+    dados = dadosFromLocalStorage;
+  } else {
+    alert("Acesso Negado");
+    window.location.href = "/";
+  }
+} catch (err) {
+  alert("Acesso Negado");
+  window.location.href = "/";
+}
+//Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
+document.getElementById("eqpInfo").innerHTML = `Olá Equipe: ${dados.funNome}`;
+
+//Pega o id da Academia de acordo com o usuario logado no momento
+const idAcademia = dados.funIdAcad;
+let tela = "";
+
+
 let formAcademiaBox = document.getElementById("formAcademiaBox");
 let formAdministradorAcademiaBox = document.getElementById(
   "formAdministradorAcademiaBox"
@@ -54,10 +77,6 @@ let formAdministradorAcademia = document.getElementById(
   "formAdministradorAcademia"
 );
 
-//Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
-const dados = JSON.parse(localStorage.getItem("dados"));
-console.log(dados);
-document.getElementById("eqpInfo").innerHTML = `Olá Equipe: ${dados.funNome}`;
 
 //Form Create Academia
 

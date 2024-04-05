@@ -8,11 +8,11 @@ try {
     dados = dadosFromLocalStorage;
   } else {
     alert("Acesso Negado");
-    window.location.href = "../index.html";
+    window.location.href = "/";
   }
 } catch (err) {
   alert("Acesso Negado");
-  window.location.href = "../index.html";
+  window.location.href = "/";
 }
 
 //Pega o id da Academia de acordo com o usuario logado no momento
@@ -1001,7 +1001,7 @@ formArquivarFuncionario.addEventListener("submit", async (e) => {
 document.getElementById("btnLogout").addEventListener("click", (e) => {
   e.preventDefault();
   localStorage.setItem("dados", "");
-  window.location.href = "../index.html";
+  window.location.href = "/";
 });
 
 //CHECKBOX POSSUI RESTRIÇÕES
