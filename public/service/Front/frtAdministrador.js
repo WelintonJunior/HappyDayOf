@@ -29,6 +29,7 @@ const btnFuncionario = document.getElementById("btnFuncionario");
 
 document.addEventListener("DOMContentLoaded", async function () {
   const result = await ReadAcademia(idAcademia);
+  document.getElementById("titleAcad").innerHTML = result.acaNome;
   document.getElementById(
     "admInfo"
   ).innerHTML = `Olá Administrador: ${dados.funNome} da Academia: ${result.acaNome}`;

@@ -22,6 +22,7 @@ const idAcademia = dados.cliIdAcad;
 
 document.addEventListener("DOMContentLoaded", async function () {
   const result = await ReadAcademia(idAcademia);
+  document.getElementById("titleAcad").innerHTML = result.acaNome;
   document.getElementById(
     "cliInfo"
   ).innerHTML = `Olá Cliente: ${dados.cliNome} da Academia: ${result.acaNome}`;
