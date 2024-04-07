@@ -26,6 +26,11 @@ router.post("/Funcionario", (req, res) => {
           if (err) {
             return res.json(err);
           }
+          if (
+            results.length > 0 ? results[0].length === 0 : results.length === 0
+          ) {
+            return res.json(true);
+          }
           res.send(results);
         }
       );

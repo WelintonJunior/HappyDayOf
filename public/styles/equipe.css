@@ -19,21 +19,6 @@ main {
   justify-content: center;
 }
 
-#abrirModalRegisterAcademia {
-  background-color: gray;
-  padding: 15px;
-  border-radius: 20px;
-  border: none;
-  cursor: pointer;
-  margin-left: 10px;
-
-}
-
-#abrirModalRegisterAcademia:hover {
-  background-color: rgb(114, 114, 114);
-  transition: 0.5s;
-}
-
 /* Lista */
 
 .listBox {

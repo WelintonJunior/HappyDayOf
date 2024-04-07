@@ -118,20 +118,30 @@ admCep.addEventListener("blur", (e) => {
   });
 });
 
+//logout
+document.getElementById("btnLogout").addEventListener("click", (e) => {
+  e.preventDefault();
+  localStorage.setItem("dados", "");
+  window.location.href = "/";
+});
+
+
 //Funcao de mostrar tela
 
 const TelaAcademia = document.getElementById("TelaAcademia");
+const btnAcademia = document.getElementById("btnAcademia");
+TelaAcademia.style.display = "block";
+btnAcademia.firstChild.parentNode.style.backgroundColor = "#FC0404";
 
 function MostrarTela(tela) {
+  // btnEnviarDetalhesCliente.style.display = "none";
+  // btnEditarDetalhesCliente.style.display = "block";
+  formAcademia.reset();
   switch (tela) {
     case "TelaAcademia":
-      if (TelaAcademia.style.display === "block") {
-        TelaAcademia.style.display = "none";
-        return;
-      }
       TelaAcademia.style.display = "block";
-      //  Desabilitar outras telas (caso haja)
-      // formAdministradorAcademiaBox.style.display = "none";
+      btnAcademia.firstChild.parentNode.style.backgroundColor = "#FC0404";
+      // btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
       break;
   }
 }
