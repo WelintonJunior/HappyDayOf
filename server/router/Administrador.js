@@ -94,7 +94,7 @@ router.post("/Administrador", (req, res) => {
           if (err) {
             return res.json(err);
           }
-          if (results[0].length === 0) {
+          if (results.length > 0 ? results[0].length === 0 : results.length === 0) {
             return res.json(false);
           }
           res.send(results[0]);

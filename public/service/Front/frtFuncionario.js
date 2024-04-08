@@ -22,6 +22,7 @@ const idAcademia = dados.funIdAcad;
 
 document.addEventListener("DOMContentLoaded", async function () {
   const result = await ReadAcademia(idAcademia);
+  document.getElementById("titleAcad").innerHTML = result.acaNome;
   document.getElementById(
     "funInfo"
   ).innerHTML = `Olá Funcionario: ${dados.funNome} da Academia: ${result.acaNome}`;
