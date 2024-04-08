@@ -3,29 +3,27 @@ function setDefaultBackground() {
     var userType = document.getElementById("userType").value;
 
     if (userType === "0") {
-        document.body.style.background = "url('./images/cliente1.jpg')"; // Define o background para Cliente
+        document.body.classList.remove("bodyLoginFuncionario");
+        document.body.classList.add("bodyLoginCliente");
     } else if (userType === "1") {
-        document.body.style.background = "url('./images/funcionario2.jpg')"; // Define o background para Funcionário
+        document.body.classList.remove("bodyLoginCliente");
+        document.body.classList.add("bodyLoginFuncionario");
     }
-
-    // Ajusta a imagem para cobrir a tela inteira
-    document.body.style.backgroundSize = "cover";
 }
 
 // Chamar a função para definir o valor padrão ao carregar a página
 window.onload = setDefaultBackground;
 
 // Adicionar um event listener para monitorar mudanças no select
-document.getElementById("userType").addEventListener("change", function() {
+document.getElementById("userType").addEventListener("change", function () {
     var userType = document.getElementById("userType").value;
 
     if (userType === "0") {
-        document.body.style.background = "url('../images/cliente1.jpg')"; // Define o background para Cliente
+        document.body.classList.remove("bodyLoginFuncionario");
+        document.body.classList.add("bodyLoginCliente");
     } else if (userType === "1") {
-        document.body.style.background = "url('../images/funcionario2.jpg')"; // Define o background para Funcionário
+        document.body.classList.remove("bodyLoginCliente");
+        document.body.classList.add("bodyLoginFuncionario");
     }
 
-    // Ajusta a imagem para cobrir a tela inteira
-    document.body.style.backgroundSize = "cover";
 });
-        

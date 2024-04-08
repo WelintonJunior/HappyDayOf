@@ -429,6 +429,58 @@ async function UpdateListaClienteFicha() {
 
 //Atualizar a A,B e C
 
+
+async function UpdateCampoFichaCliente(item, campo, celula) {
+  if (celula.querySelector("input")) return;
+
+  let valorAnterior = celula.textContent;
+
+  let input = document.createElement("input");
+  input.setAttribute("placeholder", item[campo]);
+
+  input.value = valorAnterior;
+
+  celula.innerHTML = "";
+  celula.appendChild(input);
+
+  input.focus();
+
+  input.addEventListener("blur", async (e) => {
+    let novoValor = input.value;
+    const detId = celula.getAttribute("data-detid");
+    const campoEditado = celula.getAttribute("data-campo");
+
+    if (novoValor === "") {
+      celula.textContent = valorAnterior;
+    } else {
+      const data = {};
+      data.detId = detId;
+      data.detCampo = campoEditado;
+      data.valor = novoValor;
+      await UpdateCampoFicha(data);
+    }
+    celula.textContent = novoValor;
+  });
+  input.addEventListener("keypress", async (e) => {
+    if(e.key === "Enter") {
+      let novoValor = input.value;
+      const detId = celula.getAttribute("data-detid");
+      const campoEditado = celula.getAttribute("data-campo");
+  
+      if (novoValor === "") {
+        celula.textContent = valorAnterior;
+      } else {
+        const data = {};
+        data.detId = detId;
+        data.detCampo = campoEditado;
+        data.valor = novoValor;
+        await UpdateCampoFicha(data);
+      }
+      celula.textContent = novoValor;
+    }
+  });
+}
+
 async function UpdateClienteFichaTreinoA(cliId) {
   const result = await ReadFichaDetalhes(cliId, "A");
   //Colocar em alguma lista
@@ -468,38 +520,9 @@ async function UpdateClienteFichaTreinoA(cliId) {
           celula.setAttribute("data-detId", item.detId);
           celula.setAttribute("data-campo", campo); // Adiciona um atributo data-campo com o nome do campo
 
-          celula.addEventListener("dblclick", async (e) => {
-            if (celula.querySelector("input")) return;
-
-            let valorAnterior = celula.textContent;
-
-            let input = document.createElement("input");
-            input.setAttribute("placeholder", item[campo]);
-
-            input.value = valorAnterior;
-
-            celula.innerHTML = "";
-            celula.appendChild(input);
-
-            input.focus();
-
-            input.addEventListener("blur", async (e) => {
-              let novoValor = input.value;
-              const detId = celula.getAttribute("data-detid");
-              const campoEditado = celula.getAttribute("data-campo");
-
-              if (novoValor === "") {
-                celula.textContent = valorAnterior;
-              } else {
-                const data = {};
-                data.detId = detId;
-                data.detCampo = campoEditado;
-                data.valor = novoValor;
-                await UpdateCampoFicha(data);
-              }
-              celula.textContent = novoValor;
+            celula.addEventListener("click", async (e) => {
+              await UpdateCampoFichaCliente(item, campo, celula); 
             });
-          });
         }
       });
     });
@@ -547,37 +570,8 @@ async function UpdateClienteFichaTreinoB(cliId) {
           celula.setAttribute("data-detId", item.detId);
           celula.setAttribute("data-campo", campo); // Adiciona um atributo data-campo com o nome do campo
 
-          celula.addEventListener("dblclick", async (e) => {
-            if (celula.querySelector("input")) return;
-
-            let valorAnterior = celula.textContent;
-
-            let input = document.createElement("input");
-            input.setAttribute("placeholder", item[campo]);
-
-            input.value = valorAnterior;
-
-            celula.innerHTML = "";
-            celula.appendChild(input);
-
-            input.focus();
-
-            input.addEventListener("blur", async (e) => {
-              let novoValor = input.value;
-              const detId = celula.getAttribute("data-detid");
-              const campoEditado = celula.getAttribute("data-campo");
-
-              if (novoValor === "") {
-                celula.textContent = valorAnterior;
-              } else {
-                const data = {};
-                data.detId = detId;
-                data.detCampo = campoEditado;
-                data.valor = novoValor;
-                await UpdateCampoFicha(data);
-              }
-              celula.textContent = novoValor;
-            });
+          celula.addEventListener("click", async (e) => {
+            await UpdateCampoFichaCliente(item, campo, celula); 
           });
         }
       });
@@ -626,37 +620,8 @@ async function UpdateClienteFichaTreinoC(cliId) {
           celula.setAttribute("data-detId", item.detId);
           celula.setAttribute("data-campo", campo); // Adiciona um atributo data-campo com o nome do campo
 
-          celula.addEventListener("dblclick", async (e) => {
-            if (celula.querySelector("input")) return;
-
-            let valorAnterior = celula.textContent;
-
-            let input = document.createElement("input");
-            input.setAttribute("placeholder", item[campo]);
-
-            input.value = valorAnterior;
-
-            celula.innerHTML = "";
-            celula.appendChild(input);
-
-            input.focus();
-
-            input.addEventListener("blur", async (e) => {
-              let novoValor = input.value;
-              const detId = celula.getAttribute("data-detid");
-              const campoEditado = celula.getAttribute("data-campo");
-
-              if (novoValor === "") {
-                celula.textContent = valorAnterior;
-              } else {
-                const data = {};
-                data.detId = detId;
-                data.detCampo = campoEditado;
-                data.valor = novoValor;
-                await UpdateCampoFicha(data);
-              }
-              celula.textContent = novoValor;
-            });
+          celula.addEventListener("click", async (e) => {
+            await UpdateCampoFichaCliente(item, campo, celula); 
           });
         }
       });
