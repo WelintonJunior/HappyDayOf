@@ -445,7 +445,11 @@ async function UpdateListaCliente() {
         }
       });
       let celulaBotao = linha.insertCell();
+      celulaBotao.style.cssText = "display: flex;align-items:center; padding-left: 25px "
       let botaoDetalhes = document.createElement("button");
+      botaoDetalhes.classList.add("btnVerDetalhes")
+      botaoDetalhes.classList.add("btn")
+      botaoDetalhes.classList.add("btn-info")
       botaoDetalhes.textContent = "Ver";
       botaoDetalhes.addEventListener("click", function () {
         MostrarTelaDetalhesCliente(item.cliId);
@@ -511,7 +515,11 @@ async function UpdateListaFuncionario() {
       });
 
       let celulaBotao = linha.insertCell();
+      celulaBotao.style.cssText = "display: flex;align-items:center; padding-left: 25px "
       let botaoDetalhes = document.createElement("button");
+      botaoDetalhes.classList.add("btnVerDetalhes")
+      botaoDetalhes.classList.add("btn")
+      botaoDetalhes.classList.add("btn-info")
       botaoDetalhes.textContent = "Ver";
 
       botaoDetalhes.addEventListener("click", () => Detalhes(linha));
@@ -564,8 +572,12 @@ async function UpdateListaClienteFicha() {
       celulaPossuiFicha.textContent = PossuiFicha;
 
       let celulaBotao = linha.insertCell();
+      celulaBotao.style.cssText = "display: flex;align-items:center; padding-left: 25px "
       if (item.ClienteExisteNaFicha === 1) {
         let botaoDetalhes = document.createElement("button");
+        botaoDetalhes.classList.add("btnVerDetalhes")
+        botaoDetalhes.classList.add("btn")
+        botaoDetalhes.classList.add("btn-info")
         botaoDetalhes.textContent = "Ver";
         botaoDetalhes.addEventListener("click", function () {
           MostrarTelaCriarFicha(item.cliId);
@@ -573,6 +585,9 @@ async function UpdateListaClienteFicha() {
         celulaBotao.appendChild(botaoDetalhes);
       } else {
         let botaoCriarFicha = document.createElement("button");
+        botaoCriarFicha.classList.add("btnVerCriarFicha")
+        botaoCriarFicha.classList.add("btn")
+        botaoCriarFicha.classList.add("btn-info")
         botaoCriarFicha.textContent = "Criar";
         botaoCriarFicha.addEventListener("click", async function () {
           document.getElementById("funFicha").innerHTML = "";

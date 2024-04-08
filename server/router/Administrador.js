@@ -131,7 +131,7 @@ router.post("/Administrador", (req, res) => {
       break;
     case "RegisterCliente":
       db.query(
-        "insert into tblCliente values (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,? ,? ,? ,? ,? ,?)",
+        "insert into tblCliente values (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,? ,? ,? ,? ,?)",
         [
           data.cliNome,
           data.cliCelular,
@@ -148,7 +148,6 @@ router.post("/Administrador", (req, res) => {
           data.cliPlano,
           idAcademia,
           data.cliSenha,
-          null,
         ],
         (err, results) => {
           if (err) {

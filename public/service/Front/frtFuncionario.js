@@ -248,7 +248,10 @@ async function UpdateListaCliente() {
         }
       });
       let celulaBotao = linha.insertCell();
+      celulaBotao.style.cssText = "display: flex;align-items:center; padding-left: 25px "
       let botaoDetalhes = document.createElement("button");
+      botaoDetalhes.classList.add("btn")
+      botaoDetalhes.classList.add("btn-info")
       botaoDetalhes.textContent = "Ver";
       botaoDetalhes.addEventListener("click", function () {
         MostrarTelaDetalhesCliente(item.cliId);
@@ -334,6 +337,9 @@ async function UpdateListaAtendimento() {
       if(item.ateStatus === '1') {
         let celulaBotao = linha.insertCell();
         let botaoEncerrar = document.createElement("button");
+        celulaBotao.style.cssText = "display: flex;align-items:center; padding-left: 25px "
+        botaoEncerrar.classList.add("btn")
+        botaoEncerrar.classList.add("btn-info")
         botaoEncerrar.textContent = "Encerrar";
         botaoEncerrar.addEventListener("click", async function () {
           const data = {};
@@ -392,8 +398,11 @@ async function UpdateListaClienteFicha() {
       celulaPossuiFicha.textContent = PossuiFicha;
 
       let celulaBotao = linha.insertCell();
+      celulaBotao.style.cssText = "display: flex;align-items:center; padding-left: 25px "
       if (item.ClienteExisteNaFicha === 1) {
         let botaoDetalhes = document.createElement("button");
+        botaoDetalhes.classList.add("btn")
+        botaoDetalhes.classList.add("btn-info")
         botaoDetalhes.textContent = "Ver";
         botaoDetalhes.addEventListener("click", function () {
           MostrarTelaCriarFicha(item.cliId);
@@ -401,6 +410,8 @@ async function UpdateListaClienteFicha() {
         celulaBotao.appendChild(botaoDetalhes);
       } else {
         let botaoCriarFicha = document.createElement("button");
+        botaoCriarFicha.classList.add("btn")
+        botaoCriarFicha.classList.add("btn-info")
         botaoCriarFicha.textContent = "Criar";
         botaoCriarFicha.addEventListener("click", async function () {
           document.getElementById("funFicha").innerHTML = "";
