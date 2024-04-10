@@ -60,6 +60,9 @@ const btnEnviarDetalhesCliente = document.getElementById(
 );
 const btnArchiveCliente = document.getElementById("btnArchiveCliente");
 const btnArchiveFuncionario = document.getElementById("btnArchiveFuncionario");
+const btnVoltarTelaFuncionario = document.getElementById("btnVoltarTelaFuncionario");
+const btnVoltarTelaCliente = document.getElementById("btnVoltarTelaCliente");
+const btnVoltarTelaFicha = document.getElementById("btnVoltarTelaFicha");
 
 //Declara Formularios
 const formDetCliente = document.getElementById("formDetalhesCliente");
@@ -178,9 +181,11 @@ window.onclick = function (event) {
 
 //Fechar Modal Criar Base Ficha
 
-fecharModalCriarBaseFicha.onclick = function () {
-  modalCriarBaseFicha.style.display = "none";
-};
+if(fecharModalCriarBaseFicha) {
+  fecharModalCriarBaseFicha.onclick = function () {
+    modalCriarBaseFicha.style.display = "none";
+  };
+}
 
 //Clicar Fora fecha o Modal Criar Base Ficha
 
@@ -221,6 +226,9 @@ cliCep.addEventListener("blur", (e) => {
       document.getElementById("cliCidade").value = data.localidade;
       document.getElementById("cliEstado").value = data.uf;
       document.getElementById("cliRua").value = data.logradouro;
+    } else {
+      alert("Cep não encontrado")
+      e.target.value = "";
     }
   });
 });
@@ -232,6 +240,9 @@ funCep.addEventListener("blur", (e) => {
       document.getElementById("funCidade").value = data.localidade;
       document.getElementById("funEstado").value = data.uf;
       document.getElementById("funRua").value = data.logradouro;
+    } else {
+      alert("Cep não encontrado")
+      e.target.value = "";
     }
   });
 });
@@ -243,6 +254,9 @@ funDetCep.addEventListener("blur", (e) => {
       document.getElementById("funDetCidade").value = data.localidade;
       document.getElementById("funDetEstado").value = data.uf;
       document.getElementById("funDEtRua").value = data.logradouro;
+    } else {
+      alert("Cep não encontrado")
+      e.target.value = "";
     }
   });
 });
@@ -254,6 +268,9 @@ cliDetCep.addEventListener("blur", (e) => {
       document.getElementById("cliDetCidade").value = data.localidade;
       document.getElementById("cliDetEstado").value = data.uf;
       document.getElementById("cliDetRua").value = data.logradouro;
+    } else {
+      alert("Cep não encontrado")
+      e.target.value = "";
     }
   });
 });
@@ -442,6 +459,12 @@ async function UpdateListaCliente() {
         if (item.hasOwnProperty(campo)) {
           let celula = linha.insertCell();
           celula.textContent = item[campo];
+          if (campo === "cliStatus") {
+            celula.innerHTML =
+              item[campo] === "1"
+                ? `<span class="text-success">Ativo</span>`
+                : `<span class="text-danger">Arquivado</span>`;
+          }
         }
       });
       let celulaBotao = linha.insertCell();
@@ -507,6 +530,12 @@ async function UpdateListaFuncionario() {
         if (item.hasOwnProperty(campo)) {
           let celula = linha.insertCell();
           celula.textContent = item[campo];
+          if (campo === "funStatus") {
+            celula.innerHTML =
+              item[campo] === "1"
+                ? `<span class="text-success">Ativo</span>`
+                : `<span class="text-danger">Arquivado</span>`;
+          }
 
           if (campo === "funId") {
             celula.setAttribute("data-id", item[campo]);
@@ -558,7 +587,7 @@ async function UpdateListaClienteFicha() {
   if (result) {
     result.forEach((item) => {
       const linha = corpoTabela.insertRow();
-      let PossuiFicha = item.ClienteExisteNaFicha === 0 ? "Não" : "Sim";
+      let PossuiFicha = item.ClienteExisteNaFicha === 0 ? `<span class="text-danger">Não</span>` : `<span class="text-success">Sim</span>` ;
       const camposSelecionados = ["cliId", "cliNome"];
 
       camposSelecionados.forEach((campo) => {
@@ -569,7 +598,7 @@ async function UpdateListaClienteFicha() {
       });
 
       let celulaPossuiFicha = linha.insertCell();
-      celulaPossuiFicha.textContent = PossuiFicha;
+      celulaPossuiFicha.innerHTML = PossuiFicha;
 
       let celulaBotao = linha.insertCell();
       celulaBotao.style.cssText = "display: flex;align-items:center; padding-left: 25px "
@@ -637,11 +666,11 @@ async function UpdateCampoFichaCliente(item, campo, celula) {
     celula.textContent = novoValor;
   });
   input.addEventListener("keypress", async (e) => {
-    if(e.key === "Enter") {
+    if (e.key === "Enter") {
       let novoValor = input.value;
       const detId = celula.getAttribute("data-detid");
       const campoEditado = celula.getAttribute("data-campo");
-  
+
       if (novoValor === "") {
         celula.textContent = valorAnterior;
       } else {
@@ -806,6 +835,11 @@ async function UpdateClienteFichaTreinoC(cliId) {
   }
 }
 
+btnVoltarTelaFicha.addEventListener("click", async (e) => {
+  await UpdateListaClienteFicha();
+  MostrarTela("TelaFicha");
+})
+
 //Função de mostrar a tela de detalhes do Funcionario
 
 function Detalhes(linha) {
@@ -879,6 +913,11 @@ btnArchiveCliente.addEventListener("click", async (e) => {
 });
 
 const formArquivarCliente = document.getElementById("formArquivarCliente");
+
+btnVoltarTelaCliente.addEventListener("click", async (e) => {
+  await UpdateListaCliente();
+  MostrarTela("TelaClientes");
+})
 
 //Função de Arquivamento Cliente
 
@@ -957,6 +996,11 @@ btnArchiveFuncionario.addEventListener("click", (e) => {
   e.preventDefault();
   modalArquivarFuncionario.style.display = "block";
 });
+
+btnVoltarTelaFuncionario.addEventListener("click", async (e) => {
+  await UpdateListaFuncionario();
+  MostrarTela("TelaFuncionarios");
+})
 
 //Função de arquivar o cliente
 

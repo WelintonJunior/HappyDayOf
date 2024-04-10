@@ -1,523 +1,541 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title id="titleAcad"></title>
-    <link rel="stylesheet" href="../styles/index.css" />
-    <link rel="stylesheet" href="../styles/funcionario.css" />
-    <link rel="stylesheet" href="../styles/nav.css" />
-    <link rel="stylesheet" href="../styles/modal.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link
-      rel="canonical"
-      href="https://getbootstrap.com/docs/5.0/examples/sidebars/"
-    />
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
-      integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
-      crossorigin="anonymous"
-    />
-    <!-- Bootstrap core CSS -->
-    <!-- <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet"> -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-    />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.34/moment-timezone-with-data.min.js"></script>
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="titleAcad"></title>
+  <link rel="shortcut icon" href="../images/icon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../styles/index.css" />
+  <link rel="stylesheet" href="../styles/funcionario.css" />
+  <link rel="stylesheet" href="../styles/nav.css" />
+  <link rel="stylesheet" href="../styles/modal.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sidebars/" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+    integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous" />
+  <!-- Bootstrap core CSS -->
+  <!-- <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.34/moment-timezone-with-data.min.js"></script>
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
       }
+    }
+  </style>
+</head>
 
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="wrapper">
-      <nav id="sidebar">
-        <div class="sidebar-header">
-          <h4 id="funInfo"></h4>
+<body>
+  <div class="wrapper">
+    <nav id="sidebar">
+      <div class="sidebar-header">
+        <h4 id="funInfo"></h4>
+      </div>
+
+      <ul class="list-unstyled components ps-2">
+        <li id="btnAtendimento">
+          <a> <i class="bi bi-person-arms-up"> </i>Atendimento</a>
+        </li>
+        <li id="btnFicha">
+          <a><i class="bi bi-card-list"></i> Ficha</a>
+        </li>
+        <li id="btnCliente">
+          <a> <i class="bi bi-people"></i> Clientes</a>
+        </li>
+
+        <li>
+          <a href="#pagSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"
+            id="maisPaginas">Mais Páginas</a>
+          <ul class="collapse list-unstyled" id="pagSubmenu">
+            <li>
+              <a>Pag 1</a>
+            </li>
+            <li>
+              <a>Pag 2</a>
+            </li>
+            <li>
+              <a>Pag 3</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <ul class="list-unstyled CTAs">
+        <li>
+          <a href="#" class="btn1">Botão 1</a>
+        </li>
+        <li>
+          <a id="btnLogout" class="btn2">Logout</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div id="content">
+      <button type="button" id="menuCollapse" class="btn btn-danger">
+        <i class="fas fa-align-left"></i>
+        <span>Alternar menu</span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent"></div>
+
+      <!-- Tela Atendimento -->
+
+      <div id="TelaAtendimento" style="display: block">
+        <div class="listBoxAtendimento" id="listBoxAtendimento">
+          <div id="tableAtendimento"></div>
         </div>
+        <button class="btn btn-info" id="btnCadastrarAtendimento">Cadastrar Atendimento</button>
+      </div>
 
-        <ul class="list-unstyled components ps-2">
-          <li id="btnAtendimento">
-            <a> <i class="bi bi-person-arms-up"> </i>Atendimento</a>
-          </li>
-          <li id="btnFicha">
-            <a><i class="bi bi-card-list"></i> Ficha</a>
-          </li>
-          <li id="btnCliente">
-            <a> <i class="bi bi-people"></i> Clientes</a>
-          </li>
+      <!-- Tela Ficha -->
 
-          <li>
-            <a
-              href="#pagSubmenu"
-              data-toggle="collapse"
-              aria-expanded="false"
-              class="dropdown-toggle"
-              id="maisPaginas"
-              >Mais Páginas</a
-            >
-            <ul class="collapse list-unstyled" id="pagSubmenu">
-              <li>
-                <a>Pag 1</a>
-              </li>
-              <li>
-                <a>Pag 2</a>
-              </li>
-              <li>
-                <a>Pag 3</a>
-              </li>
-            </ul>
-          </li>
-        </ul>
-
-        <ul class="list-unstyled CTAs">
-          <li>
-            <a href="#" class="btn1">Botão 1</a>
-          </li>
-          <li>
-            <a id="btnLogout" class="btn2">Logout</a>
-          </li>
-        </ul>
-      </nav>
-
-      <div id="content">
-        <button type="button" id="menuCollapse" class="btn btn-danger">
-          <i class="fas fa-align-left"></i>
-          <span>Alternar menu</span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent"></div>
-
-        <!-- Tela Atendimento -->
-
-        <div id="TelaAtendimento" style="display: block">
-          <div class="listBoxAtendimento" id="listBoxAtendimento">
-            <div id="tableAtendimento"></div>
-          </div>
-          <button class="btn btn-info" id="btnCadastrarAtendimento">Cadastrar Atendimento</button>
-        </div>
-
-        <!-- Tela Ficha -->
-
-        <div id="TelaFicha" style="display: none">
-          <div class="listBoxClienteFicha" id="listBoxClienteFicha">
-            <div id="tableClientesFicha"></div>
-          </div>
-        </div>
-
-        <!-- Tela Clientes -->
-        <div id="TelaClientes" style="display: none">
-          <div class="listBoxCliente" id="listBoxCliente">
-            <div id="tableClientes"></div>
-          </div>
-          <button class="btn btn-info" id="abrirModalRegisterCliente">Cadastrar Cliente</button>
-        </div>
-
-        <!-- Tela Detalhes Clientes -->
-
-        <div id="TelaDetalhesClientes" style="display: none">
-          <form id="formDetalhesCliente">
-            <br />
-            <div class="row">
-              <input type="text" class="d-none" id="cliDetId" name="cliId" />
-              <div class="col-6">
-                Nome: <input type="text" disabled name="cliNome" />
-              </div>
-              <div class="col-6">
-                Celular:
-                <input
-                  type="text"
-                  id="cliDetCelular"
-                  disabled
-                  name="cliCelular"
-                  maxlength="15"
-                />
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-6">
-                Cep: <input type="text" id="cliDetCep" disabled name="cliCep" />
-              </div>
-              <div class="col-6">
-                Cidade:
-                <input
-                  type="text"
-                  id="cliDetCidade"
-                  disabled
-                  name="cliCidade"
-                />
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-6">
-                Estado:
-                <input
-                  type="text"
-                  id="cliDetEstado"
-                  disabled
-                  name="cliEstado"
-                />
-              </div>
-              <div class="col-6">
-                Rua: <input type="text" disabled id="cliDetRua" name="cliRua" />
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-6">
-                Numero: <input type="text" disabled name="cliNumeroRua" />
-              </div>
-              <div class="col-6">
-                Sexo: <input type="text" disabled name="cliSexo" />
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-6">
-                CPF:
-                <input
-                  type="text"
-                  id="cliDetCpf"
-                  maxlength="14"
-                  disabled
-                  name="cliCpf"
-                />
-              </div>
-              <div class="col-6">
-                Email: <input type="email" disabled name="cliEmail" />
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-6">
-                Data Inicio: <input type="date" disabled name="cliDataCmc" />
-              </div>
-              <div class="col-6">
-                Status: <input type="text" disabled name="cliStatus" />
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-6">
-                Plano: <input type="text" disabled name="cliPlano" />
-              </div>
-              <div class="col-6">
-                <button id="btnEditarDetalhesCliente" style="display: block">
-                  Editar
-                </button>
-                <button
-                  id="btnEnviarDetalhesCliente"
-                  style="display: none"
-                  type="submit"
-                >
-                  Enviar
-                </button>
-              </div>
-            </div>
-            <button id="btnArchiveCliente">Arquivar Cliente</button>
-          </form>
-        </div>
-
-        <!-- Tela Criar Ficha -->
-
-        <div id="TelaCriarFicha" style="display: none">
-          <form>
-            Cliente: <span id="cliNomeCriarFicha"></span> <br />
-            Professor:<span id="funNomeCriarFicha"></span> <br />
-            <select
-              style="display: none"
-              name="funSelectCriarFicha"
-              id="funSelectCriarFicha"
-            ></select>
-            Restrições:
-            <input
-              type="checkbox"
-              name="cliRestricoesCriarFicha"
-              id="cliRestricoesCriarFicha"
-            />
-            <span style="display: none" id="cliRestricoesTipoCriarFicha"
-              >Tipo de Restrições:
-            </span>
-            Intervalo: <span id="cliIntervaloCriarFicha"></span><br />
-          </form>
-
-          <br />
-          <div class="row">
-            <!-- Treino A -->
-            <div class="col-4 px-4">
-              Insira Para o treino A:
-              <div class="row" style="width: 100%">
-                <form id="formInserirTreinoA">
-                  <input type="text" class="d-none" id="cliIdFichaTreinoA" />
-                  <input type="text" class="d-none" id="idFichaTreinoA" />
-                  <input
-                    class="col-4"
-                    placeholder="Variação"
-                    type="text"
-                    name="detVariacao"
-                  />
-                  <input
-                    class="col-2"
-                    placeholder="Séries"
-                    type="text"
-                    name="detSerie"
-                  />
-                  <input
-                    class="col-2"
-                    placeholder="Repetições"
-                    type="text"
-                    name="detRepeticao"
-                  />
-                  <input
-                    class="col-2"
-                    placeholder="Carga"
-                    type="text"
-                    name="detCarga"
-                  />
-                  <button type="submit" class="col-2">Enter</button>
-                </form>
-
-                <div class="mt-2" id="listaTreinoA"></div>
-              </div>
-            </div>
-            <!-- Treino B -->
-            <div class="col-4 px-4">
-              Insira Para o treino B:
-              <div class="row">
-                <form id="formInserirTreinoB">
-                  <input type="text" class="d-none" id="cliIdFichaTreinoB" />
-                  <input type="text" class="d-none" id="idFichaTreinoB" />
-                  <input
-                    class="col-4"
-                    placeholder="Variação"
-                    type="text"
-                    name="detVariacao"
-                  />
-                  <input
-                    class="col-2"
-                    placeholder="Séries"
-                    type="text"
-                    name="detSerie"
-                  />
-                  <input
-                    class="col-2"
-                    placeholder="Repetições"
-                    type="text"
-                    name="detRepeticao"
-                  />
-                  <input
-                    class="col-2"
-                    placeholder="Carga"
-                    type="text"
-                    name="detCarga"
-                  />
-                  <button type="submit" class="col-2">Enter</button>
-                </form>
-
-                <div class="mt-2" id="listaTreinoB"></div>
-              </div>
-            </div>
-            <!-- Treino C -->
-            <div class="col-4 px-4">
-              Insira Para o treino C:
-              <div class="row" style="width: 100%">
-                <form id="formInserirTreinoC">
-                  <input type="text" class="d-none" id="cliIdFichaTreinoC" />
-                  <input type="text" class="d-none" id="idFichaTreinoC" />
-                  <input
-                    class="col-4"
-                    placeholder="Variação"
-                    type="text"
-                    name="detVariacao"
-                  />
-                  <input
-                    class="col-2"
-                    placeholder="Séries"
-                    type="text"
-                    name="detSerie"
-                  />
-                  <input
-                    class="col-2"
-                    placeholder="Repetições"
-                    type="text"
-                    name="detRepeticao"
-                  />
-                  <input
-                    class="col-2"
-                    placeholder="Carga"
-                    type="text"
-                    name="detCarga"
-                  />
-                  <button type="submit" class="col-2">Enter</button>
-                </form>
-
-                <div class="mt-2" id="listaTreinoC"></div>
-              </div>
-            </div>
-          </div>
+      <div id="TelaFicha" style="display: none">
+        <div class="listBoxClienteFicha" id="listBoxClienteFicha">
+          <div id="tableClientesFicha"></div>
         </div>
       </div>
-    </div>
 
-    <div id="modalCadastrarCliente" class="modal">
-      <div class="modal-conteudo">
-        <span id="fecharModalCadastrarCliente" class="fechar">&times;</span>
-        <form id="formCadastrarCliente">
-          <h2>Cadastrar Cliente</h2>
-          Nome: <input type="text" name="cliNome" required /> <br />
-          <br />
-          Plano:
-          <select name="cliPlano" id="cliPlano" required></select>
-          <br />
-          <br />
-          Celular:
-          <input
-            type="text"
-            id="cliCelular"
-            maxlength="15"
-            name="cliCelular"
-            required
-          />
-          <br />
-          <br />
-          Cep: <input type="text" id="cliCep" name="cliCep" /> <br />
-          <br />
-          Estado: <input type="text" id="cliEstado" name="cliEstado" /> <br />
-          <br />
-          Cidade: <input type="text" id="cliCidade" name="cliCidade" /> <br />
-          <br />
-          Rua: <input type="text" id="cliRua" name="cliRua" /> <br />
-          <br />
-          Numero Rua: <input type="text" name="cliNumeroRua" /> <br />
-          <br />
-          Sexo:
-          <select name="cliSexo" required>
-            <option value="M">Masculino</option>
-            <option value="F">Feminino</option>
-            <option value="P">Prefiro não dizer</option>
-          </select>
-          <br />
-          <br />
-          CPF:
-          <input
-            type="text"
-            maxlength="14"
-            id="cliCpf"
-            name="cliCpf"
-            required
-          />
-          <br />
-          <br />
-          Email: <input type="email" name="cliEmail" required /> <br />
-          <br />
-          <select class="d-none" name="cliAcademia" id="cliAcademia"></select>
-          Senha:
-          <input type="password" name="cliSenha" id="cliSenha" required />
-          <br />
-          <br />
-          <button type="submit">Enviar</button>
+      <!-- Tela Clientes -->
+      <div id="TelaClientes" style="display: none">
+        <div class="listBoxCliente" id="listBoxCliente">
+          <div id="tableClientes"></div>
+        </div>
+        <button class="btn btn-info" id="abrirModalRegisterCliente">Cadastrar Cliente</button>
+      </div>
+
+      <!-- Tela Detalhes Clientes -->
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <section class="container bg-light">
+        <div class="row">
+          <div class="col-12 ">
+            <div id="TelaDetalhesClientes" style="display: none">
+              <button id="btnVoltarTelaCliente">Voltar</button>
+              <form id="formDetalhesCliente">
+                <div class="row">
+
+                  <div class="col-md-6 col-sm-12 bg-primarye">
+                    <div class="col-md-12">
+                      <input type="text" class="d-none" id="cliDetId" name="cliId" />
+
+                      <div class="input-group mt-4 mb-3">
+                        <span class="input-group-text mb-3">Nome</span>
+                        <input type="text" class="form-control mb-3" aria-label="Nome" aria-describedby="basic-addon1"
+                          disabled name="cliNome" value="">
+
+                        <div class="input-group mb-3">
+                          <span class="input-group-text">Sexo</span>
+                          <input type="text" class="form-control" aria-label="Sexo" aria-describedby="basic-addon1"
+                            disabled name="cliSexo" />
+                        </div>
+
+                        <div class="input-group mb-3">
+                          <span class="input-group-text">CPF</span>
+                          <input type="text" class="form-control" aria-label="CPF" aria-describedby="basic-addon1"
+                            disabled id="cliDetCpf" maxlength="14" name="cliCpf" />
+                        </div>
+
+
+
+                        <div class="input-group mb-3">
+                          <span class="input-group-text ">Celular</span>
+                          <input type="text" class="form-control" aria-label="Celular" aria-describedby="basic-addon1"
+                            id="cliDetCelular" name="cliCelular" maxlength="15" disabled value="">
+                        </div>
+
+
+                        <div class="input-group mb-3">
+                          <span class="input-group-text">Email</span>
+                          <input type="email" class="form-control" aria-label="Email" aria-describedby="basic-addon1"
+                            disabled name="cliEmail" />
+                        </div>
+
+
+                        <div class="input-group">
+                          <span class="input-group-text mb-3">Cep</span>
+                          <input type="text" class="form-control mb-3" aria-label="Cep" aria-describedby="basic-addon1"
+                            disabled id="cliDetCep" name="cliCep" />
+
+
+
+                          <div class="input-group">
+                            <span class="input-group-text">Cidade</span>
+                            <input type="text" class="form-control " aria-label="Cidade" aria-describedby="basic-addon1"
+                              disabled id="cliDetCidade" name="cliCidade" />
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- ---------------------  -->
+                  <div class="col-md-6 col-sm-12 bg-warninge">
+
+                    <div class="col-12">
+                    </div>
+                    <div class="col-12">
+                      <div class="input-group">
+                        <span class="input-group-text mt-4  mb-3">Estado</span>
+                        <input type="text" class="form-control mt-4 mb-3" aria-label="Estado"
+                          aria-describedby="basic-addon1" disabled id="cliDetEstado" name="cliEstado" />
+                      </div>
+
+                    </div>
+
+                    <div class="col-12">
+                      <div class="input-group">
+                        <span class="input-group-text mb-3">Rua</span>
+                        <input type="text" class="form-control mb-3" aria-label="Rua" aria-describedby="basic-addon1"
+                          disabled id="cliDetRua" name="cliRua" />
+                      </div>
+
+                    </div>
+                    <div class="col-12">
+                      <div class="input-group">
+                        <span class="input-group-text mb-3">Número</span>
+                        <input type="text" class="form-control mb-3" aria-label="Número" aria-describedby="basic-addon1"
+                          disabled name="cliNumeroRua" />
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">Data Início</span>
+                        <input type="date" class="form-control" aria-label="Data Início" aria-describedby="basic-addon1"
+                          disabled name="cliDataCmc" />
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">Status</span>
+                        <input type="text" class="form-control" aria-label="Status" aria-describedby="basic-addon1"
+                          disabled name="cliStatus" />
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">Plano</span>
+                        <input type="text" class="form-control" aria-label="Plano" aria-describedby="basic-addon1"
+                          disabled name="cliPlano" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2   col-sm-5">
+                  <button id="btnEditarDetalhesCliente" class="btn btn-warning mb-1"
+                    style="display: block">Editar</button>
+                  <button id="btnEnviarDetalhesCliente" class="btn btn-success mb-1" style="display: none"
+                    type="submit">Enviar</button>
+
+                </div>
+                <div class="col">
+
+                  <button id="btnArchiveCliente" class="btn btn-primary mb-4 ">Arquivar Cliente</button>
+
+                  <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalArquivarCliente">
+                          Arquivar um usuario
+                        </button> -->
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tela Criar Ficha -->
+
+      <div id="TelaCriarFicha" style="display: none">
+        <form>
+          Cliente: <span id="cliNomeCriarFicha"></span> <br />
+          Professor:<span id="funNomeCriarFicha"></span> <br />
+          <select style="display: none" name="funSelectCriarFicha" id="funSelectCriarFicha"></select>
+          Restrições:
+          <input type="checkbox" name="cliRestricoesCriarFicha" id="cliRestricoesCriarFicha" />
+          <span style="display: none" id="cliRestricoesTipoCriarFicha">Tipo de Restrições:
+          </span>
+          Intervalo: <span id="cliIntervaloCriarFicha"></span><br />
         </form>
+
+        <br />
+        <div class="row">
+          <!-- Treino A -->
+          <div class="col-4 px-4">
+            Insira Para o treino A:
+            <div class="row" style="width: 100%">
+              <form id="formInserirTreinoA">
+                <input type="text" class="d-none" id="cliIdFichaTreinoA" />
+                <input type="text" class="d-none" id="idFichaTreinoA" />
+                <input class="col-4" placeholder="Variação" type="text" name="detVariacao" />
+                <input class="col-2" placeholder="Séries" type="text" name="detSerie" />
+                <input class="col-2" placeholder="Repetições" type="text" name="detRepeticao" />
+                <input class="col-2" placeholder="Carga" type="text" name="detCarga" />
+                <button type="submit" class="col-2">Enter</button>
+              </form>
+
+              <div class="mt-2" id="listaTreinoA"></div>
+            </div>
+          </div>
+          <!-- Treino B -->
+          <div class="col-4 px-4">
+            Insira Para o treino B:
+            <div class="row">
+              <form id="formInserirTreinoB">
+                <input type="text" class="d-none" id="cliIdFichaTreinoB" />
+                <input type="text" class="d-none" id="idFichaTreinoB" />
+                <input class="col-4" placeholder="Variação" type="text" name="detVariacao" />
+                <input class="col-2" placeholder="Séries" type="text" name="detSerie" />
+                <input class="col-2" placeholder="Repetições" type="text" name="detRepeticao" />
+                <input class="col-2" placeholder="Carga" type="text" name="detCarga" />
+                <button type="submit" class="col-2">Enter</button>
+              </form>
+
+              <div class="mt-2" id="listaTreinoB"></div>
+            </div>
+          </div>
+          <!-- Treino C -->
+          <div class="col-4 px-4">
+            Insira Para o treino C:
+            <div class="row" style="width: 100%">
+              <form id="formInserirTreinoC">
+                <input type="text" class="d-none" id="cliIdFichaTreinoC" />
+                <input type="text" class="d-none" id="idFichaTreinoC" />
+                <input class="col-4" placeholder="Variação" type="text" name="detVariacao" />
+                <input class="col-2" placeholder="Séries" type="text" name="detSerie" />
+                <input class="col-2" placeholder="Repetições" type="text" name="detRepeticao" />
+                <input class="col-2" placeholder="Carga" type="text" name="detCarga" />
+                <button type="submit" class="col-2">Enter</button>
+              </form>
+
+              <div class="mt-2" id="listaTreinoC"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div id="modalCadastrarAtendimento" class="modal">
-      <div class="modal-conteudo">
-        <span id="fecharModalCadastrarAtendimento" class="fechar">&times;</span>
-        <form id="formCadastrarAtendimento">
+  </div>
+
+  <div id="modalCadastrarCliente" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="mt-4 mb-4"> Cadastrar Cliente</h3>
+          <span id="fecharModalCadastrarCliente" class="fechar">&times;</span>
+        </div>
+        <div class="modal-body">
+          <form id="formCadastrarCliente">
+            <!-- Nome -->
+            <div class="input-group input-group-modal col-12 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+              <input type="text" name="cliNome" class="form-control" placeholder="Nome" aria-label="Username"
+                aria-describedby="basic-addon1" required>
+            </div>
+
+            <!-- SEXO -->
+            <div class="input-group input-group-modal  col-md-4  col-sm-6 mb-3">
+              <select class="form-select" aria-label="Default select example" name="cliSexo" required>
+                <option value="S">Sexo</option>
+                <option value="M">Masculino</option>
+                <option value="F">Feminino</option>
+                <option value="P">Prefiro não dizer</option>
+              </select>
+            </div>
+
+            <!-- CPF -->
+            <div class="input-group input-group-modal mb-3 col-md-6  col-sm-6 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-card-heading"></i></span>
+              <input type="text" maxlength="14" id="cliCpf" name="cliCpf" class="form-control" placeholder="CPF"
+                aria-label="Username" aria-describedby="basic-addon1" required>
+            </div>
+
+
+
+            <!-- Celular -->
+            <div class="input-group input-group-modal  col-md-6  col-sm-6 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-telephone-fill"></i></span>
+              <input type="text" id="cliCelular" maxlength="15" name="cliCelular" class="form-control"
+                placeholder="Celular" aria-label="Username" aria-describedby="basic-addon1" required>
+            </div>
+
+
+            <!-- Plano  -->
+            <div class="input-group input-group-modal  col-md-4  col-sm-6 mb-3">
+              <select class="form-select" aria-label="Default select example" name="cliPlano" id="cliPlano" required>
+
+              </select>
+            </div>
+
+
+
+            <!-- Cep -->
+            <div class="input-group input-group-modal col-md-6  col-sm-6 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt-fill"></i></span>
+              <input type="text" maxlength="9" id="cliCep" name="cliCep" class="form-control" placeholder="CEP" aria-label="Username"
+                aria-describedby="basic-addon1" required>
+            </div>
+
+
+
+            <!-- Estado  -->
+            <div class="input-group input-group-modal col-md-5  col-sm-6 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt-fill"></i></span>
+              <input type="text" id="cliEstado" name="cliEstado" class="form-control" placeholder="Estado"
+                aria-label="Username" aria-describedby="basic-addon1" required>
+            </div>
+
+
+
+            <!-- Cidade -->
+            <div class="input-group input-group-modal col-md-6  col-sm-6 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt-fill"></i></i></span>
+              <input type="text" id="cliCidade" name="cliCidade" class="form-control" placeholder="Cidade"
+                aria-label="Username" aria-describedby="basic-addon1" required>
+            </div>
+
+
+
+            <!-- Rua -->
+            <div class="input-group input-group-modal col-md-10  col-sm-6 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-signpost-fill"></i></span>
+              <input input type="text" id="cliRua" name="cliRua" class="form-control" placeholder="Rua"
+                aria-label="Username" aria-describedby="basic-addon1" required>
+            </div>
+
+
+            <!-- Numero da Rua -->
+            <div class="input-group input-group-modal col-md-6  col-sm-6 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-123"></i></span>
+              <input input type="text" name="cliNumeroRua" class="form-control" placeholder="Numero"
+                aria-label="Username" aria-describedby="basic-addon1" required>
+            </div>
+
+            
+            <!-- E-mail -->
+            <div class="input-group input-group-modal col-md-6  col-sm-6 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-envelope-at-fill"></i></span>
+              <input input type="email" name="cliEmail" class="form-control" placeholder="E-mail" aria-label="Username"
+                aria-describedby="basic-addon1" required>
+            </div>
+
+
+            <!-- senha -->
+            <div class="input-group input-group-modal col-md-6  col-sm-6 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-file-lock-fill"></i></span>
+              <input type="password" name="cliSenha" id="cliSenha" class="form-control" placeholder="Senha"
+                aria-label="Username" aria-describedby="basic-addon1" required>
+            </div>
+
+
+
+            <div class="col">
+              <button type="submit" class="btn btn-success">Enviar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modalCadastrarAtendimento" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
           <h2>Cadastrar Atendimento</h2>
-          Selecione o Cliente:
-          <select name="ateIdCliente" id="selectClienteAtendimento"></select>
-          <button type="submit">Enviar</button>
-        </form>
+          <span id="fecharModalCadastrarAtendimento" class="fechar">&times;</span>
+        </div>
+        <div class="modal-body">
+          <form id="formCadastrarAtendimento">
+            <div class="input-group input-group-modal  col-md-4  col-sm-6 mb-3">
+              <span class="d-flex"> <span class="input-group-text" id="basic-addon1">Selecione o Cliente</i></span>
+                <select style="width: 100px;" class="form-select" name="ateIdCliente"
+                  id="selectClienteAtendimento"></select> <br> <br>
+              </span>
+            </div>
+            <button class="btn btn-success float-right" type="submit">Enviar</button>
+          </form>
+        </div>
       </div>
     </div>
-    <div id="modalArquivarCliente" class="modal">
-      <div class="modal-conteudo">
-        <form id="formArquivarCliente">
+  </div>
+
+  <div id="modalArquivarCliente" class="modal" tabindex="-1">
+    <div class="modal-dialog d-flex align-items-center justify-content-center" style="height: 80vh;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Arquivar Cliente</h2>
           <span id="fecharModalArquivarCliente" class="fechar">&times;</span>
-          Tem certeza?
-          <button type="submit">Enviar</button>
+        </div>
+        <form id="formArquivarCliente" class="p-5">
+          <br>
+          <h2 class="txt-danger">Tem certeza?</h2> <br> <br>
+          <button class="float-right btn btn-danger" type="submit">Arquivar</button>
         </form>
       </div>
     </div>
-    <div id="modalCriarBaseFicha" class="modal">
-      <div class="modal-conteudo">
-        <form id="formCriarBaseFicha">
-          <span id="fecharModalCriarBaseFicha" class="fechar">&times;</span>
-          <input class="d-none" name="ficCliId" type="text" id="cliIdFicha" />
-          Escolha um professor:
-          <select name="funId" id="funFicha"></select
-          ><br />
-          <br />
-          Possui Restrições?:
-          <input type="checkbox" name="ficRestricoes" id="ficRestricoes" />
-          <span id="ficTipoRestricoesSpan" style="display: none"
-            >Quais?:
-            <textarea
-              name="ficTipoRestricoes"
-              id="ficTipoRestricoes"
-              cols="30"
-              rows="1"
-            ></textarea></span
-          ><br />
-          <br />
-          Insira o Intervalo: <input name="ficIntervalo" type="time" /><br />
-          <br />
-          <button type="submit">Enviar</button>
-        </form>
-      </div>
+  </div>
+  </div>
+
+  <div id="modalCriarBaseFicha" class="modal">
+    <div class="modal-conteudo">
+      <form id="formCriarBaseFicha">
+        <span id="fecharModalCriarBaseFicha" class="fechar">&times;</span>
+        <input class="d-none" name="ficCliId" type="text" id="cliIdFicha" />
+        Escolha um professor:
+        <select name="funId" id="funFicha"></select><br />
+        <br />
+        Possui Restrições?:
+        <input type="checkbox" name="ficRestricoes" id="ficRestricoes" />
+        <span id="ficTipoRestricoesSpan" style="display: none">Quais?:
+          <textarea name="ficTipoRestricoes" id="ficTipoRestricoes" cols="30" rows="1"></textarea></span><br />
+        <br />
+        Insira o Intervalo: <input name="ficIntervalo" type="time" /><br />
+        <br />
+        <button type="submit">Enviar</button>
+      </form>
     </div>
+  </div>
 
-    <script src="../service/Back/reqFicha.js"></script>
-    <script src="../service/Back/reqFuncionario.js"></script>
-    <script src="../service/Back/reqAdministrador.js"></script>
-    <script src="../service/Front/frtFuncionario.js"></script>
-    <script src="../service/Front/Validacao.js"></script>
+  <script src="../service/Back/reqFicha.js"></script>
+  <script src="../service/Back/reqFuncionario.js"></script>
+  <script src="../service/Back/reqAdministrador.js"></script>
+  <script src="../service/Front/frtFuncionario.js"></script>
+  <script src="../service/Front/Validacao.js"></script>
 
-    <!-- <script src="../assets/dist/js/bootstrap.bundle.min.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/js/bootstrap.bundle.min.js"></script>
+  <!-- <script src="../assets/dist/js/bootstrap.bundle.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/js/bootstrap.bundle.min.js"></script>
 
-    <script
-      defer
-      src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
-      integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      defer
-      src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
-      integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
-      crossorigin="anonymous"
-    ></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
+    integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
+    crossorigin="anonymous"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
+    integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
+    crossorigin="anonymous"></script>
 
-    <!-- jQuery CDN - Slim version (=without AJAX) -->
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-      crossorigin="anonymous"
-    ></script>
-    <!-- Popper.JS -->
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
-      integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
-      crossorigin="anonymous"
-    ></script>
-    <!-- Bootstrap JS -->
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
-      integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
-      crossorigin="anonymous"
-    ></script>
-    <script src="../service/Front/nav.js"></script>
-  </body>
+  <!-- jQuery CDN - Slim version (=without AJAX) -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <!-- Popper.JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+    integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+    crossorigin="anonymous"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+    integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+    crossorigin="anonymous"></script>
+  <script src="../service/Front/nav.js"></script>
+</body>
+
 </html>

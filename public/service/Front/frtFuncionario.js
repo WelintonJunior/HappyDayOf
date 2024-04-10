@@ -50,6 +50,9 @@ const btnArchiveCliente = document.getElementById("btnArchiveCliente");
 const btnCadastrarAtendimento = document.getElementById(
   "btnCadastrarAtendimento"
 );
+const btnVoltarTelaCliente = document.getElementById(
+  "btnVoltarTelaCliente"
+);
 
 //Declara Formularios
 const formDetCliente = document.getElementById("formDetalhesCliente");
@@ -130,6 +133,20 @@ window.onclick = function (event) {
   }
 };
 
+//Fechar Modal Cadastrar Base Ficha
+
+fecharModalCriarBaseFicha.onclick = function () {
+  modalCriarBaseFicha.style.display = "none";
+};
+
+//Clicar Fora fecha o Modal Base Ficha
+
+window.onclick = function (event) {
+  if (event.target == modalCriarBaseFicha) {
+    modalCriarBaseFicha.style.display = "none";
+  }
+};
+
 //Abrir Modal Atendimento
 
 btnCadastrarAtendimento.addEventListener("click", (e) => {
@@ -165,6 +182,13 @@ window.onclick = function (event) {
   }
 };
 
+//Voltar tela CLiente 
+
+btnVoltarTelaCliente.addEventListener("click", async () => {
+  MostrarTela("TelaClientes");
+  await UpdateListaCliente();
+})
+
 //Função para pegar os dados da api de cep e jogar nos campos
 
 const cliCep = document.getElementById("cliCep");
@@ -174,6 +198,9 @@ cliCep.addEventListener("blur", (e) => {
       document.getElementById("cliCidade").value = data.localidade;
       document.getElementById("cliEstado").value = data.uf;
       document.getElementById("cliRua").value = data.logradouro;
+    } else {
+      alert("Cep não encontrado")
+      e.target.value = "";
     }
   });
 });
@@ -185,6 +212,9 @@ cliDetCep.addEventListener("blur", (e) => {
       document.getElementById("cliDetCidade").value = data.localidade;
       document.getElementById("cliDetEstado").value = data.uf;
       document.getElementById("cliDetRua").value = data.logradouro;
+    } else {
+      alert("Cep não encontrado")
+      e.target.value = "";
     }
   });
 });
@@ -245,6 +275,12 @@ async function UpdateListaCliente() {
         if (item.hasOwnProperty(campo)) {
           let celula = linha.insertCell();
           celula.textContent = item[campo];
+          if (campo === "cliStatus") {
+            celula.innerHTML =
+              item[campo] === "1"
+                ? `<span class="text-success">Ativo</span>`
+                : `<span class="text-danger">Arquivado</span>`;
+          }
         }
       });
       let celulaBotao = linha.insertCell();
@@ -334,7 +370,7 @@ async function UpdateListaAtendimento() {
           }
         }
       });
-      if(item.ateStatus === '1') {
+      if (item.ateStatus === '1') {
         let celulaBotao = linha.insertCell();
         let botaoEncerrar = document.createElement("button");
         celulaBotao.style.cssText = "display: flex;align-items:center; padding-left: 25px "
@@ -384,7 +420,7 @@ async function UpdateListaClienteFicha() {
   if (result) {
     result.forEach((item) => {
       const linha = corpoTabela.insertRow();
-      let PossuiFicha = item.ClienteExisteNaFicha === 0 ? "Não" : "Sim";
+      let PossuiFicha = item.ClienteExisteNaFicha === 0 ? `<span class="text-danger">Não</span>` : `<span class="text-success">Sim</span>` ;
       const camposSelecionados = ["cliId", "cliNome"];
 
       camposSelecionados.forEach((campo) => {
@@ -395,7 +431,7 @@ async function UpdateListaClienteFicha() {
       });
 
       let celulaPossuiFicha = linha.insertCell();
-      celulaPossuiFicha.textContent = PossuiFicha;
+      celulaPossuiFicha.innerHTML = PossuiFicha;
 
       let celulaBotao = linha.insertCell();
       celulaBotao.style.cssText = "display: flex;align-items:center; padding-left: 25px "
@@ -462,11 +498,11 @@ async function UpdateCampoFichaCliente(item, campo, celula) {
     celula.textContent = novoValor;
   });
   input.addEventListener("keypress", async (e) => {
-    if(e.key === "Enter") {
+    if (e.key === "Enter") {
       let novoValor = input.value;
       const detId = celula.getAttribute("data-detid");
       const campoEditado = celula.getAttribute("data-campo");
-  
+
       if (novoValor === "") {
         celula.textContent = valorAnterior;
       } else {
@@ -520,9 +556,9 @@ async function UpdateClienteFichaTreinoA(cliId) {
           celula.setAttribute("data-detId", item.detId);
           celula.setAttribute("data-campo", campo); // Adiciona um atributo data-campo com o nome do campo
 
-            celula.addEventListener("click", async (e) => {
-              await UpdateCampoFichaCliente(item, campo, celula); 
-            });
+          celula.addEventListener("click", async (e) => {
+            await UpdateCampoFichaCliente(item, campo, celula);
+          });
         }
       });
     });
@@ -571,7 +607,7 @@ async function UpdateClienteFichaTreinoB(cliId) {
           celula.setAttribute("data-campo", campo); // Adiciona um atributo data-campo com o nome do campo
 
           celula.addEventListener("click", async (e) => {
-            await UpdateCampoFichaCliente(item, campo, celula); 
+            await UpdateCampoFichaCliente(item, campo, celula);
           });
         }
       });
@@ -621,7 +657,7 @@ async function UpdateClienteFichaTreinoC(cliId) {
           celula.setAttribute("data-campo", campo); // Adiciona um atributo data-campo com o nome do campo
 
           celula.addEventListener("click", async (e) => {
-            await UpdateCampoFichaCliente(item, campo, celula); 
+            await UpdateCampoFichaCliente(item, campo, celula);
           });
         }
       });

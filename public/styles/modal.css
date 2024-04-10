@@ -21,6 +21,10 @@
   border-radius: 20px;
 }
 
+.input-group-modal {
+  height: 30px;
+}
+
 .fechar {
   color: #aaa;
   float: right;

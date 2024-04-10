@@ -20,7 +20,7 @@ router.post("/Funcionario", (req, res) => {
       break;
     case "ReadAtendimento":
       db.query(
-        "select a.*,f.funId,c.cliNome from tblAtendimento as a join tblCliente as c on a.ateIdCliente = c.cliId join tblFuncionario as f on a.ateIdFuncionario = f.funId where a.ateIdAcad = ? and a.ateIdFuncionario = ? order by a.ateStatus desc",
+        "select a.*,f.funId,c.cliNome from tblAtendimento as a join tblCliente as c on a.ateIdCliente = c.cliId join tblFuncionario as f on a.ateIdFuncionario = f.funId where a.ateIdAcad = ? and a.ateIdFuncionario = ? order by a.ateStatus desc , a.ateDateInicio desc",
         [idAcademia, data],
         (err, results) => {
           if (err) {

@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SOFTWARE ACADEMIA 3000</title>
+  <link rel="shortcut icon" href="../images/icon.ico" type="image/x-icon">
   <link rel="stylesheet" href="../styles/index.css" />
   <link rel="stylesheet" href="../styles/equipe.css" />
   <link rel="stylesheet" href="../styles/nav.css" />
@@ -87,75 +88,156 @@
   </div>
   <main>
 
-    <!-- Modal -->
-    <div id="modalCadastrarAcademia" class="modal">
-      <div class="modal-conteudo">
-        <span class="fechar">&times;</span>
-        <div class="formBox" id="formAcademiaBox">
-          <form id="formAcademia">
-            <h2>Cadastrar Academia</h3>
-              Cnpj: <input type="text" maxlength="18" id="acaCnpj" name="acaCnpj" />
-              <br />
-              <br />
-              Nome: <input type="text" name="acaNome" /><br />
-              <br />
-              Cep: <input type="text" name="acaCep" /><br />
-              <br />
-              Data: <input type="date" name="acaDataCadastro" /><br />
-              <br />
-              Celular:
-              <input type="text" maxlength="15" id="acaCelular" name="acaCelular" /><br />
-              <br />
-              Telefone:
-              <input type="text" maxlength="9" id="acaTelefone" name="acaTelefone" /><br />
-              <br />
-              Cor tema:
-              <input type="color" name="acaColor" value="#ff0000" /><br />
-              <br />
-              <button type="submit">Enviar</button>
-          </form>
+    <div id="modalCadastrarAcademia" class="modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="mt-4 mb-4"> Cadastrar Academia</h3>
+            <span class="fechar">&times;</span>
+          </div>
+          <div class="modal-body">
+            <form id="formAcademia">
+
+              <div class="input-group input-group-modal  col-12 mb-3">
+                <span class="input-group-text" id="basic-addon1">CNPJ</span>
+                <input type="text" maxlength="18" name="acaCnpj" id="acaCnpj" class="form-control" placeholder="CNPJ"
+                  aria-label="CNPJ" aria-describedby="basic-addon1" required>
+              </div>
+              <div class="input-group input-group-modal  col-12 mb-3">
+                <span class="input-group-text" id="basic-addon1">Razão Social</span>
+                <input type="text" name="acaNome" id="acaNome" class="form-control" placeholder="Razão Social"
+                  aria-label="Razão Social" aria-describedby="basic-addon1" required>
+              </div>
+              <div class="input-group input-group-modal  col-12 mb-3">
+                <span class="input-group-text" id="basic-addon1">Cep</span>
+                <input type="text" maxlength="9" name="acaCep" id="acaCep" class="form-control" placeholder="Cep" aria-label="Cep"
+                  aria-describedby="basic-addon1" required>
+              </div>
+
+              <input class="d-none" type="date" name="acaDataCadastro" id="acaDataCadastro" class="form-control">
+
+              <div class="input-group input-group-modal  col-12 mb-3">
+                <span class="input-group-text" id="basic-addon1">Celular</span>
+                <input type="text" maxlength="15" name="acaCelular" id="acaCelular" placeholder="Celular" class="form-control"
+                  aria-describedby="basic-addon1">
+              </div>
+
+              <div class="input-group input-group-modal  col-12 mb-3">
+                <span class="input-group-text" id="basic-addon1">Telefone</span>
+                <input type="text" maxlength="9" name="acaTelefone" id="acaTelefone" placeholder="Telefone" class="form-control"
+                  aria-describedby="basic-addon1">
+              </div>
+
+              <div class="input-group input-group-modal  col-8 mb-3">
+                <span class="input-group-text" id="basic-addon1">Cor Tema</span>
+                <input type="color" name="acaColor" id="acaColor" class="form-control  form-control-color"
+                  aria-describedby="basic-addon1">
+              </div>
+
+
+              <button class="btn btn-success float-right" type="submit">Enviar</button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
 
-    <div id="modalCadastrarAdministradorAcademia" class="modal">
-      <div class="modal-conteudo">
-        <form id="formAdministradorAcademia">
-          <h2>Cadastrar Administrador</h3>
-            Nome: <input type="text" name="admNome" /> <br />
-            <br />
-            Celular:
-            <input type="text" id="admCelular" maxlength="15" name="admCelular" />
-            <br />
-            <br />
-            Cep: <input type="text" id="admCep" name="admCep" /> <br />
-            <br />
-            Estado: <input type="text" id="admEstado" name="admEstado" /> <br />
-            <br />
-            Cidade: <input type="text" id="admCidade" name="admCidade" /> <br />
-            <br />
-            Rua: <input type="text" id="admRua" name="admRua" /> <br />
-            <br />
-            Numero Rua: <input type="text" name="admNumeroRua" /> <br />
-            <br />
-            Sexo:
-            <select name="admSexo">
-              <option value="M">Masculino</option>
-              <option value="F">Feminino</option>
-              <option value="P">Prefiro não dizer</option>
-            </select>
-            <br />
-            <br />
-            CPF: <input type="text" maxlength="14" id="admCpf" name="admCpf" />
-            <br />
-            <br />
-            Email: <input type="text" name="admEmail" /> <br />
-            <br />
-            <select class="d-none" name="admAcademia" id="admAcademia"></select>
-            Senha: <input type="password" name="admSenha" id="" /> <br />
-            <br />
-            <button type="submit">Enviar</button>
-        </form>
+    <div id="modalCadastrarAdministradorAcademia" class="modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="mt-4 mb-4"> Cadastrar Administrador</h3>
+          </div>
+          <div class="modal-body">
+            <form id="formAdministradorAcademia">
+
+              <!-- Nome -->
+              <div class="input-group input-group-modal col-12 mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+                <input type="text" name="admNome" class="form-control" placeholder="Nome" aria-label="Username"
+                  aria-describedby="basic-addon1" required>
+              </div>
+
+              <!-- Celular -->
+              <div class="input-group input-group-modal col-md-6 col-sm-6 mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-telephone-fill"></i></span>
+                <input type="text" id="admCelular" maxlength="15" name="admCelular" class="form-control"
+                  placeholder="Celular" aria-label="Username" aria-describedby="basic-addon1" required>
+              </div>
+
+              <!-- CEP -->
+              <div class="input-group input-group-modal col-md-6 col-sm-6 mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt-fill"></i></span>
+                <input type="text" maxlength="9" id="admCep" name="admCep" class="form-control" placeholder="CEP"
+                  aria-label="Username" aria-describedby="basic-addon1">
+              </div>
+
+              <!-- Estado -->
+              <div class="input-group input-group-modal col-md-5 col-sm-6 mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt-fill"></i></span>
+                <input type="text" id="admEstado" name="admEstado" class="form-control" placeholder="Estado"
+                  aria-label="Username" aria-describedby="basic-addon1">
+              </div>
+
+              <!-- Cidade -->
+              <div class="input-group input-group-modal col-md-6 col-sm-6 mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt-fill"></i></span>
+                <input type="text" id="admCidade" name="admCidade" class="form-control" placeholder="Cidade"
+                  aria-label="Username" aria-describedby="basic-addon1">
+              </div>
+
+              <!-- Rua -->
+              <div class="input-group input-group-modal col-md-10 col-sm-6 mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-signpost-fill"></i></span>
+                <input type="text" id="admRua" name="admRua" class="form-control" placeholder="Rua"
+                  aria-label="Username" aria-describedby="basic-addon1">
+              </div>
+
+              <!-- Numero da Rua -->
+              <div class="input-group input-group-modal col-md-6 col-sm-6 mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-123"></i></span>
+                <input type="text" name="admNumeroRua" class="form-control" placeholder="Numero" aria-label="Username"
+                  aria-describedby="basic-addon1">
+              </div>
+
+              <!-- Sexo -->
+              <div class="input-group input-group-modal col-md-4 col-sm-6 mb-3">
+                <select class="form-select" aria-label="Default select example" name="admSexo" required>
+                  <option value="M">Masculino</option>
+                  <option value="F">Feminino</option>
+                  <option value="P">Prefiro não dizer</option>
+                </select>
+              </div>
+
+              <!-- CPF -->
+              <div class="input-group input-group-modal mb-3 col-md-6 col-sm-6 mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-card-heading"></i></span>
+                <input type="text" maxlength="14" id="admCpf" name="admCpf" class="form-control" placeholder="CPF"
+                  aria-label="Username" aria-describedby="basic-addon1" required>
+              </div>
+
+              <!-- E-mail -->
+              <div class="input-group input-group-modal col-md-6 col-sm-6 mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-envelope-at-fill"></i></span>
+                <input type="email" name="admEmail" class="form-control" placeholder="E-mail" aria-label="Username"
+                  aria-describedby="basic-addon1" required>
+              </div>
+
+
+              <!-- Senha -->
+              <div class="input-group input-group-modal col-md-6 col-sm-6 mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-file-lock-fill"></i></span>
+                <input type="password" name="admSenha" id="admSenha" class="form-control" placeholder="Senha"
+                  aria-label="Username" aria-describedby="basic-addon1" required>
+              </div>
+
+
+              <div class="col">
+                <button type="submit" class="btn btn-success mb-1">Enviar</button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -167,37 +249,26 @@
   <!-- <script src="../assets/dist/js/bootstrap.bundle.min.js"></script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/js/bootstrap.bundle.min.js"></script>
 
-  <script
-    defer
-    src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
+  <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
     integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
-    crossorigin="anonymous"
-  ></script>
-  <script
-    defer
-    src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
+    crossorigin="anonymous"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
     integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
-    crossorigin="anonymous"
-  ></script>
+    crossorigin="anonymous"></script>
 
   <!-- jQuery CDN - Slim version (=without AJAX) -->
-  <script
-    src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"
-  ></script>
+    crossorigin="anonymous"></script>
   <!-- Popper.JS -->
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
     integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
-    crossorigin="anonymous"
-  ></script>
+    crossorigin="anonymous"></script>
   <!-- Bootstrap JS -->
-  <script
-    src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
     integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
-    crossorigin="anonymous"
-  ></script>
+    crossorigin="anonymous"></script>
   <script src="../service/Front/nav.js"></script>
 </body>
+
 </html>

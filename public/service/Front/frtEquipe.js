@@ -55,6 +55,9 @@ let spanFecharCadastrarAdministradorAcademia =
 //Ao Clicar no botao Cadastrar Academia abre o modal
 
 abrirModalRegisterAcademia.onclick = function () {
+  const dateTimeNow = getFormattedDateTime();
+  const dateNow = dateTimeNow.split(' ')[0];
+  document.getElementById("acaDataCadastro").value = dateNow
   modalCadastrarAcademia.style.display = "block";
 };
 
@@ -85,7 +88,6 @@ formAcademia.addEventListener("submit", async (e) => {
   const fd = new FormData(e.target);
   const data = Object.fromEntries(fd.entries());
   const result = await CreateAcademia(data);
-  InsertAcademiaToTheOptions();
   e.target.reset();
   console.log(result);
   modalCadastrarAcademia.style.display = "none";
@@ -99,10 +101,10 @@ formAdministradorAcademia.addEventListener("submit", async (e) => {
   const fd = new FormData(e.target);
   const data = Object.fromEntries(fd.entries());
   data.admDataCmc = await getFormattedDateTime();
-  const result = await AddAdministrador(data);
+  await AddAdministrador(data);
   e.target.reset();
   modalCadastrarAdministradorAcademia.style.display = "none";
-  console.log(result);
+  await CarregarTabela();
 });
 
 //Função para pegar os dados da api de cep e jogar nos campos
@@ -114,6 +116,21 @@ admCep.addEventListener("blur", (e) => {
       document.getElementById("admCidade").value = data.localidade;
       document.getElementById("admEstado").value = data.uf;
       document.getElementById("admRua").value = data.logradouro;
+    } else {
+      alert("Cep não encontrado")
+      e.target.value = "";
+    }
+  });
+});
+
+//Função para Validar o cep de entrada da academia
+
+const acaCep = document.getElementById("acaCep");
+acaCep.addEventListener("blur", (e) => {
+  cepAutomatico(e.target.value).then((data) => {
+    if (!data) {
+      alert("Cep não encontrado")
+      e.target.value = "";
     }
   });
 });

@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title id="titleAcad"></title>
+  <link rel="shortcut icon" href="../images/icon.ico" type="image/x-icon">
   <link rel="stylesheet" href="../styles/index.css" />
   <link rel="stylesheet" href="../styles/administrador.css" />
   <link rel="stylesheet" href="../styles/nav.css" />
@@ -132,12 +133,12 @@
       <br>
       <br>
       <br>
-
       <br>
       <section class="container bg-light">
         <div class="row">
           <div class="col-12 ">
             <div id="TelaDetalhesClientes" style="display: none">
+              <button id="btnVoltarTelaCliente">Voltar</button>
               <form id="formDetalhesCliente">
                 <div class="row">
 
@@ -273,6 +274,7 @@
       <!-- Tela Detalhes Funcionario -->
 
       <div id="TelaDetalhesFuncionarios" style="display: none">
+        <button id="btnVoltarTelaFuncionario">Voltar</button>
         <form id="formDetalhesFuncionario">
           <br />
 
@@ -387,6 +389,7 @@
       <!-- Tela Criar Ficha -->
 
       <div id="TelaCriarFicha" style="display: none">
+        <button id="btnVoltarTelaFicha">Voltar</button>
         <form>
           Cliente: <span id="cliNomeCriarFicha"></span> <br />
           Professor:<span id="funNomeCriarFicha"></span> <br />
@@ -460,242 +463,260 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <div class="modal-body">
-            <span id="fecharModalCadastrarCliente" class="fechar">&times;</span>
-            <form id="formCadastrarCliente">
-              <h3 class="mt-4 mb-4"> Cadastrar Cliente</h3>
-              <!-- Nome -->
-              <div class="input-group  col-12 mb-3">
-                <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
-                <input type="text" name="cliNome" class="form-control" placeholder="Nome" aria-label="Username"
-                  aria-describedby="basic-addon1" required>
-              </div>
+          <h3 class="mt-4 mb-4"> Cadastrar Cliente</h3>
+          <span id="fecharModalCadastrarCliente" class="fechar">&times;</span>
+        </div>
+        <div class="modal-body">
+          <form id="formCadastrarCliente">
+            <!-- Nome -->
+            <div class="input-group input-group-modal  col-12 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+              <input type="text" name="cliNome" class="form-control" placeholder="Nome" aria-label="Username"
+                aria-describedby="basic-addon1" required>
+            </div>
 
-              <!-- SEXO -->
-              <div class="input-group  col-md-4  col-sm-6 mb-3">
-                <select class="form-select" aria-label="Default select example" name="cliSexo" required>
-                  <option value="S">Sexo</option>
-                  <option value="M">Masculino</option>
-                  <option value="F">Feminino</option>
-                  <option value="P">Prefiro não dizer</option>
-                </select>
-              </div>
+            <!-- SEXO -->
+            <div class="input-group input-group-modal  col-md-4  col-sm-6 mb-3">
+              <select class="form-select" aria-label="Default select example" name="cliSexo" required>
+                <option value="S">Sexo</option>
+                <option value="M">Masculino</option>
+                <option value="F">Feminino</option>
+                <option value="P">Prefiro não dizer</option>
+              </select>
+            </div>
 
-              <!-- CPF -->
-              <div class="input-group mb-3 col-md-6  col-sm-6 mb-3">
-                <span class="input-group-text" id="basic-addon1"><i class="bi bi-card-heading"></i></span>
-                <input type="text" maxlength="14" id="cliCpf" name="cliCpf" class="form-control" placeholder="CPF"
-                  aria-label="Username" aria-describedby="basic-addon1" required>
-              </div>
-
-
-
-              <!-- Celular -->
-              <div class="input-group  col-md-6  col-sm-6 mb-3">
-                <span class="input-group-text" id="basic-addon1"><i class="bi bi-telephone-fill"></i></span>
-                <input type="text" id="cliCelular" maxlength="15" name="cliCelular" class="form-control"
-                  placeholder="Celular" aria-label="Username" aria-describedby="basic-addon1" required>
-              </div>
+            <!-- CPF -->
+            <div class="input-group input-group-modal mb-3 col-md-6  col-sm-6 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-card-heading"></i></span>
+              <input type="text" maxlength="14" id="cliCpf" name="cliCpf" class="form-control" placeholder="CPF"
+                aria-label="Username" aria-describedby="basic-addon1" required>
+            </div>
 
 
 
-              <!-- E-mail -->
-              <div class="input-group col-md-6  col-sm-6 mb-3">
-                <span class="input-group-text" id="basic-addon1"><i class="bi bi-envelope-at-fill"></i></span>
-                <input input type="email" name="cliEmail" class="form-control" placeholder="E-mail"
-                  aria-label="Username" aria-describedby="basic-addon1" required>
-              </div>
+            <!-- Celular -->
+            <div class="input-group input-group-modal  col-md-6  col-sm-6 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-telephone-fill"></i></span>
+              <input type="text" id="cliCelular" maxlength="15" name="cliCelular" class="form-control"
+                placeholder="Celular" aria-label="Username" aria-describedby="basic-addon1" required>
+            </div>
 
 
 
 
-              <!-- Plano  -->
-              <div class="input-group  col-md-4  col-sm-6 mb-3">
-                <select class="form-select" aria-label="Default select example" name="cliPlano" id="cliPlano" required>
 
-                </select>
-              </div>
+            <!-- Plano  -->
+            <div class="input-group input-group-modal  col-md-4  col-sm-6 mb-3">
+              <select class="form-select" aria-label="Default select example" name="cliPlano" id="cliPlano" required>
 
-
-
-              <!-- Cep -->
-              <div class="input-group col-md-6  col-sm-6 mb-3">
-                <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt-fill"></i></span>
-                <input type="text" id="cliCep" name="cliCep" class="form-control" placeholder="CEP"
-                  aria-label="Username" aria-describedby="basic-addon1" required>
-              </div>
+              </select>
+            </div>
 
 
 
-              <!-- Estado  -->
-              <div class="input-group col-md-5  col-sm-6 mb-3">
-                <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt-fill"></i></span>
-                <input type="text" id="cliEstado" name="cliEstado" class="form-control" placeholder="Estado"
-                  aria-label="Username" aria-describedby="basic-addon1" required>
-              </div>
+            <!-- Cep -->
+            <div class="input-group input-group-modal col-md-6  col-sm-6 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt-fill"></i></span>
+              <input type="text" maxlength="9" id="cliCep" name="cliCep" class="form-control" placeholder="CEP"
+                aria-label="Username" aria-describedby="basic-addon1" required>
+            </div>
 
 
 
-              <!-- Cidade -->
-              <div class="input-group col-md-6  col-sm-6 mb-3">
-                <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt-fill"></i></i></span>
-                <input type="text" id="cliCidade" name="cliCidade" class="form-control" placeholder="Cidade"
-                  aria-label="Username" aria-describedby="basic-addon1" required>
-              </div>
+            <!-- Estado  -->
+            <div class="input-group input-group-modal col-md-5  col-sm-6 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt-fill"></i></span>
+              <input type="text" id="cliEstado" name="cliEstado" class="form-control" placeholder="Estado"
+                aria-label="Username" aria-describedby="basic-addon1" required>
+            </div>
 
 
 
-              <!-- Rua -->
-              <div class="input-group col-md-10  col-sm-6 mb-3">
-                <span class="input-group-text" id="basic-addon1"><i class="bi bi-signpost-fill"></i></span>
-                <input input type="text" id="cliRua" name="cliRua" class="form-control" placeholder="Rua"
-                  aria-label="Username" aria-describedby="basic-addon1" required>
-              </div>
-
-
-              <!-- Numero da Rua -->
-              <div class="input-group col-md-6  col-sm-6 mb-3">
-                <span class="input-group-text" id="basic-addon1"><i class="bi bi-123"></i></span>
-                <input input type="text" name="cliNumeroRua" class="form-control" placeholder="Numero"
-                  aria-label="Username" aria-describedby="basic-addon1" required>
-              </div>
-
-              <!-- senha -->
-              <div class="input-group col-md-6  col-sm-6 mb-3">
-                <span class="input-group-text" id="basic-addon1"><i class="bi bi-file-lock-fill"></i></span>
-                <input type="password" name="cliSenha" id="cliSenha" class="form-control" placeholder="Senha"
-                  aria-label="Username" aria-describedby="basic-addon1" required>
-              </div>
+            <!-- Cidade -->
+            <div class="input-group input-group-modal col-md-6  col-sm-6 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt-fill"></i></i></span>
+              <input type="text" id="cliCidade" name="cliCidade" class="form-control" placeholder="Cidade"
+                aria-label="Username" aria-describedby="basic-addon1" required>
+            </div>
 
 
 
-              <div class="col">
-                <button type="submit" class="btn btn-success">Enviar</button>
-              </div>
-            </form>
-          </div>
+            <!-- Rua -->
+            <div class="input-group input-group-modal col-md-10  col-sm-6 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-signpost-fill"></i></span>
+              <input input type="text" id="cliRua" name="cliRua" class="form-control" placeholder="Rua"
+                aria-label="Username" aria-describedby="basic-addon1" required>
+            </div>
+
+
+            <!-- Numero da Rua -->
+            <div class="input-group input-group-modal col-md-6  col-sm-6 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-123"></i></span>
+              <input input type="text" name="cliNumeroRua" class="form-control" placeholder="Numero"
+                aria-label="Username" aria-describedby="basic-addon1" required>
+            </div>
+
+
+            <!-- E-mail -->
+            <div class="input-group input-group-modal col-md-6  col-sm-6 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-envelope-at-fill"></i></span>
+              <input input type="email" name="cliEmail" class="form-control" placeholder="E-mail" aria-label="Username"
+                aria-describedby="basic-addon1" required>
+            </div>
+
+            <!-- senha -->
+            <div class="input-group input-group-modal col-md-6  col-sm-6 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-file-lock-fill"></i></span>
+              <input type="password" name="cliSenha" id="cliSenha" class="form-control" placeholder="Senha"
+                aria-label="Username" aria-describedby="basic-addon1" required>
+            </div>
+
+
+
+            <div class="col">
+              <button type="submit" class="btn btn-success">Enviar</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
-  
-  <div id="modalCadastrarFuncionario" class="modal">
-    <div class="modal-conteudo">
-      <span id="fecharModalCadastrarFuncionario" class="fechar">&times;</span>
-      <form id="formCadastrarFuncionario">
-        <div class="col">
+
+  <div id="modalCadastrarFuncionario" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
           <h3 class="mt-4 mb-4"> Cadastrar Funcionario</h3>
+          <span id="fecharModalCadastrarFuncionario" class="fechar">&times;</span>
         </div>
+        <div class="modal-body">
+          <form id="formCadastrarFuncionario">
+
+            <!-- Nome -->
+            <div class="input-group input-group-modal col-12 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+              <input type="text" name="funNome" class="form-control" placeholder="Nome" aria-label="Username"
+                aria-describedby="basic-addon1" required>
+            </div>
+
+            <!-- Celular -->
+            <div class="input-group input-group-modal col-md-6 col-sm-6 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-telephone-fill"></i></span>
+              <input type="text" id="funCelular" maxlength="15" name="funCelular" class="form-control"
+                placeholder="Celular" aria-label="Username" aria-describedby="basic-addon1" required>
+            </div>
+
+            <!-- CEP -->
+            <div class="input-group input-group-modal col-md-6 col-sm-6 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt-fill"></i></span>
+              <input type="text" maxlength="9" id="funCep" name="funCep" class="form-control" placeholder="CEP"
+                aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+
+            <!-- Estado -->
+            <div class="input-group input-group-modal col-md-5 col-sm-6 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt-fill"></i></span>
+              <input type="text" id="funEstado" name="funEstado" class="form-control" placeholder="Estado"
+                aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+
+            <!-- Cidade -->
+            <div class="input-group input-group-modal col-md-6 col-sm-6 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt-fill"></i></span>
+              <input type="text" id="funCidade" name="funCidade" class="form-control" placeholder="Cidade"
+                aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+
+            <!-- Rua -->
+            <div class="input-group input-group-modal col-md-10 col-sm-6 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-signpost-fill"></i></span>
+              <input type="text" id="funRua" name="funRua" class="form-control" placeholder="Rua" aria-label="Username"
+                aria-describedby="basic-addon1">
+            </div>
+
+            <!-- Numero da Rua -->
+            <div class="input-group input-group-modal col-md-6 col-sm-6 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-123"></i></span>
+              <input type="text" name="funNumeroRua" class="form-control" placeholder="Numero" aria-label="Username"
+                aria-describedby="basic-addon1">
+            </div>
+
+            <!-- Sexo -->
+            <div class="input-group input-group-modal col-md-4 col-sm-6 mb-3">
+              <select class="form-select" aria-label="Default select example" name="funSexo" required>
+                <option value="M">Masculino</option>
+                <option value="F">Feminino</option>
+                <option value="P">Prefiro não dizer</option>
+              </select>
+            </div>
+
+            <!-- CPF -->
+            <div class="input-group input-group-modal mb-3 col-md-6 col-sm-6 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-card-heading"></i></span>
+              <input type="text" maxlength="14" id="funCpf" name="funCpf" class="form-control" placeholder="CPF"
+                aria-label="Username" aria-describedby="basic-addon1" required>
+            </div>
+
+            <!-- E-mail -->
+            <div class="input-group input-group-modal col-md-6 col-sm-6 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-envelope-at-fill"></i></span>
+              <input type="email" name="funEmail" class="form-control" placeholder="E-mail" aria-label="Username"
+                aria-describedby="basic-addon1" required>
+            </div>
+
+            <!-- Academia -->
 
 
-        <!-- Nome -->
-        <div class="input-group col-12 mb-3">
-          <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
-          <input type="text" name="funNome" class="form-control" placeholder="Nome" aria-label="Username"
-            aria-describedby="basic-addon1" required>
+            <!-- Senha -->
+            <div class="input-group input-group-modal col-md-6 col-sm-6 mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-file-lock-fill"></i></span>
+              <input type="password" name="funSenha" id="funSenha" class="form-control" placeholder="Senha"
+                aria-label="Username" aria-describedby="basic-addon1" required>
+            </div>
+
+
+            <div class="col">
+              <button type="submit" class="btn btn-success mb-1">Enviar</button>
+            </div>
+
+
+          </form>
         </div>
-
-        <!-- Celular -->
-        <div class="input-group col-md-6 col-sm-6 mb-3">
-          <span class="input-group-text" id="basic-addon1"><i class="bi bi-telephone-fill"></i></span>
-          <input type="text" id="funCelular" maxlength="15" name="funCelular" class="form-control" placeholder="Celular"
-            aria-label="Username" aria-describedby="basic-addon1" required>
-        </div>
-
-        <!-- CEP -->
-        <div class="input-group col-md-6 col-sm-6 mb-3">
-          <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt-fill"></i></span>
-          <input type="text" id="funCep" name="funCep" class="form-control" placeholder="CEP" aria-label="Username"
-            aria-describedby="basic-addon1">
-        </div>
-
-        <!-- Estado -->
-        <div class="input-group col-md-5 col-sm-6 mb-3">
-          <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt-fill"></i></span>
-          <input type="text" id="funEstado" name="funEstado" class="form-control" placeholder="Estado"
-            aria-label="Username" aria-describedby="basic-addon1">
-        </div>
-
-        <!-- Cidade -->
-        <div class="input-group col-md-6 col-sm-6 mb-3">
-          <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt-fill"></i></span>
-          <input type="text" id="funCidade" name="funCidade" class="form-control" placeholder="Cidade"
-            aria-label="Username" aria-describedby="basic-addon1">
-        </div>
-
-        <!-- Rua -->
-        <div class="input-group col-md-10 col-sm-6 mb-3">
-          <span class="input-group-text" id="basic-addon1"><i class="bi bi-signpost-fill"></i></span>
-          <input type="text" id="funRua" name="funRua" class="form-control" placeholder="Rua" aria-label="Username"
-            aria-describedby="basic-addon1">
-        </div>
-
-        <!-- Numero da Rua -->
-        <div class="input-group col-md-6 col-sm-6 mb-3">
-          <span class="input-group-text" id="basic-addon1"><i class="bi bi-123"></i></span>
-          <input type="text" name="funNumeroRua" class="form-control" placeholder="Numero" aria-label="Username"
-            aria-describedby="basic-addon1">
-        </div>
-
-        <!-- Sexo -->
-        <div class="input-group col-md-4 col-sm-6 mb-3">
-          <select class="form-select" aria-label="Default select example" name="funSexo" required>
-            <option value="M">Masculino</option>
-            <option value="F">Feminino</option>
-            <option value="P">Prefiro não dizer</option>
-          </select>
-        </div>
-
-        <!-- CPF -->
-        <div class="input-group mb-3 col-md-6 col-sm-6 mb-3">
-          <span class="input-group-text" id="basic-addon1"><i class="bi bi-card-heading"></i></span>
-          <input type="text" maxlength="14" id="funCpf" name="funCpf" class="form-control" placeholder="CPF"
-            aria-label="Username" aria-describedby="basic-addon1" required>
-        </div>
-
-        <!-- E-mail -->
-        <div class="input-group col-md-6 col-sm-6 mb-3">
-          <span class="input-group-text" id="basic-addon1"><i class="bi bi-envelope-at-fill"></i></span>
-          <input type="email" name="funEmail" class="form-control" placeholder="E-mail" aria-label="Username"
-            aria-describedby="basic-addon1" required>
-        </div>
-
-        <!-- Academia -->
-
-
-        <!-- Senha -->
-        <div class="input-group col-md-6 col-sm-6 mb-3">
-          <span class="input-group-text" id="basic-addon1"><i class="bi bi-file-lock-fill"></i></span>
-          <input type="password" name="funSenha" id="funSenha" class="form-control" placeholder="Senha"
-            aria-label="Username" aria-describedby="basic-addon1" required>
-        </div>
-
-
-        <div class="col">
-          <button type="submit" class="btn btn-success mb-1">Enviar</button>
-        </div>
-
-
-      </form>
+      </div>
     </div>
   </div>
-  <div id="modalArquivarFuncionario" class="modal">
-    <div class="modal-conteudo">
-      <form id="formArquivarFuncionario">
-        <span id="fecharModalArquivarFuncionario" class="fechar">&times;</span>
-        Tem certeza?
-        <button type="submit" class="btn btn-success">Enviar</button>
-      </form>
+
+  <div id="modalArquivarFuncionario" class="modal" tabindex="-1">
+    <div class="modal-dialog d-flex align-items-center justify-content-center" style="height: 80vh;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Arquivar Funcionário</h2>
+          <span id="fecharModalArquivarFuncionario" class="fechar">&times;</span>
+        </div>
+        <form id="formArquivarFuncionario" class="p-5">
+          <br>
+          <h2 class="txt-danger">Tem certeza?</h2> <br> <br>
+          <button class="float-right btn btn-danger" type="submit">Arquivar</button>
+        </form>
+      </div>
     </div>
   </div>
-  <div id="modalArquivarCliente" class="modal">
-    <div class="modal-conteudo">
-      <form id="formArquivarCliente">
-        <span id="fecharModalArquivarCliente" class="fechar">&times;</span>
-        Tem certeza?
-        <button type="submit" class="btn btn-success">Enviar</button>
-      </form>
+
+  <div id="modalArquivarCliente" class="modal" tabindex="-1">
+    <div class="modal-dialog d-flex align-items-center justify-content-center" style="height: 80vh;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Arquivar Cliente</h2>
+          <span id="fecharModalArquivarCliente" class="fechar">&times;</span>
+        </div>
+        <form id="formArquivarCliente" class="p-5">
+          <br>
+          <h2 class="txt-danger">Tem certeza?</h2> <br> <br>
+          <button class="float-right btn btn-danger" type="submit">Arquivar</button>
+        </form>
+      </div>
     </div>
+  </div>
   </div>
 
 
@@ -750,29 +771,43 @@
 
 
 
-
-
-
-  <div id="modalCriarBaseFicha" class="modal">
-    <div class="modal-conteudo">
-      <form id="formCriarBaseFicha">
-        <span id="fecharModalCriarBaseFicha" class="fechar">&times;</span>
-        <input class="d-none" name="ficCliId" type="text" id="cliIdFicha" />
-        Escolha um professor:
-        <select name="funId" id="funFicha"></select><br />
-        <br />
-        Possui Restrições?:
-        <input type="checkbox" name="ficRestricoes" id="ficRestricoes" />
-        <span id="ficTipoRestricoesSpan" style="display: none">Quais?:
-          <textarea name="ficTipoRestricoes" id="ficTipoRestricoes" cols="30" rows="1"></textarea></span><br />
-        <br />
-        Insira o Intervalo: <input name="ficIntervalo" type="time" /><br />
-        <br />
-        <button type="submit">Enviar</button>
-      </form>
+  <div id="modalCriarBaseFicha" class="modal" tabindex="-1">
+    <div class="modal-dialog d-flex align-items-center justify-content-center" style="height: 80vh;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Cadastrar Base da Ficha</h2>
+          <span id="fecharModalArquivarCliente" class="fechar">&times;</span>
+        </div>
+        <form id="formCriarBaseFicha" class="p-5">
+          <input class="d-none" name="ficCliId" type="text" id="cliIdFicha" />
+          <div class="input-group input-group-modal  col-md-4 col-sm-6 mb-3">
+            <span class="d-flex"> <span class="input-group-text" id="basic-addon1">Selecione o Professor</i></span>
+              <select style="width: 100px;" class="form-select" name="funId" id="funFicha" required></select> <br> <br>
+            </span>
+          </div>
+          <br>
+          <div class="input-group input-group-modal  col-12 mb-3">
+            <div class="form-check">
+              <input class="form-check-input" name="ficRestricoes" type="checkbox" value="" id="ficRestricoes">
+              <label class="form-check-label" for="flexCheckDefault">
+                Possui Restrições?
+              </label>
+            </div>
+          </div>
+          <div id="ficTipoRestricoesSpan" style="display: none;" class="input-group input-group-modal  col-12 mb-3">
+            <textarea name="ficTipoRestricoes" placeholder="Quais?" id="ficTipoRestricoes" cols="30"
+              rows="1"></textarea>
+          </div>
+          <div class="input-group input-group-modal  col-12 mb-3">
+            <span class="input-group-text" id="basic-addon1"><i class="bi bi-stopwatch"></i></span>
+            <input type="time" name="ficIntervalo" class="form-control" placeholder="Nome" aria-label="Username"
+              aria-describedby="basic-addon1" required>
+          </div>
+          <button class="float-right btn btn-success" type="submit">Cadastrar</button>
+        </form>
+      </div>
     </div>
   </div>
-
 
   <script src="../service/Back/reqAdministrador.js"></script>
   <script src="../service/Back/reqFicha.js"></script>

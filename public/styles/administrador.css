@@ -5,7 +5,8 @@ body {
 /* Lista */
 
 .listBoxCliente,
-.listBoxFuncionario {
+.listBoxFuncionario,
+.listBoxClienteFicha {
   font-family: Arial, sans-serif;
   overflow-x: auto;
   margin: 20px;
@@ -13,13 +14,6 @@ body {
   max-height: 300px;
 }
 
-.listBoxClienteFicha {
-  font-family: Arial, sans-serif;
-  overflow-x: auto;
-  margin: 20px;
-  width: 40%;
-  max-height: 300px;
-}
 
 table {
   width: 100%;
