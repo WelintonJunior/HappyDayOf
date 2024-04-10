@@ -1,29 +1,30 @@
-// Definir uma função para executar a ação de acordo com o valor padrão do select
 function setDefaultBackground() {
     var userType = document.getElementById("userType").value;
+    var body = document.body;
 
     if (userType === "0") {
-        document.body.classList.remove("bodyLoginFuncionario");
-        document.body.classList.add("bodyLoginCliente");
+        body.classList.remove("bodyLoginFuncionario");
+        body.classList.add("bodyLoginCliente");
     } else if (userType === "1") {
-        document.body.classList.remove("bodyLoginCliente");
-        document.body.classList.add("bodyLoginFuncionario");
+        body.classList.remove("bodyLoginCliente");
+        body.classList.add("bodyLoginFuncionario");
     }
 }
 
-// Chamar a função para definir o valor padrão ao carregar a página
-window.onload = setDefaultBackground;
+window.onload = function() {
+    setDefaultBackground();
+    document.body.style.transition = "1s";
+};
 
-// Adicionar um event listener para monitorar mudanças no select
 document.getElementById("userType").addEventListener("change", function () {
     var userType = document.getElementById("userType").value;
+    var body = document.body;
 
     if (userType === "0") {
-        document.body.classList.remove("bodyLoginFuncionario");
-        document.body.classList.add("bodyLoginCliente");
+        body.classList.remove("bodyLoginFuncionario");
+        body.classList.add("bodyLoginCliente");
     } else if (userType === "1") {
-        document.body.classList.remove("bodyLoginCliente");
-        document.body.classList.add("bodyLoginFuncionario");
+        body.classList.remove("bodyLoginCliente");
+        body.classList.add("bodyLoginFuncionario");
     }
-
 });

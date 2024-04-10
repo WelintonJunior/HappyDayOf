@@ -180,7 +180,6 @@ window.onclick = function (event) {
 };
 
 //Fechar Modal Criar Base Ficha
-
 if (fecharModalCriarBaseFicha) {
   fecharModalCriarBaseFicha.onclick = function () {
     modalCriarBaseFicha.style.display = "none";

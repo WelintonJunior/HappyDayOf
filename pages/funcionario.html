@@ -487,25 +487,44 @@
   </div>
   </div>
 
-  <div id="modalCriarBaseFicha" class="modal">
-    <div class="modal-conteudo">
-      <form id="formCriarBaseFicha">
-        <span id="fecharModalCriarBaseFicha" class="fechar">&times;</span>
-        <input class="d-none" name="ficCliId" type="text" id="cliIdFicha" />
-        Escolha um professor:
-        <select name="funId" id="funFicha"></select><br />
-        <br />
-        Possui Restrições?:
-        <input type="checkbox" name="ficRestricoes" id="ficRestricoes" />
-        <span id="ficTipoRestricoesSpan" style="display: none">Quais?:
-          <textarea name="ficTipoRestricoes" id="ficTipoRestricoes" cols="30" rows="1"></textarea></span><br />
-        <br />
-        Insira o Intervalo: <input name="ficIntervalo" type="time" /><br />
-        <br />
-        <button type="submit">Enviar</button>
-      </form>
+  <div id="modalCriarBaseFicha" class="modal" tabindex="-1">
+    <div class="modal-dialog d-flex align-items-center justify-content-center" style="height: 80vh;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Cadastrar Base da Ficha</h2>
+          <span id="fecharModalCriarBaseFicha" class="fechar">&times;</span>
+        </div>
+        <form id="formCriarBaseFicha" class="p-5">
+          <input class="d-none" name="ficCliId" type="text" id="cliIdFicha" />
+          <div class="input-group input-group-modal  col-md-4 col-sm-6 mb-3">
+            <span class="d-flex"> <span class="input-group-text" id="basic-addon1">Selecione o Professor</i></span>
+              <select style="width: 100px;" class="form-select" name="funId" id="funFicha" required></select> <br> <br>
+            </span>
+          </div>
+          <br>
+          <div class="input-group input-group-modal  col-12 mb-3">
+            <div class="form-check">
+              <input class="form-check-input" name="ficRestricoes" type="checkbox" value="" id="ficRestricoes">
+              <label class="form-check-label" for="flexCheckDefault">
+                Possui Restrições?
+              </label>
+            </div>
+          </div>
+          <div id="ficTipoRestricoesSpan" style="display: none;" class="input-group input-group-modal  col-12 mb-3">
+            <textarea name="ficTipoRestricoes" placeholder="Quais?" id="ficTipoRestricoes" cols="30"
+              rows="1"></textarea>
+          </div>
+          <div class="input-group input-group-modal  col-12 mb-3">
+            <span class="input-group-text" id="basic-addon1"><i class="bi bi-stopwatch"></i></span>
+            <input type="time" name="ficIntervalo" class="form-control" placeholder="Nome" aria-label="Username"
+              aria-describedby="basic-addon1" required>
+          </div>
+          <button class="float-right btn btn-success" type="submit">Cadastrar</button>
+        </form>
+      </div>
     </div>
   </div>
+
 
   <script src="../service/Back/reqFicha.js"></script>
   <script src="../service/Back/reqFuncionario.js"></script>
