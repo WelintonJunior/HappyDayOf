@@ -209,13 +209,43 @@ async function VerificarCpfCadastrado(e, cpf, modulo) {
   }
 }
 
+async function VerificarEmailCadastrado(e, email, modulo) {
+  const response = await fetch("/Administrador", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      data: {
+        email,
+        modulo
+      },
+      acao: "VerificarEmailCadastrado"
+    })
+  })
+  const result = await response.json()
+  if(!result) {
+    alert("Email já cadastrado no sistema")
+    if(e.target.value === "") {
+      
+    } else {
+      setTimeout(() => {
+        e.target.focus();
+      }, 0)
+    }
+    e.target.value = "";
+  }
+}
+
 async function validarCpfCadastrado(e, cpf) {
   const result = await validarCPF(cpf);
   if(!result) {
     alert("CPF Inválido")
+    if(e.target.value === "") {
+      
+    } else {
+      setTimeout(() => {
+        e.target.focus();
+      }, 0)
+    }
     e.target.value = "";
-    setTimeout(() => {
-      e.target.focus();
-    }, 0)
   }
 }
