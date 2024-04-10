@@ -30,7 +30,7 @@ router.post("/Ficha", (req, res) => {
           if (err) {
             return res.json(err);
           }
-          if (results[0].length === 0) {
+          if (results.length > 0 ? results[0].length === 0 : results.length === 0) {
             return res.json(false);
           }
           const DadosFicha = results[0];
@@ -95,7 +95,7 @@ router.post("/Ficha", (req, res) => {
                 if (err) {
                   return res.json(err);
                 }
-                if (result[0].length === 0) {
+                if (result.length > 0 ? result[0].length === 0 : result.length === 0) {
                   return res.json(false);
                 }
                 res.send(result[0]);

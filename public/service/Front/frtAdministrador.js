@@ -5,6 +5,7 @@ try {
   //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
   const dadosFromLocalStorage = JSON.parse(localStorage.getItem("dados"));
   if (dadosFromLocalStorage !== null) {
+    console.log(dadosFromLocalStorage)
     dados = dadosFromLocalStorage;
   } else {
     alert("Acesso Negado");
