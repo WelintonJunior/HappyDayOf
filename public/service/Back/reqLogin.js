@@ -38,7 +38,7 @@ document.getElementById("formLogin").addEventListener("submit", async (e) => {
 });
 
 async function handleLoginCliente(data) {
-  const response = await fetch("http://localhost:3000/Login", {
+  const response = await fetch("/Login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -51,7 +51,7 @@ async function handleLoginCliente(data) {
 }
 
 async function handleLoginFuncionario(data) {
-  const response = await fetch("http://localhost:3000/Login", {
+  const response = await fetch("/Login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({

@@ -1,5 +1,5 @@
 async function AddAdministrador(data) {
-  const response = await fetch("http://localhost:3000/Equipe", {
+  const response = await fetch("/Equipe", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -12,7 +12,7 @@ async function AddAdministrador(data) {
 }
 
 async function CreateAcademia(data) {
-  const response = await fetch("http://localhost:3000/Equipe", {
+  const response = await fetch("/Equipe", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -26,7 +26,7 @@ async function CreateAcademia(data) {
 }
 
 async function CarregarTabela() {
-  const response = await fetch("http://localhost:3000/Equipe", {
+  const response = await fetch("/Equipe", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -68,7 +68,7 @@ async function CarregarTabela() {
 
 async function InsertAcademiaToTheOptions() {
   let admAcademia = document.getElementById("admAcademia");
-  const response = await fetch("http://localhost:3000/Equipe", {
+  const response = await fetch("/Equipe", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({

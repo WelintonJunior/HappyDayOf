@@ -1,5 +1,5 @@
 // async function ReadFichaCliente(idAcademia, idCliente) {
-//   const response = await fetch("http://localhost:3000/Ficha", {
+//   const response = await fetch("/Ficha", {
 //     method: "POST",
 //     headers: { "Content-Type": "application/json" },
 //     body: JSON.stringify({
@@ -13,7 +13,7 @@
 // }
 
 // async function RegisterFicha(idAcademia, data) {
-//   const response = await fetch("http://localhost:3000/Ficha", {
+//   const response = await fetch("/Ficha", {
 //     method: "POST",
 //     headers: { "Content-Type": "application/json" },
 //     body: JSON.stringify({
@@ -27,7 +27,7 @@
 // }
 
 // async function RegisterDetalhesFicha(data) {
-//   const responseLastFicha = await fetch("http://localhost:3000/Ficha", {
+//   const responseLastFicha = await fetch("/Ficha", {
 //     method: "POST",
 //     headers: { "Content-Type": "application/json" },
 //     body: JSON.stringify({
@@ -38,7 +38,7 @@
 
 //   data.lastFicha = resultLastFicha;
 
-//   const response = await fetch("http://localhost:3000/Ficha", {
+//   const response = await fetch("/Ficha", {
 //     method: "POST",
 //     headers: { "Content-Type": "application/json" },
 //     body: JSON.stringify({
@@ -51,7 +51,7 @@
 // }
 
 // async function UpdateDetalhesFicha(data) {
-//   const response = await fetch("http://localhost:3000/Ficha", {
+//   const response = await fetch("/Ficha", {
 //     method: "POST",
 //     headers: { "Content-Type": "application/json" },
 //     body: JSON.stringify({
@@ -68,7 +68,7 @@
 
 
 async function ReadClienteFicha(idAcademia) {
-  const response = await fetch("http://localhost:3000/Ficha", {
+  const response = await fetch("/Ficha", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -81,7 +81,7 @@ async function ReadClienteFicha(idAcademia) {
 }
 
 async function ReadFichaDetalhes (cliId, tipo) {
-  const response = await fetch("http://localhost:3000/Ficha", {
+  const response = await fetch("/Ficha", {
     method: "POST",
     headers: {"Content-Type" : "application/json"},
     body: JSON.stringify({
@@ -94,7 +94,7 @@ async function ReadFichaDetalhes (cliId, tipo) {
 }
 
 async function ReadFichaDetalhesGeral (cliId) {
-  const response = await fetch("http://localhost:3000/Ficha", {
+  const response = await fetch("/Ficha", {
     method: "POST",
     headers: {"Content-Type" : "application/json"},
     body: JSON.stringify({
@@ -107,7 +107,7 @@ async function ReadFichaDetalhesGeral (cliId) {
 }
 
 async function RegisterBaseFicha(idAcademia, data) {
-  const response = await fetch("http://localhost:3000/Ficha", {
+  const response = await fetch("/Ficha", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -121,7 +121,7 @@ async function RegisterBaseFicha(idAcademia, data) {
 }
 
 async function RegisterDetalhesFicha(data) {
-  const response = await fetch("http://localhost:3000/Ficha", {
+  const response = await fetch("/Ficha", {
     method: "POST",
     headers: {"Content-Type" : "application/json"},
     body: JSON.stringify({
@@ -134,7 +134,7 @@ async function RegisterDetalhesFicha(data) {
 }
 
 async function UpdateCampoFicha(data) {
-  const response = await fetch("http://localhost:3000/Ficha", {
+  const response = await fetch("/Ficha", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({

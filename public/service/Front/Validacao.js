@@ -11,49 +11,51 @@ function HandleInputCpf(campo) {
 function formatarCPF(cpf) {
   return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
 }
-// function validarCPF(cpf) {
-//   var cpfRegex = /^(?:(\d{3}).(\d{3}).(\d{3})-(\d{2}))$/;
-//   if (!cpfRegex.test(cpf)) {
-//     return false;
-//   }
 
-//   var numeros = cpf.match(/\d/g).map(Number);
-//   var soma = numeros.reduce((acc, cur, idx) => {
-//     if (idx < 9) {
-//       return acc + cur * (10 - idx);
-//     }
-//     return acc;
-//   }, 0);
+function validarCPF(cpf) {
+  var cpfRegex = /^(?:(\d{3}).(\d{3}).(\d{3})-(\d{2}))$/;
+  if (!cpfRegex.test(cpf)) {
+    return false;
+  }
 
-//   var resto = (soma * 10) % 11;
+  var numeros = cpf.match(/\d/g).map(Number);
+  var soma = numeros.reduce((acc, cur, idx) => {
+    if (idx < 9) {
+      return acc + cur * (10 - idx);
+    }
+    return acc;
+  }, 0);
 
-//   if (resto === 10 || resto === 11) {
-//     resto = 0;
-//   }
+  var resto = (soma * 10) % 11;
 
-//   if (resto !== numeros[9]) {
-//     return false;
-//   }
+  if (resto === 10 || resto === 11) {
+    resto = 0;
+  }
 
-//   soma = numeros.reduce((acc, cur, idx) => {
-//     if (idx < 10) {
-//       return acc + cur * (11 - idx);
-//     }
-//     return acc;
-//   }, 0);
+  if (resto !== numeros[9]) {
+    return false;
+  }
 
-//   resto = (soma * 10) % 11;
+  soma = numeros.reduce((acc, cur, idx) => {
+    if (idx < 10) {
+      return acc + cur * (11 - idx);
+    }
+    return acc;
+  }, 0);
 
-//   if (resto === 10 || resto === 11) {
-//     resto = 0;
-//   }
+  resto = (soma * 10) % 11;
 
-//   if (resto !== numeros[10]) {
-//     return false;
-//   }
+  if (resto === 10 || resto === 11) {
+    resto = 0;
+  }
 
-//   return true;
-// }
+  if (resto !== numeros[10]) {
+    return false;
+  }
+
+  return true;
+  
+}
 
 //CNPJ
 
@@ -182,5 +184,38 @@ function verificarNumeros(string) {
     return "A string não pode conter números.";
   } else {
     return null;
+  }
+}
+
+async function VerificarCpfCadastrado(e, cpf, modulo) {
+  const response = await fetch("/Administrador", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      data: {
+        cpf,
+        modulo
+      },
+      acao: "VerificarCpfCadastrado"
+    })
+  })
+  const result = await response.json()
+  if(!result) {
+    alert("CPF já cadastrado no sistema")
+    e.target.value = "";
+    setTimeout(() => {
+      e.target.focus();
+    }, 0)
+  }
+}
+
+async function validarCpfCadastrado(e, cpf) {
+  const result = await validarCPF(cpf);
+  if(!result) {
+    alert("CPF Inválido")
+    e.target.value = "";
+    setTimeout(() => {
+      e.target.focus();
+    }, 0)
   }
 }

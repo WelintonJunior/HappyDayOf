@@ -1,7 +1,7 @@
 //READ
 
 async function ReadPlanos(idAcademia) {
-  const response = await fetch("http://localhost:3000/Administrador", {
+  const response = await fetch("/Administrador", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -14,7 +14,7 @@ async function ReadPlanos(idAcademia) {
 }
 
 async function ReadFuncionarioDetalhes(idAcademia, funId) {
-  const response = await fetch("http://localhost:3000/Administrador", {
+  const response = await fetch("/Administrador", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -28,7 +28,7 @@ async function ReadFuncionarioDetalhes(idAcademia, funId) {
 }
 
 async function ReadClienteDetalhes(idAcademia, cliId) {
-  const response = await fetch("http://localhost:3000/Administrador", {
+  const response = await fetch("/Administrador", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -42,7 +42,7 @@ async function ReadClienteDetalhes(idAcademia, cliId) {
 }
 
 async function ReadAcademia(idAcademia) {
-  const response = await fetch("http://localhost:3000/Administrador", {
+  const response = await fetch("/Administrador", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -55,7 +55,7 @@ async function ReadAcademia(idAcademia) {
 }
 
 async function ReadCliente(idAcademia) {
-  const response = await fetch("http://localhost:3000/Administrador", {
+  const response = await fetch("/Administrador", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -68,7 +68,7 @@ async function ReadCliente(idAcademia) {
 }
 
 async function ReadFuncionario(nivel, idAcademia) {
-  const response = await fetch("http://localhost:3000/Administrador", {
+  const response = await fetch("/Administrador", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -84,7 +84,7 @@ async function ReadFuncionario(nivel, idAcademia) {
 //REGISTER
 
 async function RegisterCliente(data, idAcademia) {
-  const response = await fetch("http://localhost:3000/Administrador", {
+  const response = await fetch("/Administrador", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -98,7 +98,7 @@ async function RegisterCliente(data, idAcademia) {
 }
 
 async function RegisterFuncionario(data, idAcademia) {
-  const response = await fetch("http://localhost:3000/Administrador", {
+  const response = await fetch("/Administrador", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -116,7 +116,7 @@ async function RegisterFuncionario(data, idAcademia) {
 //ARCHIVE
 
 async function ArchiveCliente(idCliente) {
-  const response = await fetch("http://localhost:3000/Administrador", {
+  const response = await fetch("/Administrador", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -130,7 +130,7 @@ async function ArchiveCliente(idCliente) {
 }
 
 async function ArchiveFuncionario(idFuncionario) {
-  const response = await fetch("http://localhost:3000/Administrador", {
+  const response = await fetch("/Administrador", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -146,7 +146,7 @@ async function ArchiveFuncionario(idFuncionario) {
 //UPDATE
 
 async function UpdateFuncionarioDetalhes(data) {
-  const response = await fetch("http://localhost:3000/Administrador", {
+  const response = await fetch("/Administrador", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -159,7 +159,7 @@ async function UpdateFuncionarioDetalhes(data) {
 }
 
 async function UpdateClienteDetalhes(data) {
-  const response = await fetch("http://localhost:3000/Administrador", {
+  const response = await fetch("/Administrador", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -185,9 +185,17 @@ const cliCelular = document.getElementById("cliCelular");
     funCelular.addEventListener("input", () => FormatarCelular(funCelular));
     funDetCelular.addEventListener("input", () => FormatarCelular(funDetCelular));
     funDetCpf.addEventListener("input", () => HandleInputCpf(funDetCpf));
+    funDetCpf.addEventListener("blur", (e) => VerificarCpfCadastrado(e, e.target.value, "fun"));
+    funDetCpf.addEventListener("blur", (e) => validarCpfCadastrado(e, e.target.value));
     funCpf.addEventListener("input", () => HandleInputCpf(funCpf));
+    funCpf.addEventListener("blur", (e) => VerificarCpfCadastrado(e, e.target.value, "fun"));
+    funCpf.addEventListener("blur", (e) => validarCpfCadastrado(e, e.target.value));
   }
   cliCelular.addEventListener("input", () => FormatarCelular(cliCelular));
   cliDetCelular.addEventListener("input", () => FormatarCelular(cliDetCelular));
   cliDetCpf.addEventListener("input", () => HandleInputCpf(cliDetCpf));
+  cliDetCpf.addEventListener("blur", (e) => VerificarCpfCadastrado(e, e.target.value, "cli"));
+  cliDetCpf.addEventListener("blur", (e) => validarCpfCadastrado(e, e.target.value));
   cliCpf.addEventListener("input", () => HandleInputCpf(cliCpf));
+  cliCpf.addEventListener("blur", (e) => VerificarCpfCadastrado(e, e.target.value, "cli"));
+  cliCpf.addEventListener("blur", (e) => validarCpfCadastrado(e, e.target.value));

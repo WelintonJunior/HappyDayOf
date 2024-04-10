@@ -245,6 +245,35 @@ router.post("/Administrador", (req, res) => {
         }
       );
       break;
+    case "VerificarCpfCadastrado":
+      switch (data.modulo) {
+        case "fun":
+          db.query("select funCpf from tblFuncionario where funCpf = ?", [data.cpf], (err, results) => {
+            if (err) {
+              return res.json(err)
+            }
+            if (results.length > 0 ? results[0].length === 0 : results.length === 0) {
+              res.send(true)
+            } else {
+              res.send(false)
+            }
+          })
+          break;
+        case "cli":
+          db.query("select cliCpf from tblCliente where cliCpf = ?", [data.cpf], (err, results) => {
+            if (err) {
+              return res.json(err)
+            }
+            if (results.length > 0 ? results[0].length === 0 : results.length === 0) {
+              res.send(true)
+            } else {
+              res.send(false)
+            }
+          })
+          break;
+
+      }
+      break;
   }
 });
 

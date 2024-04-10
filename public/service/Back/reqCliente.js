@@ -1,5 +1,5 @@
 async function ReadAcademia(idAcademia) {
-  const response = await fetch("http://localhost:3000/Administrador", {
+  const response = await fetch("/Administrador", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -12,7 +12,7 @@ async function ReadAcademia(idAcademia) {
 }
 
 async function ReadFuncionarioDetalhes(idAcademia, funId) {
-  const response = await fetch("http://localhost:3000/Administrador", {
+  const response = await fetch("/Administrador", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -26,7 +26,7 @@ async function ReadFuncionarioDetalhes(idAcademia, funId) {
 }
 
 async function ReadClienteDetalhes(idAcademia, cliId) {
-  const response = await fetch("http://localhost:3000/Administrador", {
+  const response = await fetch("/Administrador", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({

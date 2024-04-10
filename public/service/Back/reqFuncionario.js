@@ -1,5 +1,5 @@
 async function RegisterAtendimento(idAcademia, data) {
-  const response = await fetch("http://localhost:3000/Funcionario", {
+  const response = await fetch("/Funcionario", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -12,7 +12,7 @@ async function RegisterAtendimento(idAcademia, data) {
   return result;
 }
 async function ReadAtendimento(idAcademia, data) {
-  const response = await fetch("http://localhost:3000/Funcionario", {
+  const response = await fetch("/Funcionario", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -26,7 +26,7 @@ async function ReadAtendimento(idAcademia, data) {
 }
 
 async function ValidacaoAtendimento (idAcademia, data) {
-  const response = await fetch("http://localhost:3000/Funcionario", {
+  const response = await fetch("/Funcionario", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -40,7 +40,7 @@ async function ValidacaoAtendimento (idAcademia, data) {
 }
 
 async function UpdateStatusAtendimento(idAcademia, data) {
-  const response = await fetch("http://localhost:3000/Funcionario", {
+  const response = await fetch("/Funcionario", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({

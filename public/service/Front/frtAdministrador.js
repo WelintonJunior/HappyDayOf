@@ -181,7 +181,7 @@ window.onclick = function (event) {
 
 //Fechar Modal Criar Base Ficha
 
-if(fecharModalCriarBaseFicha) {
+if (fecharModalCriarBaseFicha) {
   fecharModalCriarBaseFicha.onclick = function () {
     modalCriarBaseFicha.style.display = "none";
   };
@@ -587,7 +587,7 @@ async function UpdateListaClienteFicha() {
   if (result) {
     result.forEach((item) => {
       const linha = corpoTabela.insertRow();
-      let PossuiFicha = item.ClienteExisteNaFicha === 0 ? `<span class="text-danger">Não</span>` : `<span class="text-success">Sim</span>` ;
+      let PossuiFicha = item.ClienteExisteNaFicha === 0 ? `<span class="text-danger">Não</span>` : `<span class="text-success">Sim</span>`;
       const camposSelecionados = ["cliId", "cliNome"];
 
       camposSelecionados.forEach((campo) => {
