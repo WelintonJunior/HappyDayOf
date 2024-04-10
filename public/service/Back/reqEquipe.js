@@ -35,6 +35,8 @@ async function CarregarTabela() {
   });
   const dados = await response.json();
 
+  document.getElementById("table").innerHTML = ""
+
   const tabela = document.createElement("table");
   tabela.setAttribute("border", "1");
 
