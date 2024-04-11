@@ -5,7 +5,6 @@ try {
   //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
   const dadosFromLocalStorage = JSON.parse(localStorage.getItem("dados"));
   if (dadosFromLocalStorage !== null) {
-    console.log(dadosFromLocalStorage)
     dados = dadosFromLocalStorage;
   } else {
     alert("Acesso Negado");
@@ -19,7 +18,7 @@ try {
 //Pega o id da Academia de acordo com o usuario logado no momento
 const idAcademia = dados.funIdAcad;
 let tela = "";
-
+console.log(dados)
 //Declara os botoes da nav laterais
 const btnResumo = document.getElementById("btnResumo");
 const btnCliente = document.getElementById("btnCliente");
@@ -287,6 +286,7 @@ document
       alert("O nome não pode conter números");
       return;
     }
+    data.cliDataCmc = await getFormattedDateTime();
     await RegisterCliente(data, idAcademia);
     await UpdateListaClienteFicha();
     await UpdateListaCliente();
@@ -306,6 +306,7 @@ document
       alert("O nome não pode conter números");
       return;
     }
+    data.funDataCmc = await getFormattedDateTime();
     await RegisterFuncionario(data, idAcademia);
     await UpdateListaFuncionario();
     await UpdateListaClienteFicha();
@@ -915,6 +916,7 @@ btnArchiveCliente.addEventListener("click", async (e) => {
 const formArquivarCliente = document.getElementById("formArquivarCliente");
 
 btnVoltarTelaCliente.addEventListener("click", async (e) => {
+  e.preventDefault();
   await UpdateListaCliente();
   MostrarTela("TelaClientes");
 })
@@ -998,6 +1000,7 @@ btnArchiveFuncionario.addEventListener("click", (e) => {
 });
 
 btnVoltarTelaFuncionario.addEventListener("click", async (e) => {
+  e.preventDefault();
   await UpdateListaFuncionario();
   MostrarTela("TelaFuncionarios");
 })

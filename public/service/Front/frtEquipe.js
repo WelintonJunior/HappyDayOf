@@ -88,8 +88,8 @@ formAcademia.addEventListener("submit", async (e) => {
   const fd = new FormData(e.target);
   const data = Object.fromEntries(fd.entries());
   const result = await CreateAcademia(data);
+  InsertAcademiaToTheOptions();
   e.target.reset();
-  console.log(result);
   modalCadastrarAcademia.style.display = "none";
   modalCadastrarAdministradorAcademia.style.display = "block";
 });

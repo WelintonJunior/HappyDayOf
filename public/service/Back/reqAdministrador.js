@@ -194,7 +194,7 @@ if (funCelular) {
   funCpf.addEventListener("input", () => HandleInputCpf(funCpf));
   funCpf.addEventListener("blur", (e) => VerificarCpfCadastrado(e, e.target.value, "fun"));
   funCpf.addEventListener("blur", (e) => validarCpfCadastrado(e, e.target.value));
-  funDetEmail.addEventListener("blur", (e) => VerificarEmailCadastrado(e, e.target.value, "fun"));
+  funEmail.addEventListener("blur", (e) => VerificarEmailCadastrado(e, e.target.value, "fun"));
   funDetEmail.addEventListener("blur", (e) => VerificarEmailCadastrado(e, e.target.value, "fun"));
 
 }

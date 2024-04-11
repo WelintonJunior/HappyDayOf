@@ -89,10 +89,14 @@ const acaTelefone = document.getElementById("acaTelefone");
 const acaCnpj = document.getElementById("acaCnpj");
 const acaCelular = document.getElementById("acaCelular");
 const admCelular = document.getElementById("admCelular");
+const admEmail = document.getElementById("admEmail");
 admCpf.addEventListener("input", () => HandleInputCpf(admCpf));
+admCpf.addEventListener("blur", (e) => VerificarCpfCadastrado(e, e.target.value, "fun"));
+admCpf.addEventListener("blur", (e) => validarCpfCadastrado(e, e.target.value));
 acaCnpj.addEventListener("input", () => HandleInputCnpj(acaCnpj));
 acaCnpj.addEventListener("blur", () => HandleBlurCnpj(acaCnpj));
 acaTelefone.addEventListener("input", () => FormatarTelefone(acaTelefone));
-// admCpf.addEventListener("blur", () => validarCPF(admCpf.value));
 acaCelular.addEventListener("input", () => FormatarCelular(acaCelular));
 admCelular.addEventListener("input", () => FormatarCelular(admCelular));
+admEmail.addEventListener("blur", (e) => VerificarEmailCadastrado(e, e.target.value, "fun"));
+

@@ -184,7 +184,8 @@ window.onclick = function (event) {
 
 //Voltar tela CLiente 
 
-btnVoltarTelaCliente.addEventListener("click", async () => {
+btnVoltarTelaCliente.addEventListener("click", async (e) => {
+  e.preventDefault();
   MostrarTela("TelaClientes");
   await UpdateListaCliente();
 })
@@ -231,6 +232,7 @@ document
       alert("O nome não pode conter números");
       return;
     }
+    data.cliDataCmc = await getFormattedDateTime();
     await RegisterCliente(data, idAcademia);
     await UpdateListaClienteFicha();
     await UpdateListaCliente();
@@ -288,7 +290,7 @@ async function UpdateListaCliente() {
       let botaoDetalhes = document.createElement("button");
       botaoDetalhes.classList.add("btn")
       botaoDetalhes.classList.add("btn-info")
-      botaoDetalhes.textContent = "Ver";
+      botaoDetalhes.innerHTML = '<i class="bi bi-search"></i>';
       botaoDetalhes.addEventListener("click", function () {
         MostrarTelaDetalhesCliente(item.cliId);
       });
@@ -336,7 +338,7 @@ async function UpdateListaAtendimento() {
   });
 
   const corpoTabela = tabela.appendChild(document.createElement("tbody"));
-  if (result) {
+  if (result.length > 0) {
     result.forEach((item) => {
       const linha = corpoTabela.insertRow();
       const camposSelecionados = [
