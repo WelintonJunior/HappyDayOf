@@ -473,7 +473,7 @@ async function UpdateListaCliente() {
       botaoDetalhes.classList.add("btnVerDetalhes")
       botaoDetalhes.classList.add("btn")
       botaoDetalhes.classList.add("btn-info")
-      botaoDetalhes.textContent = "Ver";
+      botaoDetalhes.innerHTML = '<i class="bi bi-search"></i>';
       botaoDetalhes.addEventListener("click", function () {
         MostrarTelaDetalhesCliente(item.cliId);
       });
@@ -549,7 +549,7 @@ async function UpdateListaFuncionario() {
       botaoDetalhes.classList.add("btnVerDetalhes")
       botaoDetalhes.classList.add("btn")
       botaoDetalhes.classList.add("btn-info")
-      botaoDetalhes.textContent = "Ver";
+      botaoDetalhes.innerHTML = '<i class="bi bi-search"></i>';
 
       botaoDetalhes.addEventListener("click", () => Detalhes(linha));
 

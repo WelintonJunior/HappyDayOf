@@ -138,7 +138,7 @@
         <div class="row">
           <div class="col-12 ">
             <div id="TelaDetalhesClientes" style="display: none">
-              <button id="btnVoltarTelaCliente">Voltar</button>
+
               <form id="formDetalhesCliente">
                 <div class="row">
 
@@ -174,8 +174,8 @@
 
                         <div class="input-group mb-3">
                           <span class="input-group-text">Email</span>
-                          <input type="email" id="cliDetEmail" class="form-control" aria-label="Email" aria-describedby="basic-addon1"
-                            disabled name="cliEmail" />
+                          <input type="email" id="cliDetEmail" class="form-control" aria-label="Email"
+                            aria-describedby="basic-addon1" disabled name="cliEmail" />
                         </div>
 
 
@@ -259,11 +259,14 @@
                 </div>
                 <div class="col">
 
-                  <button id="btnArchiveCliente" class="btn btn-primary mb-4 ">Arquivar Cliente</button>
+                  <button id="btnArchiveCliente" class="btn btn-primary mb-1 ">Arquivar Cliente</button>
 
                   <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalArquivarCliente">
                           Arquivar um usuario
                         </button> -->
+                </div>
+                <div class="col-md-2 col sm-5">
+                  <button id="btnVoltarTelaCliente" class="btn btn-secondary mb-4">Voltar</button>
                 </div>
               </form>
             </div>
@@ -274,7 +277,7 @@
       <!-- Tela Detalhes Funcionario -->
 
       <div id="TelaDetalhesFuncionarios" style="display: none">
-        <button id="btnVoltarTelaFuncionario">Voltar</button>
+        <!-- <button id="btnVoltarTelaFuncionario">Voltar</button> -->
         <form id="formDetalhesFuncionario">
           <br />
 
@@ -341,8 +344,8 @@
 
                 <div class="input-group mt-3">
                   <span class="input-group-text">Email</span>
-                  <input type="email" class="form-control" id="funDetEmail" aria-label="Email" aria-describedby="basic-addon1" disabled
-                    name="funEmail">
+                  <input type="email" class="form-control" id="funDetEmail" aria-label="Email"
+                    aria-describedby="basic-addon1" disabled name="funEmail">
                 </div>
 
                 <div class="input-group mt-3">
@@ -374,9 +377,15 @@
               </div>
 
               <div class="row">
+
                 <div class="col">
-                  <button id="btnArchiveFuncionario" class="btn btn-primary mb-4">Arquivar Funcionario</button>
+                  <button id="btnArchiveFuncionario" class="btn btn-primary mb-1">Arquivar Funcionario</button>
                 </div>
+
+              </div>
+
+              <div class="col">
+                <button id="btnVoltarTelaFuncionario" class="btn btn btn-secondary mb-4">Voltar</button>
               </div>
             </div>
           </section>
@@ -389,7 +398,7 @@
       <!-- Tela Criar Ficha -->
 
       <div id="TelaCriarFicha" style="display: none">
-        <button id="btnVoltarTelaFicha">Voltar</button>
+        <button id="btnVoltarTelaFicha">Voltar2</button>
         <form>
           Cliente: <span id="cliNomeCriarFicha"></span> <br />
           Professor:<span id="funNomeCriarFicha"></span> <br />
@@ -560,8 +569,8 @@
             <!-- E-mail -->
             <div class="input-group input-group-modal col-md-6  col-sm-6 mb-3">
               <span class="input-group-text" id="basic-addon1"><i class="bi bi-envelope-at-fill"></i></span>
-              <input input type="email" id="cliEmail" name="cliEmail" class="form-control" placeholder="E-mail" aria-label="Username"
-                aria-describedby="basic-addon1" required>
+              <input input type="email" id="cliEmail" name="cliEmail" class="form-control" placeholder="E-mail"
+                aria-label="Username" aria-describedby="basic-addon1" required>
             </div>
 
             <!-- senha -->
@@ -660,8 +669,8 @@
             <!-- E-mail -->
             <div class="input-group input-group-modal col-md-6 col-sm-6 mb-3">
               <span class="input-group-text" id="basic-addon1"><i class="bi bi-envelope-at-fill"></i></span>
-              <input type="email" name="funEmail" id="funEmail" class="form-control" placeholder="E-mail" aria-label="Username"
-                aria-describedby="basic-addon1" required>
+              <input type="email" name="funEmail" id="funEmail" class="form-control" placeholder="E-mail"
+                aria-label="Username" aria-describedby="basic-addon1" required>
             </div>
 
             <!-- Academia -->
