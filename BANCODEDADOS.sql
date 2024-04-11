@@ -44,7 +44,7 @@ CREATE TABLE `tblacademia` (
 
 LOCK TABLES `tblacademia` WRITE;
 /*!40000 ALTER TABLE `tblacademia` DISABLE KEYS */;
-INSERT INTO `tblacademia` VALUES (1,'02.765.381/0001-25','Happy Day','2024-04-03','1','12996138271','12520110','#red','1299999999');
+INSERT INTO `tblacademia` VALUES (1,'02.765.381/0001-25','Happy Day','2024-04-11','1','(18) 20931-2809','12570114','#ff0000','1829-3012');
 /*!40000 ALTER TABLE `tblacademia` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -70,7 +70,7 @@ CREATE TABLE `tblatendimento` (
   CONSTRAINT `tblatendimento_ibfk_1` FOREIGN KEY (`ateIdFuncionario`) REFERENCES `tblfuncionario` (`funId`),
   CONSTRAINT `tblatendimento_ibfk_2` FOREIGN KEY (`ateIdAcad`) REFERENCES `tblacademia` (`acaId`),
   CONSTRAINT `tblatendimento_ibfk_3` FOREIGN KEY (`ateIdCliente`) REFERENCES `tblcliente` (`cliId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -79,7 +79,7 @@ CREATE TABLE `tblatendimento` (
 
 LOCK TABLES `tblatendimento` WRITE;
 /*!40000 ALTER TABLE `tblatendimento` DISABLE KEYS */;
-INSERT INTO `tblatendimento` VALUES (1,1,2,'2024-04-04 10:24:13',1,'0','2024-04-04 10:24:23'),(2,2,2,'2024-04-04 10:24:20',1,'0','2024-04-04 10:24:25');
+INSERT INTO `tblatendimento` VALUES (1,1,6,'2024-04-11 09:03:26',1,'0','2024-04-11 09:03:30');
 /*!40000 ALTER TABLE `tblatendimento` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -112,7 +112,7 @@ CREATE TABLE `tblcliente` (
   KEY `cliAcad` (`cliIdAcad`),
   CONSTRAINT `fk_cliPlano` FOREIGN KEY (`cliPlano`) REFERENCES `tblplanos` (`plaId`),
   CONSTRAINT `tblcliente_ibfk_1` FOREIGN KEY (`cliIdAcad`) REFERENCES `tblacademia` (`acaId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -121,7 +121,7 @@ CREATE TABLE `tblcliente` (
 
 LOCK TABLES `tblcliente` WRITE;
 /*!40000 ALTER TABLE `tblcliente` DISABLE KEYS */;
-INSERT INTO `tblcliente` VALUES (1,'Daniel','(12) 83901-2890','12520110','Guaratinguetá','SP','Rua Filadelfo Gandra Martins',20,'M','812.093.812-09','daniel@gmail.com',NULL,'1',1,1,'123123'),(2,'Jose','(12) 83901-2839','12520110','Guaratinguetá','SP','Rua Filadelfo Gandra Martins',20,'M','128.309.128-03','jose@gmail.com','1970-01-01 00:00:00','1',1,1,'123123');
+INSERT INTO `tblcliente` VALUES (1,'Yasmin','(18) 92738-9127','12570118','Aparecida','SP','Rua 9 de Julho',20,'F','960.938.410-22','yasmin@gmail.com','1970-01-01 00:00:00','1',1,1,'123123'),(2,'Yasminn','(12) 73813-8912','12570102','Aparecida','SP','Rua Ignácio Bustamante',10,'F','089.498.710-09','yasminn@gmail.com','2024-04-11 00:00:00','1',1,1,'123123'),(3,'Yasminnn','(12) 90381-0293','12570102','Aparecida','SP','Rua Ignácio Bustamante',10,'F','540.068.260-01','yasminnn@gmaill.com','2024-04-11 09:06:44','1',1,1,'123123');
 /*!40000 ALTER TABLE `tblcliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -151,6 +151,32 @@ CREATE TABLE `tbldesempenho` (
 LOCK TABLES `tbldesempenho` WRITE;
 /*!40000 ALTER TABLE `tbldesempenho` DISABLE KEYS */;
 /*!40000 ALTER TABLE `tbldesempenho` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tblengajamento`
+--
+
+DROP TABLE IF EXISTS `tblengajamento`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tblengajamento` (
+  `engId` int NOT NULL AUTO_INCREMENT,
+  `engIdCliente` int DEFAULT NULL,
+  `engAccessDatetime` datetime DEFAULT NULL,
+  PRIMARY KEY (`engId`),
+  KEY `engIdCliente` (`engIdCliente`),
+  CONSTRAINT `tblengajamento_ibfk_1` FOREIGN KEY (`engIdCliente`) REFERENCES `tblcliente` (`cliId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tblengajamento`
+--
+
+LOCK TABLES `tblengajamento` WRITE;
+/*!40000 ALTER TABLE `tblengajamento` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tblengajamento` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -184,7 +210,7 @@ CREATE TABLE `tblficha` (
 
 LOCK TABLES `tblficha` WRITE;
 /*!40000 ALTER TABLE `tblficha` DISABLE KEYS */;
-INSERT INTO `tblficha` VALUES (1,2,2,1,'00:01:00','0','');
+INSERT INTO `tblficha` VALUES (1,1,5,1,'00:01:00','0','.');
 /*!40000 ALTER TABLE `tblficha` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -215,7 +241,7 @@ CREATE TABLE `tblfichadetalhes` (
 
 LOCK TABLES `tblfichadetalhes` WRITE;
 /*!40000 ALTER TABLE `tblfichadetalhes` DISABLE KEYS */;
-INSERT INTO `tblfichadetalhes` VALUES (1,'Alongamento','10','10','10',1,'A');
+INSERT INTO `tblfichadetalhes` VALUES (1,'Remada','10','10','10',1,'A');
 /*!40000 ALTER TABLE `tblfichadetalhes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -246,7 +272,7 @@ CREATE TABLE `tblfuncionario` (
   PRIMARY KEY (`funId`),
   KEY `funAcad` (`funIdAcad`),
   CONSTRAINT `tblfuncionario_ibfk_1` FOREIGN KEY (`funIdAcad`) REFERENCES `tblacademia` (`acaId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -255,7 +281,7 @@ CREATE TABLE `tblfuncionario` (
 
 LOCK TABLES `tblfuncionario` WRITE;
 /*!40000 ALTER TABLE `tblfuncionario` DISABLE KEYS */;
-INSERT INTO `tblfuncionario` VALUES (1,'Feipe','12996138271','12520110','Guaratingueta','SP','Rua filadelfo',28,'M','57782100609','felipe@gmail.com','2024-04-03 00:00:00','1',1,'123123',2),(2,'Heitor','(12) 83901-2809','12520110','Guaratinguetá','SP','Rua Filadelfo Gandra Martins',20,'M','218.390.812-09','heitor@gmail.com',NULL,'1',1,'123123',1),(3,'Welinton','123809128310912','12520110','Guaratinguetá','SP','Rua Filadelfo Gandra Martins',20,'M','12830912803912','welinton@gmail.com',NULL,'1',1,'123123',1);
+INSERT INTO `tblfuncionario` VALUES (1,'Binarios','12996138271','12520110','Guaratinguetá','SP','Rua lala',29,'M','577.821.068-00','equipe@gmail.com','2024-04-11 00:00:00','1',NULL,'123123',3),(4,'Rodrigo','(12) 09381-0923','12570112','Aparecida','SP','Rua Alfredo Penido',10,'M','823.699.390-60','rodrigo@gmail.com','2024-04-11 08:49:43','1',1,'123123',2),(5,'Heitor','(12) 90381-9203','12570100','Aparecida','SP','Avenida Antonio Samaha',10,'M','059.494.500-35','heitor@gmail.com','1970-01-01 00:00:00','1',1,'123123',1),(6,'Daniel','(12) 83901-2930','12570100','Aparecida','SP','Avenida Antonio Samaha',10,'M','920.999.620-81','daniel@gmail.com','2024-04-11 08:59:12','1',1,'123123',1);
 /*!40000 ALTER TABLE `tblfuncionario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -360,4 +386,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-04 10:33:30
+-- Dump completed on 2024-04-11  9:39:40

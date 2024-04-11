@@ -28,7 +28,7 @@ const btnFuncionario = document.getElementById("btnFuncionario");
 //Dados de Boas vindas
 
 document.addEventListener("DOMContentLoaded", async function () {
-  const result = await ReadAcademia(idAcademia);
+  const result = await ReadAcademia(idAcademia); 
   document.getElementById("titleAcad").innerHTML = result.acaNome;
   document.getElementById(
     "admInfo"
@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 document
   .getElementById("abrirModalRegisterCliente")
-  .addEventListener("click", (e) => {
+  .addEventListener("click", (e) => { 
     e.preventDefault();
     modalCadastrarCliente.style.display = "block";
   });
