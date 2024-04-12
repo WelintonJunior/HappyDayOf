@@ -1,7 +1,7 @@
 //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
 
+const clienteServices = new ClienteServices();
 let dados = [];
-
 //Verifica se está logado
 try {
   //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
@@ -9,19 +9,18 @@ try {
   if (dadosFromLocalStorage !== null) {
     dados = dadosFromLocalStorage;
   } else {
-    alert("Acesso Negado");
-    window.location.href = "/";
+    clienteServices.login.handleAcessoNegado();
   }
 } catch (err) {
-  alert("Acesso Negado");
-  window.location.href = "/";
+  clienteServices.login.handleAcessoNegado();
 }
 const idAcademia = dados.cliIdAcad;
 
 //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
 
+
 document.addEventListener("DOMContentLoaded", async function () {
-  const result = await ReadAcademia(idAcademia);
+  const result = await clienteServices.ReadAcademia(idAcademia);
   document.getElementById("titleAcad").innerHTML = result.acaNome;
   document.getElementById(
     "cliInfo"
@@ -96,16 +95,16 @@ async function UpdateCampoFichaCliente(item, campo, celula) {
       data.detId = detId;
       data.detCampo = campoEditado;
       data.valor = novoValor;
-      await UpdateCampoFicha(data);
+      await clienteServices.UpdateCampoFicha(data);
     }
     celula.textContent = novoValor;
   });
   input.addEventListener("keypress", async (e) => {
-    if(e.key === "Enter") {
+    if (e.key === "Enter") {
       let novoValor = input.value;
       const detId = celula.getAttribute("data-detid");
       const campoEditado = celula.getAttribute("data-campo");
-  
+
       if (novoValor === "") {
         celula.textContent = valorAnterior;
       } else {
@@ -113,7 +112,7 @@ async function UpdateCampoFichaCliente(item, campo, celula) {
         data.detId = detId;
         data.detCampo = campoEditado;
         data.valor = novoValor;
-        await UpdateCampoFicha(data);
+        await clienteServices.UpdateCampoFicha(data);
       }
       celula.textContent = novoValor;
     }
@@ -121,7 +120,7 @@ async function UpdateCampoFichaCliente(item, campo, celula) {
 }
 
 async function UpdateClienteFichaTreinoA(cliId) {
-  const result = await ReadFichaDetalhes(cliId, "A");
+  const result = await clienteServices.ReadFichaDetalhes(cliId, "A");
   //Colocar em alguma lista
   if (result.length > 0) {
     const containerTabela = document.getElementById("listaTreinoA");
@@ -160,7 +159,7 @@ async function UpdateClienteFichaTreinoA(cliId) {
           celula.setAttribute("data-campo", campo); // Adiciona um atributo data-campo com o nome do campo
 
           celula.addEventListener("click", async (e) => {
-            await UpdateCampoFichaCliente(item, campo, celula); 
+            await UpdateCampoFichaCliente(item, campo, celula);
           });
         }
       });
@@ -171,7 +170,7 @@ async function UpdateClienteFichaTreinoA(cliId) {
 }
 
 async function UpdateClienteFichaTreinoB(cliId) {
-  const result = await ReadFichaDetalhes(cliId, "B");
+  const result = await clienteServices.ReadFichaDetalhes(cliId, "B");
   //Colocar em alguma lista
   if (result.length > 0) {
     const containerTabela = document.getElementById("listaTreinoB");
@@ -210,7 +209,7 @@ async function UpdateClienteFichaTreinoB(cliId) {
           celula.setAttribute("data-campo", campo); // Adiciona um atributo data-campo com o nome do campo
 
           celula.addEventListener("click", async (e) => {
-            await UpdateCampoFichaCliente(item, campo, celula); 
+            await UpdateCampoFichaCliente(item, campo, celula);
           });
         }
       });
@@ -221,7 +220,7 @@ async function UpdateClienteFichaTreinoB(cliId) {
 }
 
 async function UpdateClienteFichaTreinoC(cliId) {
-  const result = await ReadFichaDetalhes(cliId, "C");
+  const result = await clienteServices.ReadFichaDetalhes(cliId, "C");
   //Colocar em alguma lista
   if (result.length > 0) {
     const containerTabela = document.getElementById("listaTreinoC");
@@ -260,7 +259,7 @@ async function UpdateClienteFichaTreinoC(cliId) {
           celula.setAttribute("data-campo", campo); // Adiciona um atributo data-campo com o nome do campo
 
           celula.addEventListener("click", async (e) => {
-            await UpdateCampoFichaCliente(item, campo, celula); 
+            await UpdateCampoFichaCliente(item, campo, celula);
           });
         }
       });
@@ -274,8 +273,7 @@ async function UpdateClienteFichaTreinoC(cliId) {
 
 document.getElementById("btnLogout").addEventListener("click", (e) => {
   e.preventDefault();
-  localStorage.setItem("dados", "");
-  window.location.href = "/";
+clienteServices.login.handleLogout();
 });
 
 async function MostrarTelaCriarFicha(cliId) {
@@ -283,12 +281,12 @@ async function MostrarTelaCriarFicha(cliId) {
   await UpdateClienteFichaTreinoA(cliId);
   await UpdateClienteFichaTreinoB(cliId);
   await UpdateClienteFichaTreinoC(cliId);
-  const result = await ReadFichaDetalhesGeral(cliId);
-  const dadosCliente = await ReadClienteDetalhes(
+  const result = await clienteServices.ReadFichaDetalhesGeral(cliId);
+  const dadosCliente = await clienteServices.ReadClienteDetalhes(
     idAcademia,
     result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente
   );
-  const dadosFuncionario = await ReadFuncionarioDetalhes(
+  const dadosFuncionario = await clienteServices.ReadFuncionarioDetalhes(
     idAcademia,
     result.length > 0 ? result[0].ficIdFuncionario : result.ficIdFuncionario
   );
@@ -340,7 +338,7 @@ formInserirTreinoA.addEventListener("submit", async (e) => {
   const idFicha = document.getElementById("idFichaTreinoA").value;
   data.detIdFicha = idFicha;
   data.detTreino = "A";
-  const result = await RegisterDetalhesFicha(data);
+  const result = await clienteServices.RegisterDetalhesFicha(data);
   await UpdateClienteFichaTreinoA(cliIdFichaTreinoA);
   formInserirTreinoA.querySelector(`[name="detVariacao"]`).value = "";
   formInserirTreinoA.querySelector(`[name="detSerie"]`).value = "";
@@ -356,7 +354,7 @@ formInserirTreinoB.addEventListener("submit", async (e) => {
   const idFicha = document.getElementById("idFichaTreinoB").value;
   data.detIdFicha = idFicha;
   data.detTreino = "B";
-  const result = await RegisterDetalhesFicha(data);
+  const result = await clienteServices.RegisterDetalhesFicha(data);
   await UpdateClienteFichaTreinoB(cliIdFichaTreinoB);
   formInserirTreinoB.querySelector(`[name="detVariacao"]`).value = "";
   formInserirTreinoB.querySelector(`[name="detSerie"]`).value = "";
@@ -372,7 +370,7 @@ formInserirTreinoC.addEventListener("submit", async (e) => {
   const idFicha = document.getElementById("idFichaTreinoC").value;
   data.detIdFicha = idFicha;
   data.detTreino = "C";
-  const result = await RegisterDetalhesFicha(data);
+  const result = await clienteServices.RegisterDetalhesFicha(data);
   await UpdateClienteFichaTreinoC(cliIdFichaTreinoC);
   formInserirTreinoC.querySelector(`[name="detVariacao"]`).value = "";
   formInserirTreinoC.querySelector(`[name="detSerie"]`).value = "";

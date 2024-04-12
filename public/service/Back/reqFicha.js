@@ -1,147 +1,112 @@
-// async function ReadFichaCliente(idAcademia, idCliente) {
-//   const response = await fetch("/Ficha", {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify({
-//       idAcademia,
-//       idCliente,
-//       acao: "ReadFicha",
-//     }),
-//   });
-//   const result = await response.json();
-//   return result;
-// }
+class FichaServices {
 
-// async function RegisterFicha(idAcademia, data) {
-//   const response = await fetch("/Ficha", {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify({
-//       data,
-//       idAcademia,
-//       acao: "RegisterFicha",
-//     }),
-//   });
-//   const result = await response.json();
-//   return result;
-// }
+  async ReadClienteFicha(idAcademia) {
+    try {
+      const response = await fetch("/Ficha", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          idAcademia,
+          acao: "ReadClienteFicha",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro as fichas dos clientes")
+      throw err
+    }
+  }
 
-// async function RegisterDetalhesFicha(data) {
-//   const responseLastFicha = await fetch("/Ficha", {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify({
-//       acao: "ReadLastFicha",
-//     }),
-//   });
-//   const resultLastFicha = await responseLastFicha.json();
+  async ReadFichaDetalhes(cliId, tipo) {
+    try {
+      const response = await fetch("/Ficha", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data: { cliId, tipo },
+          acao: "ReadFichaDetalhes"
+        })
+      })
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao ver os detalhes da ficha do cliente")
+      throw err
+    }
+  }
 
-//   data.lastFicha = resultLastFicha;
+  async ReadFichaDetalhesGeral(cliId) {
+    try {
+      const response = await fetch("/Ficha", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data: cliId,
+          acao: "ReadFichaDetalhesGeral"
+        })
+      })
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao ver os detalhes gerais da ficha do cliente")
+      throw err
+    }
+  }
 
-//   const response = await fetch("/Ficha", {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify({
-//       data,
-//       acao: "RegisterDetalhesFicha",
-//     }),
-//   });
-//   const result = await response.json();
-//   return result;
-// }
+  async RegisterBaseFicha(idAcademia, data) {
+    try {
+      const response = await fetch("/Ficha", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data,
+          idAcademia,
+          acao: "RegisterFicha",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao registrar a base da ficha")
+      throw err
+    }
+  }
 
-// async function UpdateDetalhesFicha(data) {
-//   const response = await fetch("/Ficha", {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify({
-//       data,
-//       acao: "UpdateDetalhesFicha",
-//     }),
-//   });
-//   const result = await response.json();
-//   return result;
-// }
+  async RegisterDetalhesFicha(data) {
+    try {
+      const response = await fetch("/Ficha", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data,
+          acao: "RegisterDetalhesFicha"
+        })
+      })
+      const result = await response.json();
+      return result
+    }
+    catch (err) {
+      console.error("Erro ao registrar os detalhes da ficha")
+      throw err
+    }
+  }
 
-
-
-
-
-async function ReadClienteFicha(idAcademia) {
-  const response = await fetch("/Ficha", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      idAcademia,
-      acao: "ReadClienteFicha",
-    }),
-  });
-  const result = await response.json();
-  return result;
-}
-
-async function ReadFichaDetalhes (cliId, tipo) {
-  const response = await fetch("/Ficha", {
-    method: "POST",
-    headers: {"Content-Type" : "application/json"},
-    body: JSON.stringify({
-      data: {cliId, tipo},
-      acao: "ReadFichaDetalhes"
-    })
-  })
-  const result = await response.json();
-  return result;
-}
-
-async function ReadFichaDetalhesGeral (cliId) {
-  const response = await fetch("/Ficha", {
-    method: "POST",
-    headers: {"Content-Type" : "application/json"},
-    body: JSON.stringify({
-      data: cliId,
-      acao: "ReadFichaDetalhesGeral"
-    })
-  })
-  const result = await response.json();
-  return result;
-}
-
-async function RegisterBaseFicha(idAcademia, data) {
-  const response = await fetch("/Ficha", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      data,
-      idAcademia,
-      acao: "RegisterFicha",
-    }),
-  });
-  const result = await response.json();
-  return result;
-}
-
-async function RegisterDetalhesFicha(data) {
-  const response = await fetch("/Ficha", {
-    method: "POST",
-    headers: {"Content-Type" : "application/json"},
-    body: JSON.stringify({
-      data,
-      acao: "RegisterDetalhesFicha"
-    })
-  })
-  const result = await response.json();
-  return result
-}
-
-async function UpdateCampoFicha(data) {
-  const response = await fetch("/Ficha", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      data,
-      acao: "UpdateCampoFicha",
-    }),
-  });
-  const result = await response.json();
-  return result;
+  async UpdateCampoFicha(data) {
+    try {
+      const response = await fetch("/Ficha", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data,
+          acao: "UpdateCampoFicha",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao atualiza o campo da ficha")
+      throw err
+    }
+  }
 }

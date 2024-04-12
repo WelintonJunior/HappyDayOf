@@ -1,3 +1,4 @@
+const funServices = new FuncionarioServices();
 let dados = [];
 
 //Verifica se está logado
@@ -7,21 +8,18 @@ try {
   if (dadosFromLocalStorage !== null) {
     dados = dadosFromLocalStorage;
   } else {
-    alert("Acesso Negado");
-    window.location.href = "/";
+    funServices.login.handleAcessoNegado();
   }
 } catch (err) {
-  alert("Acesso Negado");
-  window.location.href = "/";
+  funServices.login.handleAcessoNegado();
 }
 
 //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
 
 const idAcademia = dados.funIdAcad;
 
-
 document.addEventListener("DOMContentLoaded", async function () {
-  const result = await ReadAcademia(idAcademia);
+  const result = await funServices.ReadAcademia(idAcademia);
   document.getElementById("titleAcad").innerHTML = result.acaNome;
   document.getElementById(
     "funInfo"
@@ -243,7 +241,7 @@ document
 //Atualizar a Lista de Clientes
 
 async function UpdateListaCliente() {
-  const result = await ReadCliente(idAcademia);
+  const result = await funServices.ReadCliente(idAcademia);
   //Colocar em alguma lista
   const containerTabela = document.getElementById("tableClientes");
   const tabelaExistente = containerTabela.querySelector("table");
@@ -300,7 +298,7 @@ async function UpdateListaCliente() {
 
   document.getElementById("tableClientes").appendChild(tabela);
 
-  const planos = await ReadPlanos(idAcademia);
+  const planos = await funServices.ReadPlanos(idAcademia);
   for (i = 0; i < planos.length; i++) {
     document.getElementById(
       "cliPlano"
@@ -311,7 +309,7 @@ async function UpdateListaCliente() {
 //Atualizar a Lista de Atendimento
 
 async function UpdateListaAtendimento() {
-  const result = await ReadAtendimento(idAcademia, dados.funId);
+  const result = await funServices.ReadAtendimento(idAcademia, dados.funId);
   //Colocar em alguma lista
   const containerTabela = document.getElementById("tableAtendimento");
   const tabelaExistente = containerTabela.querySelector("table");
@@ -384,7 +382,7 @@ async function UpdateListaAtendimento() {
           const dateNow = getFormattedDateTime();
           data.ateId = item.ateId;
           data.dateNow = dateNow;
-          await UpdateStatusAtendimento(idAcademia, data);
+          await funServices.UpdateStatusAtendimento(idAcademia, data);
           await UpdateListaAtendimento();
         });
         celulaBotao.appendChild(botaoEncerrar);
@@ -398,7 +396,7 @@ async function UpdateListaAtendimento() {
 //Atualizar a Lista de Fichas
 
 async function UpdateListaClienteFicha() {
-  const result = await ReadClienteFicha(idAcademia);
+  const result = await funServices.ReadClienteFicha(idAcademia);
   //Colocar em alguma lista
   const containerTabela = document.getElementById("tableClientesFicha");
   const tabelaExistente = containerTabela.querySelector("table");
@@ -422,7 +420,7 @@ async function UpdateListaClienteFicha() {
   if (result) {
     result.forEach((item) => {
       const linha = corpoTabela.insertRow();
-      let PossuiFicha = item.ClienteExisteNaFicha === 0 ? `<span class="text-danger">Não</span>` : `<span class="text-success">Sim</span>` ;
+      let PossuiFicha = item.ClienteExisteNaFicha === 0 ? `<span class="text-danger">Não</span>` : `<span class="text-success">Sim</span>`;
       const camposSelecionados = ["cliId", "cliNome"];
 
       camposSelecionados.forEach((campo) => {
@@ -495,7 +493,7 @@ async function UpdateCampoFichaCliente(item, campo, celula) {
       data.detId = detId;
       data.detCampo = campoEditado;
       data.valor = novoValor;
-      await UpdateCampoFicha(data);
+      await funServices.UpdateCampoFicha(data);
     }
     celula.textContent = novoValor;
   });
@@ -512,7 +510,7 @@ async function UpdateCampoFichaCliente(item, campo, celula) {
         data.detId = detId;
         data.detCampo = campoEditado;
         data.valor = novoValor;
-        await UpdateCampoFicha(data);
+        await funServices.UpdateCampoFicha(data);
       }
       celula.textContent = novoValor;
     }
@@ -520,7 +518,7 @@ async function UpdateCampoFichaCliente(item, campo, celula) {
 }
 
 async function UpdateClienteFichaTreinoA(cliId) {
-  const result = await ReadFichaDetalhes(cliId, "A");
+  const result = await funServices.ReadFichaDetalhes(cliId, "A");
   //Colocar em alguma lista
   if (result.length > 0) {
     const containerTabela = document.getElementById("listaTreinoA");
@@ -570,7 +568,7 @@ async function UpdateClienteFichaTreinoA(cliId) {
 }
 
 async function UpdateClienteFichaTreinoB(cliId) {
-  const result = await ReadFichaDetalhes(cliId, "B");
+  const result = await funServices.ReadFichaDetalhes(cliId, "B");
   //Colocar em alguma lista
   if (result.length > 0) {
     const containerTabela = document.getElementById("listaTreinoB");
@@ -620,7 +618,7 @@ async function UpdateClienteFichaTreinoB(cliId) {
 }
 
 async function UpdateClienteFichaTreinoC(cliId) {
-  const result = await ReadFichaDetalhes(cliId, "C");
+  const result = await funServices.ReadFichaDetalhes(cliId, "C");
   //Colocar em alguma lista
   if (result.length > 0) {
     const containerTabela = document.getElementById("listaTreinoC");
@@ -672,7 +670,7 @@ async function UpdateClienteFichaTreinoC(cliId) {
 //Função de mostrar a tela de detalhes do cliente
 
 async function MostrarTelaDetalhesCliente(cliId) {
-  const result = await ReadClienteDetalhes(idAcademia, cliId);
+  const result = await funServices.ReadClienteDetalhes(idAcademia, cliId);
   MostrarTela();
   TelaDetalhesClientes.style.display = "block";
 
@@ -713,7 +711,7 @@ btnEnviarDetalhesCliente.addEventListener("click", async (e) => {
     alert("O nome não pode conter números");
     return;
   }
-  const result = await UpdateClienteDetalhes(data);
+  const result = await funServices.UpdateClienteDetalhes(data);
   Object.keys(result).forEach((key) => {
     let input = formDetCliente.querySelector(`[name="${key}"]`);
     if (input) {
@@ -741,7 +739,7 @@ const formArquivarCliente = document.getElementById("formArquivarCliente");
 formArquivarCliente.addEventListener("submit", async (e) => {
   e.preventDefault();
   let cliId = document.getElementById("cliDetId").value;
-  await ArchiveCliente(cliId);
+  await funServices.ArchiveCliente(cliId);
   formDetCliente.reset();
   modalArquivarCliente.style.display = "none";
   await UpdateListaCliente();
@@ -752,8 +750,7 @@ formArquivarCliente.addEventListener("submit", async (e) => {
 
 document.getElementById("btnLogout").addEventListener("click", (e) => {
   e.preventDefault();
-  localStorage.setItem("dados", "");
-  window.location.href = "/";
+  funServices.login.handleLogout();
 });
 
 //CHECKBOX POSSUI RESTRIÇÕES
@@ -776,7 +773,7 @@ formCriarBaseFicha.addEventListener("submit", async (e) => {
   data.ficRestricoes === "on"
     ? (data.ficRestricoes = 1)
     : (data.ficRestricoes = 0);
-  const result = await RegisterBaseFicha(idAcademia, data);
+  const result = await funServices.RegisterBaseFicha(idAcademia, data);
   await UpdateListaClienteFicha();
   document.getElementById("modalCriarBaseFicha").style.display = "none";
   MostrarTelaCriarFicha(data.ficCliId);
@@ -790,9 +787,9 @@ formCadastrarAtendimento.addEventListener("submit", async (e) => {
   const dateNow = getFormattedDateTime();
   data.dateNow = dateNow;
   data.funId = dados.funId;
-  const result = await ValidacaoAtendimento(idAcademia, data);
+  const result = await funServices.ValidacaoAtendimento(idAcademia, data);
   if (result) {
-    const result = await RegisterAtendimento(idAcademia, data);
+    const result = await funServices.RegisterAtendimento(idAcademia, data);
     await UpdateListaAtendimento();
     modalCadastrarAtendimento.style.display = "none";
   } else {
@@ -807,12 +804,12 @@ async function MostrarTelaCriarFicha(cliId) {
   await UpdateClienteFichaTreinoA(cliId);
   await UpdateClienteFichaTreinoB(cliId);
   await UpdateClienteFichaTreinoC(cliId);
-  const result = await ReadFichaDetalhesGeral(cliId);
-  const dadosCliente = await ReadClienteDetalhes(
+  const result = await funServices.ReadFichaDetalhesGeral(cliId);
+  const dadosCliente = await funServices.ReadClienteDetalhes(
     idAcademia,
     result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente
   );
-  const dadosFuncionario = await ReadFuncionarioDetalhes(
+  const dadosFuncionario = await funServices.ReadFuncionarioDetalhes(
     idAcademia,
     result.length > 0 ? result[0].ficIdFuncionario : result.ficIdFuncionario
   );
@@ -856,7 +853,7 @@ async function MostrarTelaCriarFicha(cliId) {
 }
 
 async function PreencherSelectProfessores() {
-  const result = await ReadFuncionario(1, idAcademia);
+  const result = await funServices.ReadFuncionario(1, idAcademia);
   document.getElementById("funFicha").innerHTML = "";
   if (result) {
     result.forEach((item) => {
@@ -867,7 +864,7 @@ async function PreencherSelectProfessores() {
   }
 }
 async function PreencherSelectClienteAtendimento() {
-  const result = await ReadCliente(idAcademia);
+  const result = await funServices.ReadCliente(idAcademia);
   document.getElementById("selectClienteAtendimento").innerHTML = "";
   if (result) {
     result.forEach((item) => {
@@ -886,7 +883,7 @@ formInserirTreinoA.addEventListener("submit", async (e) => {
   const idFicha = document.getElementById("idFichaTreinoA").value;
   data.detIdFicha = idFicha;
   data.detTreino = "A";
-  const result = await RegisterDetalhesFicha(data);
+  const result = await funServices.RegisterDetalhesFicha(data);
   await UpdateClienteFichaTreinoA(cliIdFichaTreinoA);
   formInserirTreinoA.querySelector(`[name="detVariacao"]`).value = "";
   formInserirTreinoA.querySelector(`[name="detSerie"]`).value = "";
@@ -902,7 +899,7 @@ formInserirTreinoB.addEventListener("submit", async (e) => {
   const idFicha = document.getElementById("idFichaTreinoB").value;
   data.detIdFicha = idFicha;
   data.detTreino = "B";
-  const result = await RegisterDetalhesFicha(data);
+  const result = await funServices.RegisterDetalhesFicha(data);
   await UpdateClienteFichaTreinoB(cliIdFichaTreinoB);
   formInserirTreinoB.querySelector(`[name="detVariacao"]`).value = "";
   formInserirTreinoB.querySelector(`[name="detSerie"]`).value = "";
@@ -918,7 +915,7 @@ formInserirTreinoC.addEventListener("submit", async (e) => {
   const idFicha = document.getElementById("idFichaTreinoC").value;
   data.detIdFicha = idFicha;
   data.detTreino = "C";
-  const result = await RegisterDetalhesFicha(data);
+  const result = await funServices.RegisterDetalhesFicha(data);
   await UpdateClienteFichaTreinoC(cliIdFichaTreinoC);
   formInserirTreinoC.querySelector(`[name="detVariacao"]`).value = "";
   formInserirTreinoC.querySelector(`[name="detSerie"]`).value = "";

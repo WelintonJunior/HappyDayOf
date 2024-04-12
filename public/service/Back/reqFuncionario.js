@@ -1,65 +1,82 @@
-async function RegisterAtendimento(idAcademia, data) {
-  const response = await fetch("/Funcionario", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      data,
-      idAcademia,
-      acao: "RegisterAtendimento",
-    }),
-  });
-  const result = await response.json();
-  return result;
-}
-async function ReadAtendimento(idAcademia, data) {
-  const response = await fetch("/Funcionario", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      data,
-      idAcademia,
-      acao: "ReadAtendimento",
-    }),
-  });
-  const result = await response.json();
-  return result;
-}
+class FuncionarioServices extends AdministradorServices {
+  
+  constructor() {
+    super();
+    this.login = new LoginServices();
+  }
 
-async function ValidacaoAtendimento (idAcademia, data) {
-  const response = await fetch("/Funcionario", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      data,
-      idAcademia,
-      acao: "ValidacaoAtendimento",
-    }),
-  });
-  const result = await response.json();
-  return result;
+  async RegisterAtendimento(idAcademia, data) {
+    try {
+      const response = await fetch("/Funcionario", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data,
+          idAcademia,
+          acao: "RegisterAtendimento",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch(err) {
+      console.error("Erro ao registrar atendimento")
+      throw err
+    }
+  }
+  async ReadAtendimento(idAcademia, data) {
+    try {
+      const response = await fetch("/Funcionario", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data,
+          idAcademia,
+          acao: "ReadAtendimento",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch(err) {
+      console.error("Erro ao ler atendimento")
+      throw err
+    }
+  }  
+  async ValidacaoAtendimento (idAcademia, data) {
+    try {
+      const response = await fetch("/Funcionario", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data,
+          idAcademia,
+          acao: "ValidacaoAtendimento",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch(err) {
+      console.error("Erro ao validar atendimento")
+      throw err
+    }
+  }
+  async UpdateStatusAtendimento(idAcademia, data) {
+    try {
+      const response = await fetch("/Funcionario", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data,
+          idAcademia,
+          acao: "UpdateStatusAtendimento",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch(err) {
+      console.error("Erro ao atualizar status do atendimento")
+      throw err
+    }
+  }
+  
+
 }
-
-async function UpdateStatusAtendimento(idAcademia, data) {
-  const response = await fetch("/Funcionario", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      data,
-      idAcademia,
-      acao: "UpdateStatusAtendimento",
-    }),
-  });
-  const result = await response.json();
-  return result;
-}
-
-//Validação
-
-// const cliCelular = document.getElementById("cliCelular");
-// const cliDetCelular = document.getElementById("cliDetCelular");
-// const cliDetCpf = document.getElementById("cliDetCpf");
-// const cliCpf = document.getElementById("cliCpf");
-// cliCelular.addEventListener("input", () => FormatarCelular(cliCelular));
-// cliDetCelular.addEventListener("input", () => FormatarCelular(cliDetCelular));
-// cliDetCpf.addEventListener("input", () => HandleInputCpf(cliDetCpf));
-// cliCpf.addEventListener("input", () => HandleInputCpf(cliCpf));

@@ -1,3 +1,4 @@
+const admServices = new AdministradorServices();
 let dados = [];
 
 //Verifica se está logado
@@ -7,13 +8,12 @@ try {
   if (dadosFromLocalStorage !== null) {
     dados = dadosFromLocalStorage;
   } else {
-    alert("Acesso Negado");
-    window.location.href = "/";
+    admServices.login.handleAcessoNegado();
   }
 } catch (err) {
-  alert("Acesso Negado");
-  window.location.href = "/";
+  admServices.login.handleAcessoNegado();
 }
+
 
 //Pega o id da Academia de acordo com o usuario logado no momento
 const idAcademia = dados.funIdAcad;
@@ -28,7 +28,7 @@ const btnFuncionario = document.getElementById("btnFuncionario");
 //Dados de Boas vindas
 
 document.addEventListener("DOMContentLoaded", async function () {
-  const result = await ReadAcademia(idAcademia); 
+  const result = await admServices.ReadAcademia(idAcademia);
   document.getElementById("titleAcad").innerHTML = result.acaNome;
   document.getElementById(
     "admInfo"
@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 document
   .getElementById("abrirModalRegisterCliente")
-  .addEventListener("click", (e) => { 
+  .addEventListener("click", (e) => {
     e.preventDefault();
     modalCadastrarCliente.style.display = "block";
   });
@@ -287,7 +287,7 @@ document
       return;
     }
     data.cliDataCmc = await getFormattedDateTime();
-    await RegisterCliente(data, idAcademia);
+    await admServices.RegisterCliente(data, idAcademia);
     await UpdateListaClienteFicha();
     await UpdateListaCliente();
     modalCadastrarCliente.style.display = "none";
@@ -307,7 +307,7 @@ document
       return;
     }
     data.funDataCmc = await getFormattedDateTime();
-    await RegisterFuncionario(data, idAcademia);
+    await admServices.RegisterFuncionario(data, idAcademia);
     await UpdateListaFuncionario();
     await UpdateListaClienteFicha();
     modalCadastrarFuncionario.style.display = "none";
@@ -426,7 +426,7 @@ function MostrarTela(tela) {
 //Atualizar a Lista de Clientes
 
 async function UpdateListaCliente() {
-  const result = await ReadCliente(idAcademia);
+  const result = await admServices.ReadCliente(idAcademia);
   //Colocar em alguma lista
   const containerTabela = document.getElementById("tableClientes");
   const tabelaExistente = containerTabela.querySelector("table");
@@ -484,7 +484,7 @@ async function UpdateListaCliente() {
 
   document.getElementById("tableClientes").appendChild(tabela);
 
-  const planos = await ReadPlanos(idAcademia);
+  const planos = await admServices.ReadPlanos(idAcademia);
   for (i = 0; i < planos.length; i++) {
     document.getElementById(
       "cliPlano"
@@ -495,7 +495,7 @@ async function UpdateListaCliente() {
 //Atualizar a Lista de Funcionarios
 
 async function UpdateListaFuncionario() {
-  const result = await ReadFuncionario(1, idAcademia);
+  const result = await admServices.ReadFuncionario(1, idAcademia);
   const containerTabela = document.getElementById("tableFuncionarios");
   const tabelaExistente = containerTabela.querySelector("table");
 
@@ -564,7 +564,7 @@ async function UpdateListaFuncionario() {
 //Atualizar a Lista de Fichas
 
 async function UpdateListaClienteFicha() {
-  const result = await ReadClienteFicha(idAcademia);
+  const result = await admServices.ReadClienteFicha(idAcademia);
   //Colocar em alguma lista
   const containerTabela = document.getElementById("tableClientesFicha");
   const tabelaExistente = containerTabela.querySelector("table");
@@ -662,7 +662,7 @@ async function UpdateCampoFichaCliente(item, campo, celula) {
       data.detId = detId;
       data.detCampo = campoEditado;
       data.valor = novoValor;
-      await UpdateCampoFicha(data);
+      await admServices.UpdateCampoFicha(data);
     }
     celula.textContent = novoValor;
   });
@@ -679,7 +679,7 @@ async function UpdateCampoFichaCliente(item, campo, celula) {
         data.detId = detId;
         data.detCampo = campoEditado;
         data.valor = novoValor;
-        await UpdateCampoFicha(data);
+        await admServices.UpdateCampoFicha(data);
       }
       celula.textContent = novoValor;
     }
@@ -687,7 +687,7 @@ async function UpdateCampoFichaCliente(item, campo, celula) {
 }
 
 async function UpdateClienteFichaTreinoA(cliId) {
-  const result = await ReadFichaDetalhes(cliId, "A");
+  const result = await admServices.ReadFichaDetalhes(cliId, "A");
   //Colocar em alguma lista
   if (result.length > 0) {
     const containerTabela = document.getElementById("listaTreinoA");
@@ -737,7 +737,7 @@ async function UpdateClienteFichaTreinoA(cliId) {
 }
 
 async function UpdateClienteFichaTreinoB(cliId) {
-  const result = await ReadFichaDetalhes(cliId, "B");
+  const result = await admServices.ReadFichaDetalhes(cliId, "B");
   //Colocar em alguma lista
   if (result.length > 0) {
     const containerTabela = document.getElementById("listaTreinoB");
@@ -787,7 +787,7 @@ async function UpdateClienteFichaTreinoB(cliId) {
 }
 
 async function UpdateClienteFichaTreinoC(cliId) {
-  const result = await ReadFichaDetalhes(cliId, "C");
+  const result = await admServices.ReadFichaDetalhes(cliId, "C");
   //Colocar em alguma lista
   if (result.length > 0) {
     const containerTabela = document.getElementById("listaTreinoC");
@@ -851,7 +851,7 @@ function Detalhes(linha) {
 //Função de mostrar a tela de detalhes do cliente
 
 async function MostrarTelaDetalhesCliente(cliId) {
-  const result = await ReadClienteDetalhes(idAcademia, cliId);
+  const result = await admServices.ReadClienteDetalhes(idAcademia, cliId);
   MostrarTela();
   TelaDetalhesClientes.style.display = "block";
 
@@ -892,7 +892,7 @@ btnEnviarDetalhesCliente.addEventListener("click", async (e) => {
     alert("O nome não pode conter números");
     return;
   }
-  const result = await UpdateClienteDetalhes(data);
+  const result = await admServices.UpdateClienteDetalhes(data);
   Object.keys(result).forEach((key) => {
     let input = formDetCliente.querySelector(`[name="${key}"]`);
     if (input) {
@@ -901,7 +901,7 @@ btnEnviarDetalhesCliente.addEventListener("click", async (e) => {
   });
   formDetCliente.reset();
   await UpdateListaClienteFicha();
-  await UpdateListaClienteFicha();
+  // await UpdateListaClienteFicha();
   await UpdateListaCliente();
   MostrarTela("TelaClientes");
 });
@@ -926,7 +926,7 @@ btnVoltarTelaCliente.addEventListener("click", async (e) => {
 formArquivarCliente.addEventListener("submit", async (e) => {
   e.preventDefault();
   let cliId = document.getElementById("cliDetId").value;
-  await ArchiveCliente(cliId);
+  await admServices.ArchiveCliente(cliId);
   formDetCliente.reset();
   modalArquivarCliente.style.display = "none";
   await UpdateListaCliente();
@@ -936,7 +936,7 @@ formArquivarCliente.addEventListener("submit", async (e) => {
 //Mostra a Tela de Detalhes do funcionario
 
 async function MostrarTelaDetalhesFuncionario(funId) {
-  const result = await ReadFuncionarioDetalhes(idAcademia, funId);
+  const result = await admServices.ReadFuncionarioDetalhes(idAcademia, funId);
   MostrarTela();
   TelaDetalhesFuncionarios.style.display = "block";
 
@@ -978,7 +978,7 @@ btnEnviarDetalhesFuncionario.addEventListener("click", async (e) => {
     alert("O nome não pode conter números");
     return;
   }
-  const result = await UpdateFuncionarioDetalhes(data);
+  const result = await admServices.UpdateFuncionarioDetalhes(data);
   Object.keys(result).forEach((key) => {
     let input = formDetFuncionario.querySelector(`[name="${key}"]`);
     if (input) {
@@ -1016,7 +1016,7 @@ const formArquivarFuncionario = document.getElementById(
 formArquivarFuncionario.addEventListener("submit", async (e) => {
   e.preventDefault();
   let funId = document.getElementById("funDetId").value;
-  await ArchiveFuncionario(funId);
+  await admServices.ArchiveFuncionario(funId);
   formDetFuncionario.reset();
   modalArquivarFuncionario.style.display = "none";
   await UpdateListaFuncionario();
@@ -1027,8 +1027,7 @@ formArquivarFuncionario.addEventListener("submit", async (e) => {
 
 document.getElementById("btnLogout").addEventListener("click", (e) => {
   e.preventDefault();
-  localStorage.setItem("dados", "");
-  window.location.href = "/";
+  admServices.login.handleLogout();
 });
 
 //CHECKBOX POSSUI RESTRIÇÕES
@@ -1051,7 +1050,7 @@ formCriarBaseFicha.addEventListener("submit", async (e) => {
   data.ficRestricoes === "on"
     ? (data.ficRestricoes = 1)
     : (data.ficRestricoes = 0);
-  const result = await RegisterBaseFicha(idAcademia, data);
+  const result = await admServices.RegisterBaseFicha(idAcademia, data);
   await UpdateListaClienteFicha();
   document.getElementById("modalCriarBaseFicha").style.display = "none";
   MostrarTelaCriarFicha(data.ficCliId);
@@ -1063,12 +1062,12 @@ async function MostrarTelaCriarFicha(cliId) {
   await UpdateClienteFichaTreinoA(cliId);
   await UpdateClienteFichaTreinoB(cliId);
   await UpdateClienteFichaTreinoC(cliId);
-  const result = await ReadFichaDetalhesGeral(cliId);
-  const dadosCliente = await ReadClienteDetalhes(
+  const result = await admServices.ReadFichaDetalhesGeral(cliId);
+  const dadosCliente = await admServices.ReadClienteDetalhes(
     idAcademia,
     result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente
   );
-  const dadosFuncionario = await ReadFuncionarioDetalhes(
+  const dadosFuncionario = await admServices.ReadFuncionarioDetalhes(
     idAcademia,
     result.length > 0 ? result[0].ficIdFuncionario : result.ficIdFuncionario
   );
@@ -1112,7 +1111,7 @@ async function MostrarTelaCriarFicha(cliId) {
 }
 
 async function PreencherSelectProfessores() {
-  const result = await ReadFuncionario(1, idAcademia);
+  const result = await admServices.ReadFuncionario(1, idAcademia);
   document.getElementById("funFicha").innerHTML = "";
   if (result) {
     result.forEach((item) => {
@@ -1131,7 +1130,7 @@ formInserirTreinoA.addEventListener("submit", async (e) => {
   const idFicha = document.getElementById("idFichaTreinoA").value;
   data.detIdFicha = idFicha;
   data.detTreino = "A";
-  const result = await RegisterDetalhesFicha(data);
+  const result = await admServices.RegisterDetalhesFicha(data);
   await UpdateClienteFichaTreinoA(cliIdFichaTreinoA);
   formInserirTreinoA.querySelector(`[name="detVariacao"]`).value = "";
   formInserirTreinoA.querySelector(`[name="detSerie"]`).value = "";
@@ -1147,7 +1146,7 @@ formInserirTreinoB.addEventListener("submit", async (e) => {
   const idFicha = document.getElementById("idFichaTreinoB").value;
   data.detIdFicha = idFicha;
   data.detTreino = "B";
-  const result = await RegisterDetalhesFicha(data);
+  const result = await admServices.RegisterDetalhesFicha(data);
   await UpdateClienteFichaTreinoB(cliIdFichaTreinoB);
   formInserirTreinoB.querySelector(`[name="detVariacao"]`).value = "";
   formInserirTreinoB.querySelector(`[name="detSerie"]`).value = "";
@@ -1163,7 +1162,7 @@ formInserirTreinoC.addEventListener("submit", async (e) => {
   const idFicha = document.getElementById("idFichaTreinoC").value;
   data.detIdFicha = idFicha;
   data.detTreino = "C";
-  const result = await RegisterDetalhesFicha(data);
+  const result = await admServices.RegisterDetalhesFicha(data);
   await UpdateClienteFichaTreinoC(cliIdFichaTreinoC);
   formInserirTreinoC.querySelector(`[name="detVariacao"]`).value = "";
   formInserirTreinoC.querySelector(`[name="detSerie"]`).value = "";

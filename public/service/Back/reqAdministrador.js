@@ -1,175 +1,245 @@
-//READ
+class AdministradorServices extends FichaServices {
 
-async function ReadPlanos(idAcademia) {
-  const response = await fetch("/Administrador", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      idAcademia,
-      acao: "ReadPlanos",
-    }),
-  });
-  const result = await response.json();
-  return result;
+  constructor() {
+    super()
+    this.login = new LoginServices();
+  }
+
+  //Read
+  async ReadPlanos(idAcademia) {
+    try {
+      const response = await fetch("/Administrador", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          idAcademia,
+          acao: "ReadPlanos",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao ler os planos")
+      throw err
+    }
+  }
+
+
+  async ReadFuncionarioDetalhes(idAcademia, funId) {
+    try {
+      const response = await fetch("/Administrador", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data: funId,
+          idAcademia,
+          acao: "ReadFuncionarioDet",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao ler os detalhes do funcionario")
+      throw err
+    }
+  }
+
+  async ReadClienteDetalhes(idAcademia, cliId) {
+    try {
+      const response = await fetch("/Administrador", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data: cliId,
+          idAcademia,
+          acao: "ReadClienteDet",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao ler os detalhes do cliente")
+      throw err
+    }
+  }
+
+  async ReadAcademia(idAcademia) {
+    try {
+      const response = await fetch("/Administrador", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          idAcademia,
+          acao: "ReadAcademia",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao ler as academias")
+      throw err
+    }
+  }
+
+
+  async ReadCliente(idAcademia) {
+    try {
+      const response = await fetch("/Administrador", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          idAcademia,
+          acao: "ReadClientes",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao ler o cliente")
+      throw err
+    }
+  }
+
+  async ReadFuncionario(nivel, idAcademia) {
+    try {
+      const response = await fetch("/Administrador", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data: nivel,
+          idAcademia,
+          acao: "ReadFuncionarios",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao ler o Funcionario")
+      throw err
+    }
+  }
+
+  //REGISTER
+
+  async RegisterCliente(data, idAcademia) {
+    try {
+      const response = await fetch("/Administrador", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data,
+          idAcademia,
+          acao: "RegisterCliente",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao registrar o cliente")
+      throw err
+    }
+  }
+
+  async RegisterFuncionario(data, idAcademia) {
+    try {
+      const response = await fetch("/Administrador", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data,
+          idAcademia,
+          acao: "RegisterFuncionario",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao registrar o funcionario")
+      throw err
+    }
+  }
+
+
+
+  //ARCHIVE
+
+  async ArchiveCliente(idCliente) {
+    try {
+      const response = await fetch("/Administrador", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data: idCliente,
+          acao: "ArchiveCliente",
+        }),
+      });
+
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao arquivar o cliente")
+      throw err
+    }
+  }
+
+  async ArchiveFuncionario(idFuncionario) {
+    try {
+      const response = await fetch("/Administrador", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data: idFuncionario,
+          acao: "ArchiveFuncionario",
+        }),
+      });
+
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao arquivar o funcionario")
+      throw err
+    }
+  }
+
+  //UPDATE
+
+  async UpdateFuncionarioDetalhes(data) {
+    try {
+      const response = await fetch("/Administrador", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data,
+          acao: "UpdateFuncionarioDetalhes",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao atualizar os dados do funcionario")
+      throw err
+    }
+  }
+
+  async UpdateClienteDetalhes(data) {
+    try {
+      const response = await fetch("/Administrador", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data,
+          acao: "UpdateClienteDetalhes",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao atualizar os dados do cliente")
+      throw err
+    }
+  }
 }
 
-async function ReadFuncionarioDetalhes(idAcademia, funId) {
-  const response = await fetch("/Administrador", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      data: funId,
-      idAcademia,
-      acao: "ReadFuncionarioDet",
-    }),
-  });
-  const result = await response.json();
-  return result;
-}
-
-async function ReadClienteDetalhes(idAcademia, cliId) {
-  const response = await fetch("/Administrador", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      data: cliId,
-      idAcademia,
-      acao: "ReadClienteDet",
-    }),
-  });
-  const result = await response.json();
-  return result;
-}
-
-async function ReadAcademia(idAcademia) {
-  const response = await fetch("/Administrador", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      idAcademia,
-      acao: "ReadAcademia",
-    }),
-  });
-  const result = await response.json();
-  return result;
-}
-
-async function ReadCliente(idAcademia) {
-  const response = await fetch("/Administrador", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      idAcademia,
-      acao: "ReadClientes",
-    }),
-  });
-  const result = await response.json();
-  return result;
-}
-
-async function ReadFuncionario(nivel, idAcademia) {
-  const response = await fetch("/Administrador", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      data: nivel,
-      idAcademia,
-      acao: "ReadFuncionarios",
-    }),
-  });
-  const result = await response.json();
-  return result;
-}
-
-//REGISTER
-
-async function RegisterCliente(data, idAcademia) {
-  const response = await fetch("/Administrador", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      data,
-      idAcademia,
-      acao: "RegisterCliente",
-    }),
-  });
-  const result = await response.json();
-  return result;
-}
-
-async function RegisterFuncionario(data, idAcademia) {
-  const response = await fetch("/Administrador", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      data,
-      idAcademia,
-      acao: "RegisterFuncionario",
-    }),
-  });
-  const result = await response.json();
-  return result;
-}
-
-
-
-//ARCHIVE
-
-async function ArchiveCliente(idCliente) {
-  const response = await fetch("/Administrador", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      data: idCliente,
-      acao: "ArchiveCliente",
-    }),
-  });
-
-  const result = await response.json();
-  return result;
-}
-
-async function ArchiveFuncionario(idFuncionario) {
-  const response = await fetch("/Administrador", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      data: idFuncionario,
-      acao: "ArchiveFuncionario",
-    }),
-  });
-
-  const result = await response.json();
-  return result;
-}
-
-//UPDATE
-
-async function UpdateFuncionarioDetalhes(data) {
-  const response = await fetch("/Administrador", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      data,
-      acao: "UpdateFuncionarioDetalhes",
-    }),
-  });
-  const result = await response.json();
-  return result;
-}
-
-async function UpdateClienteDetalhes(data) {
-  const response = await fetch("/Administrador", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      data,
-      acao: "UpdateClienteDetalhes",
-    }),
-  });
-  const result = await response.json();
-  return result;
-}
 
 //Validação
 
@@ -208,3 +278,4 @@ cliCpf.addEventListener("blur", (e) => VerificarCpfCadastrado(e, e.target.value,
 cliCpf.addEventListener("blur", (e) => validarCpfCadastrado(e, e.target.value));
 cliEmail.addEventListener("blur", (e) => VerificarEmailCadastrado(e, e.target.value, "cli"));
 cliDetEmail.addEventListener("blur", (e) => VerificarEmailCadastrado(e, e.target.value, "cli"));
+
