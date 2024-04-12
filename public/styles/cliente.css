@@ -1,0 +1,9 @@
+#isAtendimento {
+    color: white;
+    text-align: center;
+    text-shadow:
+    -0.5px -0.5px 0 green,  
+     0.5px -0.5px 0 green,
+    -0.5px  0.5px 0 green,
+     0.5px  0.5px 0 green; 
+} 

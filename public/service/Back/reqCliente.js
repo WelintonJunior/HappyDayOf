@@ -1,3 +1,4 @@
+
 class ClienteServices extends FichaServices {
 
   constructor() {
@@ -61,5 +62,36 @@ class ClienteServices extends FichaServices {
       console.error("Erro ao ler os detalhes do cliente")
       throw err
     }
+  }
+
+  async ReadStatusAtendimento(idAcademia, cliId, dateNow) {
+    try {
+      let data = { cliId, dateNow }
+      const response = await fetch("/Cliente", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data,
+          idAcademia,
+          acao: "ReadStatusAtendimento"
+        })
+      })
+      const result = await response.json();
+      return result
+    } catch (err) {
+      console.error("Erro ao ler status do atendimento");
+      throw err
+    }
+  }
+
+  async ConnectIO() {
+    const socket = io();
+
+    socket.on('Atendimento', async (msg) => {
+      // console.log(msg.data)
+      if(msg.data.ateIdCliente = dados.cliId) {
+        await UpdateStatusAtendimento(msg.idAcademia, msg.data.ateIdCliente, msg.data.dateNow)
+      }
+    });
   }
 }

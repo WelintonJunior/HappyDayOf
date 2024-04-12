@@ -1,5 +1,5 @@
 class FuncionarioServices extends AdministradorServices {
-  
+
   constructor() {
     super();
     this.login = new LoginServices();
@@ -18,7 +18,7 @@ class FuncionarioServices extends AdministradorServices {
       });
       const result = await response.json();
       return result;
-    } catch(err) {
+    } catch (err) {
       console.error("Erro ao registrar atendimento")
       throw err
     }
@@ -36,12 +36,12 @@ class FuncionarioServices extends AdministradorServices {
       });
       const result = await response.json();
       return result;
-    } catch(err) {
+    } catch (err) {
       console.error("Erro ao ler atendimento")
       throw err
     }
-  }  
-  async ValidacaoAtendimento (idAcademia, data) {
+  }
+  async ValidacaoAtendimento(idAcademia, data) {
     try {
       const response = await fetch("/Funcionario", {
         method: "POST",
@@ -54,7 +54,7 @@ class FuncionarioServices extends AdministradorServices {
       });
       const result = await response.json();
       return result;
-    } catch(err) {
+    } catch (err) {
       console.error("Erro ao validar atendimento")
       throw err
     }
@@ -72,11 +72,17 @@ class FuncionarioServices extends AdministradorServices {
       });
       const result = await response.json();
       return result;
-    } catch(err) {
+    } catch (err) {
       console.error("Erro ao atualizar status do atendimento")
       throw err
     }
   }
-  
+  async ConnectIO() {
+    const socket = io();
+
+    socket.on('Atendimento', (msg) => {
+      console.log('Received Atendimento:', msg);
+    });
+  }
 
 }

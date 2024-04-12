@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   document.getElementById(
     "funInfo"
   ).innerHTML = `Olá Funcionario: ${dados.funNome} da Academia: ${result.acaNome}`;
+  funServices.ConnectIO()
 });
 
 let tela = "";

@@ -3,10 +3,12 @@ const router = express.Router();
 const db = require("../database/database");
 
 router.post("/Funcionario", (req, res) => {
+  const io = require("../app.js");
   const { acao, data, idAcademia } = req.body;
 
   switch (acao) {
     case "RegisterAtendimento":
+      // const socket = io();
       db.query(
         "insert into tblAtendimento values (default, ?, ?, ?, ?, 1, null)",
         [data.ateIdCliente, data.funId, data.dateNow, idAcademia],
@@ -14,6 +16,7 @@ router.post("/Funcionario", (req, res) => {
           if (err) {
             return res.json(err);
           }
+          io.emit("Atendimento", {data, idAcademia})
           res.send(results);
         }
       );
@@ -60,6 +63,7 @@ router.post("/Funcionario", (req, res) => {
           if (err) {
             return res.json(err);
           }
+          io.emit("Atendimento", {data, idAcademia})
           res.send(results);
         }
       );

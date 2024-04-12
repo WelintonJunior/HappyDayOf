@@ -25,7 +25,17 @@ document.addEventListener("DOMContentLoaded", async function () {
   document.getElementById(
     "cliInfo"
   ).innerHTML = `Olá Cliente: ${dados.cliNome} da Academia: ${result.acaNome}`;
+  const dateNow = getFormattedDateTime();
+  await UpdateStatusAtendimento(idAcademia, dados.cliId, dateNow)
+  clienteServices.ConnectIO();
 });
+
+async function UpdateStatusAtendimento (idAcademia, cliId, dateNow) {
+  console.log({idAcademia, cliId, dateNow})
+  const isAtendimento = await clienteServices.ReadStatusAtendimento(idAcademia, cliId, dateNow)
+  console.log(isAtendimento)
+  document.getElementById("isAtendimento").innerHTML = isAtendimento ? "<h4>Em Atendimento</h4>" : "";
+}
 
 let tela = "";
 
@@ -273,7 +283,7 @@ async function UpdateClienteFichaTreinoC(cliId) {
 
 document.getElementById("btnLogout").addEventListener("click", (e) => {
   e.preventDefault();
-clienteServices.login.handleLogout();
+  clienteServices.login.handleLogout();
 });
 
 async function MostrarTelaCriarFicha(cliId) {

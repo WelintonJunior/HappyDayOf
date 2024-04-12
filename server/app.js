@@ -2,6 +2,26 @@ const bodyParser = require("body-parser");
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+const { Server } = require('socket.io');
+const { createServer } = require('http');
+
+const app = express();
+const port = 3000;
+const server = createServer(app);
+const io = new Server(server);
+
+app.use(cors());
+app.use(bodyParser.json());
+app.use(express.static("../public"));
+
+io.on('connection', (socket) => {
+  console.log('Client connected');
+  socket.on('Atendimento', (msg) => {
+    console.log('Atendimento message: ' + msg);
+  });
+});
+
+module.exports = io;
 
 //Import Routers
 const equipeRoutes = require("./router/Equipe.js")
@@ -12,17 +32,11 @@ const fichaRoutes = require("./router/Ficha.js")
 const dashboardRoutes = require("./router/Dashboard.js")
 const loginRoutes = require("./router/Login.js")
 
-const app = express();
-const port = 3000;
-
-app.use(cors());
-app.use(bodyParser.json());
-app.use(express.static("../public"));
-
 app.get("/", (req, res) => {
   const indexPath = path.resolve(__dirname, "../index.html");
   res.sendFile(indexPath);
 });
+
 
 app.get("/Login", (req, res) => {
   const loginPath = path.resolve(__dirname, "../pages/login.html");
@@ -55,7 +69,6 @@ app.get("/Funcionario", (req, res) => {
 app.use(equipeRoutes);
 
 //CLIENTE
-
 app.use(clienteRoutes);
 
 //FUNCIONARIO
@@ -78,6 +91,6 @@ app.use(dashboardRoutes);
 
 app.use(loginRoutes);
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server running in ${port}`);
 });
