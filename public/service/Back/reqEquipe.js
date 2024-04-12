@@ -1,85 +1,108 @@
-async function AddAdministrador(data) {
-  const response = await fetch("/Equipe", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      acao: "AddAdministrador",
-      data,
-    }),
-  });
-  const result = await response.json();
-  return result;
-}
+class EquipeServices extends LoginServices {
 
-async function CreateAcademia(data) {
-  const response = await fetch("/Equipe", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      acao: "CreateAcademia",
-      data,
-    }),
-  });
+  async AddAdministrador(data) {
+    try {
+      const response = await fetch("/Equipe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          acao: "AddAdministrador",
+          data,
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao adicionar administrador")
+      throw err
+    }
+  }
 
-  const result = await response.json();
-  return result;
-}
+  async CreateAcademia(data) {
+    try {
+      const response = await fetch("/Equipe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          acao: "CreateAcademia",
+          data,
+        }),
+      });
 
-async function CarregarTabela() {
-  const response = await fetch("/Equipe", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      acao: "ReadAcademiaLista",
-    }),
-  });
-  const dados = await response.json();
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao criar academia")
+      throw err
+    }
+  }
 
-  document.getElementById("table").innerHTML = ""
+  async CarregarTabela() {
+    try {
+      const response = await fetch("/Equipe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          acao: "ReadAcademiaLista",
+        }),
+      });
+      const dados = await response.json();
 
-  const tabela = document.createElement("table");
-  tabela.setAttribute("border", "1");
+      document.getElementById("table").innerHTML = ""
 
-  const cabecalho = tabela.createTHead();
-  const linhaCabecalho = cabecalho.insertRow();
-  const titulos = [
-    "Nome",
-    "Data Cadastro",
-    "Status",
-    "Celular",
-    // "Ver Detalhes"
-  ];
-  titulos.forEach((texto) => {
-    let th = document.createElement("th");
-    th.textContent = texto;
-    linhaCabecalho.appendChild(th);
-  });
+      const tabela = document.createElement("table");
+      tabela.setAttribute("border", "1");
 
-  const corpoTabela = tabela.appendChild(document.createElement("tbody"));
+      const cabecalho = tabela.createTHead();
+      const linhaCabecalho = cabecalho.insertRow();
+      const titulos = [
+        "Nome",
+        "Data Cadastro",
+        "Status",
+        "Celular",
+        // "Ver Detalhes"
+      ];
+      titulos.forEach((texto) => {
+        let th = document.createElement("th");
+        th.textContent = texto;
+        linhaCabecalho.appendChild(th);
+      });
 
-  dados.forEach((item) => {
-    const linha = corpoTabela.insertRow();
-    Object.values(item).forEach((texto) => {
-      let celula = linha.insertCell();
-      celula.textContent = texto;
-    });
-  });
+      const corpoTabela = tabela.appendChild(document.createElement("tbody"));
 
-  document.getElementById("table").appendChild(tabela);
-}
+      dados.forEach((item) => {
+        const linha = corpoTabela.insertRow();
+        Object.values(item).forEach((texto) => {
+          let celula = linha.insertCell();
+          celula.textContent = texto;
+        });
+      });
 
-async function InsertAcademiaToTheOptions() {
-  let admAcademia = document.getElementById("admAcademia");
-  const response = await fetch("/Equipe", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      acao: "ReadLastAcademia",
-    }),
-  });
-  const result = await response.json();
-  admAcademia.innerHTML = "";
-  admAcademia.innerHTML += `<option value='${result[0].acaId}'></option>`;
+      document.getElementById("table").appendChild(tabela);
+    } catch (err) {
+      console.error("Erro ao carregar tabela")
+      throw err
+    }
+  }
+
+  async InsertAcademiaToTheOptions() {
+    try {
+      let admAcademia = document.getElementById("admAcademia");
+      const response = await fetch("/Equipe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          acao: "ReadLastAcademia",
+        }),
+      });
+      const result = await response.json();
+      admAcademia.innerHTML = "";
+      admAcademia.innerHTML += `<option value='${result[0].acaId}'></option>`;
+    } catch (err) {
+      console.error("Erro ao inserir academia a opção")
+      throw err
+    }
+  }
 }
 
 //Validação

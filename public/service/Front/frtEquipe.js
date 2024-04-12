@@ -1,3 +1,4 @@
+const eqpServices = new EquipeServices();
 let dados = [];
 //Verifica se está logado
 try {
@@ -6,12 +7,10 @@ try {
   if (dadosFromLocalStorage !== null) {
     dados = dadosFromLocalStorage;
   } else {
-    alert("Acesso Negado");
-    window.location.href = "/";
+    eqpServices.handleAcessoNegado()
   }
 } catch (err) {
-  alert("Acesso Negado");
-  window.location.href = "/";
+  eqpServices.handleAcessoNegado()
 }
 //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
 document.getElementById("eqpInfo").innerHTML = `Olá Equipe: ${dados.funNome}`;
@@ -36,7 +35,7 @@ document.getElementById("btnAcademia").addEventListener("click", () => {
 //Função para carregar a tabela logo quando entra na pagina
 
 document.addEventListener("DOMContentLoaded", async function () {
-  await CarregarTabela();
+  await eqpServices.CarregarTabela();
 });
 
 //Modal
@@ -87,8 +86,8 @@ formAcademia.addEventListener("submit", async (e) => {
   e.preventDefault();
   const fd = new FormData(e.target);
   const data = Object.fromEntries(fd.entries());
-  const result = await CreateAcademia(data);
-  InsertAcademiaToTheOptions();
+  const result = await eqpServices.CreateAcademia(data);
+  eqpServices.InsertAcademiaToTheOptions();
   e.target.reset();
   modalCadastrarAcademia.style.display = "none";
   modalCadastrarAdministradorAcademia.style.display = "block";
@@ -101,10 +100,10 @@ formAdministradorAcademia.addEventListener("submit", async (e) => {
   const fd = new FormData(e.target);
   const data = Object.fromEntries(fd.entries());
   data.admDataCmc = await getFormattedDateTime();
-  await AddAdministrador(data);
+  await eqpServices.AddAdministrador(data);
   e.target.reset();
   modalCadastrarAdministradorAcademia.style.display = "none";
-  await CarregarTabela();
+  await eqpServices.CarregarTabela();
 });
 
 //Função para pegar os dados da api de cep e jogar nos campos
@@ -138,8 +137,7 @@ acaCep.addEventListener("blur", (e) => {
 //logout
 document.getElementById("btnLogout").addEventListener("click", (e) => {
   e.preventDefault();
-  localStorage.setItem("dados", "");
-  window.location.href = "/";
+  eqpServices.handleLogout();
 });
 
 
