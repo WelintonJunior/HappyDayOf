@@ -15,10 +15,12 @@ app.use(bodyParser.json());
 app.use(express.static("../public"));
 
 io.on('connection', (socket) => {
-  console.log('Client connected');
+  console.log('Cliente Conectado');
   socket.on('Atendimento', (msg) => {
     console.log('Atendimento message: ' + msg);
   });
+}).on('disconnect', () => {
+  console.log('Cliente Desconectado')
 });
 
 module.exports = io;

@@ -30,10 +30,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   clienteServices.ConnectIO();
 });
 
-async function UpdateStatusAtendimento (idAcademia, cliId, dateNow) {
-  console.log({idAcademia, cliId, dateNow})
+async function UpdateStatusAtendimento(idAcademia, cliId, dateNow) {
   const isAtendimento = await clienteServices.ReadStatusAtendimento(idAcademia, cliId, dateNow)
-  console.log(isAtendimento)
   document.getElementById("isAtendimento").innerHTML = isAtendimento ? "<h4>Em Atendimento</h4>" : "";
 }
 
@@ -44,6 +42,7 @@ const btnFicha = document.getElementById("btnFicha");
 const btnDesempenho = document.getElementById("btnDesempenho");
 const btnPerfil = document.getElementById("btnPerfil");
 
+
 //Declara as telas que são mostradas após clicar em algum botao
 const TelaFicha = document.getElementById("TelaFicha");
 const TelaDesempenho = document.getElementById("TelaDesempenho");
@@ -52,6 +51,18 @@ const TelaPerfil = document.getElementById("TelaPerfil");
 const formInserirTreinoA = document.getElementById("formInserirTreinoA");
 const formInserirTreinoB = document.getElementById("formInserirTreinoB");
 const formInserirTreinoC = document.getElementById("formInserirTreinoC");
+
+const btnEditarDetalhesCliente = document.getElementById(
+  "btnEditarDetalhesCliente"
+);
+const btnEnviarDetalhesCliente = document.getElementById(
+  "btnEnviarDetalhesCliente"
+);
+const btnVoltarTelaCliente = document.getElementById(
+  "btnVoltarTelaCliente"
+);
+
+const formDetCliente = document.getElementById("formDetalhesCliente")
 
 //btnFicha
 btnFicha.firstChild.parentNode.style.backgroundColor = "#FC0404";
@@ -73,6 +84,23 @@ btnPerfil.addEventListener("click", (e) => {
 //Ver Clientes/Funcionarios
 document.addEventListener("DOMContentLoaded", async function () {
   await MostrarTelaCriarFicha(dados.cliId)
+});
+
+//Função para pegar os dados da api de cep e jogar nos campos
+
+const cliDetCep = document.getElementById("cliDetCep");
+cliDetCep.addEventListener("blur", (e) => {
+  cepAutomatico(e.target.value).then((data) => {
+    if (data) {
+      console.log(data)
+      document.getElementById("cliDetCidade").value = data.localidade;
+      document.getElementById("cliDetEstado").value = data.uf;
+      document.getElementById("cliDetRua").value = data.logradouro;
+    } else {
+      alert("Cep não encontrado")
+      e.target.value = "";
+    }
+  });
 });
 
 //Atualizar a A,B e C
@@ -388,8 +416,66 @@ formInserirTreinoC.addEventListener("submit", async (e) => {
   formInserirTreinoC.querySelector(`[name="detCarga"]`).value = "";
 });
 
-function MostrarTela(tela) {
-  TelaFicha.style.display = "block";
+//Função de mostrar a tela de detalhes do cliente
+
+async function MostrarTelaDetalhesCliente(cliId) {
+  const result = await clienteServices.ReadClienteDetalhes(idAcademia, cliId);
+  MostrarTela("TelaPerfil");
+
+  Object.keys(result).forEach((key) => {
+    let input = formDetCliente.querySelector(`[name="${key}"]`);
+    if (input) {
+      if (input.type === "date") {
+        let dateValue = new Date(result[key]).toISOString().split("T")[0];
+        input.value = dateValue;
+      } else {
+        input.value = result[key];
+      }
+    }
+  });
+
+  btnEditarDetalhesCliente.addEventListener("click", (e) => {
+    e.preventDefault();
+    Object.keys(result).forEach((key) => {
+      let input = formDetCliente.querySelector(`[name="${key}"]`);
+      if (input) {
+        input.removeAttribute("disabled");
+      }
+    });
+    e.target.style.display = "none";
+    btnEnviarDetalhesCliente.style.display = "block";
+  });
+}
+
+//Função de Edição CLiente
+
+btnEnviarDetalhesCliente.addEventListener("click", async (e) => {
+  e.preventDefault();
+  let cliId = document.getElementById("cliDetId").value;
+  const fd = new FormData(formDetCliente);
+  const data = Object.fromEntries(fd.entries());
+  data.cliId = cliId;
+  if (verificarNumeros(data.cliNome)) {
+    alert("O nome não pode conter números");
+    return;
+  }
+  if(data.cliCpf === "") {
+    alert("O CPF não pode ser vazio")
+    return
+  } else if (data.cliEmail === "") {
+    alert("O Email não pode ser vazio")
+  }
+  const result = await clienteServices.UpdateClienteDetalhes(data);
+  var inputs = formDetCliente.querySelectorAll('input, select, textarea');
+  inputs.forEach(function (input) {
+    input.setAttribute('disabled', 'disabled');
+  });
+  e.target.style.display = "none";
+  btnEditarDetalhesCliente.style.display = "block";
+});
+
+
+async function MostrarTela(tela) {
   // document.getElementById("listaTreinoA").innerHTML = "";
   // document.getElementById("listaTreinoB").innerHTML = "";
   // document.getElementById("listaTreinoC").innerHTML = "";
@@ -428,6 +514,7 @@ function MostrarTela(tela) {
         btnPerfil.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
         return;
       }
+      await MostrarTelaDetalhesCliente(dados.cliId);
       btnPerfil.firstChild.parentNode.style.backgroundColor = "#FC0404";
       btnDesempenho.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
       btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";

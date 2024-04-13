@@ -98,187 +98,202 @@
       </div>
 
 
-      <!-- Tela Clientes -->
-      <div id="TelaPerfil" style="display: none">
-        asd2
-      </div>
-
       <!-- Tela Ficha -->
 
       <div id="TelaFicha" style="display: block">
-          <form>
-            Cliente: <span id="cliNomeCriarFicha"></span> <br />
-            Professor:<span id="funNomeCriarFicha"></span> <br />
-            <select style="display: none" name="funSelectCriarFicha" id="funSelectCriarFicha"></select>
-            Restrições:
-            <input type="checkbox" name="cliRestricoesCriarFicha" id="cliRestricoesCriarFicha" />
-            <span style="display: none" id="cliRestricoesTipoCriarFicha">Tipo de Restrições:
-            </span>
-            Intervalo: <span id="cliIntervaloCriarFicha"></span><br />
-          </form>
+        <form>
+          Cliente: <span id="cliNomeCriarFicha"></span> <br />
+          Professor:<span id="funNomeCriarFicha"></span> <br />
+          <select style="display: none" name="funSelectCriarFicha" id="funSelectCriarFicha"></select>
+          Restrições:
+          <input type="checkbox" name="cliRestricoesCriarFicha" id="cliRestricoesCriarFicha" />
+          <span style="display: none" id="cliRestricoesTipoCriarFicha">Tipo de Restrições:
+          </span>
+          Intervalo: <span id="cliIntervaloCriarFicha"></span><br />
+        </form>
 
-          <br />
-          <div class="row">
-            <!-- Treino A -->
-            <div class="col-4 px-4">
-              Insira Para o treino A:
-              <div class="row" style="width: 100%">
-                <form id="formInserirTreinoA">
-                  <input type="text" class="d-none" id="cliIdFichaTreinoA" />
-                  <input type="text" class="d-none" id="idFichaTreinoA" />
-                  <input class="col-4" placeholder="Variação" type="text" name="detVariacao" />
-                  <input class="col-2" placeholder="Séries" type="text" name="detSerie" />
-                  <input class="col-2" placeholder="Repetições" type="text" name="detRepeticao" />
-                  <input class="col-2" placeholder="Carga" type="text" name="detCarga" />
-                  <button type="submit" class="col-2">Enter</button>
-                </form>
+        <br />
+        <div class="row">
+          <!-- Treino A -->
+          <div class="col-4 px-4">
+            Insira Para o treino A:
+            <div class="row" style="width: 100%">
+              <form id="formInserirTreinoA">
+                <input type="text" class="d-none" id="cliIdFichaTreinoA" />
+                <input type="text" class="d-none" id="idFichaTreinoA" />
+                <input class="col-4" placeholder="Variação" type="text" name="detVariacao" />
+                <input class="col-2" placeholder="Séries" type="text" name="detSerie" />
+                <input class="col-2" placeholder="Repetições" type="text" name="detRepeticao" />
+                <input class="col-2" placeholder="Carga" type="text" name="detCarga" />
+                <button type="submit" class="col-2">Enter</button>
+              </form>
 
-                <div class="mt-2" id="listaTreinoA"></div>
-              </div>
-            </div>
-            <!-- Treino B -->
-            <div class="col-4 px-4">
-              Insira Para o treino B:
-              <div class="row">
-                <form id="formInserirTreinoB">
-                  <input type="text" class="d-none" id="cliIdFichaTreinoB" />
-                  <input type="text" class="d-none" id="idFichaTreinoB" />
-                  <input class="col-4" placeholder="Variação" type="text" name="detVariacao" />
-                  <input class="col-2" placeholder="Séries" type="text" name="detSerie" />
-                  <input class="col-2" placeholder="Repetições" type="text" name="detRepeticao" />
-                  <input class="col-2" placeholder="Carga" type="text" name="detCarga" />
-                  <button type="submit" class="col-2">Enter</button>
-                </form>
-
-                <div class="mt-2" id="listaTreinoB"></div>
-              </div>
-            </div>
-            <!-- Treino C -->
-            <div class="col-4 px-4">
-              Insira Para o treino C:
-              <div class="row" style="width: 100%">
-                <form id="formInserirTreinoC">
-                  <input type="text" class="d-none" id="cliIdFichaTreinoC" />
-                  <input type="text" class="d-none" id="idFichaTreinoC" />
-                  <input class="col-4" placeholder="Variação" type="text" name="detVariacao" />
-                  <input class="col-2" placeholder="Séries" type="text" name="detSerie" />
-                  <input class="col-2" placeholder="Repetições" type="text" name="detRepeticao" />
-                  <input class="col-2" placeholder="Carga" type="text" name="detCarga" />
-                  <button type="submit" class="col-2">Enter</button>
-                </form>
-
-                <div class="mt-2" id="listaTreinoC"></div>
-              </div>
+              <div class="mt-2" id="listaTreinoA"></div>
             </div>
           </div>
+          <!-- Treino B -->
+          <div class="col-4 px-4">
+            Insira Para o treino B:
+            <div class="row">
+              <form id="formInserirTreinoB">
+                <input type="text" class="d-none" id="cliIdFichaTreinoB" />
+                <input type="text" class="d-none" id="idFichaTreinoB" />
+                <input class="col-4" placeholder="Variação" type="text" name="detVariacao" />
+                <input class="col-2" placeholder="Séries" type="text" name="detSerie" />
+                <input class="col-2" placeholder="Repetições" type="text" name="detRepeticao" />
+                <input class="col-2" placeholder="Carga" type="text" name="detCarga" />
+                <button type="submit" class="col-2">Enter</button>
+              </form>
+
+              <div class="mt-2" id="listaTreinoB"></div>
+            </div>
+          </div>
+          <!-- Treino C -->
+          <div class="col-4 px-4">
+            Insira Para o treino C:
+            <div class="row" style="width: 100%">
+              <form id="formInserirTreinoC">
+                <input type="text" class="d-none" id="cliIdFichaTreinoC" />
+                <input type="text" class="d-none" id="idFichaTreinoC" />
+                <input class="col-4" placeholder="Variação" type="text" name="detVariacao" />
+                <input class="col-2" placeholder="Séries" type="text" name="detSerie" />
+                <input class="col-2" placeholder="Repetições" type="text" name="detRepeticao" />
+                <input class="col-2" placeholder="Carga" type="text" name="detCarga" />
+                <button type="submit" class="col-2">Enter</button>
+              </form>
+
+              <div class="mt-2" id="listaTreinoC"></div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Tela Detalhes Clientes -->
-      <!-- 
-        <div id="TelaDetalhesClientes" style="display: none">
-          <form id="formDetalhesCliente">
-            <br />
-            <div class="row">
-              <input type="text" class="d-none" id="cliDetId" name="cliId" />
-              <div class="col-6">
-                Nome: <input type="text" disabled name="cliNome" />
-              </div>
-              <div class="col-6">
-                Celular:
-                <input
-                  type="text"
-                  id="cliDetCelular"
-                  disabled
-                  name="cliCelular"
-                  maxlength="15"
-                />
-              </div>
-            </div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <section class="container bg-light">
+        <div class="row">
+          <div class="col-12 ">
+            <div id="TelaPerfil" style="display: none">
+              <form id="formDetalhesCliente">
+                <div class="row">
 
-            <div class="row">
-              <div class="col-6">
-                Cep: <input type="text" id="cliDetCep" disabled name="cliCep" />
-              </div>
-              <div class="col-6">
-                Cidade:
-                <input
-                  type="text"
-                  id="cliDetCidade"
-                  disabled
-                  name="cliCidade"
-                />
-              </div>
-            </div>
+                  <div class="col-md-6 col-sm-12 bg-primarye">
+                    <div class="col-md-12">
+                      <input type="text" class="d-none" id="cliDetId" name="cliId" />
 
-            <div class="row">
-              <div class="col-6">
-                Estado:
-                <input
-                  type="text"
-                  id="cliDetEstado"
-                  disabled
-                  name="cliEstado"
-                />
-              </div>
-              <div class="col-6">
-                Rua: <input type="text" disabled id="cliDetRua" name="cliRua" />
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-6">
-                Numero: <input type="text" disabled name="cliNumeroRua" />
-              </div>
-              <div class="col-6">
-                Sexo: <input type="text" disabled name="cliSexo" />
-              </div>
-            </div>
+                      <div class="input-group mt-4 mb-3">
+                        <span class="input-group-text mb-3">Nome</span>
+                        <input type="text" class="form-control mb-3" aria-label="Nome" aria-describedby="basic-addon1"
+                          disabled name="cliNome" value="">
 
-            <div class="row">
-              <div class="col-6">
-                CPF:
-                <input
-                  type="text"
-                  id="cliDetCpf"
-                  maxlength="14"
-                  disabled
-                  name="cliCpf"
-                />
-              </div>
-              <div class="col-6">
-                Email: <input type="email" disabled name="cliEmail" />
-              </div>
-            </div>
+                        <div class="input-group mb-3">
+                          <span class="input-group-text">Sexo</span>
+                          <input type="text" class="form-control" aria-label="Sexo" aria-describedby="basic-addon1"
+                            disabled name="cliSexo" />
+                        </div>
 
-            <div class="row">
-              <div class="col-6">
-                Data Inicio: <input type="date" disabled name="cliDataCmc" />
-              </div>
-              <div class="col-6">
-                Status: <input type="text" disabled name="cliStatus" />
-              </div>
-            </div>
+                        <div class="input-group mb-3">
+                          <span class="input-group-text">CPF</span>
+                          <input type="text" class="form-control" aria-label="CPF" aria-describedby="basic-addon1"
+                            disabled id="cliDetCpf" maxlength="14" name="cliCpf" required />
+                        </div>
 
-            <div class="row">
-              <div class="col-6">
-                Plano: <input type="text" disabled name="cliPlano" />
-              </div>
-              <div class="col-6">
-                <button id="btnEditarDetalhesCliente" style="display: block">
-                  Editar
-                </button>
-                <button
-                  id="btnEnviarDetalhesCliente"
-                  style="display: none"
-                  type="submit"
-                >
-                  Enviar
-                </button>
-              </div>
-            </div>
-            <button id="btnArchiveCliente">Arquivar Cliente</button>
-          </form>
-        </div> -->
 
+
+                        <div class="input-group mb-3">
+                          <span class="input-group-text ">Celular</span>
+                          <input type="text" class="form-control" aria-label="Celular" aria-describedby="basic-addon1"
+                            id="cliDetCelular" name="cliCelular" maxlength="15" disabled value="">
+                        </div>
+
+
+                        <div class="input-group mb-3">
+                          <span class="input-group-text">Email</span>
+                          <input type="email" class="form-control" aria-label="Email" aria-describedby="basic-addon1"
+                            disabled name="cliEmail" id="cliDetEmail" />
+                        </div>
+
+
+                        <div class="input-group">
+                          <span class="input-group-text mb-3">Cep</span>
+                          <input type="text" class="form-control mb-3" maxlength="9" aria-label="Cep"
+                            aria-describedby="basic-addon1" disabled id="cliDetCep" name="cliCep" />
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- ---------------------  -->
+                  <div class="col-md-6 col-sm-12 bg-warninge">
+
+                    <div class="col-12">
+                      <div class="input-group">
+                        <span class="input-group-text mt-4  mb-3">Cidade</span>
+                        <input type="text" class="form-control  mt-4 mb-3" aria-label="Cidade"
+                          aria-describedby="basic-addon1" disabled id="cliDetCidade" name="cliCidade" />
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <div class="input-group">
+                        <span class="input-group-text  mb-3">Estado</span>
+                        <input type="text" class="form-control mb-3" aria-label="Estado" aria-describedby="basic-addon1"
+                          disabled id="cliDetEstado" name="cliEstado" />
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <div class="input-group">
+                        <span class="input-group-text mb-3">Rua</span>
+                        <input type="text" class="form-control mb-3" aria-label="Rua" aria-describedby="basic-addon1"
+                          disabled id="cliDetRua" name="cliRua" />
+                      </div>
+
+                    </div>
+                    <div class="col-12">
+                      <div class="input-group">
+                        <span class="input-group-text mb-3">Número</span>
+                        <input type="text" class="form-control mb-3" aria-label="Número" aria-describedby="basic-addon1"
+                          disabled name="cliNumeroRua" />
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">Data Início</span>
+                        <input type="date" class="form-control" aria-label="Data Início" aria-describedby="basic-addon1"
+                          disabled name="cliDataCmc" />
+                      </div>
+                    </div>
+                    <input type="text" class="form-control d-none" aria-label="Status" aria-describedby="basic-addon1"
+                      disabled name="cliStatus" />
+
+                    <div class="col-12">
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">Plano</span>
+                        <input type="text" class="form-control" aria-label="Plano" aria-describedby="basic-addon1"
+                          disabled name="cliPlano" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2   col-sm-5">
+                  <button id="btnEditarDetalhesCliente" class="btn btn-warning mb-1"
+                    style="display: block">Editar</button>
+                  <button id="btnEnviarDetalhesCliente" class="btn btn-success mb-1" style="display: none"
+                    type="submit">Enviar</button>
+
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.js"></script>

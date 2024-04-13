@@ -24,7 +24,6 @@ class AdministradorServices extends FichaServices {
     }
   }
 
-
   async ReadFuncionarioDetalhes(idAcademia, funId) {
     try {
       const response = await fetch("/Administrador", {
@@ -80,7 +79,6 @@ class AdministradorServices extends FichaServices {
       throw err
     }
   }
-
 
   async ReadCliente(idAcademia) {
     try {

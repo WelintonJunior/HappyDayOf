@@ -248,26 +248,26 @@ router.post("/Administrador", (req, res) => {
     case "VerificarCpfCadastrado":
       switch (data.modulo) {
         case "fun":
-          db.query("select funCpf from tblFuncionario where funCpf = ?", [data.cpf], (err, results) => {
+          db.query("SELECT funCpf FROM tblFuncionario WHERE funCpf = ? AND funId != ?", [data.cpf, data.id], (err, results) => {
             if (err) {
-              return res.json(err)
+              return res.json(err);
             }
-            if (results.length > 0 ? results[0].length === 0 : results.length === 0) {
-              res.send(true)
+            if (results.length === 0) {
+              res.send(true);
             } else {
-              res.send(false)
+              res.send(false);
             }
-          })
+          });
           break;
         case "cli":
-          db.query("select cliCpf from tblCliente where cliCpf = ?", [data.cpf], (err, results) => {
+          db.query("SELECT cliCpf FROM tblCliente WHERE cliCpf = ? AND cliId != ?", [data.cpf, data.id], (err, results) => {
             if (err) {
               return res.json(err)
             }
-            if (results.length > 0 ? results[0].length === 0 : results.length === 0) {
-              res.send(true)
+            if (results.length === 0) {
+              res.send(true);
             } else {
-              res.send(false)
+              res.send(false);
             }
           })
           break;
@@ -277,7 +277,7 @@ router.post("/Administrador", (req, res) => {
     case "VerificarEmailCadastrado":
       switch (data.modulo) {
         case "fun":
-          db.query("select funEmail from tblFuncionario where funEmail = ?", [data.email], (err, results) => {
+          db.query("select funEmail from tblFuncionario where funEmail = ? AND funId != ?", [data.email, data.id], (err, results) => {
             if (err) {
               return res.json(err)
             }
@@ -289,7 +289,7 @@ router.post("/Administrador", (req, res) => {
           })
           break;
         case "cli":
-          db.query("select cliEmail from tblCliente where cliEmail = ?", [data.email], (err, results) => {
+          db.query("select cliEmail from tblCliente where cliEmail = ? AND cliId != ?", [data.email, data.id], (err, results) => {
             if (err) {
               return res.json(err)
             }

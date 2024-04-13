@@ -77,12 +77,4 @@ class FuncionarioServices extends AdministradorServices {
       throw err
     }
   }
-  async ConnectIO() {
-    const socket = io();
-
-    socket.on('Atendimento', (msg) => {
-      console.log('Received Atendimento:', msg);
-    });
-  }
-
 }

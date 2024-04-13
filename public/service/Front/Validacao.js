@@ -187,19 +187,21 @@ function verificarNumeros(string) {
   }
 }
 
-async function VerificarCpfCadastrado(e, cpf, modulo) {
+async function VerificarCpfCadastrado(e, cpf, id, modulo) {
   const response = await fetch("/Administrador", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       data: {
         cpf,
+        id,
         modulo
       },
       acao: "VerificarCpfCadastrado"
     })
   })
   const result = await response.json()
+  console.log(result)
   if(!result) {
     alert("CPF já cadastrado no sistema")
     e.target.value = "";
@@ -209,13 +211,14 @@ async function VerificarCpfCadastrado(e, cpf, modulo) {
   }
 }
 
-async function VerificarEmailCadastrado(e, email, modulo) {
+async function VerificarEmailCadastrado(e, email, id, modulo) {
   const response = await fetch("/Administrador", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       data: {
         email,
+        id,
         modulo
       },
       acao: "VerificarEmailCadastrado"
