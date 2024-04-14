@@ -274,6 +274,35 @@ router.post("/Administrador", (req, res) => {
 
       }
       break;
+    case "VerificarCpfCadastradoGeral":
+      switch (data.modulo) {
+        case "fun":
+          db.query("SELECT funCpf FROM tblFuncionario WHERE funCpf = ?", [data.cpf], (err, results) => {
+            if (err) {
+              return res.json(err);
+            }
+            if (results.length === 0) {
+              res.send(true);
+            } else {
+              res.send(false);
+            }
+          });
+          break;
+        case "cli":
+          db.query("SELECT cliCpf FROM tblCliente WHERE cliCpf = ?", [data.cpf], (err, results) => {
+            if (err) {
+              return res.json(err)
+            }
+            if (results.length === 0) {
+              res.send(true);
+            } else {
+              res.send(false);
+            }
+          })
+          break;
+
+      }
+      break;
     case "VerificarEmailCadastrado":
       switch (data.modulo) {
         case "fun":
@@ -290,6 +319,35 @@ router.post("/Administrador", (req, res) => {
           break;
         case "cli":
           db.query("select cliEmail from tblCliente where cliEmail = ? AND cliId != ?", [data.email, data.id], (err, results) => {
+            if (err) {
+              return res.json(err)
+            }
+            if (results.length > 0 ? results[0].length === 0 : results.length === 0) {
+              res.send(true)
+            } else {
+              res.send(false)
+            }
+          })
+          break;
+
+      }
+      break;
+    case "VerificarEmailCadastradoGeral":
+      switch (data.modulo) {
+        case "fun":
+          db.query("select funEmail from tblFuncionario where funEmail = ?  ", [data.email], (err, results) => {
+            if (err) {
+              return res.json(err)
+            }
+            if (results.length > 0 ? results[0].length === 0 : results.length === 0) {
+              res.send(true)
+            } else {
+              res.send(false)
+            }
+          })
+          break;
+        case "cli":
+          db.query("select cliEmail from tblCliente where cliEmail = ?  ", [data.email], (err, results) => {
             if (err) {
               return res.json(err)
             }
