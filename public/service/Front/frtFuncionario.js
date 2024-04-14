@@ -24,7 +24,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   document.getElementById(
     "funInfo"
   ).innerHTML = `Olá Funcionario: ${dados.funNome} da Academia: ${result.acaNome}`;
-  funServices.ConnectIO()
 });
 
 let tela = "";
@@ -383,6 +382,7 @@ async function UpdateListaAtendimento() {
           const dateNow = getFormattedDateTime();
           data.ateId = item.ateId;
           data.dateNow = dateNow;
+          data.ateIdCliente = item.ateIdCliente;
           await funServices.UpdateStatusAtendimento(idAcademia, data);
           await UpdateListaAtendimento();
         });
