@@ -54,7 +54,7 @@ function validarCPF(cpf) {
   }
 
   return true;
-  
+
 }
 
 //CNPJ
@@ -188,62 +188,117 @@ function verificarNumeros(string) {
 }
 
 async function VerificarCpfCadastrado(e, cpf, id, modulo) {
-  const response = await fetch("/Administrador", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      data: {
-        cpf,
-        id,
-        modulo
-      },
-      acao: "VerificarCpfCadastrado"
+  if (cpf !== "") {
+    const response = await fetch("/Administrador", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        data: {
+          cpf,
+          id,
+          modulo
+        },
+        acao: "VerificarCpfCadastrado"
+      })
     })
-  })
-  const result = await response.json()
-  console.log(result)
-  if(!result) {
-    alert("CPF já cadastrado no sistema")
-    e.target.value = "";
-    setTimeout(() => {
-      e.target.focus();
-    }, 0)
-  }
-}
-
-async function VerificarEmailCadastrado(e, email, id, modulo) {
-  const response = await fetch("/Administrador", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      data: {
-        email,
-        id,
-        modulo
-      },
-      acao: "VerificarEmailCadastrado"
-    })
-  })
-  const result = await response.json()
-  if(!result) {
-    alert("Email já cadastrado no sistema")
-    if(e.target.value === "") {
-      
-    } else {
+    const result = await response.json()
+    if (!result) {
+      alert("CPF já cadastrado no sistema")
+      e.target.value = "";
       setTimeout(() => {
         e.target.focus();
       }, 0)
     }
-    e.target.value = "";
+  }
+}
+
+async function VerificarCpfCadastradoGeral(e, cpf, modulo) {
+  if (cpf !== "") {
+    const response = await fetch("/Administrador", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        data: {
+          cpf,
+          modulo
+        },
+        acao: "VerificarCpfCadastradoGeral"
+      })
+    })
+    const result = await response.json()
+    if (!result) {
+      alert("CPF já cadastrado no sistema")
+      e.target.value = "";
+      setTimeout(() => {
+        e.target.focus();
+      }, 0)
+    }
+  }
+}
+
+async function VerificarEmailCadastrado(e, email, id, modulo) {
+  if (email !== "") {
+    const response = await fetch("/Administrador", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        data: {
+          email,
+          id,
+          modulo
+        },
+        acao: "VerificarEmailCadastrado"
+      })
+    })
+    const result = await response.json()
+    if (!result) {
+      alert("Email já cadastrado no sistema")
+      if (e.target.value === "") {
+
+      } else {
+        setTimeout(() => {
+          e.target.focus();
+        }, 0)
+      }
+      e.target.value = "";
+    }
+  }
+}
+
+async function VerificarEmailCadastradoGeral(e, email, modulo) {
+  if (email !== "") {
+    const response = await fetch("/Administrador", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        data: {
+          email,
+          modulo
+        },
+        acao: "VerificarEmailCadastradoGeral"
+      })
+    })
+    const result = await response.json()
+    if (!result) {
+      alert("Email já cadastrado no sistema")
+      if (e.target.value === "") {
+
+      } else {
+        setTimeout(() => {
+          e.target.focus();
+        }, 0)
+      }
+      e.target.value = "";
+    }
   }
 }
 
 async function validarCpfCadastrado(e, cpf) {
   const result = await validarCPF(cpf);
-  if(!result) {
+  if (!result) {
     alert("CPF Inválido")
-    if(e.target.value === "") {
-      
+    if (e.target.value === "") {
+
     } else {
       setTimeout(() => {
         e.target.focus();

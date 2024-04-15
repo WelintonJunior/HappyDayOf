@@ -257,23 +257,29 @@ if (funCelular) {
   funCelular.addEventListener("input", () => FormatarCelular(funCelular));
   funDetCelular.addEventListener("input", () => FormatarCelular(funDetCelular));
   funDetCpf.addEventListener("input", () => HandleInputCpf(funDetCpf));
-  funDetCpf.addEventListener("blur", (e) => VerificarCpfCadastrado(e, e.target.value, "fun"));
+  funDetCpf.addEventListener("blur", (e) => {
+    const funDetId = document.getElementById("funDetId").value
+    VerificarCpfCadastrado(e, e.target.value, funDetId, "fun")
+  });
   funDetCpf.addEventListener("blur", (e) => validarCpfCadastrado(e, e.target.value));
   funCpf.addEventListener("input", () => HandleInputCpf(funCpf));
-  funCpf.addEventListener("blur", (e) => VerificarCpfCadastrado(e, e.target.value, "fun"));
+  funCpf.addEventListener("blur", (e) => VerificarCpfCadastradoGeral(e, e.target.value, "fun"));
   funCpf.addEventListener("blur", (e) => validarCpfCadastrado(e, e.target.value));
-  funEmail.addEventListener("blur", (e) => VerificarEmailCadastrado(e, e.target.value, "fun"));
+  funEmail.addEventListener("blur", (e) => VerificarEmailCadastradoGeral(e, e.target.value, "fun"));
   funDetEmail.addEventListener("blur", (e) => VerificarEmailCadastrado(e, e.target.value, "fun"));
 
 }
 cliCelular.addEventListener("input", () => FormatarCelular(cliCelular));
 cliDetCelular.addEventListener("input", () => FormatarCelular(cliDetCelular));
 cliDetCpf.addEventListener("input", () => HandleInputCpf(cliDetCpf));
-cliDetCpf.addEventListener("blur", (e) => VerificarCpfCadastrado(e, e.target.value, "cli"));
+cliDetCpf.addEventListener("blur", (e) => {
+  const cliDetId = document.getElementById("cliDetId").value
+  VerificarCpfCadastrado(e, e.target.value, cliDetId, "cli")
+});
 cliDetCpf.addEventListener("blur", (e) => validarCpfCadastrado(e, e.target.value));
 cliCpf.addEventListener("input", () => HandleInputCpf(cliCpf));
-cliCpf.addEventListener("blur", (e) => VerificarCpfCadastrado(e, e.target.value, "cli"));
+cliCpf.addEventListener("blur", (e) => VerificarCpfCadastradoGeral(e, e.target.value, "cli"));
 cliCpf.addEventListener("blur", (e) => validarCpfCadastrado(e, e.target.value));
-cliEmail.addEventListener("blur", (e) => VerificarEmailCadastrado(e, e.target.value, "cli"));
+cliEmail.addEventListener("blur", (e) => VerificarEmailCadastradoGeral(e, e.target.value, "cli"));
 cliDetEmail.addEventListener("blur", (e) => VerificarEmailCadastrado(e, e.target.value, "cli"));
 

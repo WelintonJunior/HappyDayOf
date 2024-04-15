@@ -44,7 +44,7 @@ CREATE TABLE `tblacademia` (
 
 LOCK TABLES `tblacademia` WRITE;
 /*!40000 ALTER TABLE `tblacademia` DISABLE KEYS */;
-INSERT INTO `tblacademia` VALUES (1,'02.765.381/0001-25','Happy Day','2024-04-11','1','(18) 20931-2809','12570114','#ff0000','1829-3012');
+INSERT INTO `tblacademia` VALUES (1,'51.526.104/0001-75','Happy Day','2024-04-14','1','(12) 93819-2038','12570112','#cc0000','8129-0381');
 /*!40000 ALTER TABLE `tblacademia` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -79,7 +79,7 @@ CREATE TABLE `tblatendimento` (
 
 LOCK TABLES `tblatendimento` WRITE;
 /*!40000 ALTER TABLE `tblatendimento` DISABLE KEYS */;
-INSERT INTO `tblatendimento` VALUES (1,1,6,'2024-04-11 09:03:26',1,'0','2024-04-11 09:03:30');
+INSERT INTO `tblatendimento` VALUES (1,1,11,'2024-04-14 12:50:49',1,'0','2024-04-14 12:51:06');
 /*!40000 ALTER TABLE `tblatendimento` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -112,7 +112,7 @@ CREATE TABLE `tblcliente` (
   KEY `cliAcad` (`cliIdAcad`),
   CONSTRAINT `fk_cliPlano` FOREIGN KEY (`cliPlano`) REFERENCES `tblplanos` (`plaId`),
   CONSTRAINT `tblcliente_ibfk_1` FOREIGN KEY (`cliIdAcad`) REFERENCES `tblacademia` (`acaId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -121,7 +121,7 @@ CREATE TABLE `tblcliente` (
 
 LOCK TABLES `tblcliente` WRITE;
 /*!40000 ALTER TABLE `tblcliente` DISABLE KEYS */;
-INSERT INTO `tblcliente` VALUES (1,'Yasmin','(18) 92738-9127','12570118','Aparecida','SP','Rua 9 de Julho',20,'F','960.938.410-22','yasmin@gmail.com','1970-01-01 00:00:00','1',1,1,'123123'),(2,'Yasminn','(12) 73813-8912','12570102','Aparecida','SP','Rua Ignácio Bustamante',10,'F','089.498.710-09','yasminn@gmail.com','2024-04-11 00:00:00','1',1,1,'123123'),(3,'Yasminnn','(12) 90381-0293','12570102','Aparecida','SP','Rua Ignácio Bustamante',10,'F','540.068.260-01','yasminnn@gmaill.com','2024-04-11 09:06:44','1',1,1,'123123');
+INSERT INTO `tblcliente` VALUES (1,'Yasmin','(12) 31238-9120','12570100','Aparecida','SP','Avenida Antonio Samaha',10,'F','089.498.710-09','yasmin@gmail.com','2024-04-14 12:49:35','1',1,1,'$argon2id$v=19$m=65536,t=3,p=4$RNpXfKGTYpa5ToE2OH4xIQ$uBB1yZZzV2SkLBVhjstkqbOUwkrrnOFnEu6zidtZ1j8');
 /*!40000 ALTER TABLE `tblcliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -201,7 +201,7 @@ CREATE TABLE `tblficha` (
   CONSTRAINT `fk_acaCli` FOREIGN KEY (`ficIdCliente`) REFERENCES `tblcliente` (`cliId`),
   CONSTRAINT `fk_acaFic` FOREIGN KEY (`ficIdAcademia`) REFERENCES `tblacademia` (`acaId`),
   CONSTRAINT `fk_funfic` FOREIGN KEY (`ficIdFuncionario`) REFERENCES `tblfuncionario` (`funId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -210,7 +210,6 @@ CREATE TABLE `tblficha` (
 
 LOCK TABLES `tblficha` WRITE;
 /*!40000 ALTER TABLE `tblficha` DISABLE KEYS */;
-INSERT INTO `tblficha` VALUES (1,1,5,1,'00:01:00','0','.');
 /*!40000 ALTER TABLE `tblficha` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -232,7 +231,7 @@ CREATE TABLE `tblfichadetalhes` (
   PRIMARY KEY (`detId`),
   KEY `detIdFicha` (`detIdFicha`),
   CONSTRAINT `tblfichadetalhes_ibfk_1` FOREIGN KEY (`detIdFicha`) REFERENCES `tblficha` (`ficId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -241,7 +240,6 @@ CREATE TABLE `tblfichadetalhes` (
 
 LOCK TABLES `tblfichadetalhes` WRITE;
 /*!40000 ALTER TABLE `tblfichadetalhes` DISABLE KEYS */;
-INSERT INTO `tblfichadetalhes` VALUES (1,'Remada','10','10','10',1,'A');
 /*!40000 ALTER TABLE `tblfichadetalhes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -272,7 +270,7 @@ CREATE TABLE `tblfuncionario` (
   PRIMARY KEY (`funId`),
   KEY `funAcad` (`funIdAcad`),
   CONSTRAINT `tblfuncionario_ibfk_1` FOREIGN KEY (`funIdAcad`) REFERENCES `tblacademia` (`acaId`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -281,7 +279,7 @@ CREATE TABLE `tblfuncionario` (
 
 LOCK TABLES `tblfuncionario` WRITE;
 /*!40000 ALTER TABLE `tblfuncionario` DISABLE KEYS */;
-INSERT INTO `tblfuncionario` VALUES (1,'Binarios','12996138271','12520110','Guaratinguetá','SP','Rua lala',29,'M','577.821.068-00','equipe@gmail.com','2024-04-11 00:00:00','1',NULL,'123123',3),(4,'Rodrigo','(12) 09381-0923','12570112','Aparecida','SP','Rua Alfredo Penido',10,'M','823.699.390-60','rodrigo@gmail.com','2024-04-11 08:49:43','1',1,'123123',2),(5,'Heitor','(12) 90381-9203','12570100','Aparecida','SP','Avenida Antonio Samaha',10,'M','059.494.500-35','heitor@gmail.com','1970-01-01 00:00:00','1',1,'123123',1),(6,'Daniel','(12) 83901-2930','12570100','Aparecida','SP','Avenida Antonio Samaha',10,'M','920.999.620-81','daniel@gmail.com','2024-04-11 08:59:12','1',1,'123123',1);
+INSERT INTO `tblfuncionario` VALUES (1,'Binarios','12996138271','12520110','Guaratinguetá','SP','Rua lala',29,'M','577.821.068-00','equipe@gmail.com','2024-04-11 00:00:00','1',NULL,'$argon2id$v=19$m=65536,t=3,p=4$Nb+xwA6oH4/wCOV1i3d9Dg$MKnnZMe+CEn3lt9XGp3LuAk3m+0Hs+pZ1+hUQqRDnuE',3),(10,'Rodrigo','(12) 99613-8271','12520110','Guaratinguetá','SP','Rua Filadelfo Gandra Martins',10,'M','577.821.068-00','rodrigo@gmail.com','2024-04-14 12:48:21','1',1,'$argon2id$v=19$m=65536,t=3,p=4$Nb+xwA6oH4/wCOV1i3d9Dg$MKnnZMe+CEn3lt9XGp3LuAk3m+0Hs+pZ1+hUQqRDnuE',2),(11,'Heitor','(19) 28301-9283','12570112','Aparecida','SP','Rua Alfredo Penido',10,'M','862.960.070-51','heitor@gmail.com','2024-04-14 12:50:34','1',1,'$argon2id$v=19$m=65536,t=3,p=4$hKH3skD1WFf6gZ/BlC1udA$YaLjB7v7hwBllxc0bOs3MJZpU4iU2K5V0x/4tuW7Kvw',1);
 /*!40000 ALTER TABLE `tblfuncionario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -345,6 +343,33 @@ INSERT INTO `tblplanos` VALUES (1,'Plano Power',200,12,1);
 UNLOCK TABLES;
 
 --
+-- Table structure for table `tblplanosclientes`
+--
+
+DROP TABLE IF EXISTS `tblplanosclientes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tblplanosclientes` (
+  `idPlano` int DEFAULT NULL,
+  `idCliente` int DEFAULT NULL,
+  `status` char(1) DEFAULT NULL,
+  KEY `idPlano` (`idPlano`),
+  KEY `idCliente` (`idCliente`),
+  CONSTRAINT `tblplanosclientes_ibfk_1` FOREIGN KEY (`idPlano`) REFERENCES `tblplanos` (`plaId`),
+  CONSTRAINT `tblplanosclientes_ibfk_2` FOREIGN KEY (`idCliente`) REFERENCES `tblcliente` (`cliId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tblplanosclientes`
+--
+
+LOCK TABLES `tblplanosclientes` WRITE;
+/*!40000 ALTER TABLE `tblplanosclientes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tblplanosclientes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `tblsatisfacao`
 --
 
@@ -354,18 +379,22 @@ DROP TABLE IF EXISTS `tblsatisfacao`;
 CREATE TABLE `tblsatisfacao` (
   `satId` int NOT NULL AUTO_INCREMENT,
   `satIdCliente` int DEFAULT NULL,
-  `satIdFun` int DEFAULT NULL,
-  `satNota` double DEFAULT NULL,
-  `satMotivo` varchar(255) DEFAULT NULL,
   `satIdAcademia` int DEFAULT NULL,
+  `satNotaClareza` char(1) DEFAULT NULL,
+  `satNotaConhecimento` char(1) DEFAULT NULL,
+  `satNotaProatividade` char(1) DEFAULT NULL,
+  `satNotaDisponibilidade` char(1) DEFAULT NULL,
+  `satNotaSeguranca` char(1) DEFAULT NULL,
+  `satIdAtendimento` int DEFAULT NULL,
+  `satStatus` char(1) DEFAULT NULL,
   PRIMARY KEY (`satId`),
   KEY `satIdCliente` (`satIdCliente`),
-  KEY `satIdFun` (`satIdFun`),
   KEY `satIdAcademia` (`satIdAcademia`),
+  KEY `satIdAtendimento` (`satIdAtendimento`),
   CONSTRAINT `tblsatisfacao_ibfk_1` FOREIGN KEY (`satIdCliente`) REFERENCES `tblcliente` (`cliId`),
-  CONSTRAINT `tblsatisfacao_ibfk_2` FOREIGN KEY (`satIdFun`) REFERENCES `tblfuncionario` (`funId`),
-  CONSTRAINT `tblsatisfacao_ibfk_3` FOREIGN KEY (`satIdAcademia`) REFERENCES `tblacademia` (`acaId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `tblsatisfacao_ibfk_3` FOREIGN KEY (`satIdAcademia`) REFERENCES `tblacademia` (`acaId`),
+  CONSTRAINT `tblsatisfacao_ibfk_4` FOREIGN KEY (`satIdAtendimento`) REFERENCES `tblatendimento` (`ateId`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -374,6 +403,7 @@ CREATE TABLE `tblsatisfacao` (
 
 LOCK TABLES `tblsatisfacao` WRITE;
 /*!40000 ALTER TABLE `tblsatisfacao` DISABLE KEYS */;
+INSERT INTO `tblsatisfacao` VALUES (1,1,1,'4','4','4','4','4',1,'1');
 /*!40000 ALTER TABLE `tblsatisfacao` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -386,4 +416,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-11  9:39:40
+-- Dump completed on 2024-04-14 12:54:19

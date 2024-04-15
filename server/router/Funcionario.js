@@ -16,7 +16,7 @@ router.post("/Funcionario", (req, res) => {
           if (err) {
             return res.json(err);
           }
-          io.emit("Atendimento", {data, idAcademia})
+          io.emit("Atendimento", { data, idAcademia })
           res.send(results);
         }
       );
@@ -60,10 +60,13 @@ router.post("/Funcionario", (req, res) => {
         "update tblAtendimento set ateStatus = 0, ateDateEncerramento = ? where ateId = ? and ateIdAcad = ?",
         [data.dateNow, data.ateId, idAcademia],
         (err, results) => {
-          if (err) {
-            return res.json(err);
-          }
-          io.emit("Atendimento", {data, idAcademia})
+          db.query("insert into tblSatisfacao values (default, ?, ?, null, null, null, null, null, ?, 0)", [data.ateIdCliente, idAcademia, data.ateId], (err, results) => {
+            if (err) {
+              return res.json(err)
+            }
+          })
+          io.emit("Atendimento", { data, idAcademia })
+          io.emit("EncerrarAtendimento", { data, idAcademia })
           res.send(results);
         }
       );

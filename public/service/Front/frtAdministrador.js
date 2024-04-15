@@ -18,7 +18,6 @@ try {
 //Pega o id da Academia de acordo com o usuario logado no momento
 const idAcademia = dados.funIdAcad;
 let tela = "";
-console.log(dados)
 //Declara os botoes da nav laterais
 const btnResumo = document.getElementById("btnResumo");
 const btnCliente = document.getElementById("btnCliente");

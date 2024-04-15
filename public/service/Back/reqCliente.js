@@ -84,6 +84,44 @@ class ClienteServices extends FichaServices {
     }
   }
 
+  async VerificarAtendimento(idAcademia, cliId) {
+    try {
+      let data = { cliId }
+      const response = await fetch("/Cliente", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data,
+          idAcademia,
+          acao: "VerificarAtendimento"
+        })
+      })
+      const result = await response.json();
+      return result
+    } catch (err) {
+      console.error("Erro ao ler atendimento");
+      throw err
+    }
+  }
+  async ReadAtendimentoInfo(ateId) {
+    try {
+      let data = { ateId }
+      const response = await fetch("/Cliente", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data,
+          acao: "ReadAtendimentoInfo"
+        })
+      })
+      const result = await response.json();
+      return result
+    } catch (err) {
+      console.error("Erro ao ler atendimento");
+      throw err
+    }
+  }
+
   async UpdateClienteDetalhes(data) {
     try {
       const response = await fetch("/Administrador", {
@@ -92,6 +130,23 @@ class ClienteServices extends FichaServices {
         body: JSON.stringify({
           data,
           acao: "UpdateClienteDetalhes",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao atualizar os dados do cliente")
+      throw err
+    }
+  }
+  async UpdateSatisfacao(data) {
+    try {
+      const response = await fetch("/Cliente", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data,
+          acao: "UpdateSatisfacao",
         }),
       });
       const result = await response.json();
@@ -111,6 +166,13 @@ class ClienteServices extends FichaServices {
         await UpdateStatusAtendimento(msg.idAcademia, msg.data.ateIdCliente, msg.data.dateNow)
       }
     });
+
+    socket.on("EncerrarAtendimento", async (msg) => {
+      if (msg.data.ateIdCliente = dados.cliId) {
+        const StatusSatisfacao = await clienteServices.VerificarAtendimento(idAcademia, msg.data.ateIdCliente)
+        await VerificarSatisfacaoAtendimento(StatusSatisfacao, msg.data.dateNow, msg.idAcademia, msg.data.ateIdCliente)
+      }
+    })
   }
 }
 

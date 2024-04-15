@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../database/database")
+const argon2 = require('argon2');
 
-router.use("/Equipe", (req, res) => {
+router.use("/Equipe", async (req, res) => {
     const { acao, data } = req.body;
   
     switch (acao) {
@@ -62,6 +63,7 @@ router.use("/Equipe", (req, res) => {
       case "DeleteAcademia":
         break;
       case "AddAdministrador":
+        const hashedPasswordAdm = await argon2.hash(data.admSenha);
         db.query(
           "insert into tblFuncionario values(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?, 2)",
           [
@@ -77,7 +79,7 @@ router.use("/Equipe", (req, res) => {
             data.admEmail,
             data.admDataCmc,
             data.admAcademia,
-            data.admSenha,
+            hashedPasswordAdm,
           ],
           (err, results) => {
             if (err) {

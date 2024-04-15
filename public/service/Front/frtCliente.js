@@ -27,6 +27,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   ).innerHTML = `Olá Cliente: ${dados.cliNome} da Academia: ${result.acaNome}`;
   const dateNow = getFormattedDateTime();
   await UpdateStatusAtendimento(idAcademia, dados.cliId, dateNow)
+  const StatusSatisfacao = await clienteServices.VerificarAtendimento(idAcademia, dados.cliId)
+  await VerificarSatisfacaoAtendimento(StatusSatisfacao, null, idAcademia, dados.cliId)
   clienteServices.ConnectIO();
 });
 
@@ -34,6 +36,37 @@ async function UpdateStatusAtendimento(idAcademia, cliId, dateNow) {
   const isAtendimento = await clienteServices.ReadStatusAtendimento(idAcademia, cliId, dateNow)
   document.getElementById("isAtendimento").innerHTML = isAtendimento ? "<h4>Em Atendimento</h4>" : "";
 }
+
+let modalSatisfacao = document.getElementById("modalSatisfacao")
+
+async function VerificarSatisfacaoAtendimento(StatusSatisfacao, dateNow, idAcademia, cliId) {
+  if (StatusSatisfacao[0]) {
+    const ateInfo = await clienteServices.ReadAtendimentoInfo(StatusSatisfacao[0].satIdAtendimento)
+    const satText = document.getElementById("satText");
+    modalSatisfacao.style.display = "block"
+    document.getElementById("satIdSatisfacao").value = StatusSatisfacao[0].satId
+    const date = new Date(ateInfo[0].ateDateEncerramento);
+    const horas = date.getHours().toString().padStart(2, '0') + ':' + date.getMinutes().toString().padStart(2, '0');
+    const dia = date.getDate().toString().padStart(2, '0') + '/' +
+      (date.getMonth() + 1).toString().padStart(2, '0') + '/' +
+      date.getFullYear();
+    satText.innerHTML = `Atendimento que se encerrou às ${horas} do dia ${dia}`;
+  } else if (StatusSatisfacao) {
+    const ateInfo = await clienteServices.ReadAtendimentoInfo(StatusSatisfacao.data.ateId)
+    const satText = document.getElementById("satText");
+    console.log(StatusSatisfacao)
+    console.log(ateInfo)
+    modalSatisfacao.style.display = "block"
+    document.getElementById("satIdSatisfacao").value = StatusSatisfacao[0].satId
+    const date = new Date(ateInfo[0].ateDateEncerramento);
+    const horas = date.getHours().toString().padStart(2, '0') + ':' + date.getMinutes().toString().padStart(2, '0');
+    const dia = date.getDate().toString().padStart(2, '0') + '/' +
+      (date.getMonth() + 1).toString().padStart(2, '0') + '/' +
+      date.getFullYear();
+    satText.innerHTML = `Atendimento que se encerrou às ${horas} do dia ${dia}`;
+  }
+}
+
 
 let tela = "";
 
@@ -51,6 +84,14 @@ const TelaPerfil = document.getElementById("TelaPerfil");
 const formInserirTreinoA = document.getElementById("formInserirTreinoA");
 const formInserirTreinoB = document.getElementById("formInserirTreinoB");
 const formInserirTreinoC = document.getElementById("formInserirTreinoC");
+
+const formSatisfacao = document.getElementById("formSatisfacao");
+const rating0 = document.getElementById("rating-0");
+const rating1 = document.getElementById("rating-1");
+const rating2 = document.getElementById("rating-2");
+const rating3 = document.getElementById("rating-3");
+const rating4 = document.getElementById("rating-4");
+const titleConhecimento = document.getElementById("titleConhecimento")
 
 const btnEditarDetalhesCliente = document.getElementById(
   "btnEditarDetalhesCliente"
@@ -459,7 +500,7 @@ btnEnviarDetalhesCliente.addEventListener("click", async (e) => {
     alert("O nome não pode conter números");
     return;
   }
-  if(data.cliCpf === "") {
+  if (data.cliCpf === "") {
     alert("O CPF não pode ser vazio")
     return
   } else if (data.cliEmail === "") {
@@ -473,6 +514,46 @@ btnEnviarDetalhesCliente.addEventListener("click", async (e) => {
   e.target.style.display = "none";
   btnEditarDetalhesCliente.style.display = "block";
 });
+
+//Satisfacao
+
+formSatisfacao.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target)
+  const data = Object.fromEntries(fd.entries())
+  switch (titleConhecimento.innerHTML) {
+    case "Conhecimento":
+      data.modulo = titleConhecimento.innerHTML
+      await clienteServices.UpdateSatisfacao(data)
+      titleConhecimento.innerHTML = "Clareza"
+      break;
+    case "Clareza":
+      data.modulo = titleConhecimento.innerHTML
+      await clienteServices.UpdateSatisfacao(data);
+      titleConhecimento.innerHTML = "Pró Atividade"
+      break;
+    case "Pró Atividade":
+      data.modulo = titleConhecimento.innerHTML
+      await clienteServices.UpdateSatisfacao(data);
+      titleConhecimento.innerHTML = "Disponibilidade"
+      break;
+    case "Disponibilidade":
+      data.modulo = titleConhecimento.innerHTML
+      await clienteServices.UpdateSatisfacao(data);
+      titleConhecimento.innerHTML = "Segurança"
+      break;
+    case "Segurança":
+      data.modulo = titleConhecimento.innerHTML
+      await clienteServices.UpdateSatisfacao(data);
+      modalSatisfacao.style.display = "none"
+      titleConhecimento.innerHTML = "Conhecimento"
+      document.getElementById("modalObrigado").style.display = "block";
+      setTimeout(() => {
+        document.getElementById("modalObrigado").style.display = "none";
+      }, 1000);
+      break;
+  }
+})
 
 
 async function MostrarTela(tela) {

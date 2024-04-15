@@ -1,9 +1,32 @@
 #isAtendimento {
-    color: white;
-    text-align: center;
-    text-shadow:
-    -0.5px -0.5px 0 green,  
-     0.5px -0.5px 0 green,
-    -0.5px  0.5px 0 green,
-     0.5px  0.5px 0 green; 
-} 
+  color: white;
+  text-align: center;
+  text-shadow: -0.5px -0.5px 0 green, 0.5px -0.5px 0 green, -0.5px 0.5px 0 green,
+    0.5px 0.5px 0 green;
+}
+
+.rating {
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    direction: ltr;
+    font-size: 32px;
+  }
+  .rating input {
+    display: none;
+  }
+  .rating label {
+    cursor: pointer;
+    padding: 0 10px;
+  }
+  /* Estilo para emojis não selecionados */
+  .rating label {
+    transition: transform 0.3s, border 0.3s; /* Adiciona transição suave */
+  }
+  /* Estilo para emojis selecionados */
+  .rating input:checked + label {
+    transform: scale(1.1); /* Aumenta o tamanho do emoji selecionado */
+    border: 2px solid orange; /* Adiciona uma borda laranja ao emoji selecionado */
+  }
+  

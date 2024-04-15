@@ -294,6 +294,50 @@
           </div>
         </div>
       </section>
+
+      <!-- Modal satisfacao -->
+      <div id="modalSatisfacao" class="modal" tabindex="-1">
+        <div class="modal-dialog d-flex align-items-center justify-content-center" style="height: 80vh;">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2 id="titleConhecimento">Conhecimento</h2>
+            </div>
+            <p class="p-3" id="satText"></p>
+            <form id="formSatisfacao" class="p-5">
+              <input type="text" class="d-none" name="satId" id="satIdSatisfacao">
+              <div class="rating">
+                <input type="radio" id="rating-0" name="rating" value="0" />
+                <label for="rating-0">😠</label>
+
+                <input type="radio" id="rating-1" name="rating" value="1" />
+                <label for="rating-1">😦</label>
+
+                <input type="radio" id="rating-2" name="rating" value="2" />
+                <label for="rating-2">😐</label>
+
+                <input type="radio" id="rating-3" name="rating" value="3" />
+                <label for="rating-3">🙂</label>
+
+                <input type="radio" id="rating-4" checked name="rating" value="4" />
+                <label for="rating-4">😀</label>
+              </div>
+              <br>
+              <button class="float-right btn btn-info" type="submit">Next</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Obrigado -->
+      <div id="modalObrigado" class="modal" tabindex="-1">
+        <div class="modal-dialog d-flex align-items-center justify-content-center" style="height: 80vh;">
+          <div class="modal-content">
+            <div class="p-5">
+            <h1>Obrigado!</h1>
+          </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.js"></script>

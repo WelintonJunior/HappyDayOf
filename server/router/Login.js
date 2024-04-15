@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../database/database");
+const argon2 = require('argon2');
 
 router.post("/Login", (req, res) => {
   const { acao, data } = req.body;
@@ -9,38 +10,57 @@ router.post("/Login", (req, res) => {
   switch (acao) {
     case "LoginCliente":
       db.query(
-        "select * from tblCliente where cliEmail = ?",
+        "SELECT * FROM tblCliente WHERE cliEmail = ?",
         [email],
-        (err, results) => {
+        async (err, results) => {
           if (err) {
             return res.json(err);
           }
           if (results.length === 0) {
             return res.json(false);
           }
-          if (results[0].cliSenha === senha) {
-            res.json(results[0]);
-          } else {
-            res.json(false);
+
+          try {
+            const isPasswordValid = await argon2.verify(
+              results[0].cliSenha,
+              senha
+            );
+            if (isPasswordValid) {
+              res.json(results[0]);
+            } else {
+              res.json(false);
+            }
+          } catch (error) {
+            res.status(500).json(error);
           }
         }
       );
       break;
+
     case "LoginFuncionario":
       db.query(
-        "select * from tblFuncionario where funEmail = ?",
+        "SELECT * FROM tblFuncionario WHERE funEmail = ?",
         [email],
-        (err, results) => {
+        async (err, results) => {
           if (err) {
             return res.json(err);
           }
           if (results.length === 0) {
             return res.json(false);
           }
-          if (results[0].funSenha === senha) {
-            res.send(results[0]);
-          } else {
-            res.send(false);
+
+          try {
+            const isPasswordValid = await argon2.verify(
+              results[0].funSenha,
+              senha
+            );
+            if (isPasswordValid) {
+              res.json(results[0]);
+            } else {
+              res.json(false);
+            }
+          } catch (error) {
+            res.status(500).json(error);
           }
         }
       );
