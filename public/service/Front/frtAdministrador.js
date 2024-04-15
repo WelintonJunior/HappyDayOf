@@ -340,6 +340,7 @@ function MostrarTela(tela) {
   document.getElementById("listaTreinoA").innerHTML = "";
   document.getElementById("listaTreinoB").innerHTML = "";
   document.getElementById("listaTreinoC").innerHTML = "";
+  document.getElementById("sidebarHeader").style.paddingTop = "20px"
   formDetCliente.reset();
   formDetFuncionario.reset();
   formCriarBaseFicha.reset();
@@ -1057,6 +1058,7 @@ formCriarBaseFicha.addEventListener("submit", async (e) => {
 
 async function MostrarTelaCriarFicha(cliId) {
   MostrarTela();
+  // document.getElementById("sidebarHeader").style.paddingTop = "100px"
   TelaCriarFicha.style.display = "block";
   await UpdateClienteFichaTreinoA(cliId);
   await UpdateClienteFichaTreinoB(cliId);
