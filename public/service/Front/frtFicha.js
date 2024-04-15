@@ -19,7 +19,7 @@ document.getElementById("FormFicha").addEventListener("submit", async (e) => {
 document
   .getElementById("FormFichaDetalhes")
   .addEventListener("submit", async (e) => {
-    e.preventDefault();
+    e.preventDefTelaFichaault();
     const fd = new FormData(e.target);
     const data = Object.fromEntries(fd.entries());
     const result = await RegisterDetalhesFicha(data);
