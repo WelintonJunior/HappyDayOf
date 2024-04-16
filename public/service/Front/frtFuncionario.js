@@ -465,9 +465,7 @@ async function UpdateListaClienteFicha() {
 }
 
 //Atualizar a A,B e C
-
-
-async function UpdateCampoFichaCliente(item, campo, celula) {
+async function UpdateCampoFichaCliente(item, campo, celula, cliId) {
   if (celula.querySelector("input")) return;
 
   let valorAnterior = celula.textContent;
@@ -487,13 +485,20 @@ async function UpdateCampoFichaCliente(item, campo, celula) {
     const detId = celula.getAttribute("data-detid");
     const campoEditado = celula.getAttribute("data-campo");
 
-    if (novoValor === "") {
-      celula.textContent = valorAnterior;
+    const data = {};
+    data.detId = detId;
+    data.detCampo = campoEditado;
+    data.valor = novoValor;
+
+    if (novoValor == "") {
+      await funServices.DeleteCampoFicha(data);
+      await UpdateClienteFichaTreinoA(cliId);
+      await UpdateClienteFichaTreinoB(cliId);
+      await UpdateClienteFichaTreinoC(cliId);
+      if (celula.parentElement.parentElement.querySelectorAll('td').length === 1) {
+        celula.parentElement.parentElement.parentElement.remove();
+      }
     } else {
-      const data = {};
-      data.detId = detId;
-      data.detCampo = campoEditado;
-      data.valor = novoValor;
       await funServices.UpdateCampoFicha(data);
     }
     celula.textContent = novoValor;
@@ -503,14 +508,21 @@ async function UpdateCampoFichaCliente(item, campo, celula) {
       let novoValor = input.value;
       const detId = celula.getAttribute("data-detid");
       const campoEditado = celula.getAttribute("data-campo");
+      const data = {};
+      data.detId = detId;
+      data.detCampo = campoEditado;
+      data.valor = novoValor;
 
-      if (novoValor === "") {
-        celula.textContent = valorAnterior;
+      if (novoValor == "") {
+        await funServices.DeleteCampoFicha(data);
+        await UpdateClienteFichaTreinoA(cliId);
+        await UpdateClienteFichaTreinoB(cliId);
+        await UpdateClienteFichaTreinoC(cliId);
+
+        if (celula.parentElement.parentElement.querySelectorAll('td').length === 4) {
+          celula.parentElement.parentElement.parentElement.remove();
+        }
       } else {
-        const data = {};
-        data.detId = detId;
-        data.detCampo = campoEditado;
-        data.valor = novoValor;
         await funServices.UpdateCampoFicha(data);
       }
       celula.textContent = novoValor;
@@ -549,16 +561,16 @@ async function UpdateClienteFichaTreinoA(cliId) {
         "detSerie",
         "detRepeticao",
       ];
-
       camposSelecionados.forEach((campo) => {
         if (item.hasOwnProperty(campo)) {
           let celula = linha.insertCell();
           celula.innerHTML = item[campo];
           celula.setAttribute("data-detId", item.detId);
-          celula.setAttribute("data-campo", campo); // Adiciona um atributo data-campo com o nome do campo
+          celula.setAttribute("data-campo", campo);
 
+          //Pra celular não funciona(LEMBRANDO EU MESMO) talvez mudar apenas para click
           celula.addEventListener("click", async (e) => {
-            await UpdateCampoFichaCliente(item, campo, celula);
+            await UpdateCampoFichaCliente(item, campo, celula, cliId);
           });
         }
       });
@@ -605,10 +617,10 @@ async function UpdateClienteFichaTreinoB(cliId) {
           let celula = linha.insertCell();
           celula.innerHTML = item[campo];
           celula.setAttribute("data-detId", item.detId);
-          celula.setAttribute("data-campo", campo); // Adiciona um atributo data-campo com o nome do campo
+          celula.setAttribute("data-campo", campo);
 
           celula.addEventListener("click", async (e) => {
-            await UpdateCampoFichaCliente(item, campo, celula);
+            await UpdateCampoFichaCliente(item, campo, celula, cliId);
           });
         }
       });
@@ -655,10 +667,10 @@ async function UpdateClienteFichaTreinoC(cliId) {
           let celula = linha.insertCell();
           celula.innerHTML = item[campo];
           celula.setAttribute("data-detId", item.detId);
-          celula.setAttribute("data-campo", campo); // Adiciona um atributo data-campo com o nome do campo
+          celula.setAttribute("data-campo", campo);
 
           celula.addEventListener("click", async (e) => {
-            await UpdateCampoFichaCliente(item, campo, celula);
+            await UpdateCampoFichaCliente(item, campo, celula, cliId);
           });
         }
       });
@@ -667,6 +679,12 @@ async function UpdateClienteFichaTreinoC(cliId) {
     document.getElementById("listaTreinoC").appendChild(tabela);
   }
 }
+
+btnVoltarTelaFicha.addEventListener("click", async (e) => {
+  await UpdateListaClienteFicha();
+  MostrarTela("TelaFicha");
+})
+
 
 //Função de mostrar a tela de detalhes do cliente
 
@@ -832,8 +850,8 @@ async function MostrarTelaCriarFicha(cliId) {
   document.getElementById("funSelectCriarFicha");
   document.getElementById("cliRestricoesCriarFicha").checked =
     result.length > 0
-      ? result[0].ficRestricoes == 1
-      : result.ficRestricoes == 1;
+      ? result[0].ficRestricoes = 1
+      : result.ficRestricoes = 1;
   if (
     result.length > 0 ? result[0].ficRestricoes == 1 : result.ficRestricoes == 1
   ) {

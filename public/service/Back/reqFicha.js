@@ -109,4 +109,22 @@ class FichaServices {
       throw err
     }
   }
+
+  async DeleteCampoFicha(data) {
+    try {
+      const response = await fetch("/Ficha", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data,
+          acao: "DeleteCampoFicha",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao Deletar o campo da ficha")
+      throw err
+    }
+  }
 }

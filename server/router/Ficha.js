@@ -210,6 +210,14 @@ router.post("/Ficha", (req, res) => {
           break;
       }
       break;
+    case "DeleteCampoFicha":
+      db.query("delete from tblFichaDetalhes where detId = ?", [data.detId], (err, results) => {
+        if (err) {
+          return res.json(err)
+        }
+        res.send(results)
+      })
+      break;
   }
 });
 

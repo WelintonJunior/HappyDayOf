@@ -54,8 +54,6 @@ async function VerificarSatisfacaoAtendimento(StatusSatisfacao, dateNow, idAcade
   } else if (StatusSatisfacao) {
     const ateInfo = await clienteServices.ReadAtendimentoInfo(StatusSatisfacao.data.ateId)
     const satText = document.getElementById("satText");
-    console.log(StatusSatisfacao)
-    console.log(ateInfo)
     modalSatisfacao.style.display = "block"
     document.getElementById("satIdSatisfacao").value = StatusSatisfacao[0].satId
     const date = new Date(ateInfo[0].ateDateEncerramento);
@@ -133,7 +131,6 @@ const cliDetCep = document.getElementById("cliDetCep");
 cliDetCep.addEventListener("blur", (e) => {
   cepAutomatico(e.target.value).then((data) => {
     if (data) {
-      console.log(data)
       document.getElementById("cliDetCidade").value = data.localidade;
       document.getElementById("cliDetEstado").value = data.uf;
       document.getElementById("cliDetRua").value = data.logradouro;
@@ -144,10 +141,9 @@ cliDetCep.addEventListener("blur", (e) => {
   });
 });
 
+
 //Atualizar a A,B e C
-
-
-async function UpdateCampoFichaCliente(item, campo, celula) {
+async function UpdateCampoFichaCliente(item, campo, celula, cliId) {
   if (celula.querySelector("input")) return;
 
   let valorAnterior = celula.textContent;
@@ -167,13 +163,22 @@ async function UpdateCampoFichaCliente(item, campo, celula) {
     const detId = celula.getAttribute("data-detid");
     const campoEditado = celula.getAttribute("data-campo");
 
-    if (novoValor === "") {
-      celula.textContent = valorAnterior;
+    const data = {};
+    data.detId = detId;
+    data.detCampo = campoEditado;
+    data.valor = novoValor;
+
+    if (novoValor == "") {
+      await clienteServices.DeleteCampoFicha(data);
+      await UpdateClienteFichaTreinoA(cliId);
+      await UpdateClienteFichaTreinoB(cliId);
+      await UpdateClienteFichaTreinoC(cliId);
+      // Após a exclusão, verifique se não há mais campos na tabela
+      if (celula.parentElement.parentElement.querySelectorAll('td').length === 1) {
+        // Se não houver mais campos, remova a tabela
+        celula.parentElement.parentElement.parentElement.remove();
+      }
     } else {
-      const data = {};
-      data.detId = detId;
-      data.detCampo = campoEditado;
-      data.valor = novoValor;
       await clienteServices.UpdateCampoFicha(data);
     }
     celula.textContent = novoValor;
@@ -183,14 +188,22 @@ async function UpdateCampoFichaCliente(item, campo, celula) {
       let novoValor = input.value;
       const detId = celula.getAttribute("data-detid");
       const campoEditado = celula.getAttribute("data-campo");
+      const data = {};
+      data.detId = detId;
+      data.detCampo = campoEditado;
+      data.valor = novoValor;
 
-      if (novoValor === "") {
-        celula.textContent = valorAnterior;
+      if (novoValor == "") {
+        await clienteServices.DeleteCampoFicha(data);
+        await UpdateClienteFichaTreinoA(cliId);
+        await UpdateClienteFichaTreinoB(cliId);
+        await UpdateClienteFichaTreinoC(cliId);
+        // Após a exclusão, verifique se não há mais campos na tabela
+        if (celula.parentElement.parentElement.querySelectorAll('td').length === 4) {
+          // Se não houver mais campos, remova a tabela
+          celula.parentElement.parentElement.parentElement.remove();
+        }
       } else {
-        const data = {};
-        data.detId = detId;
-        data.detCampo = campoEditado;
-        data.valor = novoValor;
         await clienteServices.UpdateCampoFicha(data);
       }
       celula.textContent = novoValor;
@@ -229,16 +242,16 @@ async function UpdateClienteFichaTreinoA(cliId) {
         "detSerie",
         "detRepeticao",
       ];
-
       camposSelecionados.forEach((campo) => {
         if (item.hasOwnProperty(campo)) {
           let celula = linha.insertCell();
           celula.innerHTML = item[campo];
           celula.setAttribute("data-detId", item.detId);
-          celula.setAttribute("data-campo", campo); // Adiciona um atributo data-campo com o nome do campo
+          celula.setAttribute("data-campo", campo);
 
+          //Pra celular não funciona(LEMBRANDO EU MESMO) talvez mudar apenas para click
           celula.addEventListener("click", async (e) => {
-            await UpdateCampoFichaCliente(item, campo, celula);
+            await UpdateCampoFichaCliente(item, campo, celula, cliId);
           });
         }
       });
@@ -285,10 +298,10 @@ async function UpdateClienteFichaTreinoB(cliId) {
           let celula = linha.insertCell();
           celula.innerHTML = item[campo];
           celula.setAttribute("data-detId", item.detId);
-          celula.setAttribute("data-campo", campo); // Adiciona um atributo data-campo com o nome do campo
+          celula.setAttribute("data-campo", campo);
 
           celula.addEventListener("click", async (e) => {
-            await UpdateCampoFichaCliente(item, campo, celula);
+            await UpdateCampoFichaCliente(item, campo, celula, cliId);
           });
         }
       });
@@ -335,10 +348,10 @@ async function UpdateClienteFichaTreinoC(cliId) {
           let celula = linha.insertCell();
           celula.innerHTML = item[campo];
           celula.setAttribute("data-detId", item.detId);
-          celula.setAttribute("data-campo", campo); // Adiciona um atributo data-campo com o nome do campo
+          celula.setAttribute("data-campo", campo);
 
           celula.addEventListener("click", async (e) => {
-            await UpdateCampoFichaCliente(item, campo, celula);
+            await UpdateCampoFichaCliente(item, campo, celula, cliId);
           });
         }
       });
@@ -387,8 +400,8 @@ async function MostrarTelaCriarFicha(cliId) {
   document.getElementById("funSelectCriarFicha");
   document.getElementById("cliRestricoesCriarFicha").checked =
     result.length > 0
-      ? result[0].ficRestricoes == 1
-      : result.ficRestricoes == 1;
+      ? result[0].ficRestricoes = 1
+      : result.ficRestricoes = 1;
   if (
     result.length > 0 ? result[0].ficRestricoes == 1 : result.ficRestricoes == 1
   ) {
