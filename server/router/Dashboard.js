@@ -8,8 +8,9 @@ router.post("/Dashboard", (req, res) => {
   switch (acao) {
     case "TaxaAdocao":
       break;
-    case "ReadIdAtendimentos":
+    case "ReadSatisfacao":
       db.query("select * from tblSatisfacao where satStatus = 1 and satIdAcademia = ?", [idAcademia], (err, satisfacoes) => {
+        console.log(idAcademia)
         if (err) {
           return res.json(err)
         }
@@ -21,6 +22,17 @@ router.post("/Dashboard", (req, res) => {
       break;
     case "ReadAtendimentos":
       db.query("select ateIdFuncionario from tblAtendimento where ateId = ?", [data], (err, results) => {
+        if (err) {
+          return res.json(err)
+        }
+        if (results.length > 0 ? results[0].length === 0 : results.length === 0) {
+          return res.json(false)
+        }
+        res.send(results)
+      })
+      break;
+    case "ReadFuncNome":
+      db.query("select funnome from tblFuncionario where funId = ?", [data], (err, results) => {
         if (err) {
           return res.json(err)
         }

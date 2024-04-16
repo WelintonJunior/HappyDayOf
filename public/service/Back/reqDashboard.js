@@ -1,12 +1,12 @@
 class DashboardServices {
 
-    async ReadIdAtendimentos(idAcademia) {
+    async ReadSatisfacao(idAcademia) {
         const response = await fetch("/Dashboard", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 idAcademia,
-                acao: "ReadIdAtendimentos"
+                acao: "ReadSatisfacao"
             })
         })
         const result = await response.json();
@@ -20,6 +20,19 @@ class DashboardServices {
             body: JSON.stringify({
                 data: idAtendimento,
                 acao: "ReadAtendimentos"
+            })
+        })
+        const result = await response.json();
+        return result[0]
+    }
+
+    async ReadFuncNome(idFuncionario) {
+        const response = await fetch("/Dashboard", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                data: idFuncionario,
+                acao: "ReadFuncNome"
             })
         })
         const result = await response.json();

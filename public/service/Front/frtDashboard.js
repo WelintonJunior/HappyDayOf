@@ -1,13 +1,84 @@
 let satisfacoes = []
 const dashboardServices = new DashboardServices();
+class DashSatisfacao {
+    constructor() {
+        this.somaConhecimento = 0;
+        this.somaClareza = 0;
+        this.somaProatividade = 0;
+        this.somaDisponibilidade = 0;
+        this.somaSeguranca = 0;
+        this.count = 0;
+    }
 
-document.addEventListener("DOMContentLoaded", async () => {
-    const Atendimentos = await dashboardServices.ReadIdAtendimentos(idAcademia);
+    calcularMedias() {
+        this.mediaConhecimento = this.somaConhecimento / this.count;
+        this.mediaClareza = this.somaClareza / this.count;
+        this.mediaProatividade = this.somaProatividade / this.count;
+        this.mediaDisponibilidade = this.somaDisponibilidade / this.count;
+        this.mediaSeguranca = this.somaSeguranca / this.count;
+    }
+}
+
+function generateRandomColor() {
+    const r = Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
+    const g = Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
+    const b = Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
+    return `#${r}${g}${b}`;
+}
+
+async function renderSatisfacaoChart() {
+    const Satisfacoes = await dashboardServices.ReadSatisfacao(idAcademia);
+    let funcionarios = {};
+    let colorMap = {};
+
+    for (let i = 0; i < Satisfacoes.length; i++) {
+        const Satisfacao = Satisfacoes[i];
+        const atendimento = await dashboardServices.ReadAtendimentos(Satisfacao.satIdAtendimento);
+        const idFuncionario = atendimento.ateIdFuncionario;
+
+        if (!funcionarios[idFuncionario]) {
+            funcionarios[idFuncionario] = new DashSatisfacao();
+            colorMap[idFuncionario] = generateRandomColor();
+        }
+
+        let funcionario = funcionarios[idFuncionario];
+        funcionario.nome = await dashboardServices.ReadFuncNome(idFuncionario);
+        funcionario.somaConhecimento += parseInt(Satisfacao.satNotaConhecimento);
+        funcionario.somaClareza += parseInt(Satisfacao.satNotaClareza);
+        funcionario.somaProatividade += parseInt(Satisfacao.satNotaProatividade);
+        funcionario.somaDisponibilidade += parseInt(Satisfacao.satNotaDisponibilidade);
+        funcionario.somaSeguranca += parseInt(Satisfacao.satNotaSeguranca);
+        funcionario.count++;
+    }
+    Object.values(funcionarios).forEach(func => func.calcularMedias());
+
+    const labels = ['Conhecimento', 'Clareza', 'Proatividade', 'Disponibilidade', 'Segurança'];
+    const data = {
+        labels: labels,
+        datasets: Object.keys(funcionarios).map(id => {
+            const f = funcionarios[id];
+            const color = colorMap[id];
+            return {
+                label: `${f.nome.funnome}`,
+                data: [f.mediaConhecimento, f.mediaClareza, f.mediaProatividade, f.mediaDisponibilidade, f.mediaSeguranca],
+                fill: true,
+                backgroundColor: color + '20',
+                borderColor: color,
+                pointBackgroundColor: color,
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: color
+            };
+        })
+    };
 
     const boxChartSatisfacao = document.getElementById('boxChartSatisfacao');
-    const chart = new Chart(boxChartSatisfacao, {
+    if (boxChartSatisfacao.chart) {
+        boxChartSatisfacao.chart.destroy();
+    }
+    boxChartSatisfacao.chart = new Chart(boxChartSatisfacao, {
         type: 'radar',
-        data: [],
+        data: data,
         options: {
             elements: {
                 line: {
@@ -15,52 +86,36 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
             },
             maintainAspectRatio: false,
-            width: 200,
-            height: 200
-        }
+            responsive: true,
+            scales: {
+                r: {
+                    min: 1,
+                    max: 5,
+                    stepSize: 1,
+                    beginAtZero: true,
+                    angleLines: {
+                        display: false
+                    },
+                    ticks: {
+                        beginAtZero: true,
+                        min: 0,
+                        max: 5,
+                        stepSize: 1
+                    }
+                }
+            }
+        },
     });
-    let somaConhecimento = 0;
-    let somaClareza = 0;
-    let somaProatividade = 0;
-    let somaDisponibilidade = 0;
-    let somaSeguranca = 0;
-    
-    let mediaConhecimento = 0
-    let mediaClareza = 0
-    let idFuncionario = [];
+}
 
-    for (i = 0; i < Atendimentos.length; i++) {
-        const Atendimento = (Atendimentos[i])
-        idFuncionario = await dashboardServices.ReadAtendimentos(Atendimento.satIdAtendimento);
-        somaConhecimento += parseInt(Atendimento.satNotaConhecimento)
-        somaClareza += parseInt(Atendimento.satNotaClareza)
+document.addEventListener("DOMContentLoaded", async () => {
+    await renderSatisfacaoChart();
+});
 
-    }
-
-    mediaConhecimento = parseInt(somaConhecimento / Atendimentos.length)
-    mediaClareza = parseInt(somaClareza / Atendimentos.length)
-    const data = {
-        labels: [
-            'Conhecimento',
-            'Clareza',
-            'Pró Atividade',
-            'Disponibilidade',
-            'Segurança',
-        ],
-        datasets: [{
-            label: idFuncionario.ateIdFuncionario,
-            data: [mediaConhecimento, mediaClareza, 0, 0, 0],
-            fill: true,
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgb(255, 99, 132)',
-            pointBackgroundColor: 'rgb(255, 99, 132)',
-            pointBorderColor: '#fff',
-            pointHoverBackgroundColor: '#fff',
-            pointHoverBorderColor: 'rgb(255, 99, 132)'
-        }]
-    };
-    chart.data = data
-
-    chart.update()
-
-})
+let reloadBtnSatisfacao = document.getElementById("reloadBtnSatisfacao")
+reloadBtnSatisfacao.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const boxChartSatisfacao = document.getElementById('boxChartSatisfacao');
+    boxChartSatisfacao.innerHTML = '';
+    await renderSatisfacaoChart();
+});
