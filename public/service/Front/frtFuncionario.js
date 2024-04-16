@@ -375,8 +375,9 @@ async function UpdateListaAtendimento() {
         let botaoEncerrar = document.createElement("button");
         celulaBotao.style.cssText = "display: flex;align-items:center; padding-left: 25px "
         botaoEncerrar.classList.add("btn")
-        botaoEncerrar.classList.add("btn-info")
-        botaoEncerrar.textContent = "Encerrar";
+        botaoEncerrar.classList.add("btn-danger")
+        botaoEncerrar.classList.add("bi")
+        botaoEncerrar.classList.add("bi-x-circle")
         botaoEncerrar.addEventListener("click", async function () {
           const data = {};
           const dateNow = getFormattedDateTime();
