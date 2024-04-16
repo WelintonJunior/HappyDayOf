@@ -91,28 +91,59 @@
         <!-- Tela Atendimento -->
 
         <div id="TelaAtendimento" style="display: block">
-          <div class="listBoxAtendimento" id="listBoxAtendimento">
-            <div id="tableAtendimento"></div>
-          </div>
-          <button class="btn btn-info" id="btnCadastrarAtendimento">Cadastrar Atendimento</button>
+          <section class="container col-md-8 col-sm-12 mt-5">
+
+            <section class="table" id="">
+              <table class="table__body">
+                <h1 class="display-6 text-center mt-4 mb-4">Fichas de Clientes</h1>
+                <div class="listBoxAtendimento" id="listBoxAtendimento">
+                  <div id="tableAtendimento"></div>
+                </div>
+                <div class="container ms-2">
+                  <button class="btn btn-info" id="btnCadastrarAtendimento">Cadastrar Atendimento</button>
+                </div>
+              </table>
+            </section>
+          </section>
+
         </div>
 
         <!-- Tela Ficha -->
 
         <div id="TelaFicha" style="display: none">
-          <div class="listBoxClienteFicha" id="listBoxClienteFicha">
-            <div id="tableClientesFicha"></div>
-          </div>
+
+          <section class="container col-md-8 col-sm-12 mt-5">
+
+            <section class="table" id="">
+              <table class="table__body">
+                <h1 class="display-6 text-center mt-4 mb-4">Fichas de Clientes</h1>
+                <div class="listBoxClienteFicha" id="listBoxClienteFicha">
+                  <div id="tableClientesFicha"></div>
+                </div>
+              </table>
+            </section>
+          </section>
+
         </div>
+
 
         <!-- Tela Clientes -->
         <div id="TelaClientes" style="display: none">
-          <div class="listBoxCliente" id="listBoxCliente">
-            <div id="tableClientes"></div>
-          </div>
-          <button class="btn btn-info" id="abrirModalRegisterCliente">Cadastrar Cliente</button>
-        </div>
+          <section class="container col-md-8 col-sm-12 mt-5">
+            <section class="table" id="">
+              <table class="table__body">
+                <h1 class="display-6 text-center mt-4 mb-4">Lista de Clientes</h1>
+                <div class="listBoxCliente" id="listBoxCliente">
+                  <div id="tableClientes"></div>
+                </div>
+                <div class="container ms-2">
+                  <button type="button" class="btn btn-info" id="abrirModalRegisterCliente">Cadastrar Cliente</button>
+                </div>
 
+              </table>
+            </section>
+          </section>
+        </div>
         <!-- Tela Detalhes Clientes -->
         <section class="container bg-light">
           <div class="row">

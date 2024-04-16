@@ -231,7 +231,7 @@ document
       return;
     }
     data.cliDataCmc = await getFormattedDateTime();
-    await RegisterCliente(data, idAcademia);
+    await funServices.RegisterCliente (data, idAcademia);
     await UpdateListaClienteFicha();
     await UpdateListaCliente();
     modalCadastrarCliente.style.display = "none";

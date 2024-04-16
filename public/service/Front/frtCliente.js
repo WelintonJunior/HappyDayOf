@@ -374,51 +374,56 @@ async function MostrarTelaCriarFicha(cliId) {
   await UpdateClienteFichaTreinoB(cliId);
   await UpdateClienteFichaTreinoC(cliId);
   const result = await clienteServices.ReadFichaDetalhesGeral(cliId);
-  const dadosCliente = await clienteServices.ReadClienteDetalhes(
-    idAcademia,
-    result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente
-  );
-  const dadosFuncionario = await clienteServices.ReadFuncionarioDetalhes(
-    idAcademia,
-    result.length > 0 ? result[0].ficIdFuncionario : result.ficIdFuncionario
-  );
-  document.getElementById("idFichaTreinoA").value =
-    result.length > 0 ? result[0].ficId : result.ficId;
-  document.getElementById("idFichaTreinoB").value =
-    result.length > 0 ? result[0].ficId : result.ficId;
-  document.getElementById("idFichaTreinoC").value =
-    result.length > 0 ? result[0].ficId : result.ficId;
-  document.getElementById("cliIdFichaTreinoA").value =
-    result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente;
-  document.getElementById("cliIdFichaTreinoB").value =
-    result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente;
-  document.getElementById("cliIdFichaTreinoC").value =
-    result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente;
-  document.getElementById("cliNomeCriarFicha").innerHTML = dadosCliente.cliNome;
-  document.getElementById("funNomeCriarFicha").innerHTML =
-    dadosFuncionario.funNome;
-  document.getElementById("funSelectCriarFicha");
-  document.getElementById("cliRestricoesCriarFicha").checked =
-    result.length > 0
-      ? result[0].ficRestricoes = 1
-      : result.ficRestricoes = 1;
-  if (
-    result.length > 0 ? result[0].ficRestricoes == 1 : result.ficRestricoes == 1
-  ) {
-    document.getElementById("cliRestricoesTipoCriarFicha").style.display =
-      "block";
-    document.getElementById("cliRestricoesTipoCriarFicha").innerHTML =
-      "Tipo de restrições: ";
-    document.getElementById("cliRestricoesTipoCriarFicha").innerHTML +=
+  if (result) {
+    const dadosCliente = await clienteServices.ReadClienteDetalhes(
+      idAcademia,
+      result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente
+    );
+    const dadosFuncionario = await clienteServices.ReadFuncionarioDetalhes(
+      idAcademia,
+      result.length > 0 ? result[0].ficIdFuncionario : result.ficIdFuncionario
+    );
+    document.getElementById("idFichaTreinoA").value =
+      result.length > 0 ? result[0].ficId : result.ficId;
+    document.getElementById("idFichaTreinoB").value =
+      result.length > 0 ? result[0].ficId : result.ficId;
+    document.getElementById("idFichaTreinoC").value =
+      result.length > 0 ? result[0].ficId : result.ficId;
+    document.getElementById("cliIdFichaTreinoA").value =
+      result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente;
+    document.getElementById("cliIdFichaTreinoB").value =
+      result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente;
+    document.getElementById("cliIdFichaTreinoC").value =
+      result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente;
+    document.getElementById("cliNomeCriarFicha").innerHTML = dadosCliente.cliNome;
+    document.getElementById("funNomeCriarFicha").innerHTML =
+      dadosFuncionario.funNome;
+    document.getElementById("funSelectCriarFicha");
+    document.getElementById("cliRestricoesCriarFicha").checked =
       result.length > 0
-        ? result[0].ficTipoRestricoes
-        : result.ficTipoRestricoes;
+        ? result[0].ficRestricoes = 1
+        : result.ficRestricoes = 1;
+    if (
+      result.length > 0 ? result[0].ficRestricoes == 1 : result.ficRestricoes == 1
+    ) {
+      document.getElementById("cliRestricoesTipoCriarFicha").style.display =
+        "block";
+      document.getElementById("cliRestricoesTipoCriarFicha").innerHTML =
+        "Tipo de restrições: ";
+      document.getElementById("cliRestricoesTipoCriarFicha").innerHTML +=
+        result.length > 0
+          ? result[0].ficTipoRestricoes
+          : result.ficTipoRestricoes;
+    } else {
+      document.getElementById("cliRestricoesTipoCriarFicha").style.display =
+        "none";
+    }
+    document.getElementById("cliIntervaloCriarFicha").innerHTML =
+      result.length > 0 ? result[0].ficIntervalo : result.ficIntervalo;
   } else {
-    document.getElementById("cliRestricoesTipoCriarFicha").style.display =
-      "none";
+    mostrarModalNaoPossuiFicha();
+    MostrarTela("TelaPerfil")
   }
-  document.getElementById("cliIntervaloCriarFicha").innerHTML =
-    result.length > 0 ? result[0].ficIntervalo : result.ficIntervalo;
 }
 
 
@@ -560,10 +565,7 @@ formSatisfacao.addEventListener("submit", async (e) => {
       await clienteServices.UpdateSatisfacao(data);
       modalSatisfacao.style.display = "none"
       titleConhecimento.innerHTML = "Conhecimento"
-      document.getElementById("modalObrigado").style.display = "block";
-      setTimeout(() => {
-        document.getElementById("modalObrigado").style.display = "none";
-      }, 1000);
+      mostrarModalObrigado();
       break;
   }
 })
@@ -584,6 +586,7 @@ async function MostrarTela(tela) {
       TelaFicha.style.display = "block";
       TelaDesempenho.style.display = "none";
       TelaPerfil.style.display = "none";
+      await MostrarTelaCriarFicha(dados.cliId)
       break;
     case "TelaDesempenho":
       if (TelaDesempenho.style.display === "block") {
@@ -625,4 +628,18 @@ async function MostrarTela(tela) {
       TelaPerfil.style.display = "none";
       break;
   }
+}
+
+function mostrarModalNaoPossuiFicha() {
+  document.getElementById("modalNaoPossuiFicha").style.display = "block"
+  setTimeout(() => {
+    document.getElementById("modalNaoPossuiFicha").style.display = "none";
+  }, 3000);
+}
+
+function mostrarModalObrigado() {
+  document.getElementById("modalObrigado").style.display = "block";
+  setTimeout(() => {
+    document.getElementById("modalObrigado").style.display = "none";
+  }, 1000);
 }
