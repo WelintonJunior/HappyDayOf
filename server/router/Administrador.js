@@ -8,7 +8,7 @@ router.post("/Administrador", async (req, res) => {
   switch (acao) {
     case "ReadClientes":
       db.query(
-        "select * from tblCliente where cliIdAcad = ? order by cliStatus desc",
+        "SELECT * FROM tblCliente WHERE cliIdAcad = ? ORDER BY cliStatus DESC, cliNome ASC",
         [idAcademia],
         (err, results) => {
           if (err) {
@@ -40,7 +40,7 @@ router.post("/Administrador", async (req, res) => {
       break;
     case "ReadFuncionarios":
       db.query(
-        "select * from tblFuncionario where funIdAcad = ? and funNivel = ? order by funStatus desc",
+        "select * from tblFuncionario where funIdAcad = ? and funNivel = ? order by funStatus desc, funNome ASC",
         [idAcademia, data],
         (err, results) => {
           if (err) {
@@ -136,7 +136,6 @@ router.post("/Administrador", async (req, res) => {
         res.status(500).json({ message: 'Error registering user' });
       }
       break;
-
     case "RegisterCliente":
       try {
         const hashedPasswordCli = await argon2.hash(data.cliSenha);

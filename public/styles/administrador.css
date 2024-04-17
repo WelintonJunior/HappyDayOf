@@ -11,5 +11,5 @@ body {
   overflow-x: auto;
   margin: 20px;
   width: auto;
-  /* max-height: 300px; */
+  max-height: 300px;
 }

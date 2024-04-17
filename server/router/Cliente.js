@@ -37,7 +37,6 @@ router.post("/Cliente", (req, res) => {
         })
       break;
     case "VerificarAtendimento":
-      console.log(data.cliId, idAcademia)
       db.query("select * from tblSatisfacao where satIdCliente = ? and satIdAcademia = ? and satStatus = 0",
         [data.cliId, idAcademia], (err, results) => {
           if (err) {

@@ -39,4 +39,17 @@ class DashboardServices {
         return result[0]
     }
 
+    async ReadAllAtendimentos(idAcademia) {
+        const response = await fetch("/Dashboard", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                idAcademia,
+                acao: "ReadAllAtendimentos"
+            })
+        })
+        const result = await response.json();
+        return result
+    }
+
 }

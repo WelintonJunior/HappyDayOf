@@ -7,7 +7,7 @@ router.post("/Ficha", (req, res) => {
   switch (acao) {
     case "ReadClienteFicha":
       db.query(
-        "SELECT c.*, CASE WHEN f.ficIdCliente IS NOT NULL THEN 1 ELSE 0 END AS ClienteExisteNaFicha  FROM tblCliente AS c LEFT JOIN tblFicha AS f ON c.cliId = f.ficIdCliente where c.cliIdAcad = ? GROUP BY c.cliId",
+        "SELECT c.*, CASE WHEN f.ficIdCliente IS NOT NULL THEN 1 ELSE 0 END AS ClienteExisteNaFicha FROM tblCliente AS c LEFT JOIN tblFicha AS f ON c.cliId = f.ficIdCliente WHERE c.cliIdAcad = ? ORDER BY ClienteExisteNaFicha DESC, cliNome ASC;",
         [idAcademia],
         (err, results) => {
           if (err) {

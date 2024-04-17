@@ -19,17 +19,37 @@ class DashSatisfacao {
     }
 }
 
-function generateRandomColor() {
-    const r = Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
-    const g = Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
-    const b = Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
-    return `#${r}${g}${b}`;
+let vibrantColors = [
+    "#e6194b", "#3cb44b", "#ffe119", "#4363d8", "#f58231", 
+    "#911eb4", "#46f0f0", "#f032e6", "#bcf60c", "#fabebe", 
+    "#008080", "#e6beff", "#9a6324", "#fffac8", "#800000", 
+    "#aaffc3", "#808000", "#ffd8b1", "#000075", "#808080"
+];
+
+let colorIndex = 0;
+
+function generateVibrantColor() {
+    let color = vibrantColors[colorIndex];
+    colorIndex = (colorIndex + 1) % vibrantColors.length;
+    return color;
 }
+
+function getTurno(date) {
+    const hours = date.getHours();
+    if (hours >= 6 && hours < 12) {
+        return 'Manhã';
+    } else if (hours >= 12 && hours < 18) {
+        return 'Tarde';
+    } else {
+        return 'Noite';
+    }
+}
+
+let colorMap = {};
 
 async function renderSatisfacaoChart() {
     const Satisfacoes = await dashboardServices.ReadSatisfacao(idAcademia);
     let funcionarios = {};
-    let colorMap = {};
 
     for (let i = 0; i < Satisfacoes.length; i++) {
         const Satisfacao = Satisfacoes[i];
@@ -38,7 +58,7 @@ async function renderSatisfacaoChart() {
 
         if (!funcionarios[idFuncionario]) {
             funcionarios[idFuncionario] = new DashSatisfacao();
-            colorMap[idFuncionario] = generateRandomColor();
+            colorMap[idFuncionario] = colorMap[idFuncionario] || generateVibrantColor();
         }
 
         let funcionario = funcionarios[idFuncionario];
@@ -107,10 +127,95 @@ async function renderSatisfacaoChart() {
         },
     });
 }
+async function renderProdutividadeChart() {
+    const Atendimentos = await dashboardServices.ReadAllAtendimentos(idAcademia);
+    const DATA_COUNT = 7;
 
-document.addEventListener("DOMContentLoaded", async () => {
-    await renderSatisfacaoChart();
-});
+    function generateLastMonths(count) {
+        let months = [];
+        let date = new Date();
+        date.setDate(1);
+        for (let i = 0; i < count; i++) {
+            months.unshift(date.toISOString().slice(0, 7));
+            date.setMonth(date.getMonth() - 1);
+        }
+        return months;
+    }
+
+    const labels = generateLastMonths(DATA_COUNT);
+    let funcionarios = {};
+
+    for (let i = 0; i < Atendimentos.length; i++) {
+        const atendimento = Atendimentos[i];
+        const idFuncionario = atendimento.ateIdFuncionario;
+        const date = new Date(atendimento.ateDateInicio);
+        const monthYear = date.toISOString().slice(0, 7);
+        const turno = getTurno(date);
+    
+        if (!funcionarios[idFuncionario]) {
+            funcionarios[idFuncionario] = {
+                nome: await dashboardServices.ReadFuncNome(idFuncionario).then(res => res.funnome),
+                atendimentosPorMes: {}
+            };
+            colorMap[idFuncionario] = colorMap[idFuncionario] || generateVibrantColor();
+        }
+    
+        if (!funcionarios[idFuncionario].atendimentosPorMes[monthYear]) {
+            funcionarios[idFuncionario].atendimentosPorMes[monthYear] = { Manhã: 0, Tarde: 0, Noite: 0 };
+        }
+    
+        funcionarios[idFuncionario].atendimentosPorMes[monthYear][turno]++;
+    }
+    
+    const datasets = [];
+    Object.keys(funcionarios).forEach(id => {
+        const funcionario = funcionarios[id];
+        ['Manhã', 'Tarde', 'Noite'].forEach(turno => {
+            const atendimentosPorTurno = Object.values(funcionario.atendimentosPorMes)
+                .map(month => month[turno] || 0);
+            const totalAtendimentosNesseTurno = atendimentosPorTurno.reduce((total, atendimentos) => total + atendimentos, 0);
+    
+            if (totalAtendimentosNesseTurno > 0) {
+                datasets.push({
+                    label: `${funcionario.nome} - ${turno}`,
+                    data: labels.map(month => funcionario.atendimentosPorMes[month] ? funcionario.atendimentosPorMes[month][turno] || 0 : 0),
+                    backgroundColor: vibrantColors[datasets.length % vibrantColors.length], // Seleciona uma cor vibrante da lista
+                    borderColor: colorMap[id]
+                });
+            }
+        });
+    });
+    
+
+    const boxChartProdutividade = document.getElementById('boxChartProdutividade');
+    if (boxChartProdutividade.chart) {
+        boxChartProdutividade.chart.destroy();
+    }
+    boxChartProdutividade.chart = new Chart(boxChartProdutividade, {
+        type: 'bar',
+        data: { labels, datasets },
+        options: {
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                }
+            },
+            responsive: true,
+            scales: {
+                x: {
+                    stacked: true,
+                },
+                y: {
+                    stacked: true,
+                    beginAtZero: true
+                }
+            },
+            maintainAspectRatio: false,
+        }
+    });
+}
+
 
 let reloadBtnSatisfacao = document.getElementById("reloadBtnSatisfacao")
 reloadBtnSatisfacao.addEventListener("click", async (e) => {
@@ -119,3 +224,17 @@ reloadBtnSatisfacao.addEventListener("click", async (e) => {
     boxChartSatisfacao.innerHTML = '';
     await renderSatisfacaoChart();
 });
+
+let reloadBtnProdutividade = document.getElementById("reloadBtnProdutividade")
+reloadBtnProdutividade.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const boxChartProdutividade = document.getElementById('boxChartProdutividade');
+    boxChartProdutividade.innerHTML = '';
+    await renderProdutividadeChart();
+});
+
+document.addEventListener("DOMContentLoaded", async () => {
+    await renderSatisfacaoChart();
+    await renderProdutividadeChart();
+});
+
