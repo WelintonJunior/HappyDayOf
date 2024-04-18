@@ -20,9 +20,9 @@ class DashSatisfacao {
 }
 
 let vibrantColors = [
-    "#e6194b", "#3cb44b", "#ffe119", "#4363d8", "#f58231", 
-    "#911eb4", "#46f0f0", "#f032e6", "#bcf60c", "#fabebe", 
-    "#008080", "#e6beff", "#9a6324", "#fffac8", "#800000", 
+    "#e6194b", "#3cb44b", "#ffe119", "#4363d8", "#f58231",
+    "#911eb4", "#46f0f0", "#f032e6", "#bcf60c", "#fabebe",
+    "#008080", "#e6beff", "#9a6324", "#fffac8", "#800000",
     "#aaffc3", "#808000", "#ffd8b1", "#000075", "#808080"
 ];
 
@@ -46,6 +46,22 @@ function getTurno(date) {
 }
 
 let colorMap = {};
+
+async function fetchAndMapFuncionarios(Atendimentos) {
+    let funcionarios = {};
+    for (let i = 0; i < Atendimentos.length; i++) {
+        const atendimento = Atendimentos[i];
+        const idFuncionario = atendimento.ateIdFuncionario;
+        if (!funcionarios[idFuncionario]) {
+            funcionarios[idFuncionario] = {
+                nome: await dashboardServices.ReadFuncNome(idFuncionario).then(res => res.funnome),
+                atendimentosPorMes: {}
+            };
+            colorMap[idFuncionario] = colorMap[idFuncionario] || generateVibrantColor();
+        }
+    }
+    return funcionarios;
+}
 
 async function renderSatisfacaoChart() {
     const Satisfacoes = await dashboardServices.ReadSatisfacao(idAcademia);
@@ -127,6 +143,7 @@ async function renderSatisfacaoChart() {
         },
     });
 }
+
 async function renderProdutividadeChart() {
     const Atendimentos = await dashboardServices.ReadAllAtendimentos(idAcademia);
     const DATA_COUNT = 7;
@@ -143,55 +160,94 @@ async function renderProdutividadeChart() {
     }
 
     const labels = generateLastMonths(DATA_COUNT);
-    let funcionarios = {};
+    let funcionarios = await fetchAndMapFuncionarios(Atendimentos);
 
     for (let i = 0; i < Atendimentos.length; i++) {
         const atendimento = Atendimentos[i];
         const idFuncionario = atendimento.ateIdFuncionario;
         const date = new Date(atendimento.ateDateInicio);
         const monthYear = date.toISOString().slice(0, 7);
-        const turno = getTurno(date);
-    
-        if (!funcionarios[idFuncionario]) {
-            funcionarios[idFuncionario] = {
-                nome: await dashboardServices.ReadFuncNome(idFuncionario).then(res => res.funnome),
-                atendimentosPorMes: {}
-            };
-            colorMap[idFuncionario] = colorMap[idFuncionario] || generateVibrantColor();
-        }
-    
+
         if (!funcionarios[idFuncionario].atendimentosPorMes[monthYear]) {
-            funcionarios[idFuncionario].atendimentosPorMes[monthYear] = { Manhã: 0, Tarde: 0, Noite: 0 };
+            funcionarios[idFuncionario].atendimentosPorMes[monthYear] = 0;
         }
-    
-        funcionarios[idFuncionario].atendimentosPorMes[monthYear][turno]++;
+        funcionarios[idFuncionario].atendimentosPorMes[monthYear]++;
     }
-    
-    const datasets = [];
-    Object.keys(funcionarios).forEach(id => {
+
+    const datasets = Object.keys(funcionarios).map(id => {
         const funcionario = funcionarios[id];
-        ['Manhã', 'Tarde', 'Noite'].forEach(turno => {
-            const atendimentosPorTurno = Object.values(funcionario.atendimentosPorMes)
-                .map(month => month[turno] || 0);
-            const totalAtendimentosNesseTurno = atendimentosPorTurno.reduce((total, atendimentos) => total + atendimentos, 0);
-    
-            if (totalAtendimentosNesseTurno > 0) {
-                datasets.push({
-                    label: `${funcionario.nome} - ${turno}`,
-                    data: labels.map(month => funcionario.atendimentosPorMes[month] ? funcionario.atendimentosPorMes[month][turno] || 0 : 0),
-                    backgroundColor: vibrantColors[datasets.length % vibrantColors.length], // Seleciona uma cor vibrante da lista
-                    borderColor: colorMap[id]
-                });
-            }
-        });
+        return {
+            label: funcionario.nome,
+            data: labels.map(month => funcionario.atendimentosPorMes[month] || 0),
+            backgroundColor: colorMap[id],
+            borderColor: colorMap[id]
+        };
     });
-    
 
     const boxChartProdutividade = document.getElementById('boxChartProdutividade');
     if (boxChartProdutividade.chart) {
         boxChartProdutividade.chart.destroy();
     }
     boxChartProdutividade.chart = new Chart(boxChartProdutividade, {
+        type: 'bar',
+        data: { labels, datasets },
+        options: {
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                }
+            },
+            responsive: true,
+            scales: {
+                x: {
+                    stacked: true,
+                },
+                y: {
+                    stacked: true,
+                    beginAtZero: true
+                }
+            },
+            maintainAspectRatio: false,
+        }
+    });
+}
+async function renderAtendimentoChart() {
+    const Atendimentos = await dashboardServices.ReadAllAtendimentos(idAcademia);
+    let funcionarios = {};
+    let funcionarioIds = [];
+    const labels = ["Manhã", "Tarde", "Noite"]; 
+
+    for (let atendimento of Atendimentos) {
+        const idFuncionario = atendimento.ateIdFuncionario;
+        if (!funcionarios[idFuncionario]) {
+            const nome = await dashboardServices.ReadFuncNome(idFuncionario);
+            funcionarios[idFuncionario] = {
+                nome: nome.funnome,
+                atendimentosPorTurno: { "Manhã": 0, "Tarde": 0, "Noite": 0 }
+            };
+            funcionarioIds.push(idFuncionario);
+        }
+
+        const date = new Date(atendimento.ateDateInicio);
+        const turno = getTurno(date);
+        funcionarios[idFuncionario].atendimentosPorTurno[turno]++;
+    }
+
+    const datasets = funcionarioIds.map(id => {
+        const funcionario = funcionarios[id];
+        return {
+            label: funcionario.nome,
+            data: [funcionario.atendimentosPorTurno["Manhã"], funcionario.atendimentosPorTurno["Tarde"], funcionario.atendimentosPorTurno["Noite"]],
+            backgroundColor: colorMap[id]
+        };
+    });
+
+    const boxChartAtendimento = document.getElementById('boxChartAtendimento');
+    if (boxChartAtendimento.chart) {
+        boxChartAtendimento.chart.destroy();
+    }
+    boxChartAtendimento.chart = new Chart(boxChartAtendimento, {
         type: 'bar',
         data: { labels, datasets },
         options: {
@@ -233,8 +289,17 @@ reloadBtnProdutividade.addEventListener("click", async (e) => {
     await renderProdutividadeChart();
 });
 
+let reloadBtnAtendimento = document.getElementById("reloadBtnAtendimento")
+reloadBtnAtendimento.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const boxChartAtendimento = document.getElementById('boxChartAtendimento');
+    boxChartAtendimento.innerHTML = '';
+    await renderAtendimentoChart();
+});
+
 document.addEventListener("DOMContentLoaded", async () => {
     await renderSatisfacaoChart();
     await renderProdutividadeChart();
+    await renderAtendimentoChart();
 });
 
