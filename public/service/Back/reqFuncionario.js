@@ -5,7 +5,7 @@ class FuncionarioServices extends AdministradorServices {
     this.login = new LoginServices();
   }
 
-  async RegisterAtendimento(idAcademia, data) {
+  async RegisterAtendimento(idAcademia, data, token) {
     try {
       const response = await fetch("/Funcionario", {
         method: "POST",
@@ -23,7 +23,7 @@ class FuncionarioServices extends AdministradorServices {
       throw err
     }
   }
-  async ReadAtendimento(idAcademia, data) {
+  async ReadAtendimento(idAcademia, data, token) {
     try {
       const response = await fetch("/Funcionario", {
         method: "POST",
@@ -41,7 +41,7 @@ class FuncionarioServices extends AdministradorServices {
       throw err
     }
   }
-  async ValidacaoAtendimento(idAcademia, data) {
+  async ValidacaoAtendimento(idAcademia, data, token) {
     try {
       const response = await fetch("/Funcionario", {
         method: "POST",
@@ -59,7 +59,7 @@ class FuncionarioServices extends AdministradorServices {
       throw err
     }
   }
-  async UpdateStatusAtendimento(idAcademia, data) {
+  async UpdateStatusAtendimento(idAcademia, data, token) {
     try {
       const response = await fetch("/Funcionario", {
         method: "POST",

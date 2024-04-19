@@ -2,11 +2,14 @@ const express = require("express");
 const router = express.Router();
 const db = require("../database/database");
 const argon2 = require('argon2');
+const jwt = require('jsonwebtoken');
+const { jwtSecret } = require("../app.js")
 
 router.post("/Login", (req, res) => {
   const { acao, data } = req.body;
   const email = data.email;
   const senha = data.senha;
+
   switch (acao) {
     case "LoginCliente":
       db.query(
@@ -26,7 +29,8 @@ router.post("/Login", (req, res) => {
               senha
             );
             if (isPasswordValid) {
-              res.json(results[0]);
+              const token = jwt.sign({ id: results[0].cliId, role: 'cliente' }, jwtSecret, { expiresIn: '1h' });
+              res.json({ results: results[0], token });
             } else {
               res.json(false);
             }
@@ -55,7 +59,9 @@ router.post("/Login", (req, res) => {
               senha
             );
             if (isPasswordValid) {
-              res.json(results[0]);
+              console.log(results)
+              const token = jwt.sign({ id: results[0].funId, role: 'funcionario' }, jwtSecret, { expiresIn: '1h' });
+              res.json({ results: results[0], token });
             } else {
               res.json(false);
             }

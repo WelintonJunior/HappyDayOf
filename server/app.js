@@ -4,6 +4,9 @@ const cors = require("cors");
 const path = require("path");
 const { Server } = require('socket.io');
 const { createServer } = require('http');
+const jwt = require("jsonwebtoken");
+require('dotenv').config({ path: "../.env" });
+const jwtSecret = process.env.JWT_SECRET;
 
 const app = express();
 const port = 3000;
@@ -23,7 +26,7 @@ io.on('connection', (socket) => {
   // console.log('Cliente Desconectado')
 });
 
-module.exports = io;
+module.exports = { jwtSecret, io };
 
 //Import Routers
 const equipeRoutes = require("./router/Equipe.js")

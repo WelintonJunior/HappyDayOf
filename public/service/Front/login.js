@@ -17,10 +17,11 @@ document.getElementById("formLogin").addEventListener("submit", async (e) => {
         break;
       case "1":
         const sucessFuncionario = await loginServices.handleLoginFuncionario(data);
+        console.log(sucessFuncionario)
         if (sucessFuncionario) {
           alert("Sucesso!");
           localStorage.setItem("dados", JSON.stringify(sucessFuncionario));
-          switch (sucessFuncionario.funNivel) {
+          switch (sucessFuncionario.results.funNivel) {
             case 1:
               window.location.href = "/Funcionario";
               break;

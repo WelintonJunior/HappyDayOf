@@ -1,8 +1,22 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../database/database");
+const jwt = require("jsonwebtoken");
+const { jwtSecret } = require("../app.js")
+router.post("/Ficha", async (req, res) => {
+  const token = req.headers.authorization;
 
-router.post("/Ficha", (req, res) => {
+  if (!token) {
+    return res.status(401).json({ message: 'Token de autorização ausente' });
+  }
+
+  jwt.verify(token, jwtSecret, (err, decodedToken) => {
+    if (err) {
+      return res.status(401).json({ message: 'Token inválido ou expirado' });
+    } 
+  })
+
+
   const { acao, data, idAcademia } = req.body;
   switch (acao) {
     case "ReadClienteFicha":

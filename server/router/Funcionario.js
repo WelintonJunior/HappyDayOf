@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require("../database/database");
 
 router.post("/Funcionario", (req, res) => {
-  const io = require("../app.js");
+  const { io } = require("../app.js");
   const { acao, data, idAcademia } = req.body;
 
   switch (acao) {

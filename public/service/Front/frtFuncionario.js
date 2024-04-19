@@ -1,12 +1,13 @@
 const funServices = new FuncionarioServices();
 let dados = [];
-
+let token = ""
 //Verifica se está logado
 try {
   //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
   const dadosFromLocalStorage = JSON.parse(localStorage.getItem("dados"));
   if (dadosFromLocalStorage !== null) {
-    dados = dadosFromLocalStorage;
+    dados = dadosFromLocalStorage.results;
+    token = dadosFromLocalStorage.token
   } else {
     funServices.login.handleAcessoNegado();
   }
@@ -102,7 +103,7 @@ btnFicha.addEventListener("click", (e) => {
 //Ver Clientes/Funcionarios
 document.addEventListener("DOMContentLoaded", async function () {
   await UpdateListaCliente();
-  await UpdateListaClienteFicha();
+  await UpdateListaClienteFicha(token);
   await PreencherSelectProfessores();
   await PreencherSelectClienteAtendimento();
   await UpdateListaAtendimento();
@@ -231,8 +232,8 @@ document
       return;
     }
     data.cliDataCmc = await getFormattedDateTime();
-    await funServices.RegisterCliente (data, idAcademia);
-    await UpdateListaClienteFicha();
+    await funServices.RegisterCliente(data, idAcademia);
+    await UpdateListaClienteFicha(token);
     await UpdateListaCliente();
     modalCadastrarCliente.style.display = "none";
     e.target.reset();
@@ -397,8 +398,8 @@ async function UpdateListaAtendimento() {
 
 //Atualizar a Lista de Fichas
 
-async function UpdateListaClienteFicha() {
-  const result = await funServices.ReadClienteFicha(idAcademia);
+async function UpdateListaClienteFicha(token) {
+  const result = await funServices.ReadClienteFicha(idAcademia, token);
   //Colocar em alguma lista
   const containerTabela = document.getElementById("tableClientesFicha");
   const tabelaExistente = containerTabela.querySelector("table");
@@ -443,7 +444,7 @@ async function UpdateListaClienteFicha() {
         botaoDetalhes.classList.add("btn-info")
         botaoDetalhes.textContent = "Ver";
         botaoDetalhes.addEventListener("click", function () {
-          MostrarTelaCriarFicha(item.cliId);
+          MostrarTelaCriarFicha(item.cliId, token);
         });
         celulaBotao.appendChild(botaoDetalhes);
       } else {
@@ -466,7 +467,7 @@ async function UpdateListaClienteFicha() {
 }
 
 //Atualizar a A,B e C
-async function UpdateCampoFichaCliente(item, campo, celula, cliId) {
+async function UpdateCampoFichaCliente(item, campo, celula, cliId, token) {
   if (celula.querySelector("input")) return;
 
   let valorAnterior = celula.textContent;
@@ -492,15 +493,15 @@ async function UpdateCampoFichaCliente(item, campo, celula, cliId) {
     data.valor = novoValor;
 
     if (novoValor == "") {
-      await funServices.DeleteCampoFicha(data);
-      await UpdateClienteFichaTreinoA(cliId);
-      await UpdateClienteFichaTreinoB(cliId);
-      await UpdateClienteFichaTreinoC(cliId);
+      await funServices.DeleteCampoFicha(data, token);
+      await UpdateClienteFichaTreinoA(cliId, token);
+      await UpdateClienteFichaTreinoB(cliId, token);
+      await UpdateClienteFichaTreinoC(cliId, token);
       if (celula.parentElement.parentElement.querySelectorAll('td').length === 1) {
         celula.parentElement.parentElement.parentElement.remove();
       }
     } else {
-      await funServices.UpdateCampoFicha(data);
+      await funServices.UpdateCampoFicha(data, token);
     }
     celula.textContent = novoValor;
   });
@@ -515,24 +516,24 @@ async function UpdateCampoFichaCliente(item, campo, celula, cliId) {
       data.valor = novoValor;
 
       if (novoValor == "") {
-        await funServices.DeleteCampoFicha(data);
-        await UpdateClienteFichaTreinoA(cliId);
-        await UpdateClienteFichaTreinoB(cliId);
-        await UpdateClienteFichaTreinoC(cliId);
+        await funServices.DeleteCampoFicha(data, token);
+        await UpdateClienteFichaTreinoA(cliId, token);
+        await UpdateClienteFichaTreinoB(cliId, token);
+        await UpdateClienteFichaTreinoC(cliId, token);
 
         if (celula.parentElement.parentElement.querySelectorAll('td').length === 4) {
           celula.parentElement.parentElement.parentElement.remove();
         }
       } else {
-        await funServices.UpdateCampoFicha(data);
+        await funServices.UpdateCampoFicha(data, token);
       }
       celula.textContent = novoValor;
     }
   });
 }
 
-async function UpdateClienteFichaTreinoA(cliId) {
-  const result = await funServices.ReadFichaDetalhes(cliId, "A");
+async function UpdateClienteFichaTreinoA(cliId, token) {
+  const result = await funServices.ReadFichaDetalhes(cliId, "A", token);
   //Colocar em alguma lista
   if (result.length > 0) {
     const containerTabela = document.getElementById("listaTreinoA");
@@ -571,7 +572,7 @@ async function UpdateClienteFichaTreinoA(cliId) {
 
           //Pra celular não funciona(LEMBRANDO EU MESMO) talvez mudar apenas para click
           celula.addEventListener("click", async (e) => {
-            await UpdateCampoFichaCliente(item, campo, celula, cliId);
+            await UpdateCampoFichaCliente(item, campo, celula, cliId, token);
           });
         }
       });
@@ -581,8 +582,8 @@ async function UpdateClienteFichaTreinoA(cliId) {
   }
 }
 
-async function UpdateClienteFichaTreinoB(cliId) {
-  const result = await funServices.ReadFichaDetalhes(cliId, "B");
+async function UpdateClienteFichaTreinoB(cliId, token) {
+  const result = await funServices.ReadFichaDetalhes(cliId, "B", token);
   //Colocar em alguma lista
   if (result.length > 0) {
     const containerTabela = document.getElementById("listaTreinoB");
@@ -621,7 +622,7 @@ async function UpdateClienteFichaTreinoB(cliId) {
           celula.setAttribute("data-campo", campo);
 
           celula.addEventListener("click", async (e) => {
-            await UpdateCampoFichaCliente(item, campo, celula, cliId);
+            await UpdateCampoFichaCliente(item, campo, celula, cliId, token);
           });
         }
       });
@@ -631,8 +632,8 @@ async function UpdateClienteFichaTreinoB(cliId) {
   }
 }
 
-async function UpdateClienteFichaTreinoC(cliId) {
-  const result = await funServices.ReadFichaDetalhes(cliId, "C");
+async function UpdateClienteFichaTreinoC(cliId, token) {
+  const result = await funServices.ReadFichaDetalhes(cliId, "C", token);
   //Colocar em alguma lista
   if (result.length > 0) {
     const containerTabela = document.getElementById("listaTreinoC");
@@ -671,7 +672,7 @@ async function UpdateClienteFichaTreinoC(cliId) {
           celula.setAttribute("data-campo", campo);
 
           celula.addEventListener("click", async (e) => {
-            await UpdateCampoFichaCliente(item, campo, celula, cliId);
+            await UpdateCampoFichaCliente(item, campo, celula, cliId, token);
           });
         }
       });
@@ -682,7 +683,7 @@ async function UpdateClienteFichaTreinoC(cliId) {
 }
 
 btnVoltarTelaFicha.addEventListener("click", async (e) => {
-  await UpdateListaClienteFicha();
+  await UpdateListaClienteFicha(token);
   MostrarTela("TelaFicha");
 })
 
@@ -739,8 +740,7 @@ btnEnviarDetalhesCliente.addEventListener("click", async (e) => {
     }
   });
   formDetCliente.reset();
-  await UpdateListaClienteFicha();
-  await UpdateListaClienteFicha();
+  await UpdateListaClienteFicha(token);
   await UpdateListaCliente();
   MostrarTela("TelaClientes");
 });
@@ -793,10 +793,10 @@ formCriarBaseFicha.addEventListener("submit", async (e) => {
   data.ficRestricoes === "on"
     ? (data.ficRestricoes = 1)
     : (data.ficRestricoes = 0);
-  const result = await funServices.RegisterBaseFicha(idAcademia, data);
-  await UpdateListaClienteFicha();
+  const result = await funServices.RegisterBaseFicha(idAcademia, data, token);
+  await UpdateListaClienteFicha(token);
   document.getElementById("modalCriarBaseFicha").style.display = "none";
-  MostrarTelaCriarFicha(data.ficCliId);
+  MostrarTelaCriarFicha(data.ficCliId, token);
 });
 
 //Form Cadastrar Atendimento
@@ -818,13 +818,13 @@ formCadastrarAtendimento.addEventListener("submit", async (e) => {
   }
 });
 
-async function MostrarTelaCriarFicha(cliId) {
+async function MostrarTelaCriarFicha(cliId, token) {
   MostrarTela();
   TelaCriarFicha.style.display = "block";
-  await UpdateClienteFichaTreinoA(cliId);
-  await UpdateClienteFichaTreinoB(cliId);
-  await UpdateClienteFichaTreinoC(cliId);
-  const result = await funServices.ReadFichaDetalhesGeral(cliId);
+  await UpdateClienteFichaTreinoA(cliId, token);
+  await UpdateClienteFichaTreinoB(cliId, token);
+  await UpdateClienteFichaTreinoC(cliId, token);
+  const result = await funServices.ReadFichaDetalhesGeral(cliId, token);
   const dadosCliente = await funServices.ReadClienteDetalhes(
     idAcademia,
     result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente
@@ -903,8 +903,8 @@ formInserirTreinoA.addEventListener("submit", async (e) => {
   const idFicha = document.getElementById("idFichaTreinoA").value;
   data.detIdFicha = idFicha;
   data.detTreino = "A";
-  const result = await funServices.RegisterDetalhesFicha(data);
-  await UpdateClienteFichaTreinoA(cliIdFichaTreinoA);
+  const result = await funServices.RegisterDetalhesFicha(data, token);
+  await UpdateClienteFichaTreinoA(cliIdFichaTreinoA, token);
   formInserirTreinoA.querySelector(`[name="detVariacao"]`).value = "";
   formInserirTreinoA.querySelector(`[name="detSerie"]`).value = "";
   formInserirTreinoA.querySelector(`[name="detRepeticao"]`).value = "";
@@ -919,8 +919,8 @@ formInserirTreinoB.addEventListener("submit", async (e) => {
   const idFicha = document.getElementById("idFichaTreinoB").value;
   data.detIdFicha = idFicha;
   data.detTreino = "B";
-  const result = await funServices.RegisterDetalhesFicha(data);
-  await UpdateClienteFichaTreinoB(cliIdFichaTreinoB);
+  const result = await funServices.RegisterDetalhesFicha(data, token);
+  await UpdateClienteFichaTreinoB(cliIdFichaTreinoB, token);
   formInserirTreinoB.querySelector(`[name="detVariacao"]`).value = "";
   formInserirTreinoB.querySelector(`[name="detSerie"]`).value = "";
   formInserirTreinoB.querySelector(`[name="detRepeticao"]`).value = "";
@@ -935,8 +935,8 @@ formInserirTreinoC.addEventListener("submit", async (e) => {
   const idFicha = document.getElementById("idFichaTreinoC").value;
   data.detIdFicha = idFicha;
   data.detTreino = "C";
-  const result = await funServices.RegisterDetalhesFicha(data);
-  await UpdateClienteFichaTreinoC(cliIdFichaTreinoC);
+  const result = await funServices.RegisterDetalhesFicha(data, token);
+  await UpdateClienteFichaTreinoC(cliIdFichaTreinoC, token);
   formInserirTreinoC.querySelector(`[name="detVariacao"]`).value = "";
   formInserirTreinoC.querySelector(`[name="detSerie"]`).value = "";
   formInserirTreinoC.querySelector(`[name="detRepeticao"]`).value = "";

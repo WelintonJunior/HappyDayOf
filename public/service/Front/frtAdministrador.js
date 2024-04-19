@@ -1,12 +1,13 @@
 const admServices = new AdministradorServices();
 let dados = [];
-
+let token = ""
 //Verifica se está logado
 try {
   //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
   const dadosFromLocalStorage = JSON.parse(localStorage.getItem("dados"));
   if (dadosFromLocalStorage !== null) {
-    dados = dadosFromLocalStorage;
+    dados = dadosFromLocalStorage.results;
+    token = dadosFromLocalStorage.token;
   } else {
     admServices.login.handleAcessoNegado();
   }
@@ -123,7 +124,7 @@ btnFuncionario.addEventListener("click", (e) => {
 document.addEventListener("DOMContentLoaded", async function () {
   await UpdateListaCliente();
   await UpdateListaFuncionario();
-  await UpdateListaClienteFicha();
+  await UpdateListaClienteFicha(token);
   await PreencherSelectProfessores();
 });
 
@@ -287,7 +288,7 @@ document
     }
     data.cliDataCmc = await getFormattedDateTime();
     await admServices.RegisterCliente(data, idAcademia);
-    await UpdateListaClienteFicha();
+    await UpdateListaClienteFicha(token);
     await UpdateListaCliente();
     modalCadastrarCliente.style.display = "none";
     e.target.reset();
@@ -308,7 +309,7 @@ document
     data.funDataCmc = await getFormattedDateTime();
     await admServices.RegisterFuncionario(data, idAcademia);
     await UpdateListaFuncionario();
-    await UpdateListaClienteFicha();
+    await UpdateListaClienteFicha(token);
     modalCadastrarFuncionario.style.display = "none";
     e.target.reset();
   });
@@ -563,8 +564,8 @@ async function UpdateListaFuncionario() {
 
 //Atualizar a Lista de Fichas
 
-async function UpdateListaClienteFicha() {
-  const result = await admServices.ReadClienteFicha(idAcademia);
+async function UpdateListaClienteFicha(token) {
+  const result = await admServices.ReadClienteFicha(idAcademia, token);
   //Colocar em alguma lista
   const containerTabela = document.getElementById("tableClientesFicha");
   const tabelaExistente = containerTabela.querySelector("table");
@@ -610,7 +611,7 @@ async function UpdateListaClienteFicha() {
         botaoDetalhes.classList.add("btn-info")
         botaoDetalhes.textContent = "Ver";
         botaoDetalhes.addEventListener("click", function () {
-          MostrarTelaCriarFicha(item.cliId);
+          MostrarTelaCriarFicha(item.cliId, token);
         });
         celulaBotao.appendChild(botaoDetalhes);
       } else {
@@ -634,7 +635,7 @@ async function UpdateListaClienteFicha() {
 }
 
 //Atualizar a A,B e C
-async function UpdateCampoFichaCliente(item, campo, celula, cliId) {
+async function UpdateCampoFichaCliente(item, campo, celula, cliId, token) {
   if (celula.querySelector("input")) return;
 
   let valorAnterior = celula.textContent;
@@ -660,15 +661,15 @@ async function UpdateCampoFichaCliente(item, campo, celula, cliId) {
     data.valor = novoValor;
 
     if (novoValor == "") {
-      await admServices.DeleteCampoFicha(data);
-      await UpdateClienteFichaTreinoA(cliId);
-      await UpdateClienteFichaTreinoB(cliId);
-      await UpdateClienteFichaTreinoC(cliId);
+      await admServices.DeleteCampoFicha(data, token);
+      await UpdateClienteFichaTreinoA(cliId, token);
+      await UpdateClienteFichaTreinoB(cliId, token);
+      await UpdateClienteFichaTreinoC(cliId, token);
       if (celula.parentElement.parentElement.querySelectorAll('td').length === 1) {
         celula.parentElement.parentElement.parentElement.remove();
       }
     } else {
-      await admServices.UpdateCampoFicha(data);
+      await admServices.UpdateCampoFicha(data, token);
     }
     celula.textContent = novoValor;
   });
@@ -683,24 +684,24 @@ async function UpdateCampoFichaCliente(item, campo, celula, cliId) {
       data.valor = novoValor;
 
       if (novoValor == "") {
-        await admServices.DeleteCampoFicha(data);
-        await UpdateClienteFichaTreinoA(cliId);
-        await UpdateClienteFichaTreinoB(cliId);
-        await UpdateClienteFichaTreinoC(cliId);
+        await admServices.DeleteCampoFicha(data, token);
+        await UpdateClienteFichaTreinoA(cliId, token);
+        await UpdateClienteFichaTreinoB(cliId, token);
+        await UpdateClienteFichaTreinoC(cliId, token);
 
         if (celula.parentElement.parentElement.querySelectorAll('td').length === 4) {
           celula.parentElement.parentElement.parentElement.remove();
         }
       } else {
-        await admServices.UpdateCampoFicha(data);
+        await admServices.UpdateCampoFicha(data, token);
       }
       celula.textContent = novoValor;
     }
   });
 }
 
-async function UpdateClienteFichaTreinoA(cliId) {
-  const result = await admServices.ReadFichaDetalhes(cliId, "A");
+async function UpdateClienteFichaTreinoA(cliId, token) {
+  const result = await admServices.ReadFichaDetalhes(cliId, "A", token);
   //Colocar em alguma lista
   if (result.length > 0) {
     const containerTabela = document.getElementById("listaTreinoA");
@@ -739,7 +740,7 @@ async function UpdateClienteFichaTreinoA(cliId) {
 
           //Pra celular não funciona(LEMBRANDO EU MESMO) talvez mudar apenas para click
           celula.addEventListener("click", async (e) => {
-            await UpdateCampoFichaCliente(item, campo, celula, cliId);
+            await UpdateCampoFichaCliente(item, campo, celula, cliId, token);
           });
         }
       });
@@ -749,8 +750,8 @@ async function UpdateClienteFichaTreinoA(cliId) {
   }
 }
 
-async function UpdateClienteFichaTreinoB(cliId) {
-  const result = await admServices.ReadFichaDetalhes(cliId, "B");
+async function UpdateClienteFichaTreinoB(cliId, token) {
+  const result = await admServices.ReadFichaDetalhes(cliId, "B", token);
   //Colocar em alguma lista
   if (result.length > 0) {
     const containerTabela = document.getElementById("listaTreinoB");
@@ -789,7 +790,7 @@ async function UpdateClienteFichaTreinoB(cliId) {
           celula.setAttribute("data-campo", campo);
 
           celula.addEventListener("click", async (e) => {
-            await UpdateCampoFichaCliente(item, campo, celula, cliId);
+            await UpdateCampoFichaCliente(item, campo, celula, cliId, token);
           });
         }
       });
@@ -799,8 +800,8 @@ async function UpdateClienteFichaTreinoB(cliId) {
   }
 }
 
-async function UpdateClienteFichaTreinoC(cliId) {
-  const result = await admServices.ReadFichaDetalhes(cliId, "C");
+async function UpdateClienteFichaTreinoC(cliId, token) {
+  const result = await admServices.ReadFichaDetalhes(cliId, "C", token);
   //Colocar em alguma lista
   if (result.length > 0) {
     const containerTabela = document.getElementById("listaTreinoC");
@@ -839,7 +840,7 @@ async function UpdateClienteFichaTreinoC(cliId) {
           celula.setAttribute("data-campo", campo);
 
           celula.addEventListener("click", async (e) => {
-            await UpdateCampoFichaCliente(item, campo, celula, cliId);
+            await UpdateCampoFichaCliente(item, campo, celula, cliId, token);
           });
         }
       });
@@ -1069,14 +1070,14 @@ formCriarBaseFicha.addEventListener("submit", async (e) => {
   MostrarTelaCriarFicha(data.ficCliId);
 });
 
-async function MostrarTelaCriarFicha(cliId) {
+async function MostrarTelaCriarFicha(cliId, token) {
   MostrarTela();
   // document.getElementById("sidebarHeader").style.paddingTop = "100px"
   TelaCriarFicha.style.display = "block";
-  await UpdateClienteFichaTreinoA(cliId);
-  await UpdateClienteFichaTreinoB(cliId);
-  await UpdateClienteFichaTreinoC(cliId);
-  const result = await admServices.ReadFichaDetalhesGeral(cliId);
+  await UpdateClienteFichaTreinoA(cliId, token);
+  await UpdateClienteFichaTreinoB(cliId, token);
+  await UpdateClienteFichaTreinoC(cliId, token);
+  const result = await admServices.ReadFichaDetalhesGeral(cliId, token);
   const dadosCliente = await admServices.ReadClienteDetalhes(
     idAcademia,
     result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente
@@ -1127,12 +1128,14 @@ async function MostrarTelaCriarFicha(cliId) {
 async function PreencherSelectProfessores() {
   const result = await admServices.ReadFuncionario(1, idAcademia);
   document.getElementById("funFicha").innerHTML = "";
-  if (result) {
+  if (result.length > 0) {
     result.forEach((item) => {
       document.getElementById(
         "funFicha"
       ).innerHTML += `<option value=${item.funId}>${item.funNome}</option>`;
     });
+  } else {
+    alert("Você não possui funcionários cadastrados!")
   }
 }
 
@@ -1144,8 +1147,8 @@ formInserirTreinoA.addEventListener("submit", async (e) => {
   const idFicha = document.getElementById("idFichaTreinoA").value;
   data.detIdFicha = idFicha;
   data.detTreino = "A";
-  const result = await admServices.RegisterDetalhesFicha(data);
-  await UpdateClienteFichaTreinoA(cliIdFichaTreinoA);
+  const result = await admServices.RegisterDetalhesFicha(data, token);
+  await UpdateClienteFichaTreinoA(cliIdFichaTreinoA, token);
   formInserirTreinoA.querySelector(`[name="detVariacao"]`).value = "";
   formInserirTreinoA.querySelector(`[name="detSerie"]`).value = "";
   formInserirTreinoA.querySelector(`[name="detRepeticao"]`).value = "";
@@ -1160,8 +1163,8 @@ formInserirTreinoB.addEventListener("submit", async (e) => {
   const idFicha = document.getElementById("idFichaTreinoB").value;
   data.detIdFicha = idFicha;
   data.detTreino = "B";
-  const result = await admServices.RegisterDetalhesFicha(data);
-  await UpdateClienteFichaTreinoB(cliIdFichaTreinoB);
+  const result = await admServices.RegisterDetalhesFicha(data, token);
+  await UpdateClienteFichaTreinoB(cliIdFichaTreinoB, token);
   formInserirTreinoB.querySelector(`[name="detVariacao"]`).value = "";
   formInserirTreinoB.querySelector(`[name="detSerie"]`).value = "";
   formInserirTreinoB.querySelector(`[name="detRepeticao"]`).value = "";
@@ -1176,8 +1179,8 @@ formInserirTreinoC.addEventListener("submit", async (e) => {
   const idFicha = document.getElementById("idFichaTreinoC").value;
   data.detIdFicha = idFicha;
   data.detTreino = "C";
-  const result = await admServices.RegisterDetalhesFicha(data);
-  await UpdateClienteFichaTreinoC(cliIdFichaTreinoC);
+  const result = await admServices.RegisterDetalhesFicha(data, token);
+  await UpdateClienteFichaTreinoC(cliIdFichaTreinoC, token);
   formInserirTreinoC.querySelector(`[name="detVariacao"]`).value = "";
   formInserirTreinoC.querySelector(`[name="detSerie"]`).value = "";
   formInserirTreinoC.querySelector(`[name="detRepeticao"]`).value = "";

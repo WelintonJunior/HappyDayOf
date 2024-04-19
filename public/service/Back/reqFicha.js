@@ -1,10 +1,10 @@
 class FichaServices {
 
-  async ReadClienteFicha(idAcademia) {
+  async ReadClienteFicha(idAcademia, token) {
     try {
       const response = await fetch("/Ficha", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           idAcademia,
           acao: "ReadClienteFicha",
@@ -18,11 +18,11 @@ class FichaServices {
     }
   }
 
-  async ReadFichaDetalhes(cliId, tipo) {
+  async ReadFichaDetalhes(cliId, tipo, token) {
     try {
       const response = await fetch("/Ficha", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           data: { cliId, tipo },
           acao: "ReadFichaDetalhes"
@@ -36,11 +36,11 @@ class FichaServices {
     }
   }
 
-  async ReadFichaDetalhesGeral(cliId) {
+  async ReadFichaDetalhesGeral(cliId, token) {
     try {
       const response = await fetch("/Ficha", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           data: cliId,
           acao: "ReadFichaDetalhesGeral"
@@ -54,11 +54,11 @@ class FichaServices {
     }
   }
 
-  async RegisterBaseFicha(idAcademia, data) {
+  async RegisterBaseFicha(idAcademia, data, token) {
     try {
       const response = await fetch("/Ficha", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           data,
           idAcademia,
@@ -73,11 +73,11 @@ class FichaServices {
     }
   }
 
-  async RegisterDetalhesFicha(data) {
+  async RegisterDetalhesFicha(data, token) {
     try {
       const response = await fetch("/Ficha", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           data,
           acao: "RegisterDetalhesFicha"
@@ -92,11 +92,11 @@ class FichaServices {
     }
   }
 
-  async UpdateCampoFicha(data) {
+  async UpdateCampoFicha(data, token) {
     try {
       const response = await fetch("/Ficha", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           data,
           acao: "UpdateCampoFicha",
@@ -110,11 +110,11 @@ class FichaServices {
     }
   }
 
-  async DeleteCampoFicha(data) {
+  async DeleteCampoFicha(data, token) {
     try {
       const response = await fetch("/Ficha", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           data,
           acao: "DeleteCampoFicha",
