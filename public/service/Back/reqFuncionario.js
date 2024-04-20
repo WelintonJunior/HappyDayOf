@@ -9,7 +9,7 @@ class FuncionarioServices extends AdministradorServices {
     try {
       const response = await fetch("/Funcionario", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}`  },
         body: JSON.stringify({
           data,
           idAcademia,
@@ -27,7 +27,7 @@ class FuncionarioServices extends AdministradorServices {
     try {
       const response = await fetch("/Funcionario", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}`  },
         body: JSON.stringify({
           data,
           idAcademia,
@@ -45,7 +45,7 @@ class FuncionarioServices extends AdministradorServices {
     try {
       const response = await fetch("/Funcionario", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}`  },
         body: JSON.stringify({
           data,
           idAcademia,
@@ -63,7 +63,7 @@ class FuncionarioServices extends AdministradorServices {
     try {
       const response = await fetch("/Funcionario", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}`  },
         body: JSON.stringify({
           data,
           idAcademia,

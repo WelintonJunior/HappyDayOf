@@ -5,7 +5,7 @@ try {
   //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
   const dadosFromLocalStorage = JSON.parse(localStorage.getItem("dados"));
   if (dadosFromLocalStorage !== null) {
-    dados = dadosFromLocalStorage;
+    dados = dadosFromLocalStorage.results;
   } else {
     eqpServices.handleAcessoNegado()
   }

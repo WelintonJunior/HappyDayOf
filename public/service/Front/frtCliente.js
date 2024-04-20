@@ -32,28 +32,28 @@ const logoutInterval = setTimeout(async () => {
 
 document.addEventListener("DOMContentLoaded", async function () {
   clienteServices.VerificarSessao(token);
-  const result = await clienteServices.ReadAcademia(idAcademia);
+  const result = await clienteServices.ReadAcademia(idAcademia, token);
   document.getElementById("titleAcad").innerHTML = result.acaNome;
   document.getElementById(
     "cliInfo"
   ).innerHTML = `Olá Cliente: ${dados.cliNome} da Academia: ${result.acaNome}`;
   const dateNow = getFormattedDateTime();
   await UpdateStatusAtendimento(idAcademia, dados.cliId, dateNow)
-  const StatusSatisfacao = await clienteServices.VerificarAtendimento(idAcademia, dados.cliId)
-  await VerificarSatisfacaoAtendimento(StatusSatisfacao, null, idAcademia, dados.cliId)
+  const StatusSatisfacao = await clienteServices.VerificarAtendimento(idAcademia, dados.cliId, token)
+  await VerificarSatisfacaoAtendimento(StatusSatisfacao, null, idAcademia, dados.cliId, token)
   clienteServices.ConnectIO();
 });
 
 async function UpdateStatusAtendimento(idAcademia, cliId, dateNow) {
-  const isAtendimento = await clienteServices.ReadStatusAtendimento(idAcademia, cliId, dateNow)
+  const isAtendimento = await clienteServices.ReadStatusAtendimento(idAcademia, cliId, dateNow, token)
   document.getElementById("isAtendimento").innerHTML = isAtendimento ? "<h4>Em Atendimento</h4>" : "";
 }
 
 let modalSatisfacao = document.getElementById("modalSatisfacao")
 
-async function VerificarSatisfacaoAtendimento(StatusSatisfacao, dateNow, idAcademia, cliId) {
+async function VerificarSatisfacaoAtendimento(StatusSatisfacao, dateNow, idAcademia, cliId, token) {
   if (StatusSatisfacao[0]) {
-    const ateInfo = await clienteServices.ReadAtendimentoInfo(StatusSatisfacao[0].satIdAtendimento)
+    const ateInfo = await clienteServices.ReadAtendimentoInfo(StatusSatisfacao[0].satIdAtendimento, token)
     const satText = document.getElementById("satText");
     modalSatisfacao.style.display = "block"
     document.getElementById("satIdSatisfacao").value = StatusSatisfacao[0].satId
@@ -64,7 +64,7 @@ async function VerificarSatisfacaoAtendimento(StatusSatisfacao, dateNow, idAcade
       date.getFullYear();
     satText.innerHTML = `Atendimento que se encerrou às ${horas} do dia ${dia}`;
   } else if (StatusSatisfacao) {
-    const ateInfo = await clienteServices.ReadAtendimentoInfo(StatusSatisfacao.data.ateId)
+    const ateInfo = await clienteServices.ReadAtendimentoInfo(StatusSatisfacao.data.ateId, token)
     const satText = document.getElementById("satText");
     modalSatisfacao.style.display = "block"
     document.getElementById("satIdSatisfacao").value = StatusSatisfacao[0].satId
@@ -149,7 +149,7 @@ btnPerfil.addEventListener("click", (e) => {
 //Ver Clientes/Funcionarios
 document.addEventListener("DOMContentLoaded", async function () {
   await MostrarTelaCriarFicha(dados.cliId, token)
-  await renderDesempenhoChart(dados.cliId)
+  await renderDesempenhoChart(dados.cliId, token)
 });
 
 //Função para pegar os dados da api de cep e jogar nos campos
@@ -404,11 +404,11 @@ async function MostrarTelaCriarFicha(cliId, token) {
   if (result) {
     const dadosCliente = await clienteServices.ReadClienteDetalhes(
       idAcademia,
-      result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente
+      result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente, token
     );
     const dadosFuncionario = await clienteServices.ReadFuncionarioDetalhes(
       idAcademia,
-      result.length > 0 ? result[0].ficIdFuncionario : result.ficIdFuncionario
+      result.length > 0 ? result[0].ficIdFuncionario : result.ficIdFuncionario, token
     );
     document.getElementById("idFichaTreinoA").value =
       result.length > 0 ? result[0].ficId : result.ficId;
@@ -505,7 +505,7 @@ formInserirTreinoC.addEventListener("submit", async (e) => {
 //Função de mostrar a tela de detalhes do cliente
 
 async function MostrarTelaDetalhesCliente(cliId, token) {
-  const result = await clienteServices.ReadClienteDetalhes(idAcademia, cliId);
+  const result = await clienteServices.ReadClienteDetalhes(idAcademia, cliId, token);
   MostrarTela("TelaPerfil", token);
 
   Object.keys(result).forEach((key) => {
@@ -551,7 +551,7 @@ btnEnviarDetalhesCliente.addEventListener("click", async (e) => {
   } else if (data.cliEmail === "") {
     alert("O Email não pode ser vazio")
   }
-  const result = await clienteServices.UpdateClienteDetalhes(data);
+  const result = await clienteServices.UpdateClienteDetalhes(data, token);
   var inputs = formDetCliente.querySelectorAll('input, select, textarea');
   inputs.forEach(function (input) {
     input.setAttribute('disabled', 'disabled');
@@ -569,27 +569,27 @@ formSatisfacao.addEventListener("submit", async (e) => {
   switch (titleConhecimento.innerHTML) {
     case "Conhecimento":
       data.modulo = titleConhecimento.innerHTML
-      await clienteServices.UpdateSatisfacao(data)
+      await clienteServices.UpdateSatisfacao(data, token)
       titleConhecimento.innerHTML = "Clareza"
       break;
     case "Clareza":
       data.modulo = titleConhecimento.innerHTML
-      await clienteServices.UpdateSatisfacao(data);
+      await clienteServices.UpdateSatisfacao(data, token);
       titleConhecimento.innerHTML = "Pró Atividade"
       break;
     case "Pró Atividade":
       data.modulo = titleConhecimento.innerHTML
-      await clienteServices.UpdateSatisfacao(data);
+      await clienteServices.UpdateSatisfacao(data, token);
       titleConhecimento.innerHTML = "Disponibilidade"
       break;
     case "Disponibilidade":
       data.modulo = titleConhecimento.innerHTML
-      await clienteServices.UpdateSatisfacao(data);
+      await clienteServices.UpdateSatisfacao(data, token);
       titleConhecimento.innerHTML = "Segurança"
       break;
     case "Segurança":
       data.modulo = titleConhecimento.innerHTML
-      await clienteServices.UpdateSatisfacao(data);
+      await clienteServices.UpdateSatisfacao(data, token);
       modalSatisfacao.style.display = "none"
       titleConhecimento.innerHTML = "Conhecimento"
       mostrarModalObrigado();
@@ -671,9 +671,9 @@ function mostrarModalObrigado() {
   }, 1000);
 }
 
-async function renderDesempenhoChart(cliId) {
-  const desempenhos = await clienteServices.ReadDesempenho(cliId);
-  const meta = await clienteServices.ReadMeta(cliId)
+async function renderDesempenhoChart(cliId, token) {
+  const desempenhos = await clienteServices.ReadDesempenho(cliId, token);
+  const meta = await clienteServices.ReadMeta(cliId, token)
   const data = new Date(meta.metDataCumprir);
   const dia = data.getDate();
   const mes = data.toLocaleString('default', { month: 'short' });
@@ -747,9 +747,9 @@ formMeta.addEventListener("submit", async (e) => {
   const fd = new FormData(e.target)
   const data = Object.fromEntries(fd.entries())
   data.cliId = dados.cliId
-  await clienteServices.UpdateMetaAnteriores(dados.cliId)
-  await clienteServices.RegisterMeta(data)
-  await renderDesempenhoChart(dados.cliId);
+  await clienteServices.UpdateMetaAnteriores(dados.cliId, token)
+  await clienteServices.RegisterMeta(data, token)
+  await renderDesempenhoChart(dados.cliId, token);
   document.getElementById("modalRegisterMeta").style.display = "none"
 })
 
@@ -759,7 +759,7 @@ reloadBtnDesempenho.addEventListener("click", async (e) => {
   const boxChartDesempenho = document.getElementById('boxChartDesempenho');
 
   boxChartDesempenho.innerHTML = '';
-  await renderDesempenhoChart(dados.cliId);
+  await renderDesempenhoChart(dados.cliId, token);
 });
 
 const btnCadastrarMeta = document.getElementById("btnCadastrarMeta")

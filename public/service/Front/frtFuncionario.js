@@ -31,7 +31,7 @@ const idAcademia = dados.funIdAcad;
 
 document.addEventListener("DOMContentLoaded", async function () {
   funServices.VerificarSessao(token)
-  const result = await funServices.ReadAcademia(idAcademia);
+  const result = await funServices.ReadAcademia(idAcademia, token);
   document.getElementById("titleAcad").innerHTML = result.acaNome;
   document.getElementById(
     "funInfo"
@@ -98,29 +98,26 @@ const fecharModalArquivarCliente = document.getElementById(
 btnAtendimento.firstChild.parentNode.style.backgroundColor = "#FC0404";
 btnAtendimento.addEventListener("click", (e) => {
   e.preventDefault();
-  funServices.VerificarSessao(token)
   MostrarTela("TelaAtendimento");
 });
 //btnCliente
 btnCliente.addEventListener("click", async (e) => {
   e.preventDefault();
-  funServices.VerificarSessao(token)
   MostrarTela("TelaClientes");
 });
 //btnFicha
 btnFicha.addEventListener("click", (e) => {
   e.preventDefault();
-  funServices.VerificarSessao(token)
   MostrarTela("TelaFicha");
 });
 
 //Ver Clientes/Funcionarios
 document.addEventListener("DOMContentLoaded", async function () {
-  await UpdateListaCliente();
+  await UpdateListaCliente(token);
   await UpdateListaClienteFicha(token);
-  await PreencherSelectProfessores();
-  await PreencherSelectClienteAtendimento();
-  await UpdateListaAtendimento();
+  await PreencherSelectProfessores(token);
+  await PreencherSelectClienteAtendimento(token);
+  await UpdateListaAtendimento(token);
 });
 
 //Abrir Modal Cliente
@@ -200,7 +197,7 @@ window.onclick = function (event) {
 btnVoltarTelaCliente.addEventListener("click", async (e) => {
   e.preventDefault();
   MostrarTela("TelaClientes");
-  await UpdateListaCliente();
+  await UpdateListaCliente(token);
 })
 
 //Função para pegar os dados da api de cep e jogar nos campos
@@ -246,17 +243,17 @@ document
       return;
     }
     data.cliDataCmc = await getFormattedDateTime();
-    await funServices.RegisterCliente(data, idAcademia);
-    await UpdateListaClienteFicha(token);
-    await UpdateListaCliente();
+    await funServices.RegisterCliente(data, idAcademia, token);
+    await UpdateListaClienteFicha(token, token);
+    await UpdateListaCliente(token);
     modalCadastrarCliente.style.display = "none";
     e.target.reset();
   });
 
 //Atualizar a Lista de Clientes
 
-async function UpdateListaCliente() {
-  const result = await funServices.ReadCliente(idAcademia);
+async function UpdateListaCliente(token) {
+  const result = await funServices.ReadCliente(idAcademia, token);
   //Colocar em alguma lista
   const containerTabela = document.getElementById("tableClientes");
   const tabelaExistente = containerTabela.querySelector("table");
@@ -305,7 +302,7 @@ async function UpdateListaCliente() {
       botaoDetalhes.classList.add("btn-info")
       botaoDetalhes.innerHTML = '<i class="bi bi-search"></i>';
       botaoDetalhes.addEventListener("click", function () {
-        MostrarTelaDetalhesCliente(item.cliId);
+        MostrarTelaDetalhesCliente(item.cliId, token);
       });
       celulaBotao.appendChild(botaoDetalhes);
     });
@@ -313,7 +310,7 @@ async function UpdateListaCliente() {
 
   document.getElementById("tableClientes").appendChild(tabela);
 
-  const planos = await funServices.ReadPlanos(idAcademia);
+  const planos = await funServices.ReadPlanos(idAcademia, token);
   for (i = 0; i < planos.length; i++) {
     document.getElementById(
       "cliPlano"
@@ -323,8 +320,8 @@ async function UpdateListaCliente() {
 
 //Atualizar a Lista de Atendimento
 
-async function UpdateListaAtendimento() {
-  const result = await funServices.ReadAtendimento(idAcademia, dados.funId);
+async function UpdateListaAtendimento(token) {
+  const result = await funServices.ReadAtendimento(idAcademia, dados.funId, token);
   //Colocar em alguma lista
   const containerTabela = document.getElementById("tableAtendimento");
   const tabelaExistente = containerTabela.querySelector("table");
@@ -399,8 +396,8 @@ async function UpdateListaAtendimento() {
           data.ateId = item.ateId;
           data.dateNow = dateNow;
           data.ateIdCliente = item.ateIdCliente;
-          await funServices.UpdateStatusAtendimento(idAcademia, data);
-          await UpdateListaAtendimento();
+          await funServices.UpdateStatusAtendimento(idAcademia, data, token);
+          await UpdateListaAtendimento(token);
         });
         celulaBotao.appendChild(botaoEncerrar);
       }
@@ -468,7 +465,7 @@ async function UpdateListaClienteFicha(token) {
         botaoCriarFicha.textContent = "Criar";
         botaoCriarFicha.addEventListener("click", async function () {
           document.getElementById("funFicha").innerHTML = "";
-          await PreencherSelectProfessores();
+          await PreencherSelectProfessores(token);
           modalCriarBaseFicha.style.display = "block";
           document.getElementById("cliIdFicha").value = item.cliId;
         });
@@ -704,8 +701,8 @@ btnVoltarTelaFicha.addEventListener("click", async (e) => {
 
 //Função de mostrar a tela de detalhes do cliente
 
-async function MostrarTelaDetalhesCliente(cliId) {
-  const result = await funServices.ReadClienteDetalhes(idAcademia, cliId);
+async function MostrarTelaDetalhesCliente(cliId, token) {
+  const result = await funServices.ReadClienteDetalhes(idAcademia, cliId, token);
   MostrarTela();
   TelaDetalhesClientes.style.display = "block";
 
@@ -746,7 +743,7 @@ btnEnviarDetalhesCliente.addEventListener("click", async (e) => {
     alert("O nome não pode conter números");
     return;
   }
-  const result = await funServices.UpdateClienteDetalhes(data);
+  const result = await funServices.UpdateClienteDetalhes(data, token);
   Object.keys(result).forEach((key) => {
     let input = formDetCliente.querySelector(`[name="${key}"]`);
     if (input) {
@@ -755,7 +752,7 @@ btnEnviarDetalhesCliente.addEventListener("click", async (e) => {
   });
   formDetCliente.reset();
   await UpdateListaClienteFicha(token);
-  await UpdateListaCliente();
+  await UpdateListaCliente(token);
   MostrarTela("TelaClientes");
 });
 
@@ -773,10 +770,10 @@ const formArquivarCliente = document.getElementById("formArquivarCliente");
 formArquivarCliente.addEventListener("submit", async (e) => {
   e.preventDefault();
   let cliId = document.getElementById("cliDetId").value;
-  await funServices.ArchiveCliente(cliId);
+  await funServices.ArchiveCliente(cliId, token);
   formDetCliente.reset();
   modalArquivarCliente.style.display = "none";
-  await UpdateListaCliente();
+  await UpdateListaCliente(token);
   MostrarTela("TelaClientes");
 });
 
@@ -821,10 +818,10 @@ formCadastrarAtendimento.addEventListener("submit", async (e) => {
   const dateNow = getFormattedDateTime();
   data.dateNow = dateNow;
   data.funId = dados.funId;
-  const result = await funServices.ValidacaoAtendimento(idAcademia, data);
+  const result = await funServices.ValidacaoAtendimento(idAcademia, data, token);
   if (result) {
-    const result = await funServices.RegisterAtendimento(idAcademia, data);
-    await UpdateListaAtendimento();
+    const result = await funServices.RegisterAtendimento(idAcademia, data, token);
+    await UpdateListaAtendimento(token);
     modalCadastrarAtendimento.style.display = "none";
   } else {
     alert("Já possui um Atendimento em aberto");
@@ -841,11 +838,11 @@ async function MostrarTelaCriarFicha(cliId, token) {
   const result = await funServices.ReadFichaDetalhesGeral(cliId, token);
   const dadosCliente = await funServices.ReadClienteDetalhes(
     idAcademia,
-    result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente
+    result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente, token
   );
   const dadosFuncionario = await funServices.ReadFuncionarioDetalhes(
     idAcademia,
-    result.length > 0 ? result[0].ficIdFuncionario : result.ficIdFuncionario
+    result.length > 0 ? result[0].ficIdFuncionario : result.ficIdFuncionario, token
   );
   document.getElementById("idFichaTreinoA").value =
     result.length > 0 ? result[0].ficId : result.ficId;
@@ -886,8 +883,8 @@ async function MostrarTelaCriarFicha(cliId, token) {
     result.length > 0 ? result[0].ficIntervalo : result.ficIntervalo;
 }
 
-async function PreencherSelectProfessores() {
-  const result = await funServices.ReadFuncionario(1, idAcademia);
+async function PreencherSelectProfessores(token) {
+  const result = await funServices.ReadFuncionario(1, idAcademia, token);
   document.getElementById("funFicha").innerHTML = "";
   if (result) {
     result.forEach((item) => {
@@ -897,8 +894,8 @@ async function PreencherSelectProfessores() {
     });
   }
 }
-async function PreencherSelectClienteAtendimento() {
-  const result = await funServices.ReadCliente(idAcademia);
+async function PreencherSelectClienteAtendimento(token) {
+  const result = await funServices.ReadCliente(idAcademia, token);
   document.getElementById("selectClienteAtendimento").innerHTML = "";
   if (result) {
     result.forEach((item) => {
