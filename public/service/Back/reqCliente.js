@@ -103,6 +103,7 @@ class ClienteServices extends FichaServices {
       throw err
     }
   }
+
   async ReadAtendimentoInfo(ateId) {
     try {
       let data = { ateId }
@@ -139,6 +140,7 @@ class ClienteServices extends FichaServices {
       throw err
     }
   }
+
   async UpdateSatisfacao(data) {
     try {
       const response = await fetch("/Cliente", {
@@ -155,6 +157,63 @@ class ClienteServices extends FichaServices {
       console.error("Erro ao atualizar os dados do cliente")
       throw err
     }
+  }
+
+  async ReadDesempenho(data) {
+    try {
+      const response = await fetch("/Cliente", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data,
+          acao: "ReadDesempenho",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao Ler desempenho")
+      throw err
+    }
+  }
+
+  async RegisterMeta(data) {
+    const response = await fetch("/Cliente", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        data,
+        acao: "RegisterMeta"
+      })
+    })
+    const result = await response.json();
+    return result
+  }
+
+  async ReadMeta(cliId) {
+    const response = await fetch("/Cliente", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        data: cliId,
+        acao: "ReadMeta"
+      })
+    })
+    const result = await response.json();
+    return result[0]
+  }
+
+  async UpdateMetaAnteriores(cliId) {
+    const response = await fetch("/Cliente", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        data: cliId,
+        acao: "UpdateMetaAnteriores"
+      })
+    })
+    const result = await response.json();
+    return result
   }
 
   async ConnectIO() {

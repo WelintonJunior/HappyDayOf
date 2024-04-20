@@ -307,3 +307,12 @@ async function validarCpfCadastrado(e, cpf) {
     e.target.value = "";
   }
 }
+
+function verificarForm(obj) {
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key) && (obj[key] === "" || obj[key] === null || obj[key] === undefined)) {
+      return true;
+    }
+  }
+  return false;
+}

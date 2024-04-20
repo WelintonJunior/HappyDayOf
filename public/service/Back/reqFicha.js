@@ -1,5 +1,18 @@
 class FichaServices {
 
+  async VerificarSessao(token) {
+    const response = await fetch("/Ficha", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": `${token}` },
+    })
+    const result = await response.json();
+    if (result.message === "Token de autorização ausente" || "Sessão expirada, faça login novamente") {
+      return "Sessão expirada faça login novamente"
+    } else {
+      return ""
+    }
+  }
+
   async ReadClienteFicha(idAcademia, token) {
     try {
       const response = await fetch("/Ficha", {

@@ -112,7 +112,46 @@ router.post("/Cliente", (req, res) => {
             })
           break;
       }
-
+      break;
+    case "ReadDesempenho":
+      db.query("select * from tblDesempenho where desIdCliente = ?",
+        [data], (err, results) => {
+          if (err) {
+            res.json(err)
+          }
+          if (results.length > 0 ? results[0].length === 0 : results.length === 0) {
+            return res.json(false)
+          }
+          res.send(results)
+        })
+      break;
+    case "ReadMeta":
+      db.query("select * from tblMeta where metIdCliente = ? and metStatus = 1", [data], (err, results) => {
+        if (err) {
+          return res.json(err)
+        }
+        if (results.length > 0 ? results[0].length === 0 : results.length === 0) {
+          return res.json(false)
+        }
+        res.send(results)
+      })
+      break;
+    case "RegisterMeta":
+      db.query("insert into tblMeta values (default, ?, ?, ?, ?, 1)", [data.cliId, parseInt(data.metaGordura), parseInt(data.metaPeso), data.dataCumprir], (err, results) => {
+        if (err) {
+          return res.json(err)
+        }
+        res.send(results)
+      })
+      break;
+    case "UpdateMetaAnteriores":
+      db.query("update tblMeta set metStatus = 0 where metIdCliente = ? and metStatus = 1", [data], (err, results) => {
+        if (err) {
+          return res.json(err)
+        }
+        res.send(results)
+      })
+      break;
   }
 });
 

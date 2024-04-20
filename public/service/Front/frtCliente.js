@@ -16,12 +16,22 @@ try {
 } catch (err) {
   clienteServices.login.handleAcessoNegado();
 }
-
 const idAcademia = dados.cliIdAcad;
+
+const TEMPO_EXPIRACAO = 3600 * 1000;
+
+const logoutInterval = setTimeout(async () => {
+  const result = await clienteServices.VerificarSessao(token);
+  if (result === "Sessão expirada faça login novamente") {
+    alert(result)
+    clienteServices.login.handleLogout();
+  }
+}, (TEMPO_EXPIRACAO) + 1500);
+
 //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
 
-
 document.addEventListener("DOMContentLoaded", async function () {
+  clienteServices.VerificarSessao(token);
   const result = await clienteServices.ReadAcademia(idAcademia);
   document.getElementById("titleAcad").innerHTML = result.acaNome;
   document.getElementById(
@@ -105,26 +115,41 @@ const btnVoltarTelaCliente = document.getElementById(
 
 const formDetCliente = document.getElementById("formDetalhesCliente")
 
+const fecharModalRegisterMeta = document.getElementById("fecharModalRegisterMeta")
+const modalRegisterMeta = document.getElementById("modalRegisterMeta")
+
+fecharModalRegisterMeta.onclick = function () {
+  modalRegisterMeta.style.display = "none";
+};
+//Clicar Fora fecha o Modal Arquivar Cliente
+
+window.onclick = function (event) {
+  if (event.target == modalRegisterMeta) {
+    modalRegisterMeta.style.display = "none";
+  }
+}
+
 //btnFicha
 btnFicha.firstChild.parentNode.style.backgroundColor = "#FC0404";
 btnFicha.addEventListener("click", (e) => {
   e.preventDefault();
-  MostrarTela("TelaFicha");
+  MostrarTela("TelaFicha", token);
 });
 //btnDesempenho
 btnDesempenho.addEventListener("click", async (e) => {
   e.preventDefault();
-  MostrarTela("TelaDesempenho");
+  MostrarTela("TelaDesempenho", token);
 });
 //btnPerfil
 btnPerfil.addEventListener("click", (e) => {
   e.preventDefault();
-  MostrarTela("TelaPerfil");
+  MostrarTela("TelaPerfil", token);
 });
 
 //Ver Clientes/Funcionarios
 document.addEventListener("DOMContentLoaded", async function () {
   await MostrarTelaCriarFicha(dados.cliId, token)
+  await renderDesempenhoChart(dados.cliId)
 });
 
 //Função para pegar os dados da api de cep e jogar nos campos
@@ -371,7 +396,7 @@ document.getElementById("btnLogout").addEventListener("click", (e) => {
 });
 
 async function MostrarTelaCriarFicha(cliId, token) {
-  MostrarTela();
+  MostrarTela("", token);
   await UpdateClienteFichaTreinoA(cliId, token);
   await UpdateClienteFichaTreinoB(cliId, token);
   await UpdateClienteFichaTreinoC(cliId, token);
@@ -424,7 +449,7 @@ async function MostrarTelaCriarFicha(cliId, token) {
       result.length > 0 ? result[0].ficIntervalo : result.ficIntervalo;
   } else {
     mostrarModalNaoPossuiFicha();
-    MostrarTela("TelaPerfil")
+    MostrarTela("TelaPerfil", token)
   }
 }
 
@@ -479,9 +504,9 @@ formInserirTreinoC.addEventListener("submit", async (e) => {
 
 //Função de mostrar a tela de detalhes do cliente
 
-async function MostrarTelaDetalhesCliente(cliId) {
+async function MostrarTelaDetalhesCliente(cliId, token) {
   const result = await clienteServices.ReadClienteDetalhes(idAcademia, cliId);
-  MostrarTela("TelaPerfil");
+  MostrarTela("TelaPerfil", token);
 
   Object.keys(result).forEach((key) => {
     let input = formDetCliente.querySelector(`[name="${key}"]`);
@@ -573,7 +598,7 @@ formSatisfacao.addEventListener("submit", async (e) => {
 })
 
 
-async function MostrarTela(tela) {
+async function MostrarTela(tela, token) {
   // document.getElementById("listaTreinoA").innerHTML = "";
   // document.getElementById("listaTreinoB").innerHTML = "";
   // document.getElementById("listaTreinoC").innerHTML = "";
@@ -588,7 +613,7 @@ async function MostrarTela(tela) {
       TelaFicha.style.display = "block";
       TelaDesempenho.style.display = "none";
       TelaPerfil.style.display = "none";
-      await MostrarTelaCriarFicha(dados.cliId)
+      await MostrarTelaCriarFicha(dados.cliId, token)
       break;
     case "TelaDesempenho":
       if (TelaDesempenho.style.display === "block") {
@@ -613,7 +638,7 @@ async function MostrarTela(tela) {
         btnPerfil.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
         return;
       }
-      await MostrarTelaDetalhesCliente(dados.cliId);
+      await MostrarTelaDetalhesCliente(dados.cliId, token);
       btnPerfil.firstChild.parentNode.style.backgroundColor = "#FC0404";
       btnDesempenho.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
       btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
@@ -645,3 +670,104 @@ function mostrarModalObrigado() {
     document.getElementById("modalObrigado").style.display = "none";
   }, 1000);
 }
+
+async function renderDesempenhoChart(cliId) {
+  const desempenhos = await clienteServices.ReadDesempenho(cliId);
+  const meta = await clienteServices.ReadMeta(cliId)
+  const data = new Date(meta.metDataCumprir);
+  const dia = data.getDate();
+  const mes = data.toLocaleString('default', { month: 'short' });
+  const dataFormatada = `${dia} ${mes}`;
+  document.getElementById("metaASerCumprida").innerHTML = `Meta deve ser cumprida até: ${dataFormatada}`
+  const boxChartDesempenho = document.getElementById('boxChartDesempenho');
+
+  if (boxChartDesempenho.chart) {
+    boxChartDesempenho.chart.destroy();
+  }
+
+  const labels = [];
+  const pesos = [];
+  const gorduras = [];
+
+  for (let i = 0; i < desempenhos.length; i++) {
+    const data = new Date(desempenhos[i].desData);
+    const dia = data.getDate();
+    const mes = data.toLocaleString('default', { month: 'short' });
+    const dataFormatada = `${dia} ${mes}`;
+    labels.push(dataFormatada);
+    pesos.push(desempenhos[i].desPeso);
+    gorduras.push(desempenhos[i].desGordura);
+  }
+
+  const ctx = boxChartDesempenho.getContext('2d');
+  boxChartDesempenho.chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Peso',
+        data: pesos,
+        fill: false,
+        borderColor: '#e6194b',
+        tension: 0.1
+      }, {
+        label: 'Gordura (%)',
+        data: gorduras,
+        fill: false,
+        borderColor: '#3cb44b',
+        tension: 0.1
+      }
+        , {
+        label: 'Meta de Peso',
+        data: Array(labels.length).fill(meta.metPeso),
+        fill: false,
+        borderColor: '#e6194b',
+        borderDash: [5, 5],
+        tension: 0
+      }, {
+        label: 'Meta de Gordura (%)',
+        data: Array(labels.length).fill(meta.metGordura),
+        fill: false,
+        borderColor: '#3cb44b',
+        borderDash: [5, 5],
+        tension: 0
+      }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false
+    }
+  });
+}
+
+const formMeta = document.getElementById("formMeta")
+formMeta.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target)
+  const data = Object.fromEntries(fd.entries())
+  data.cliId = dados.cliId
+  await clienteServices.UpdateMetaAnteriores(dados.cliId)
+  await clienteServices.RegisterMeta(data)
+  await renderDesempenhoChart(dados.cliId);
+  document.getElementById("modalRegisterMeta").style.display = "none"
+})
+
+const reloadBtnDesempenho = document.getElementById("reloadBtnDesempenho")
+reloadBtnDesempenho.addEventListener("click", async (e) => {
+  e.preventDefault();
+  const boxChartDesempenho = document.getElementById('boxChartDesempenho');
+
+  boxChartDesempenho.innerHTML = '';
+  await renderDesempenhoChart(dados.cliId);
+});
+
+const btnCadastrarMeta = document.getElementById("btnCadastrarMeta")
+btnCadastrarMeta.addEventListener("click", (e) => {
+  e.preventDefault();
+  document.getElementById("modalRegisterMeta").style.display = "block"
+})
+
+
+
+

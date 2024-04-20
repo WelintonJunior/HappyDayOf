@@ -212,6 +212,7 @@ async function renderProdutividadeChart() {
         }
     });
 }
+
 async function renderAtendimentoChart() {
     const Atendimentos = await dashboardServices.ReadAllAtendimentos(idAcademia);
     let funcionarios = {};

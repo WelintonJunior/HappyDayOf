@@ -25,9 +25,21 @@ const btnCliente = document.getElementById("btnCliente");
 const btnFicha = document.getElementById("btnFicha");
 const btnFuncionario = document.getElementById("btnFuncionario");
 
+const TEMPO_EXPIRACAO = 3600 * 8000;
+
+const logoutInterval = setTimeout(async () => {
+  const result = await admServices.VerificarSessao(token);
+  if (result === "Sessão expirada faça login novamente") {
+    alert(result)
+    admServices.login.handleLogout();
+  }
+}, (TEMPO_EXPIRACAO) + 1500);
+
+
 //Dados de Boas vindas
 
 document.addEventListener("DOMContentLoaded", async function () {
+  admServices.VerificarSessao(token)
   const result = await admServices.ReadAcademia(idAcademia);
   document.getElementById("titleAcad").innerHTML = result.acaNome;
   document.getElementById(
@@ -851,7 +863,7 @@ async function UpdateClienteFichaTreinoC(cliId, token) {
 }
 
 btnVoltarTelaFicha.addEventListener("click", async (e) => {
-  await UpdateListaClienteFicha();
+  await UpdateListaClienteFicha(token);
   MostrarTela("TelaFicha");
 })
 
@@ -1147,12 +1159,17 @@ formInserirTreinoA.addEventListener("submit", async (e) => {
   const idFicha = document.getElementById("idFichaTreinoA").value;
   data.detIdFicha = idFicha;
   data.detTreino = "A";
-  const result = await admServices.RegisterDetalhesFicha(data, token);
-  await UpdateClienteFichaTreinoA(cliIdFichaTreinoA, token);
-  formInserirTreinoA.querySelector(`[name="detVariacao"]`).value = "";
-  formInserirTreinoA.querySelector(`[name="detSerie"]`).value = "";
-  formInserirTreinoA.querySelector(`[name="detRepeticao"]`).value = "";
-  formInserirTreinoA.querySelector(`[name="detCarga"]`).value = "";
+  const verificacao = await verificarForm(data);
+  if (!verificacao) {
+    const result = await admServices.RegisterDetalhesFicha(data, token);
+    await UpdateClienteFichaTreinoA(cliIdFichaTreinoA, token);
+    formInserirTreinoA.querySelector(`[name="detVariacao"]`).value = "";
+    formInserirTreinoA.querySelector(`[name="detSerie"]`).value = "";
+    formInserirTreinoA.querySelector(`[name="detRepeticao"]`).value = "";
+    formInserirTreinoA.querySelector(`[name="detCarga"]`).value = "";
+  } else {
+    alert("Você precisa preencher todos os campos")
+  }
 });
 
 formInserirTreinoB.addEventListener("submit", async (e) => {
@@ -1164,11 +1181,16 @@ formInserirTreinoB.addEventListener("submit", async (e) => {
   data.detIdFicha = idFicha;
   data.detTreino = "B";
   const result = await admServices.RegisterDetalhesFicha(data, token);
-  await UpdateClienteFichaTreinoB(cliIdFichaTreinoB, token);
-  formInserirTreinoB.querySelector(`[name="detVariacao"]`).value = "";
-  formInserirTreinoB.querySelector(`[name="detSerie"]`).value = "";
-  formInserirTreinoB.querySelector(`[name="detRepeticao"]`).value = "";
-  formInserirTreinoB.querySelector(`[name="detCarga"]`).value = "";
+  const verificacao = await verificarForm(data);
+  if (!verificacao) {
+    await UpdateClienteFichaTreinoB(cliIdFichaTreinoB, token);
+    formInserirTreinoB.querySelector(`[name="detVariacao"]`).value = "";
+    formInserirTreinoB.querySelector(`[name="detSerie"]`).value = "";
+    formInserirTreinoB.querySelector(`[name="detRepeticao"]`).value = "";
+    formInserirTreinoB.querySelector(`[name="detCarga"]`).value = "";
+  } else {
+    alert("Você precisa preencher todos os campos")
+  }
 });
 
 formInserirTreinoC.addEventListener("submit", async (e) => {
@@ -1179,10 +1201,15 @@ formInserirTreinoC.addEventListener("submit", async (e) => {
   const idFicha = document.getElementById("idFichaTreinoC").value;
   data.detIdFicha = idFicha;
   data.detTreino = "C";
-  const result = await admServices.RegisterDetalhesFicha(data, token);
-  await UpdateClienteFichaTreinoC(cliIdFichaTreinoC, token);
-  formInserirTreinoC.querySelector(`[name="detVariacao"]`).value = "";
-  formInserirTreinoC.querySelector(`[name="detSerie"]`).value = "";
-  formInserirTreinoC.querySelector(`[name="detRepeticao"]`).value = "";
-  formInserirTreinoC.querySelector(`[name="detCarga"]`).value = "";
+  const verificacao = await verificarForm(data);
+  if (!verificacao) {
+    const result = await admServices.RegisterDetalhesFicha(data, token);
+    await UpdateClienteFichaTreinoC(cliIdFichaTreinoC, token);
+    formInserirTreinoC.querySelector(`[name="detVariacao"]`).value = "";
+    formInserirTreinoC.querySelector(`[name="detSerie"]`).value = "";
+    formInserirTreinoC.querySelector(`[name="detRepeticao"]`).value = "";
+    formInserirTreinoC.querySelector(`[name="detCarga"]`).value = "";
+  } else {
+    alert("Você precisa preencher todos os campos")
+  }
 });

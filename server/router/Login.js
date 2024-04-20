@@ -59,8 +59,7 @@ router.post("/Login", (req, res) => {
               senha
             );
             if (isPasswordValid) {
-              console.log(results)
-              const token = jwt.sign({ id: results[0].funId, role: 'funcionario' }, jwtSecret, { expiresIn: '1h' });
+              const token = jwt.sign({ id: results[0].funId, role: 'funcionario' }, jwtSecret, { expiresIn: '8h' });
               res.json({ results: results[0], token });
             } else {
               res.json(false);
