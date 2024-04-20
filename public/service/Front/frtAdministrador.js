@@ -1,6 +1,8 @@
 const admServices = new AdministradorServices();
 let dados = [];
 let token = ""
+let tela = "";
+
 //Verifica se está logado
 try {
   //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
@@ -18,12 +20,7 @@ try {
 
 //Pega o id da Academia de acordo com o usuario logado no momento
 const idAcademia = dados.funIdAcad;
-let tela = "";
 //Declara os botoes da nav laterais
-const btnResumo = document.getElementById("btnResumo");
-const btnCliente = document.getElementById("btnCliente");
-const btnFicha = document.getElementById("btnFicha");
-const btnFuncionario = document.getElementById("btnFuncionario");
 
 const TEMPO_EXPIRACAO = 3600 * 8000;
 
@@ -35,19 +32,10 @@ const logoutInterval = setTimeout(async () => {
   }
 }, (TEMPO_EXPIRACAO) + 1500);
 
-
-//Dados de Boas vindas
-
-document.addEventListener("DOMContentLoaded", async function () {
-  admServices.VerificarSessao(token)
-  const result = await admServices.ReadAcademia(idAcademia, token);
-  document.getElementById("titleAcad").innerHTML = result.acaNome;
-  document.getElementById(
-    "admInfo"
-  ).innerHTML = `Olá Administrador: ${dados.funNome} da Academia: ${result.acaNome}`;
-});
-
-//Declara as telas que são mostradas após clicar em algum botao
+const btnResumo = document.getElementById("btnResumo");
+const btnCliente = document.getElementById("btnCliente");
+const btnFicha = document.getElementById("btnFicha");
+const btnFuncionario = document.getElementById("btnFuncionario");
 const TelaResumo = document.getElementById("TelaResumo");
 const TelaFicha = document.getElementById("TelaFicha");
 const TelaClientes = document.getElementById("TelaClientes");
@@ -56,8 +44,6 @@ const TelaFuncionarios = document.getElementById("TelaFuncionarios");
 const TelaDetalhesFuncionarios = document.getElementById(
   "TelaDetalhesFuncionarios"
 );
-
-//Declara botoes para uso posterior
 const btnEditarDetalhesFuncionario = document.getElementById(
   "btnEditarDetalhesFuncionario"
 );
@@ -75,16 +61,15 @@ const btnArchiveFuncionario = document.getElementById("btnArchiveFuncionario");
 const btnVoltarTelaFuncionario = document.getElementById("btnVoltarTelaFuncionario");
 const btnVoltarTelaCliente = document.getElementById("btnVoltarTelaCliente");
 const btnVoltarTelaFicha = document.getElementById("btnVoltarTelaFicha");
-
-//Declara Formularios
 const formDetCliente = document.getElementById("formDetalhesCliente");
 const formDetFuncionario = document.getElementById("formDetalhesFuncionario");
 const formCriarBaseFicha = document.getElementById("formCriarBaseFicha");
 const formInserirTreinoA = document.getElementById("formInserirTreinoA");
 const formInserirTreinoB = document.getElementById("formInserirTreinoB");
 const formInserirTreinoC = document.getElementById("formInserirTreinoC");
-
-//Declara Modal
+const formArquivarFuncionario = document.getElementById(
+  "formArquivarFuncionario"
+);
 const modalCadastrarCliente = document.getElementById("modalCadastrarCliente");
 const modalCriarBaseFicha = document.getElementById("modalCriarBaseFicha");
 const modalCadastrarFuncionario = document.getElementById(
@@ -109,6 +94,20 @@ const fecharModalArquivarCliente = document.getElementById(
 const fecharModalArquivarFuncionario = document.getElementById(
   "fecharModalArquivarFuncionario"
 );
+
+let CheckBoxRestricoes = document.getElementById("ficRestricoes");
+
+//Dados de Boas vindas
+
+document.addEventListener("DOMContentLoaded", async function () {
+  admServices.VerificarSessao(token)
+  const result = await admServices.ReadAcademia(idAcademia, token);
+  document.getElementById("titleAcad").innerHTML = result.acaNome;
+  document.getElementById(
+    "admInfo"
+  ).innerHTML = `Olá Administrador: ${dados.funNome} da Academia: ${result.acaNome}`;
+});
+
 
 //btnResumo
 btnResumo.firstChild.parentNode.style.backgroundColor = "#FC0404";
@@ -1031,12 +1030,6 @@ btnVoltarTelaFuncionario.addEventListener("click", async (e) => {
   MostrarTela("TelaFuncionarios");
 })
 
-//Função de arquivar o cliente
-
-const formArquivarFuncionario = document.getElementById(
-  "formArquivarFuncionario"
-);
-
 //Função de arquivamento
 
 formArquivarFuncionario.addEventListener("submit", async (e) => {
@@ -1058,7 +1051,6 @@ document.getElementById("btnLogout").addEventListener("click", (e) => {
 
 //CHECKBOX POSSUI RESTRIÇÕES
 
-let CheckBoxRestricoes = document.getElementById("ficRestricoes");
 CheckBoxRestricoes.addEventListener("change", (e) => {
   document.getElementById("ficTipoRestricoes").value = "";
   if (CheckBoxRestricoes.checked) {

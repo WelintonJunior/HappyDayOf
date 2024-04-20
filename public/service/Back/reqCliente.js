@@ -222,14 +222,14 @@ class ClienteServices extends FichaServices {
     socket.on('Atendimento', async (msg) => {
       // console.log(msg.data)
       if (msg.data.ateIdCliente = dados.cliId) {
-        await UpdateStatusAtendimento(msg.idAcademia, msg.data.ateIdCliente, msg.data.dateNow)
+        await UpdateStatusAtendimento(msg.idAcademia, msg.data.ateIdCliente, msg.data.dateNow, token)
       }
     });
 
     socket.on("EncerrarAtendimento", async (msg) => {
       if (msg.data.ateIdCliente = dados.cliId) {
-        const StatusSatisfacao = await clienteServices.VerificarAtendimento(idAcademia, msg.data.ateIdCliente)
-        await VerificarSatisfacaoAtendimento(StatusSatisfacao, msg.data.dateNow, msg.idAcademia, msg.data.ateIdCliente)
+        const StatusSatisfacao = await clienteServices.VerificarAtendimento(idAcademia, msg.data.ateIdCliente, token)
+        await VerificarSatisfacaoAtendimento(StatusSatisfacao, msg.data.dateNow, msg.idAcademia, msg.data.ateIdCliente, token)
       }
     })
   }

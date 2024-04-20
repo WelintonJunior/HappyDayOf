@@ -63,8 +63,6 @@ const btnCadastrarAtendimento = document.getElementById(
 const btnVoltarTelaCliente = document.getElementById(
   "btnVoltarTelaCliente"
 );
-
-//Declara Formularios
 const formDetCliente = document.getElementById("formDetalhesCliente");
 const formCadastrarAtendimento = document.getElementById(
   "formCadastrarAtendimento"
@@ -73,8 +71,6 @@ const formCriarBaseFicha = document.getElementById("formCriarBaseFicha");
 const formInserirTreinoA = document.getElementById("formInserirTreinoA");
 const formInserirTreinoB = document.getElementById("formInserirTreinoB");
 const formInserirTreinoC = document.getElementById("formInserirTreinoC");
-
-//Declara Modal
 const modalCadastrarCliente = document.getElementById("modalCadastrarCliente");
 const modalCriarBaseFicha = document.getElementById("modalCriarBaseFicha");
 const modalArquivarCliente = document.getElementById("modalArquivarCliente");
@@ -93,6 +89,8 @@ const fecharModalCriarBaseFicha = document.getElementById(
 const fecharModalArquivarCliente = document.getElementById(
   "fecharModalArquivarCliente"
 );
+const formArquivarCliente = document.getElementById("formArquivarCliente");
+let CheckBoxRestricoes = document.getElementById("ficRestricoes");
 
 //btnResumo
 btnAtendimento.firstChild.parentNode.style.backgroundColor = "#FC0404";
@@ -763,8 +761,6 @@ btnArchiveCliente.addEventListener("click", async (e) => {
   modalArquivarCliente.style.display = "block";
 });
 
-const formArquivarCliente = document.getElementById("formArquivarCliente");
-
 //Função de Arquivamento Cliente
 
 formArquivarCliente.addEventListener("submit", async (e) => {
@@ -786,7 +782,6 @@ document.getElementById("btnLogout").addEventListener("click", (e) => {
 
 //CHECKBOX POSSUI RESTRIÇÕES
 
-let CheckBoxRestricoes = document.getElementById("ficRestricoes");
 CheckBoxRestricoes.addEventListener("change", (e) => {
   document.getElementById("ficTipoRestricoes").value = "";
   if (CheckBoxRestricoes.checked) {
@@ -894,6 +889,7 @@ async function PreencherSelectProfessores(token) {
     });
   }
 }
+
 async function PreencherSelectClienteAtendimento(token) {
   const result = await funServices.ReadCliente(idAcademia, token);
   document.getElementById("selectClienteAtendimento").innerHTML = "";

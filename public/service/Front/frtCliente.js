@@ -3,6 +3,8 @@
 const clienteServices = new ClienteServices();
 let dados = [];
 let token = "";
+let tela = "";
+
 //Verifica se está logado
 try {
   //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
@@ -16,6 +18,7 @@ try {
 } catch (err) {
   clienteServices.login.handleAcessoNegado();
 }
+
 const idAcademia = dados.cliIdAcad;
 
 const TEMPO_EXPIRACAO = 3600 * 1000;
@@ -27,6 +30,32 @@ const logoutInterval = setTimeout(async () => {
     clienteServices.login.handleLogout();
   }
 }, (TEMPO_EXPIRACAO) + 1500);
+
+
+const btnFicha = document.getElementById("btnFicha");
+const btnDesempenho = document.getElementById("btnDesempenho");
+const btnPerfil = document.getElementById("btnPerfil");
+const TelaFicha = document.getElementById("TelaFicha");
+const TelaDesempenho = document.getElementById("TelaDesempenho");
+const TelaPerfil = document.getElementById("TelaPerfil");
+const formInserirTreinoA = document.getElementById("formInserirTreinoA");
+const formInserirTreinoB = document.getElementById("formInserirTreinoB");
+const formInserirTreinoC = document.getElementById("formInserirTreinoC");
+const formSatisfacao = document.getElementById("formSatisfacao");
+const rating0 = document.getElementById("rating-0");
+const rating1 = document.getElementById("rating-1");
+const rating2 = document.getElementById("rating-2");
+const rating3 = document.getElementById("rating-3");
+const rating4 = document.getElementById("rating-4");
+const titleConhecimento = document.getElementById("titleConhecimento")
+const modalSatisfacao = document.getElementById("modalSatisfacao")
+const formDetCliente = document.getElementById("formDetalhesCliente")
+const fecharModalRegisterMeta = document.getElementById("fecharModalRegisterMeta")
+const modalRegisterMeta = document.getElementById("modalRegisterMeta")
+const cliDetCep = document.getElementById("cliDetCep");
+const reloadBtnDesempenho = document.getElementById("reloadBtnDesempenho")
+const btnCadastrarMeta = document.getElementById("btnCadastrarMeta")
+const formMeta = document.getElementById("formMeta")
 
 //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
 
@@ -40,6 +69,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   const dateNow = getFormattedDateTime();
   await UpdateStatusAtendimento(idAcademia, dados.cliId, dateNow)
   const StatusSatisfacao = await clienteServices.VerificarAtendimento(idAcademia, dados.cliId, token)
+  console.log(StatusSatisfacao)
   await VerificarSatisfacaoAtendimento(StatusSatisfacao, null, idAcademia, dados.cliId, token)
   clienteServices.ConnectIO();
 });
@@ -48,8 +78,6 @@ async function UpdateStatusAtendimento(idAcademia, cliId, dateNow) {
   const isAtendimento = await clienteServices.ReadStatusAtendimento(idAcademia, cliId, dateNow, token)
   document.getElementById("isAtendimento").innerHTML = isAtendimento ? "<h4>Em Atendimento</h4>" : "";
 }
-
-let modalSatisfacao = document.getElementById("modalSatisfacao")
 
 async function VerificarSatisfacaoAtendimento(StatusSatisfacao, dateNow, idAcademia, cliId, token) {
   if (StatusSatisfacao[0]) {
@@ -77,32 +105,6 @@ async function VerificarSatisfacaoAtendimento(StatusSatisfacao, dateNow, idAcade
   }
 }
 
-
-let tela = "";
-
-//Declara os botoes da nav laterais
-const btnFicha = document.getElementById("btnFicha");
-const btnDesempenho = document.getElementById("btnDesempenho");
-const btnPerfil = document.getElementById("btnPerfil");
-
-
-//Declara as telas que são mostradas após clicar em algum botao
-const TelaFicha = document.getElementById("TelaFicha");
-const TelaDesempenho = document.getElementById("TelaDesempenho");
-const TelaPerfil = document.getElementById("TelaPerfil");
-
-const formInserirTreinoA = document.getElementById("formInserirTreinoA");
-const formInserirTreinoB = document.getElementById("formInserirTreinoB");
-const formInserirTreinoC = document.getElementById("formInserirTreinoC");
-
-const formSatisfacao = document.getElementById("formSatisfacao");
-const rating0 = document.getElementById("rating-0");
-const rating1 = document.getElementById("rating-1");
-const rating2 = document.getElementById("rating-2");
-const rating3 = document.getElementById("rating-3");
-const rating4 = document.getElementById("rating-4");
-const titleConhecimento = document.getElementById("titleConhecimento")
-
 const btnEditarDetalhesCliente = document.getElementById(
   "btnEditarDetalhesCliente"
 );
@@ -112,11 +114,6 @@ const btnEnviarDetalhesCliente = document.getElementById(
 const btnVoltarTelaCliente = document.getElementById(
   "btnVoltarTelaCliente"
 );
-
-const formDetCliente = document.getElementById("formDetalhesCliente")
-
-const fecharModalRegisterMeta = document.getElementById("fecharModalRegisterMeta")
-const modalRegisterMeta = document.getElementById("modalRegisterMeta")
 
 fecharModalRegisterMeta.onclick = function () {
   modalRegisterMeta.style.display = "none";
@@ -154,7 +151,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 //Função para pegar os dados da api de cep e jogar nos campos
 
-const cliDetCep = document.getElementById("cliDetCep");
 cliDetCep.addEventListener("blur", (e) => {
   cepAutomatico(e.target.value).then((data) => {
     if (data) {
@@ -741,7 +737,6 @@ async function renderDesempenhoChart(cliId, token) {
   });
 }
 
-const formMeta = document.getElementById("formMeta")
 formMeta.addEventListener("submit", async (e) => {
   e.preventDefault();
   const fd = new FormData(e.target)
@@ -753,7 +748,6 @@ formMeta.addEventListener("submit", async (e) => {
   document.getElementById("modalRegisterMeta").style.display = "none"
 })
 
-const reloadBtnDesempenho = document.getElementById("reloadBtnDesempenho")
 reloadBtnDesempenho.addEventListener("click", async (e) => {
   e.preventDefault();
   const boxChartDesempenho = document.getElementById('boxChartDesempenho');
@@ -762,7 +756,6 @@ reloadBtnDesempenho.addEventListener("click", async (e) => {
   await renderDesempenhoChart(dados.cliId, token);
 });
 
-const btnCadastrarMeta = document.getElementById("btnCadastrarMeta")
 btnCadastrarMeta.addEventListener("click", (e) => {
   e.preventDefault();
   document.getElementById("modalRegisterMeta").style.display = "block"
