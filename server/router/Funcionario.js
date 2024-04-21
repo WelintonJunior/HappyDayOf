@@ -15,7 +15,6 @@ router.post("/Funcionario", (req, res) => {
     } else {
       const { io } = require("../app.js");
       const { acao, data, idAcademia } = req.body;
-
       switch (acao) {
         case "RegisterAtendimento":
           // const socket = io();
