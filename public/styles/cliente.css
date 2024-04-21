@@ -30,4 +30,11 @@
     border: 2px solid orange; /* Adiciona uma borda laranja ao emoji selecionado */
   }
   
-  
+  h2{
+    text-align: center;
+    padding-top: 15px;
+  }
+
+  .btn{
+    padding: 150px;
+  }

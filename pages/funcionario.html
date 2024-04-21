@@ -540,12 +540,12 @@
               </div>
               <div class="modal-body">
                 <form id="formCadastrarAtendimento">
-                  <div class="input-group input-group-modal  col-md-4  col-sm-6 mb-3">
-                    <span class="d-flex"> <span class="input-group-text" id="basic-addon1">Selecione o
-                        Cliente</i></span>
-                      <select style="width: 100px;" class="form-select" name="ateIdCliente"
-                        id="selectClienteAtendimento"></select> <br> <br>
-                    </span>
+                 
+
+                  <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Selecione o Cliente</label>
+                    <select  class="form-select" aria-label="Default select example" name="ateIdCliente" 
+                        id="selectClienteAtendimento"></select>
                   </div>
                   <button class="btn btn-success float-right" type="submit">Enviar</button>
                 </form>
@@ -558,13 +558,14 @@
           <div class="modal-dialog d-flex align-items-center justify-content-center" style="height: 80vh;">
             <div class="modal-content">
               <div class="modal-header">
-                <h2>Arquivar Cliente</h2>
+                <h2>Desativar Cliente</h2>
                 <span id="fecharModalArquivarCliente" class="fechar">&times;</span>
               </div>
-              <form id="formArquivarCliente" class="p-5">
-                <br>
-                <h2 class="txt-danger">Tem certeza?</h2> <br> <br>
-                <button class="float-right btn btn-danger" type="submit">Arquivar</button>
+              <form id="formArquivarCliente">
+                  <div class="row">
+                    <p> Tem certeza? </p>
+                  </div>
+                <button class="float-right btn btn-danger m-3" type="submit">Desativar</button>
               </form>
             </div>
           </div>

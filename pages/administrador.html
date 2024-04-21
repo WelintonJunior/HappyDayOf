@@ -105,30 +105,41 @@
         <!-- Tela Dashboard -->
 
         <div id="TelaResumo" style="display: block">
+          <div class="container-md">
+            <div class="row mt-3 flex-item">
 
-          <div class="row mt-3">
-            <div style="border: 1px solid black;" class="col-md-4 col-sm-12 col-12 text-center">
-              <h3>Satisfação Cliente/Funcionário</h3> <span style="cursor: pointer;"
-                id="reloadBtnSatisfacao">Reload</span>
-              <div class="d-flex align-items-center justify-content-center">
-                <canvas width="250" height="250" id="boxChartSatisfacao"></canvas>
+              <div class="dashbordadministrador col-md-5 col-sm-12 col-12 mt-2">
+                <h3 class="mt-3">Satisfação Cliente/Funcionário</h3> 
+                <button type="button" class="btn btn-light cursor: pointer; mt-3 mb-3" id="reloadBtnSatisfacao" > <i class="bi bi-arrow-clockwise"></i>Reload</button>
+                  <div class="d-flex align-items-center justify-content-center mb-3">
+                    <canvas width="250" height="250" id="boxChartSatisfacao"></canvas>
+                  </div>
               </div>
-            </div>
-            <div style="border: 1px solid black;" class="col-md-4 col-sm-12 col-12 text-center">
-              <h3>Atendimentos Por Mês</h3> <span style="cursor: pointer;"
-                id="reloadBtnProdutividade">Reload</span>
-              <div class="d-flex align-items-center justify-content-center">
-                <canvas width="250" height="250" id="boxChartProdutividade"></canvas>
+
+              <div s class="dashbordadministrador col-md-5 col-sm-12 col-12 mt-2">
+                <h3 class="mt-3">Atendimentos por Mês</h3>  
+                <button type="button" class="btn btn-light cursor: pointer; mt-3 mb-3"  id="reloadBtnProdutividade" > <i class="bi bi-arrow-clockwise"></i>Reload</button>
+                
+                <div class="d-flex align-items-center justify-content-center">
+                  <canvas width="250" height="250" id="boxChartProdutividade"></canvas>
+                </div>
               </div>
-            </div>
-            <div style="border: 1px solid black;" class="col-md-4 col-sm-12 col-12 text-center">
-              <h3>Atendimentos Por Turnos</h3> <span style="cursor: pointer;"
-                id="reloadBtnAtendimento">Reload</span>
-              <div class="d-flex align-items-center justify-content-center">
-                <canvas width="250" height="250" id="boxChartAtendimento"></canvas>
+
+              <div  class="dashbordadministrador col-md-10 col-sm-12 col-12 mt-2">
+                <h3 class="mt-3">Atendimentos por turnos</h3>
+                
+
+                <button type="button" class="btn btn-light cursor: pointer; mt-3 mb-3"  id="reloadBtnAtendimento" > <i class="bi bi-arrow-clockwise"></i>Reload</button>
+
+                <div class="d-flex align-items-center justify-content-center">
+                  <canvas width="250" height="250" id="boxChartAtendimento"></canvas>
+                </div>
               </div>
+
             </div>
           </div>
+
+
         </div>
 
 
