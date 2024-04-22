@@ -3,6 +3,8 @@
 const clienteServices = new ClienteServices();
 let dados = [];
 let token = "";
+let tela = "";
+
 //Verifica se está logado
 try {
   //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
@@ -16,6 +18,7 @@ try {
 } catch (err) {
   clienteServices.login.handleAcessoNegado();
 }
+
 const idAcademia = dados.cliIdAcad;
 
 const TEMPO_EXPIRACAO = 3600 * 1000;
@@ -28,32 +31,88 @@ const logoutInterval = setTimeout(async () => {
   }
 }, (TEMPO_EXPIRACAO) + 1500);
 
+
+//Algo parecido com isso para implementar refresh tokens
+// const TEMPO_EXPIRACAO = 3600 * 1000; // 1 hora
+// const INTERVALO_VERIFICACAO = 5 * 60 * 1000; // 5 minutos
+
+// // Função para verificar e renovar o token
+// const verificarERenovarToken = async () => {
+//   try {
+//     const result = await clienteServices.VerificarSessao(token);
+//     if (result === "Sessão expirada faça login novamente") {
+//       // Tentar renovar o token com refresh token
+//       const novoToken = await clienteServices.renovarToken(refreshToken);
+//       if (novoToken) {
+//         token = novoToken; // Atualizar o token de acesso
+//       } else {
+//         alert("Sessão expirada. Por favor, faça login novamente.");
+//         clienteServices.login.handleLogout();
+//       }
+//     }
+//   } catch (error) {
+//     console.error("Erro ao verificar ou renovar o token", error);
+//   }
+// };
+
+// // Configurar intervalo para verificar o token
+// setInterval(verificarERenovarToken, INTERVALO_VERIFICACAO);
+
+// // Configurar timeout para eventual logout se algo falhar
+// setTimeout(() => {
+//   alert("Sessão expirada. Por favor, faça login novamente.");
+//   clienteServices.login.handleLogout();
+// }, TEMPO_EXPIRACAO + 1500);
+
+const btnFicha = document.getElementById("btnFicha");
+const btnDesempenho = document.getElementById("btnDesempenho");
+const btnPerfil = document.getElementById("btnPerfil");
+const TelaFicha = document.getElementById("TelaFicha");
+const TelaDesempenho = document.getElementById("TelaDesempenho");
+const TelaPerfil = document.getElementById("TelaPerfil");
+const formInserirTreinoA = document.getElementById("formInserirTreinoA");
+const formInserirTreinoB = document.getElementById("formInserirTreinoB");
+const formInserirTreinoC = document.getElementById("formInserirTreinoC");
+const formSatisfacao = document.getElementById("formSatisfacao");
+const rating0 = document.getElementById("rating-0");
+const rating1 = document.getElementById("rating-1");
+const rating2 = document.getElementById("rating-2");
+const rating3 = document.getElementById("rating-3");
+const rating4 = document.getElementById("rating-4");
+const titleConhecimento = document.getElementById("titleConhecimento")
+const modalSatisfacao = document.getElementById("modalSatisfacao")
+const formDetCliente = document.getElementById("formDetalhesCliente")
+const fecharModalRegisterMeta = document.getElementById("fecharModalRegisterMeta")
+const modalRegisterMeta = document.getElementById("modalRegisterMeta")
+const cliDetCep = document.getElementById("cliDetCep");
+const reloadBtnDesempenho = document.getElementById("reloadBtnDesempenho")
+const btnCadastrarMeta = document.getElementById("btnCadastrarMeta")
+const formMeta = document.getElementById("formMeta")
+
 //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
 
 document.addEventListener("DOMContentLoaded", async function () {
   clienteServices.VerificarSessao(token);
-  const result = await clienteServices.ReadAcademia(idAcademia);
+  const result = await clienteServices.ReadAcademia(idAcademia, token);
   document.getElementById("titleAcad").innerHTML = result.acaNome;
   document.getElementById(
     "cliInfo"
   ).innerHTML = `Olá Cliente: ${dados.cliNome} da Academia: ${result.acaNome}`;
   const dateNow = getFormattedDateTime();
   await UpdateStatusAtendimento(idAcademia, dados.cliId, dateNow)
-  const StatusSatisfacao = await clienteServices.VerificarAtendimento(idAcademia, dados.cliId)
-  await VerificarSatisfacaoAtendimento(StatusSatisfacao, null, idAcademia, dados.cliId)
+  const StatusSatisfacao = await clienteServices.VerificarAtendimento(idAcademia, dados.cliId, token)
+  await VerificarSatisfacaoAtendimento(StatusSatisfacao, null, idAcademia, dados.cliId, token)
   clienteServices.ConnectIO();
 });
 
 async function UpdateStatusAtendimento(idAcademia, cliId, dateNow) {
-  const isAtendimento = await clienteServices.ReadStatusAtendimento(idAcademia, cliId, dateNow)
+  const isAtendimento = await clienteServices.ReadStatusAtendimento(idAcademia, cliId, dateNow, token)
   document.getElementById("isAtendimento").innerHTML = isAtendimento ? "<h4>Em Atendimento</h4>" : "";
 }
 
-let modalSatisfacao = document.getElementById("modalSatisfacao")
-
-async function VerificarSatisfacaoAtendimento(StatusSatisfacao, dateNow, idAcademia, cliId) {
+async function VerificarSatisfacaoAtendimento(StatusSatisfacao, dateNow, idAcademia, cliId, token) {
   if (StatusSatisfacao[0]) {
-    const ateInfo = await clienteServices.ReadAtendimentoInfo(StatusSatisfacao[0].satIdAtendimento)
+    const ateInfo = await clienteServices.ReadAtendimentoInfo(StatusSatisfacao[0].satIdAtendimento, token)
     const satText = document.getElementById("satText");
     modalSatisfacao.style.display = "block"
     document.getElementById("satIdSatisfacao").value = StatusSatisfacao[0].satId
@@ -64,7 +123,7 @@ async function VerificarSatisfacaoAtendimento(StatusSatisfacao, dateNow, idAcade
       date.getFullYear();
     satText.innerHTML = `Atendimento que se encerrou às ${horas} do dia ${dia}`;
   } else if (StatusSatisfacao) {
-    const ateInfo = await clienteServices.ReadAtendimentoInfo(StatusSatisfacao.data.ateId)
+    const ateInfo = await clienteServices.ReadAtendimentoInfo(StatusSatisfacao.data.ateId, token)
     const satText = document.getElementById("satText");
     modalSatisfacao.style.display = "block"
     document.getElementById("satIdSatisfacao").value = StatusSatisfacao[0].satId
@@ -77,32 +136,6 @@ async function VerificarSatisfacaoAtendimento(StatusSatisfacao, dateNow, idAcade
   }
 }
 
-
-let tela = "";
-
-//Declara os botoes da nav laterais
-const btnFicha = document.getElementById("btnFicha");
-const btnDesempenho = document.getElementById("btnDesempenho");
-const btnPerfil = document.getElementById("btnPerfil");
-
-
-//Declara as telas que são mostradas após clicar em algum botao
-const TelaFicha = document.getElementById("TelaFicha");
-const TelaDesempenho = document.getElementById("TelaDesempenho");
-const TelaPerfil = document.getElementById("TelaPerfil");
-
-const formInserirTreinoA = document.getElementById("formInserirTreinoA");
-const formInserirTreinoB = document.getElementById("formInserirTreinoB");
-const formInserirTreinoC = document.getElementById("formInserirTreinoC");
-
-const formSatisfacao = document.getElementById("formSatisfacao");
-const rating0 = document.getElementById("rating-0");
-const rating1 = document.getElementById("rating-1");
-const rating2 = document.getElementById("rating-2");
-const rating3 = document.getElementById("rating-3");
-const rating4 = document.getElementById("rating-4");
-const titleConhecimento = document.getElementById("titleConhecimento")
-
 const btnEditarDetalhesCliente = document.getElementById(
   "btnEditarDetalhesCliente"
 );
@@ -112,11 +145,6 @@ const btnEnviarDetalhesCliente = document.getElementById(
 const btnVoltarTelaCliente = document.getElementById(
   "btnVoltarTelaCliente"
 );
-
-const formDetCliente = document.getElementById("formDetalhesCliente")
-
-const fecharModalRegisterMeta = document.getElementById("fecharModalRegisterMeta")
-const modalRegisterMeta = document.getElementById("modalRegisterMeta")
 
 fecharModalRegisterMeta.onclick = function () {
   modalRegisterMeta.style.display = "none";
@@ -149,12 +177,11 @@ btnPerfil.addEventListener("click", (e) => {
 //Ver Clientes/Funcionarios
 document.addEventListener("DOMContentLoaded", async function () {
   await MostrarTelaCriarFicha(dados.cliId, token)
-  await renderDesempenhoChart(dados.cliId)
+  await renderDesempenhoChart(dados.cliId, token)
 });
 
 //Função para pegar os dados da api de cep e jogar nos campos
 
-const cliDetCep = document.getElementById("cliDetCep");
 cliDetCep.addEventListener("blur", (e) => {
   cepAutomatico(e.target.value).then((data) => {
     if (data) {
@@ -167,76 +194,6 @@ cliDetCep.addEventListener("blur", (e) => {
     }
   });
 });
-
-
-//Atualizar a A,B e C
-async function UpdateCampoFichaCliente(item, campo, celula, cliId, token) {
-  if (celula.querySelector("input")) return;
-
-  let valorAnterior = celula.textContent;
-
-  let input = document.createElement("input");
-  input.setAttribute("placeholder", item[campo]);
-
-  input.value = valorAnterior;
-
-  celula.innerHTML = "";
-  celula.appendChild(input);
-
-  input.focus();
-
-  input.addEventListener("blur", async (e) => {
-    let novoValor = input.value;
-    const detId = celula.getAttribute("data-detid");
-    const campoEditado = celula.getAttribute("data-campo");
-
-    const data = {};
-    data.detId = detId;
-    data.detCampo = campoEditado;
-    data.valor = novoValor;
-
-    if (novoValor == "") {
-      await clienteServices.DeleteCampoFicha(data, token);
-      await UpdateClienteFichaTreinoA(cliId, token);
-      await UpdateClienteFichaTreinoB(cliId, token);
-      await UpdateClienteFichaTreinoC(cliId, token);
-      // Após a exclusão, verifique se não há mais campos na tabela
-      if (celula.parentElement.parentElement.querySelectorAll('td').length === 1) {
-        // Se não houver mais campos, remova a tabela
-        celula.parentElement.parentElement.parentElement.remove();
-      }
-    } else {
-      await clienteServices.UpdateCampoFicha(data, token);
-    }
-    celula.textContent = novoValor;
-  });
-  input.addEventListener("keypress", async (e) => {
-    if (e.key === "Enter") {
-      let novoValor = input.value;
-      const detId = celula.getAttribute("data-detid");
-      const campoEditado = celula.getAttribute("data-campo");
-      const data = {};
-      data.detId = detId;
-      data.detCampo = campoEditado;
-      data.valor = novoValor;
-
-      if (novoValor == "") {
-        await clienteServices.DeleteCampoFicha(data, token);
-        await UpdateClienteFichaTreinoA(cliId, token);
-        await UpdateClienteFichaTreinoB(cliId, token);
-        await UpdateClienteFichaTreinoC(cliId, token);
-        // Após a exclusão, verifique se não há mais campos na tabela
-        if (celula.parentElement.parentElement.querySelectorAll('td').length === 4) {
-          // Se não houver mais campos, remova a tabela
-          celula.parentElement.parentElement.parentElement.remove();
-        }
-      } else {
-        await clienteServices.UpdateCampoFicha(data, token);
-      }
-      celula.textContent = novoValor;
-    }
-  });
-}
 
 async function UpdateClienteFichaTreinoA(cliId, token) {
   const result = await clienteServices.ReadFichaDetalhes(cliId, "A", token);
@@ -275,11 +232,6 @@ async function UpdateClienteFichaTreinoA(cliId, token) {
           celula.innerHTML = item[campo];
           celula.setAttribute("data-detId", item.detId);
           celula.setAttribute("data-campo", campo);
-
-          //Pra celular não funciona(LEMBRANDO EU MESMO) talvez mudar apenas para click
-          celula.addEventListener("click", async (e) => {
-            await UpdateCampoFichaCliente(item, campo, celula, cliId, token);
-          });
         }
       });
     });
@@ -327,9 +279,6 @@ async function UpdateClienteFichaTreinoB(cliId, token) {
           celula.setAttribute("data-detId", item.detId);
           celula.setAttribute("data-campo", campo);
 
-          celula.addEventListener("click", async (e) => {
-            await UpdateCampoFichaCliente(item, campo, celula, cliId, token);
-          });
         }
       });
     });
@@ -377,9 +326,6 @@ async function UpdateClienteFichaTreinoC(cliId, token) {
           celula.setAttribute("data-detId", item.detId);
           celula.setAttribute("data-campo", campo);
 
-          celula.addEventListener("click", async (e) => {
-            await UpdateCampoFichaCliente(item, campo, celula, cliId, token);
-          });
         }
       });
     });
@@ -404,24 +350,12 @@ async function MostrarTelaCriarFicha(cliId, token) {
   if (result) {
     const dadosCliente = await clienteServices.ReadClienteDetalhes(
       idAcademia,
-      result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente
+      result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente, token
     );
     const dadosFuncionario = await clienteServices.ReadFuncionarioDetalhes(
       idAcademia,
-      result.length > 0 ? result[0].ficIdFuncionario : result.ficIdFuncionario
+      result.length > 0 ? result[0].ficIdFuncionario : result.ficIdFuncionario, token
     );
-    document.getElementById("idFichaTreinoA").value =
-      result.length > 0 ? result[0].ficId : result.ficId;
-    document.getElementById("idFichaTreinoB").value =
-      result.length > 0 ? result[0].ficId : result.ficId;
-    document.getElementById("idFichaTreinoC").value =
-      result.length > 0 ? result[0].ficId : result.ficId;
-    document.getElementById("cliIdFichaTreinoA").value =
-      result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente;
-    document.getElementById("cliIdFichaTreinoB").value =
-      result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente;
-    document.getElementById("cliIdFichaTreinoC").value =
-      result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente;
     document.getElementById("cliNomeCriarFicha").innerHTML = dadosCliente.cliNome;
     document.getElementById("funNomeCriarFicha").innerHTML =
       dadosFuncionario.funNome;
@@ -453,59 +387,10 @@ async function MostrarTelaCriarFicha(cliId, token) {
   }
 }
 
-
-formInserirTreinoA.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const fd = new FormData(e.target);
-  const data = Object.fromEntries(fd.entries());
-  const cliIdFichaTreinoA = document.getElementById("cliIdFichaTreinoA").value;
-  const idFicha = document.getElementById("idFichaTreinoA").value;
-  data.detIdFicha = idFicha;
-  data.detTreino = "A";
-  const result = await clienteServices.RegisterDetalhesFicha(data, token);
-  await UpdateClienteFichaTreinoA(cliIdFichaTreinoA, token);
-  formInserirTreinoA.querySelector(`[name="detVariacao"]`).value = "";
-  formInserirTreinoA.querySelector(`[name="detSerie"]`).value = "";
-  formInserirTreinoA.querySelector(`[name="detRepeticao"]`).value = "";
-  formInserirTreinoA.querySelector(`[name="detCarga"]`).value = "";
-});
-
-formInserirTreinoB.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const fd = new FormData(e.target);
-  const data = Object.fromEntries(fd.entries());
-  const cliIdFichaTreinoB = document.getElementById("cliIdFichaTreinoB").value;
-  const idFicha = document.getElementById("idFichaTreinoB").value;
-  data.detIdFicha = idFicha;
-  data.detTreino = "B";
-  const result = await clienteServices.RegisterDetalhesFicha(data, token);
-  await UpdateClienteFichaTreinoB(cliIdFichaTreinoB, token);
-  formInserirTreinoB.querySelector(`[name="detVariacao"]`).value = "";
-  formInserirTreinoB.querySelector(`[name="detSerie"]`).value = "";
-  formInserirTreinoB.querySelector(`[name="detRepeticao"]`).value = "";
-  formInserirTreinoB.querySelector(`[name="detCarga"]`).value = "";
-});
-
-formInserirTreinoC.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const fd = new FormData(e.target);
-  const data = Object.fromEntries(fd.entries());
-  const cliIdFichaTreinoC = document.getElementById("cliIdFichaTreinoC").value;
-  const idFicha = document.getElementById("idFichaTreinoC").value;
-  data.detIdFicha = idFicha;
-  data.detTreino = "C";
-  const result = await clienteServices.RegisterDetalhesFicha(data, token);
-  await UpdateClienteFichaTreinoC(cliIdFichaTreinoC, token);
-  formInserirTreinoC.querySelector(`[name="detVariacao"]`).value = "";
-  formInserirTreinoC.querySelector(`[name="detSerie"]`).value = "";
-  formInserirTreinoC.querySelector(`[name="detRepeticao"]`).value = "";
-  formInserirTreinoC.querySelector(`[name="detCarga"]`).value = "";
-});
-
 //Função de mostrar a tela de detalhes do cliente
 
 async function MostrarTelaDetalhesCliente(cliId, token) {
-  const result = await clienteServices.ReadClienteDetalhes(idAcademia, cliId);
+  const result = await clienteServices.ReadClienteDetalhes(idAcademia, cliId, token);
   MostrarTela("TelaPerfil", token);
 
   Object.keys(result).forEach((key) => {
@@ -551,7 +436,7 @@ btnEnviarDetalhesCliente.addEventListener("click", async (e) => {
   } else if (data.cliEmail === "") {
     alert("O Email não pode ser vazio")
   }
-  const result = await clienteServices.UpdateClienteDetalhes(data);
+  const result = await clienteServices.UpdateClienteDetalhes(data, token);
   var inputs = formDetCliente.querySelectorAll('input, select, textarea');
   inputs.forEach(function (input) {
     input.setAttribute('disabled', 'disabled');
@@ -569,27 +454,27 @@ formSatisfacao.addEventListener("submit", async (e) => {
   switch (titleConhecimento.innerHTML) {
     case "Conhecimento":
       data.modulo = titleConhecimento.innerHTML
-      await clienteServices.UpdateSatisfacao(data)
+      await clienteServices.UpdateSatisfacao(data, token)
       titleConhecimento.innerHTML = "Clareza"
       break;
     case "Clareza":
       data.modulo = titleConhecimento.innerHTML
-      await clienteServices.UpdateSatisfacao(data);
+      await clienteServices.UpdateSatisfacao(data, token);
       titleConhecimento.innerHTML = "Pró Atividade"
       break;
     case "Pró Atividade":
       data.modulo = titleConhecimento.innerHTML
-      await clienteServices.UpdateSatisfacao(data);
+      await clienteServices.UpdateSatisfacao(data, token);
       titleConhecimento.innerHTML = "Disponibilidade"
       break;
     case "Disponibilidade":
       data.modulo = titleConhecimento.innerHTML
-      await clienteServices.UpdateSatisfacao(data);
+      await clienteServices.UpdateSatisfacao(data, token);
       titleConhecimento.innerHTML = "Segurança"
       break;
     case "Segurança":
       data.modulo = titleConhecimento.innerHTML
-      await clienteServices.UpdateSatisfacao(data);
+      await clienteServices.UpdateSatisfacao(data, token);
       modalSatisfacao.style.display = "none"
       titleConhecimento.innerHTML = "Conhecimento"
       mostrarModalObrigado();
@@ -602,9 +487,6 @@ async function MostrarTela(tela, token) {
   // document.getElementById("listaTreinoA").innerHTML = "";
   // document.getElementById("listaTreinoB").innerHTML = "";
   // document.getElementById("listaTreinoC").innerHTML = "";
-  formInserirTreinoA.reset();
-  formInserirTreinoB.reset();
-  formInserirTreinoC.reset();
   switch (tela) {
     case "TelaFicha":
       btnFicha.firstChild.parentNode.style.backgroundColor = "#FC0404";
@@ -671,9 +553,9 @@ function mostrarModalObrigado() {
   }, 1000);
 }
 
-async function renderDesempenhoChart(cliId) {
-  const desempenhos = await clienteServices.ReadDesempenho(cliId);
-  const meta = await clienteServices.ReadMeta(cliId)
+async function renderDesempenhoChart(cliId, token) {
+  const desempenhos = await clienteServices.ReadDesempenho(cliId, token);
+  const meta = await clienteServices.ReadMeta(cliId, token)
   const data = new Date(meta.metDataCumprir);
   const dia = data.getDate();
   const mes = data.toLocaleString('default', { month: 'short' });
@@ -741,28 +623,25 @@ async function renderDesempenhoChart(cliId) {
   });
 }
 
-const formMeta = document.getElementById("formMeta")
 formMeta.addEventListener("submit", async (e) => {
   e.preventDefault();
   const fd = new FormData(e.target)
   const data = Object.fromEntries(fd.entries())
   data.cliId = dados.cliId
-  await clienteServices.UpdateMetaAnteriores(dados.cliId)
-  await clienteServices.RegisterMeta(data)
-  await renderDesempenhoChart(dados.cliId);
+  await clienteServices.UpdateMetaAnteriores(dados.cliId, token)
+  await clienteServices.RegisterMeta(data, token)
+  await renderDesempenhoChart(dados.cliId, token);
   document.getElementById("modalRegisterMeta").style.display = "none"
 })
 
-const reloadBtnDesempenho = document.getElementById("reloadBtnDesempenho")
 reloadBtnDesempenho.addEventListener("click", async (e) => {
   e.preventDefault();
   const boxChartDesempenho = document.getElementById('boxChartDesempenho');
 
   boxChartDesempenho.innerHTML = '';
-  await renderDesempenhoChart(dados.cliId);
+  await renderDesempenhoChart(dados.cliId, token);
 });
 
-const btnCadastrarMeta = document.getElementById("btnCadastrarMeta")
 btnCadastrarMeta.addEventListener("click", (e) => {
   e.preventDefault();
   document.getElementById("modalRegisterMeta").style.display = "block"

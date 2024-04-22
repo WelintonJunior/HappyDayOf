@@ -1,6 +1,8 @@
 const admServices = new AdministradorServices();
 let dados = [];
 let token = ""
+let tela = "";
+
 //Verifica se está logado
 try {
   //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
@@ -18,12 +20,7 @@ try {
 
 //Pega o id da Academia de acordo com o usuario logado no momento
 const idAcademia = dados.funIdAcad;
-let tela = "";
 //Declara os botoes da nav laterais
-const btnResumo = document.getElementById("btnResumo");
-const btnCliente = document.getElementById("btnCliente");
-const btnFicha = document.getElementById("btnFicha");
-const btnFuncionario = document.getElementById("btnFuncionario");
 
 const TEMPO_EXPIRACAO = 3600 * 8000;
 
@@ -35,19 +32,10 @@ const logoutInterval = setTimeout(async () => {
   }
 }, (TEMPO_EXPIRACAO) + 1500);
 
-
-//Dados de Boas vindas
-
-document.addEventListener("DOMContentLoaded", async function () {
-  admServices.VerificarSessao(token)
-  const result = await admServices.ReadAcademia(idAcademia);
-  document.getElementById("titleAcad").innerHTML = result.acaNome;
-  document.getElementById(
-    "admInfo"
-  ).innerHTML = `Olá Administrador: ${dados.funNome} da Academia: ${result.acaNome}`;
-});
-
-//Declara as telas que são mostradas após clicar em algum botao
+const btnResumo = document.getElementById("btnResumo");
+const btnCliente = document.getElementById("btnCliente");
+const btnFicha = document.getElementById("btnFicha");
+const btnFuncionario = document.getElementById("btnFuncionario");
 const TelaResumo = document.getElementById("TelaResumo");
 const TelaFicha = document.getElementById("TelaFicha");
 const TelaClientes = document.getElementById("TelaClientes");
@@ -56,8 +44,6 @@ const TelaFuncionarios = document.getElementById("TelaFuncionarios");
 const TelaDetalhesFuncionarios = document.getElementById(
   "TelaDetalhesFuncionarios"
 );
-
-//Declara botoes para uso posterior
 const btnEditarDetalhesFuncionario = document.getElementById(
   "btnEditarDetalhesFuncionario"
 );
@@ -75,16 +61,15 @@ const btnArchiveFuncionario = document.getElementById("btnArchiveFuncionario");
 const btnVoltarTelaFuncionario = document.getElementById("btnVoltarTelaFuncionario");
 const btnVoltarTelaCliente = document.getElementById("btnVoltarTelaCliente");
 const btnVoltarTelaFicha = document.getElementById("btnVoltarTelaFicha");
-
-//Declara Formularios
 const formDetCliente = document.getElementById("formDetalhesCliente");
 const formDetFuncionario = document.getElementById("formDetalhesFuncionario");
 const formCriarBaseFicha = document.getElementById("formCriarBaseFicha");
 const formInserirTreinoA = document.getElementById("formInserirTreinoA");
 const formInserirTreinoB = document.getElementById("formInserirTreinoB");
 const formInserirTreinoC = document.getElementById("formInserirTreinoC");
-
-//Declara Modal
+const formArquivarFuncionario = document.getElementById(
+  "formArquivarFuncionario"
+);
 const modalCadastrarCliente = document.getElementById("modalCadastrarCliente");
 const modalCriarBaseFicha = document.getElementById("modalCriarBaseFicha");
 const modalCadastrarFuncionario = document.getElementById(
@@ -110,6 +95,20 @@ const fecharModalArquivarFuncionario = document.getElementById(
   "fecharModalArquivarFuncionario"
 );
 
+let CheckBoxRestricoes = document.getElementById("ficRestricoes");
+
+//Dados de Boas vindas
+
+document.addEventListener("DOMContentLoaded", async function () {
+  admServices.VerificarSessao(token)
+  const result = await admServices.ReadAcademia(idAcademia, token);
+  document.getElementById("titleAcad").innerHTML = result.acaNome;
+  document.getElementById(
+    "admInfo"
+  ).innerHTML = `Olá Administrador: ${dados.funNome} da Academia: ${result.acaNome}`;
+});
+
+
 //btnResumo
 btnResumo.firstChild.parentNode.style.backgroundColor = "#FC0404";
 btnResumo.addEventListener("click", (e) => {
@@ -134,10 +133,10 @@ btnFuncionario.addEventListener("click", (e) => {
 
 //Ver Clientes/Funcionarios
 document.addEventListener("DOMContentLoaded", async function () {
-  await UpdateListaCliente();
-  await UpdateListaFuncionario();
+  await UpdateListaCliente(token);
+  await UpdateListaFuncionario(token);
   await UpdateListaClienteFicha(token);
-  await PreencherSelectProfessores();
+  await PreencherSelectProfessores(token);
 });
 
 //Abrir Modal Cliente
@@ -299,9 +298,9 @@ document
       return;
     }
     data.cliDataCmc = await getFormattedDateTime();
-    await admServices.RegisterCliente(data, idAcademia);
+    await admServices.RegisterCliente(data, idAcademia, token);
     await UpdateListaClienteFicha(token);
-    await UpdateListaCliente();
+    await UpdateListaCliente(token);
     modalCadastrarCliente.style.display = "none";
     e.target.reset();
   });
@@ -319,8 +318,8 @@ document
       return;
     }
     data.funDataCmc = await getFormattedDateTime();
-    await admServices.RegisterFuncionario(data, idAcademia);
-    await UpdateListaFuncionario();
+    await admServices.RegisterFuncionario(data, idAcademia, token);
+    await UpdateListaFuncionario(token);
     await UpdateListaClienteFicha(token);
     modalCadastrarFuncionario.style.display = "none";
     e.target.reset();
@@ -438,8 +437,8 @@ function MostrarTela(tela) {
 
 //Atualizar a Lista de Clientes
 
-async function UpdateListaCliente() {
-  const result = await admServices.ReadCliente(idAcademia);
+async function UpdateListaCliente(token) {
+  const result = await admServices.ReadCliente(idAcademia, token);
   //Colocar em alguma lista
   const containerTabela = document.getElementById("tableClientes");
   const tabelaExistente = containerTabela.querySelector("table");
@@ -489,7 +488,7 @@ async function UpdateListaCliente() {
       botaoDetalhes.classList.add("btn-info")
       botaoDetalhes.innerHTML = '<i class="bi bi-search"></i>';
       botaoDetalhes.addEventListener("click", function () {
-        MostrarTelaDetalhesCliente(item.cliId);
+        MostrarTelaDetalhesCliente(item.cliId, token);
       });
       celulaBotao.appendChild(botaoDetalhes);
     });
@@ -497,7 +496,7 @@ async function UpdateListaCliente() {
 
   document.getElementById("tableClientes").appendChild(tabela);
 
-  const planos = await admServices.ReadPlanos(idAcademia);
+  const planos = await admServices.ReadPlanos(idAcademia, token);
   for (i = 0; i < planos.length; i++) {
     document.getElementById(
       "cliPlano"
@@ -507,8 +506,8 @@ async function UpdateListaCliente() {
 
 //Atualizar a Lista de Funcionarios
 
-async function UpdateListaFuncionario() {
-  const result = await admServices.ReadFuncionario(1, idAcademia);
+async function UpdateListaFuncionario(token) {
+  const result = await admServices.ReadFuncionario(1, idAcademia, token);
   const containerTabela = document.getElementById("tableFuncionarios");
   const tabelaExistente = containerTabela.querySelector("table");
 
@@ -871,13 +870,13 @@ btnVoltarTelaFicha.addEventListener("click", async (e) => {
 
 function Detalhes(linha) {
   const funId = linha.querySelector("[data-id]").getAttribute("data-id");
-  MostrarTelaDetalhesFuncionario(funId);
+  MostrarTelaDetalhesFuncionario(funId, token);
 }
 
 //Função de mostrar a tela de detalhes do cliente
 
-async function MostrarTelaDetalhesCliente(cliId) {
-  const result = await admServices.ReadClienteDetalhes(idAcademia, cliId);
+async function MostrarTelaDetalhesCliente(cliId, token) {
+  const result = await admServices.ReadClienteDetalhes(idAcademia, cliId, token);
   MostrarTela();
   TelaDetalhesClientes.style.display = "block";
 
@@ -918,7 +917,7 @@ btnEnviarDetalhesCliente.addEventListener("click", async (e) => {
     alert("O nome não pode conter números");
     return;
   }
-  const result = await admServices.UpdateClienteDetalhes(data);
+  const result = await admServices.UpdateClienteDetalhes(data, token);
   Object.keys(result).forEach((key) => {
     let input = formDetCliente.querySelector(`[name="${key}"]`);
     if (input) {
@@ -926,9 +925,9 @@ btnEnviarDetalhesCliente.addEventListener("click", async (e) => {
     }
   });
   formDetCliente.reset();
-  await UpdateListaClienteFicha();
+  await UpdateListaClienteFicha(token);
   // await UpdateListaClienteFicha();
-  await UpdateListaCliente();
+  await UpdateListaCliente(token);
   MostrarTela("TelaClientes");
 });
 
@@ -943,7 +942,7 @@ const formArquivarCliente = document.getElementById("formArquivarCliente");
 
 btnVoltarTelaCliente.addEventListener("click", async (e) => {
   e.preventDefault();
-  await UpdateListaCliente();
+  await UpdateListaCliente(token);
   MostrarTela("TelaClientes");
 })
 
@@ -952,17 +951,17 @@ btnVoltarTelaCliente.addEventListener("click", async (e) => {
 formArquivarCliente.addEventListener("submit", async (e) => {
   e.preventDefault();
   let cliId = document.getElementById("cliDetId").value;
-  await admServices.ArchiveCliente(cliId);
+  await admServices.ArchiveCliente(cliId, token);
   formDetCliente.reset();
   modalArquivarCliente.style.display = "none";
-  await UpdateListaCliente();
+  await UpdateListaCliente(token);
   MostrarTela("TelaClientes");
 });
 
 //Mostra a Tela de Detalhes do funcionario
 
-async function MostrarTelaDetalhesFuncionario(funId) {
-  const result = await admServices.ReadFuncionarioDetalhes(idAcademia, funId);
+async function MostrarTelaDetalhesFuncionario(funId, token) {
+  const result = await admServices.ReadFuncionarioDetalhes(idAcademia, funId, token);
   MostrarTela();
   TelaDetalhesFuncionarios.style.display = "block";
 
@@ -1004,7 +1003,7 @@ btnEnviarDetalhesFuncionario.addEventListener("click", async (e) => {
     alert("O nome não pode conter números");
     return;
   }
-  const result = await admServices.UpdateFuncionarioDetalhes(data);
+  const result = await admServices.UpdateFuncionarioDetalhes(data, token);
   Object.keys(result).forEach((key) => {
     let input = formDetFuncionario.querySelector(`[name="${key}"]`);
     if (input) {
@@ -1012,9 +1011,9 @@ btnEnviarDetalhesFuncionario.addEventListener("click", async (e) => {
     }
   });
   formDetFuncionario.reset();
-  await UpdateListaFuncionario();
-  await UpdateListaClienteFicha();
-  await PreencherSelectProfessores();
+  await UpdateListaFuncionario(token);
+  await UpdateListaClienteFicha(token);
+  await PreencherSelectProfessores(token);
   MostrarTela("TelaFuncionarios");
 });
 
@@ -1027,25 +1026,19 @@ btnArchiveFuncionario.addEventListener("click", (e) => {
 
 btnVoltarTelaFuncionario.addEventListener("click", async (e) => {
   e.preventDefault();
-  await UpdateListaFuncionario();
+  await UpdateListaFuncionario(token);
   MostrarTela("TelaFuncionarios");
 })
-
-//Função de arquivar o cliente
-
-const formArquivarFuncionario = document.getElementById(
-  "formArquivarFuncionario"
-);
 
 //Função de arquivamento
 
 formArquivarFuncionario.addEventListener("submit", async (e) => {
   e.preventDefault();
   let funId = document.getElementById("funDetId").value;
-  await admServices.ArchiveFuncionario(funId);
+  await admServices.ArchiveFuncionario(funId, token);
   formDetFuncionario.reset();
   modalArquivarFuncionario.style.display = "none";
-  await UpdateListaFuncionario();
+  await UpdateListaFuncionario(token);
   MostrarTela("TelaFuncionarios");
 });
 
@@ -1058,7 +1051,6 @@ document.getElementById("btnLogout").addEventListener("click", (e) => {
 
 //CHECKBOX POSSUI RESTRIÇÕES
 
-let CheckBoxRestricoes = document.getElementById("ficRestricoes");
 CheckBoxRestricoes.addEventListener("change", (e) => {
   document.getElementById("ficTipoRestricoes").value = "";
   if (CheckBoxRestricoes.checked) {
@@ -1076,8 +1068,8 @@ formCriarBaseFicha.addEventListener("submit", async (e) => {
   data.ficRestricoes === "on"
     ? (data.ficRestricoes = 1)
     : (data.ficRestricoes = 0);
-  const result = await admServices.RegisterBaseFicha(idAcademia, data);
-  await UpdateListaClienteFicha();
+  const result = await admServices.RegisterBaseFicha(idAcademia, data, token);
+  await UpdateListaClienteFicha(token);
   document.getElementById("modalCriarBaseFicha").style.display = "none";
   MostrarTelaCriarFicha(data.ficCliId);
 });
@@ -1092,11 +1084,11 @@ async function MostrarTelaCriarFicha(cliId, token) {
   const result = await admServices.ReadFichaDetalhesGeral(cliId, token);
   const dadosCliente = await admServices.ReadClienteDetalhes(
     idAcademia,
-    result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente
+    result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente, token
   );
   const dadosFuncionario = await admServices.ReadFuncionarioDetalhes(
     idAcademia,
-    result.length > 0 ? result[0].ficIdFuncionario : result.ficIdFuncionario
+    result.length > 0 ? result[0].ficIdFuncionario : result.ficIdFuncionario, token
   );
   document.getElementById("idFichaTreinoA").value =
     result.length > 0 ? result[0].ficId : result.ficId;
@@ -1138,7 +1130,7 @@ async function MostrarTelaCriarFicha(cliId, token) {
 }
 
 async function PreencherSelectProfessores() {
-  const result = await admServices.ReadFuncionario(1, idAcademia);
+  const result = await admServices.ReadFuncionario(1, idAcademia, token);
   document.getElementById("funFicha").innerHTML = "";
   if (result.length > 0) {
     result.forEach((item) => {

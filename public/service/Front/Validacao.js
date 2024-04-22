@@ -187,11 +187,11 @@ function verificarNumeros(string) {
   }
 }
 
-async function VerificarCpfCadastrado(e, cpf, id, modulo) {
+async function VerificarCpfCadastrado(e, cpf, id, modulo, token) {
   if (cpf !== "") {
     const response = await fetch("/Administrador", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "Authorization": `${token}` },
       body: JSON.stringify({
         data: {
           cpf,
@@ -212,11 +212,11 @@ async function VerificarCpfCadastrado(e, cpf, id, modulo) {
   }
 }
 
-async function VerificarCpfCadastradoGeral(e, cpf, modulo) {
+async function VerificarCpfCadastradoGeral(e, cpf, modulo, token) {
   if (cpf !== "") {
     const response = await fetch("/Administrador", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "Authorization": `${token}` },
       body: JSON.stringify({
         data: {
           cpf,
@@ -236,11 +236,11 @@ async function VerificarCpfCadastradoGeral(e, cpf, modulo) {
   }
 }
 
-async function VerificarEmailCadastrado(e, email, id, modulo) {
+async function VerificarEmailCadastrado(e, email, id, modulo, token) {
   if (email !== "") {
     const response = await fetch("/Administrador", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "Authorization": `${token}`  },
       body: JSON.stringify({
         data: {
           email,
@@ -265,11 +265,11 @@ async function VerificarEmailCadastrado(e, email, id, modulo) {
   }
 }
 
-async function VerificarEmailCadastradoGeral(e, email, modulo) {
+async function VerificarEmailCadastradoGeral(e, email, modulo, token) {
   if (email !== "") {
     const response = await fetch("/Administrador", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "Authorization": `${token}`  },
       body: JSON.stringify({
         data: {
           email,

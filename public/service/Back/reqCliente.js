@@ -6,11 +6,11 @@ class ClienteServices extends FichaServices {
     this.login = new LoginServices();
   }
 
-  async ReadAcademia(idAcademia) {
+  async ReadAcademia(idAcademia, token) {
     try {
       const response = await fetch("/Administrador", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           idAcademia,
           acao: "ReadAcademia",
@@ -24,12 +24,12 @@ class ClienteServices extends FichaServices {
     }
   }
 
-  async ReadFuncionarioDetalhes(idAcademia, funId) {
+  async ReadFuncionarioDetalhes(idAcademia, funId, token) {
     try {
 
       const response = await fetch("/Administrador", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           data: funId,
           idAcademia,
@@ -44,12 +44,12 @@ class ClienteServices extends FichaServices {
     }
   }
 
-  async ReadClienteDetalhes(idAcademia, cliId) {
+  async ReadClienteDetalhes(idAcademia, cliId, token) {
     try {
 
       const response = await fetch("/Administrador", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           data: cliId,
           idAcademia,
@@ -64,12 +64,12 @@ class ClienteServices extends FichaServices {
     }
   }
 
-  async ReadStatusAtendimento(idAcademia, cliId, dateNow) {
+  async ReadStatusAtendimento(idAcademia, cliId, dateNow, token) {
     try {
       let data = { cliId, dateNow }
       const response = await fetch("/Cliente", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           data,
           idAcademia,
@@ -84,12 +84,12 @@ class ClienteServices extends FichaServices {
     }
   }
 
-  async VerificarAtendimento(idAcademia, cliId) {
+  async VerificarAtendimento(idAcademia, cliId, token) {
     try {
       let data = { cliId }
       const response = await fetch("/Cliente", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           data,
           idAcademia,
@@ -104,12 +104,12 @@ class ClienteServices extends FichaServices {
     }
   }
 
-  async ReadAtendimentoInfo(ateId) {
+  async ReadAtendimentoInfo(ateId, token) {
     try {
       let data = { ateId }
       const response = await fetch("/Cliente", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           data,
           acao: "ReadAtendimentoInfo"
@@ -123,11 +123,11 @@ class ClienteServices extends FichaServices {
     }
   }
 
-  async UpdateClienteDetalhes(data) {
+  async UpdateClienteDetalhes(data, token) {
     try {
       const response = await fetch("/Administrador", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           data,
           acao: "UpdateClienteDetalhes",
@@ -141,11 +141,11 @@ class ClienteServices extends FichaServices {
     }
   }
 
-  async UpdateSatisfacao(data) {
+  async UpdateSatisfacao(data, token) {
     try {
       const response = await fetch("/Cliente", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           data,
           acao: "UpdateSatisfacao",
@@ -159,11 +159,11 @@ class ClienteServices extends FichaServices {
     }
   }
 
-  async ReadDesempenho(data) {
+  async ReadDesempenho(data, token) {
     try {
       const response = await fetch("/Cliente", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           data,
           acao: "ReadDesempenho",
@@ -177,10 +177,10 @@ class ClienteServices extends FichaServices {
     }
   }
 
-  async RegisterMeta(data) {
+  async RegisterMeta(data, token) {
     const response = await fetch("/Cliente", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "Authorization": `${token}` },
       body: JSON.stringify({
         data,
         acao: "RegisterMeta"
@@ -190,10 +190,10 @@ class ClienteServices extends FichaServices {
     return result
   }
 
-  async ReadMeta(cliId) {
+  async ReadMeta(cliId, token) {
     const response = await fetch("/Cliente", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "Authorization": `${token}` },
       body: JSON.stringify({
         data: cliId,
         acao: "ReadMeta"
@@ -203,10 +203,10 @@ class ClienteServices extends FichaServices {
     return result[0]
   }
 
-  async UpdateMetaAnteriores(cliId) {
+  async UpdateMetaAnteriores(cliId, token) {
     const response = await fetch("/Cliente", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "Authorization": `${token}` },
       body: JSON.stringify({
         data: cliId,
         acao: "UpdateMetaAnteriores"
@@ -222,14 +222,14 @@ class ClienteServices extends FichaServices {
     socket.on('Atendimento', async (msg) => {
       // console.log(msg.data)
       if (msg.data.ateIdCliente = dados.cliId) {
-        await UpdateStatusAtendimento(msg.idAcademia, msg.data.ateIdCliente, msg.data.dateNow)
+        await UpdateStatusAtendimento(msg.idAcademia, msg.data.ateIdCliente, msg.data.dateNow, token)
       }
     });
 
     socket.on("EncerrarAtendimento", async (msg) => {
       if (msg.data.ateIdCliente = dados.cliId) {
-        const StatusSatisfacao = await clienteServices.VerificarAtendimento(idAcademia, msg.data.ateIdCliente)
-        await VerificarSatisfacaoAtendimento(StatusSatisfacao, msg.data.dateNow, msg.idAcademia, msg.data.ateIdCliente)
+        const StatusSatisfacao = await clienteServices.VerificarAtendimento(idAcademia, msg.data.ateIdCliente, token)
+        await VerificarSatisfacaoAtendimento(StatusSatisfacao, msg.data.dateNow, msg.idAcademia, msg.data.ateIdCliente, token)
       }
     })
   }
@@ -245,10 +245,10 @@ cliDetCelular.addEventListener("input", () => FormatarCelular(cliDetCelular));
 cliDetCpf.addEventListener("input", () => HandleInputCpf(cliDetCpf));
 cliDetCpf.addEventListener("blur", (e) => {
   const cliDetId = document.getElementById("cliDetId").value
-  VerificarCpfCadastrado(e, e.target.value, cliDetId, "cli")
+  VerificarCpfCadastrado(e, e.target.value, cliDetId, "cli", token)
 });
 cliDetCpf.addEventListener("blur", (e) => validarCpfCadastrado(e, e.target.value));
 cliDetEmail.addEventListener("blur", (e) => {
   const cliDetId = document.getElementById("cliDetId").value
-  VerificarEmailCadastrado(e, e.target.value, cliDetId, "cli")
+  VerificarEmailCadastrado(e, e.target.value, cliDetId, "cli", token)
 });

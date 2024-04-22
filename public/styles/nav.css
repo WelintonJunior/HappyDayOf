@@ -2,7 +2,7 @@
     Importando estilo
 */
 
-@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
 body {
     font-family: 'Poppins', sans-serif;
     background: #fafafa;
@@ -84,7 +84,6 @@ a:focus {
 }
 
 
-
 #sidebar ul li a {
     padding: 10px;
     font-size: 1.1em;
@@ -93,7 +92,7 @@ a:focus {
 
 #sidebar ul li a:hover {
     color: #ffffff;
-    background: #ff0000;
+    background: #3EB1E2;
 }
 
 #sidebar ul li.active>a,
@@ -139,17 +138,19 @@ a.btn1 {
 
 a.btn2,
 a.btn2:hover {
-    background: #FC0404 !important;
-    color: #fff !important;
+    background: #4A8FBD !important;
+    color: #ffffff !important;
 }
 
 .list-unstyled li {
     cursor: pointer;
 }
 
+
 /* ---------------------------------------------------
-    CONTENT STYLE
+
 ----------------------------------------------------- */
+
 
 #content {
     width: 100%;
@@ -159,7 +160,7 @@ a.btn2:hover {
 }
 
 /* ---------------------------------------------------
-    MEDIAQUERIES
+    
 ----------------------------------------------------- */
 
 @media (max-width: 768px) {
@@ -230,4 +231,4 @@ a.btn2:hover {
   color: black;
   font-weight: bold;
   font-size: 15px;
-} */
+} 

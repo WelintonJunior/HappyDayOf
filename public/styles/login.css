@@ -43,7 +43,7 @@ body {
 }
 
 .formlogin input:focus {
-  background: #772953;
+  background: #4A8FBD;
 }
 
 .formlogin button {
@@ -72,11 +72,11 @@ body {
 }
 
 .formlogin select:focus {
-  background: #772953;
+  background: #4A8FBD;
 }
 
 .bodyLoginCliente {
-  background-color: #772953;
+  background-color: #3EB1E2;
   background-image: linear-gradient(
       to bottom left,
       rgba(119, 41, 83, 0.16) 0,
@@ -96,7 +96,7 @@ body {
       rgba(255, 255, 255, 0) 50%,
       rgba(255, 255, 255, 0) 100%
     ),
-    linear-gradient(-89deg, #e95420 0%, #772953 42%, #2c001e 94%);
+    linear-gradient(-89deg, #3EB1E2 0%, #374754 42%, #000000 94%);
   color: #fff;
   align-items: center;
   background-blend-mode: multiply, multiply, normal, normal;

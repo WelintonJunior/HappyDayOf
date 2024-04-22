@@ -6,11 +6,11 @@ class AdministradorServices extends FichaServices {
   }
 
   //Read
-  async ReadPlanos(idAcademia) {
+  async ReadPlanos(idAcademia, token) {
     try {
       const response = await fetch("/Administrador", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           idAcademia,
           acao: "ReadPlanos",
@@ -24,11 +24,11 @@ class AdministradorServices extends FichaServices {
     }
   }
 
-  async ReadFuncionarioDetalhes(idAcademia, funId) {
+  async ReadFuncionarioDetalhes(idAcademia, funId, token) {
     try {
       const response = await fetch("/Administrador", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           data: funId,
           idAcademia,
@@ -43,11 +43,11 @@ class AdministradorServices extends FichaServices {
     }
   }
 
-  async ReadClienteDetalhes(idAcademia, cliId) {
+  async ReadClienteDetalhes(idAcademia, cliId, token) {
     try {
       const response = await fetch("/Administrador", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           data: cliId,
           idAcademia,
@@ -62,11 +62,11 @@ class AdministradorServices extends FichaServices {
     }
   }
 
-  async ReadAcademia(idAcademia) {
+  async ReadAcademia(idAcademia, token) {
     try {
       const response = await fetch("/Administrador", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           idAcademia,
           acao: "ReadAcademia",
@@ -80,11 +80,11 @@ class AdministradorServices extends FichaServices {
     }
   }
 
-  async ReadCliente(idAcademia) {
+  async ReadCliente(idAcademia, token) {
     try {
       const response = await fetch("/Administrador", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           idAcademia,
           acao: "ReadClientes",
@@ -98,11 +98,11 @@ class AdministradorServices extends FichaServices {
     }
   }
 
-  async ReadFuncionario(nivel, idAcademia) {
+  async ReadFuncionario(nivel, idAcademia, token) {
     try {
       const response = await fetch("/Administrador", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           data: nivel,
           idAcademia,
@@ -119,11 +119,11 @@ class AdministradorServices extends FichaServices {
 
   //REGISTER
 
-  async RegisterCliente(data, idAcademia) {
+  async RegisterCliente(data, idAcademia, token) {
     try {
       const response = await fetch("/Administrador", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           data,
           idAcademia,
@@ -138,11 +138,11 @@ class AdministradorServices extends FichaServices {
     }
   }
 
-  async RegisterFuncionario(data, idAcademia) {
+  async RegisterFuncionario(data, idAcademia, token) {
     try {
       const response = await fetch("/Administrador", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           data,
           idAcademia,
@@ -161,11 +161,11 @@ class AdministradorServices extends FichaServices {
 
   //ARCHIVE
 
-  async ArchiveCliente(idCliente) {
+  async ArchiveCliente(idCliente, token) {
     try {
       const response = await fetch("/Administrador", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           data: idCliente,
           acao: "ArchiveCliente",
@@ -180,11 +180,11 @@ class AdministradorServices extends FichaServices {
     }
   }
 
-  async ArchiveFuncionario(idFuncionario) {
+  async ArchiveFuncionario(idFuncionario, token) {
     try {
       const response = await fetch("/Administrador", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           data: idFuncionario,
           acao: "ArchiveFuncionario",
@@ -201,11 +201,11 @@ class AdministradorServices extends FichaServices {
 
   //UPDATE
 
-  async UpdateFuncionarioDetalhes(data) {
+  async UpdateFuncionarioDetalhes(data, token) {
     try {
       const response = await fetch("/Administrador", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           data,
           acao: "UpdateFuncionarioDetalhes",
@@ -219,11 +219,11 @@ class AdministradorServices extends FichaServices {
     }
   }
 
-  async UpdateClienteDetalhes(data) {
+  async UpdateClienteDetalhes(data, token) {
     try {
       const response = await fetch("/Administrador", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           data,
           acao: "UpdateClienteDetalhes",
@@ -259,14 +259,14 @@ if (funCelular) {
   funDetCpf.addEventListener("input", () => HandleInputCpf(funDetCpf));
   funDetCpf.addEventListener("blur", (e) => {
     const funDetId = document.getElementById("funDetId").value
-    VerificarCpfCadastrado(e, e.target.value, funDetId, "fun")
+    VerificarCpfCadastrado(e, e.target.value, funDetId, "fun", token)
   });
   funDetCpf.addEventListener("blur", (e) => validarCpfCadastrado(e, e.target.value));
   funCpf.addEventListener("input", () => HandleInputCpf(funCpf));
-  funCpf.addEventListener("blur", (e) => VerificarCpfCadastradoGeral(e, e.target.value, "fun"));
+  funCpf.addEventListener("blur", (e) => VerificarCpfCadastradoGeral(e, e.target.value, "fun", token));
   funCpf.addEventListener("blur", (e) => validarCpfCadastrado(e, e.target.value));
-  funEmail.addEventListener("blur", (e) => VerificarEmailCadastradoGeral(e, e.target.value, "fun"));
-  funDetEmail.addEventListener("blur", (e) => VerificarEmailCadastrado(e, e.target.value, "fun"));
+  funEmail.addEventListener("blur", (e) => VerificarEmailCadastradoGeral(e, e.target.value, "fun", token));
+  funDetEmail.addEventListener("blur", (e) => VerificarEmailCadastrado(e, e.target.value, "fun", token));
 
 }
 cliCelular.addEventListener("input", () => FormatarCelular(cliCelular));
@@ -274,12 +274,12 @@ cliDetCelular.addEventListener("input", () => FormatarCelular(cliDetCelular));
 cliDetCpf.addEventListener("input", () => HandleInputCpf(cliDetCpf));
 cliDetCpf.addEventListener("blur", (e) => {
   const cliDetId = document.getElementById("cliDetId").value
-  VerificarCpfCadastrado(e, e.target.value, cliDetId, "cli")
+  VerificarCpfCadastrado(e, e.target.value, cliDetId, "cli", token)
 });
 cliDetCpf.addEventListener("blur", (e) => validarCpfCadastrado(e, e.target.value));
 cliCpf.addEventListener("input", () => HandleInputCpf(cliCpf));
-cliCpf.addEventListener("blur", (e) => VerificarCpfCadastradoGeral(e, e.target.value, "cli"));
+cliCpf.addEventListener("blur", (e) => VerificarCpfCadastradoGeral(e, e.target.value, "cli", token));
 cliCpf.addEventListener("blur", (e) => validarCpfCadastrado(e, e.target.value));
-cliEmail.addEventListener("blur", (e) => VerificarEmailCadastradoGeral(e, e.target.value, "cli"));
-cliDetEmail.addEventListener("blur", (e) => VerificarEmailCadastrado(e, e.target.value, "cli"));
+cliEmail.addEventListener("blur", (e) => VerificarEmailCadastradoGeral(e, e.target.value, "cli", token));
+cliDetEmail.addEventListener("blur", (e) => VerificarEmailCadastrado(e, e.target.value, "cli", token));
 
