@@ -93,7 +93,7 @@ const formArquivarCliente = document.getElementById("formArquivarCliente");
 let CheckBoxRestricoes = document.getElementById("ficRestricoes");
 
 //btnResumo
-btnAtendimento.firstChild.parentNode.style.backgroundColor = "#FC0404";
+btnAtendimento.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
 btnAtendimento.addEventListener("click", (e) => {
   e.preventDefault();
   MostrarTela("TelaAtendimento");
@@ -987,7 +987,7 @@ function MostrarTela(tela) {
   formInserirTreinoC.reset();
   switch (tela) {
     case "TelaAtendimento":
-      btnAtendimento.firstChild.parentNode.style.backgroundColor = "#FC0404";
+      btnAtendimento.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
       btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
       btnCliente.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
       TelaAtendimento.style.display = "block";
@@ -998,12 +998,12 @@ function MostrarTela(tela) {
       if (TelaFicha.style.display === "block") {
         TelaFicha.style.display = "none";
         TelaAtendimento.style.display = "block";
-        btnAtendimento.firstChild.parentNode.style.backgroundColor = "#FC0404";
+        btnAtendimento.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
         btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
         return;
       }
       btnAtendimento.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
-      btnFicha.firstChild.parentNode.style.backgroundColor = "#FC0404";
+      btnFicha.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
       btnCliente.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
       TelaAtendimento.style.display = "none";
       TelaFicha.style.display = "block";
@@ -1013,13 +1013,13 @@ function MostrarTela(tela) {
       if (TelaClientes.style.display === "block") {
         TelaClientes.style.display = "none";
         TelaAtendimento.style.display = "block";
-        btnAtendimento.firstChild.parentNode.style.backgroundColor = "#FC0404";
+        btnAtendimento.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
         btnCliente.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
         return;
       }
       btnAtendimento.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
       btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
-      btnCliente.firstChild.parentNode.style.backgroundColor = "#FC0404";
+      btnCliente.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
       TelaAtendimento.style.display = "none";
       TelaFicha.style.display = "none";
       TelaClientes.style.display = "block";

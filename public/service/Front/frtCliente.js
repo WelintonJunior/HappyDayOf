@@ -158,7 +158,7 @@ window.onclick = function (event) {
 }
 
 //btnFicha
-btnFicha.firstChild.parentNode.style.backgroundColor = "#FC0404";
+btnFicha.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
 btnFicha.addEventListener("click", (e) => {
   e.preventDefault();
   MostrarTela("TelaFicha", token);
@@ -489,7 +489,7 @@ async function MostrarTela(tela, token) {
   // document.getElementById("listaTreinoC").innerHTML = "";
   switch (tela) {
     case "TelaFicha":
-      btnFicha.firstChild.parentNode.style.backgroundColor = "#FC0404";
+      btnFicha.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
       btnDesempenho.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
       btnPerfil.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
       TelaFicha.style.display = "block";
@@ -501,12 +501,12 @@ async function MostrarTela(tela, token) {
       if (TelaDesempenho.style.display === "block") {
         TelaDesempenho.style.display = "none";
         TelaFicha.style.display = "block";
-        btnFicha.firstChild.parentNode.style.backgroundColor = "#FC0404";
+        btnFicha.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
         btnDesempenho.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
         return;
       }
       btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
-      btnDesempenho.firstChild.parentNode.style.backgroundColor = "#FC0404";
+      btnDesempenho.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
       btnPerfil.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
       TelaFicha.style.display = "none";
       TelaDesempenho.style.display = "block";
@@ -516,12 +516,12 @@ async function MostrarTela(tela, token) {
       if (TelaPerfil.style.display === "block") {
         TelaPerfil.style.display = "none";
         TelaFicha.style.display = "block";
-        btnFicha.firstChild.parentNode.style.backgroundColor = "#FC0404";
+        btnFicha.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
         btnPerfil.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
         return;
       }
       await MostrarTelaDetalhesCliente(dados.cliId, token);
-      btnPerfil.firstChild.parentNode.style.backgroundColor = "#FC0404";
+      btnPerfil.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
       btnDesempenho.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
       btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
       TelaFicha.style.display = "none";
@@ -529,7 +529,7 @@ async function MostrarTela(tela, token) {
       TelaPerfil.style.display = "block";
       break;
     default:
-      btnFicha.firstChild.parentNode.style.backgroundColor = "#FC0404";
+      btnFicha.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
       btnDesempenho.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
       btnPerfil.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
       TelaDesempenho.style.display = "none";

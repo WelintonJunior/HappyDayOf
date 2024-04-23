@@ -1,0 +1,10 @@
+.listBoxClienteFicha,
+.listBoxCliente,
+.listBoxFuncionario {
+  font-family: Arial, sans-serif;
+  overflow-x: auto;
+  margin: 20px;
+  width: auto;
+  max-height: 300px;
+}
+
