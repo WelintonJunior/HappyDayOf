@@ -558,8 +558,9 @@ async function renderDesempenhoChart(cliId, token) {
   const meta = await clienteServices.ReadMeta(cliId, token)
   const data = new Date(meta.metDataCumprir);
   const dia = data.getDate();
-  const mes = data.toLocaleString('default', { month: 'short' });
-  const dataFormatada = `${dia} ${mes}`;
+  const mes = data.toLocaleString('default', { month: 'short'});
+  const ano = data.toLocaleString('default', { year: 'numeric'});
+  const dataFormatada = `${dia} ${mes} de ${ano}`;
   document.getElementById("metaASerCumprida").innerHTML = `Meta deve ser cumprida até: ${dataFormatada}`
   const boxChartDesempenho = document.getElementById('boxChartDesempenho');
 
@@ -575,7 +576,8 @@ async function renderDesempenhoChart(cliId, token) {
     const data = new Date(desempenhos[i].desData);
     const dia = data.getDate();
     const mes = data.toLocaleString('default', { month: 'short' });
-    const dataFormatada = `${dia} ${mes}`;
+    const ano = data.toLocaleString('default', { year: '2-digit' });
+    const dataFormatada = `${dia} ${mes} ${ano}`;
     labels.push(dataFormatada);
     pesos.push(desempenhos[i].desPeso);
     gorduras.push(desempenhos[i].desGordura);

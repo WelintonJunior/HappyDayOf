@@ -124,7 +124,7 @@ router.post("/Cliente", (req, res) => {
           }
           break;
         case "ReadDesempenho":
-          db.query("select * from tblDesempenho where desIdCliente = ?",
+          db.query("select * from tblDesempenho where desIdCliente = ? order by desData",
             [data], (err, results) => {
               if (err) {
                 res.json(err)
