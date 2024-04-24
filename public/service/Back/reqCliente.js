@@ -177,12 +177,13 @@ class ClienteServices extends FichaServices {
     }
   }
 
-  async RegisterMeta(data, token) {
+  async RegisterMeta(data, idAcademia, token) {
     const response = await fetch("/Cliente", {
       method: "POST",
       headers: { "Content-Type": "application/json", "Authorization": `${token}` },
       body: JSON.stringify({
         data,
+        idAcademia,
         acao: "RegisterMeta"
       })
     })
@@ -203,17 +204,41 @@ class ClienteServices extends FichaServices {
     return result[0]
   }
 
-  async UpdateMetaAnteriores(cliId, token) {
-    const response = await fetch("/Cliente", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "Authorization": `${token}` },
-      body: JSON.stringify({
-        data: cliId,
-        acao: "UpdateMetaAnteriores"
-      })
-    })
-    const result = await response.json();
-    return result
+  async UpdateMeta(data, token) {
+    try {
+      const response = await fetch("/Cliente", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
+        body: JSON.stringify({
+          data,
+          acao: "UpdateMeta",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao atualizar os dados do cliente")
+      throw err
+    }
+  }
+
+  async ReadMetaAtual(data, idAcademia, token) {
+    try {
+      const response = await fetch("/Cliente", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
+        body: JSON.stringify({
+          data,
+          idAcademia,
+          acao: "ReadMetaAtual",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao atualizar os dados do cliente")
+      throw err
+    }
   }
 
   async ConnectIO() {

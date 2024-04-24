@@ -5,7 +5,15 @@ const argon2 = require('argon2');
 const jwt = require('jsonwebtoken');
 const { jwtSecret } = require("../app.js")
 
-router.post("/Login", (req, res) => {
+async function Engajamento(cliId, dateNow, idAcademia) {
+  db.query("insert into tblEngajamento values (default, ?, ?, ?)", [cliId, dateNow, idAcademia], (err, results) => {
+    if (err) {
+      return res.json(err)
+    }
+  })
+}
+
+router.post("/Login", async (req, res) => {
   const { acao, data } = req.body;
   const email = data.email;
   const senha = data.senha;
@@ -29,6 +37,8 @@ router.post("/Login", (req, res) => {
               senha
             );
             if (isPasswordValid) {
+              const dateNow = new Date();
+              await Engajamento(results[0].cliId, dateNow, results[0].cliIdAcad);
               const token = jwt.sign({ id: results[0].cliId, role: 'cliente' }, jwtSecret, { expiresIn: '1h' });
               res.json({ results: results[0], token });
             } else {

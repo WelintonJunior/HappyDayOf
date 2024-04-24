@@ -147,17 +147,28 @@ router.post("/Cliente", (req, res) => {
           })
           break;
         case "RegisterMeta":
-          db.query("insert into tblMeta values (default, ?, ?, ?, ?, 1)", [data.cliId, parseInt(data.metaGordura), parseInt(data.metaPeso), data.dataCumprir], (err, results) => {
+          db.query("insert into tblMeta values (default, ?, ?, ?, ?, 1, 0, ?)", [data.cliId, parseInt(data.metaGordura), parseInt(data.metaPeso), data.dataCumprir, idAcademia], (err, results) => {
             if (err) {
               return res.json(err)
             }
             res.send(results)
           })
           break;
-        case "UpdateMetaAnteriores":
-          db.query("update tblMeta set metStatus = 0 where metIdCliente = ? and metStatus = 1", [data], (err, results) => {
+        case "UpdateMeta":
+          db.query("update tblMeta set metGordura = ?, metPeso = ?, metDataCumprir = ?, metStatusAlterar = 1 where metId = ?", [parseInt(data.metaGordura), parseInt(data.metaPeso), data.dataCumprir, data.idMetaAtual], (err, results) => {
             if (err) {
               return res.json(err)
+            }
+            res.send(results)
+          })
+          break;
+        case "ReadMetaAtual":
+          db.query("select metId, metStatusAlterar from tblMeta where metIdCliente = ? and metIdAcad = ?", [data, idAcademia], (err, results) => {
+            if (err) {
+              res.json(err)
+            }
+            if (results.length > 0 ? results[0].length === 0 : results.length === 0) {
+              return res.json(false)
             }
             res.send(results)
           })

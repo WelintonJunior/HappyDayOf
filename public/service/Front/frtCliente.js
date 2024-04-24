@@ -553,76 +553,129 @@ function mostrarModalObrigado() {
   }, 1000);
 }
 
+function mostrarModalObjetivo() {
+  document.getElementById("modalObjetivo").style.display = "block";
+  setTimeout(() => {
+    document.getElementById("modalObjetivo").style.display = "none";
+  }, 2000);
+}
+
+
 async function renderDesempenhoChart(cliId, token) {
   const desempenhos = await clienteServices.ReadDesempenho(cliId, token);
-  const meta = await clienteServices.ReadMeta(cliId, token)
-  const data = new Date(meta.metDataCumprir);
-  const dia = data.getDate();
-  const mes = data.toLocaleString('default', { month: 'short'});
-  const ano = data.toLocaleString('default', { year: 'numeric'});
-  const dataFormatada = `${dia} ${mes} de ${ano}`;
-  document.getElementById("metaASerCumprida").innerHTML = `Meta deve ser cumprida até: ${dataFormatada}`
-  const boxChartDesempenho = document.getElementById('boxChartDesempenho');
-
-  if (boxChartDesempenho.chart) {
-    boxChartDesempenho.chart.destroy();
-  }
-
-  const labels = [];
-  const pesos = [];
-  const gorduras = [];
-
-  for (let i = 0; i < desempenhos.length; i++) {
-    const data = new Date(desempenhos[i].desData);
-    const dia = data.getDate();
-    const mes = data.toLocaleString('default', { month: 'short' });
-    const ano = data.toLocaleString('default', { year: '2-digit' });
-    const dataFormatada = `${dia} ${mes} ${ano}`;
-    labels.push(dataFormatada);
-    pesos.push(desempenhos[i].desPeso);
-    gorduras.push(desempenhos[i].desGordura);
-  }
-
-  const ctx = boxChartDesempenho.getContext('2d');
-  boxChartDesempenho.chart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: labels,
-      datasets: [{
-        label: 'Peso',
-        data: pesos,
-        fill: false,
-        borderColor: '#e6194b',
-        tension: 0.1
-      }, {
-        label: 'Gordura (%)',
-        data: gorduras,
-        fill: false,
-        borderColor: '#3cb44b',
-        tension: 0.1
-      }
-        , {
-        label: 'Meta de Peso',
-        data: Array(labels.length).fill(meta.metPeso),
-        fill: false,
-        borderColor: '#e6194b',
-        borderDash: [5, 5],
-        tension: 0
-      }, {
-        label: 'Meta de Gordura (%)',
-        data: Array(labels.length).fill(meta.metGordura),
-        fill: false,
-        borderColor: '#3cb44b',
-        borderDash: [5, 5],
-        tension: 0
-      }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false
+  if (desempenhos) {
+    const meta = await clienteServices.ReadMeta(cliId, token)
+    btnCadastrarMeta.innerHTML = "Cadastrar Meta"
+    if (meta) {
+      const data = new Date(meta.metDataCumprir);
+      const dia = data.getDate();
+      const mes = data.toLocaleString('default', { month: 'short' });
+      const ano = data.toLocaleString('default', { year: 'numeric' });
+      const dataFormatada = `${dia} ${mes} de ${ano}`;
+      document.getElementById("metaASerCumprida").innerHTML = `Meta deve ser cumprida até: ${dataFormatada}`
+      btnCadastrarMeta.innerHTML = "Alterar Meta"
     }
-  });
+
+    const modulo = btnCadastrarMeta.innerHTML;
+    console.log(modulo)
+    if (modulo === "Cadastrar Meta") {
+      document.getElementById("txtModalMeta").innerHTML = "Criar Meta"
+    } else {
+      document.getElementById("txtModalMeta").innerHTML = "Alterar Meta"
+    }
+
+    const boxChartDesempenho = document.getElementById('boxChartDesempenho');
+
+    if (boxChartDesempenho.chart) {
+      boxChartDesempenho.chart.destroy();
+    }
+
+    const labels = [];
+    const pesos = [];
+    const gorduras = [];
+
+    for (let i = 0; i < desempenhos.length; i++) {
+      const data = new Date(desempenhos[i].desData);
+      const dia = data.getDate();
+      const mes = data.toLocaleString('default', { month: 'short' });
+      const ano = data.toLocaleString('default', { year: '2-digit' });
+      const dataFormatada = `${dia} ${mes} ${ano}`;
+      labels.push(dataFormatada);
+      pesos.push(desempenhos[i].desPeso);
+      gorduras.push(desempenhos[i].desGordura);
+    }
+
+    const ctx = boxChartDesempenho.getContext('2d');
+    if (meta) {
+      boxChartDesempenho.chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Peso',
+            data: pesos,
+            fill: false,
+            borderColor: '#e6194b',
+            tension: 0.1
+          }, {
+            label: 'Gordura (%)',
+            data: gorduras,
+            fill: false,
+            borderColor: '#3cb44b',
+            tension: 0.1
+          }
+            , {
+            label: 'Meta de Peso',
+            data: Array(labels.length).fill(meta.metPeso),
+            fill: false,
+            borderColor: '#e6194b',
+            borderDash: [5, 5],
+            tension: 0
+          }, {
+            label: 'Meta de Gordura (%)',
+            data: Array(labels.length).fill(meta.metGordura),
+            fill: false,
+            borderColor: '#3cb44b',
+            borderDash: [5, 5],
+            tension: 0
+          }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
+        }
+
+      });
+    } else {
+      boxChartDesempenho.chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Peso',
+            data: pesos,
+            fill: false,
+            borderColor: '#e6194b',
+            tension: 0.1
+          }, {
+            label: 'Gordura (%)',
+            data: gorduras,
+            fill: false,
+            borderColor: '#3cb44b',
+            tension: 0.1
+          }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
+        }
+
+      });
+    }
+
+  }
 }
 
 formMeta.addEventListener("submit", async (e) => {
@@ -630,10 +683,29 @@ formMeta.addEventListener("submit", async (e) => {
   const fd = new FormData(e.target)
   const data = Object.fromEntries(fd.entries())
   data.cliId = dados.cliId
-  await clienteServices.UpdateMetaAnteriores(dados.cliId, token)
-  await clienteServices.RegisterMeta(data, token)
+  const modulo = btnCadastrarMeta.innerHTML;
+  if (modulo === "Cadastrar Meta") {
+    document.getElementById("txtModalMeta").innerHTML = "Criar Meta"
+    const result = await clienteServices.RegisterMeta(data, idAcademia, token)
+  } else {
+    const MetaAtual = await clienteServices.ReadMetaAtual(data.cliId, idAcademia, token)
+    document.getElementById("txtModalMeta").innerHTML = "Alterar Meta"
+    document.getElementById("modalAvisoMeta").style.display = "block"
+    document.getElementById("btnAvisoSim").addEventListener("click", async (e) => {
+      e.preventDefault();
+      data.idMetaAtual = MetaAtual[0].metId
+      await clienteServices.UpdateMeta(data, token)
+      await renderDesempenhoChart(dados.cliId, token);
+      document.getElementById("modalAvisoMeta").style.display = "none"
+    })
+    document.getElementById("btnAvisoNao").addEventListener("click", async (e) => {
+      e.preventDefault();
+      document.getElementById("modalAvisoMeta").style.display = "none"
+    })
+  }
   await renderDesempenhoChart(dados.cliId, token);
   document.getElementById("modalRegisterMeta").style.display = "none"
+  e.target.reset();
 })
 
 reloadBtnDesempenho.addEventListener("click", async (e) => {
@@ -644,8 +716,14 @@ reloadBtnDesempenho.addEventListener("click", async (e) => {
   await renderDesempenhoChart(dados.cliId, token);
 });
 
-btnCadastrarMeta.addEventListener("click", (e) => {
+btnCadastrarMeta.addEventListener("click", async (e) => {
   e.preventDefault();
+  const MetaAtual = await clienteServices.ReadMetaAtual(dados.cliId, idAcademia, token)
+  if (MetaAtual[0].metStatusAlterar == 1) {
+    modalRegisterMeta.style.display = "none"
+    mostrarModalObjetivo();
+    return
+  }
   document.getElementById("modalRegisterMeta").style.display = "block"
 })
 

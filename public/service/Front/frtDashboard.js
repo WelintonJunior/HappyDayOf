@@ -217,7 +217,7 @@ async function renderAtendimentoChart() {
     const Atendimentos = await dashboardServices.ReadAllAtendimentos(idAcademia);
     let funcionarios = {};
     let funcionarioIds = [];
-    const labels = ["Manhã", "Tarde", "Noite"]; 
+    const labels = ["Manhã", "Tarde", "Noite"];
 
     for (let atendimento of Atendimentos) {
         const idFuncionario = atendimento.ateIdFuncionario;
@@ -273,6 +273,65 @@ async function renderAtendimentoChart() {
     });
 }
 
+async function renderEngajamentoChart() {
+    const engajamentos = await dashboardServices.ReadAllEngajamentos(idAcademia);
+    const DATA_COUNT = 7;
+
+    function generateLastMonths(count) {
+        let months = [];
+        let date = new Date();
+        date.setDate(1);
+        for (let i = 0; i < count; i++) {
+            months.unshift(date.toISOString().slice(0, 7));
+            date.setMonth(date.getMonth() - 1);
+        }
+        return months;
+    }
+
+    const labels = generateLastMonths(DATA_COUNT);
+
+    const countsByMonth = engajamentos.reduce((acc, { engAccessDatetime }) => {
+        const month = new Date(engAccessDatetime).toISOString().substring(0, 7); 
+        acc[month] = (acc[month] || 0) + 1;
+        return acc;
+    }, {});
+
+    const data = labels.map(label => countsByMonth[label]);
+
+    const boxChartEngajamento = document.getElementById('boxChartEngajamento');
+    if (boxChartEngajamento.chart) {
+        boxChartEngajamento.chart.destroy();
+    }
+
+    boxChartEngajamento.chart = new Chart(boxChartEngajamento, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Acessos por Mês',
+                data: data,
+                fill: false,
+                borderColor: '#e6194b',
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+
 
 let reloadBtnSatisfacao = document.getElementById("reloadBtnSatisfacao")
 reloadBtnSatisfacao.addEventListener("click", async (e) => {
@@ -298,9 +357,18 @@ reloadBtnAtendimento.addEventListener("click", async (e) => {
     await renderAtendimentoChart();
 });
 
+let reloadBtnEngajamento = document.getElementById("reloadBtnEngajamento")
+reloadBtnEngajamento.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const boxChartEngajamento = document.getElementById('boxChartEngajamento');
+    boxChartEngajamento.innerHTML = '';
+    await renderEngajamentoChart();
+});
+
 document.addEventListener("DOMContentLoaded", async () => {
     await renderSatisfacaoChart();
     await renderProdutividadeChart();
     await renderAtendimentoChart();
+    await renderEngajamentoChart();
 });
 

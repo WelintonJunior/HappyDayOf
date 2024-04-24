@@ -52,9 +52,16 @@ router.post("/Dashboard", (req, res) => {
         res.send(results)
       })
       break;
-    case "ProdutividadeProfessores":
-      break;
-    case "EngajamentoAlunos":
+    case "ReadAllEngajamentos":
+      db.query("select * from tblEngajamento where engIdAcad = ?", [idAcademia], (err, results) => {
+        if (err) {
+          return res.json(err)
+        }
+        if (results.length > 0 ? results[0].length === 0 : results.length === 0) {
+          return res.json(false)
+        }
+        res.send(results)
+      })
       break;
     case "AvaliacaoPerformance":
       break;
