@@ -33,9 +33,73 @@ router.post("/Administrador", async (req, res) => {
             }
           );
           break;
+        case "ReadAparelhos":
+          db.query(
+            "SELECT * FROM tblAparelhos WHERE apaIdAcad = ? ORDER BY apaStatus DESC, apaNome ASC",
+            [idAcademia],
+            (err, results) => {
+              if (err) {
+                return res.json(err);
+              }
+              if (
+                results.length > 0 ? results[0].length === 0 : results.length === 0
+              ) {
+                return res.json(false);
+              }
+              res.send(results);
+            }
+          );
+          break;
+        case "ReadExercicios":
+          db.query(
+            "SELECT * FROM tblExercicios WHERE exeIdAcad = ? ORDER BY exeStatus DESC, exeNome ASC",
+            [idAcademia],
+            (err, results) => {
+              if (err) {
+                return res.json(err);
+              }
+              if (
+                results.length > 0 ? results[0].length === 0 : results.length === 0
+              ) {
+                return res.json(false);
+              }
+              res.send(results);
+            }
+          );
+          break;
         case "ReadClienteDet":
           db.query(
             "select * from tblCliente where cliId = ? and cliIdAcad = ? ",
+            [data, idAcademia],
+            (err, results) => {
+              if (err) {
+                return res.json(err);
+              }
+              if (results.length > 0 ? results[0].length === 0 : results.length === 0) {
+                return res.json(false);
+              }
+              res.send(results[0]);
+            }
+          );
+          break;
+        case "ReadAparelhoDet":
+          db.query(
+            "select * from tblAparelhos where apaId = ? and apaIdAcad = ? ",
+            [data, idAcademia],
+            (err, results) => {
+              if (err) {
+                return res.json(err);
+              }
+              if (results.length > 0 ? results[0].length === 0 : results.length === 0) {
+                return res.json(false);
+              }
+              res.send(results[0]);
+            }
+          );
+          break;
+        case "ReadExericioDet":
+          db.query(
+            "select * from tblExercicios where exeId = ? and exeIdAcad = ? ",
             [data, idAcademia],
             (err, results) => {
               if (err) {
@@ -180,6 +244,48 @@ router.post("/Administrador", async (req, res) => {
             res.status(500).json({ message: 'Error registering user' });
           }
           break;
+        case "RegisterAparelho":
+          try {
+            db.query(
+              "insert into tblAparelhos values (DEFAULT, ?, ?, null ,1, ?)",
+              [
+                data.apaNome,
+                data.apaDataEntrada,
+                idAcademia,
+              ],
+              (err, results) => {
+                if (err) {
+                  return res.json(err);
+                }
+                res.send(results);
+              }
+            );
+          } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Error registering aparelho' });
+          }
+          break;
+        case "RegisterExercicio":
+          try {
+            db.query(
+              "insert into tblExercicios values (DEFAULT, ?, ?, 1, ?)",
+              [
+                data.exeNome,
+                data.exeApaId,
+                idAcademia,
+              ],
+              (err, results) => {
+                if (err) {
+                  return res.json(err);
+                }
+                res.send(results);
+              }
+            );
+          } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Error registering Exercicio' });
+          }
+          break;
         case "RegisterPlanos":
           break;
         case "ArchiveCliente":
@@ -197,6 +303,30 @@ router.post("/Administrador", async (req, res) => {
         case "ArchiveFuncionario":
           db.query(
             "update tblFuncionario set funStatus = ? where funId = ?",
+            [0, data],
+            (err, results) => {
+              if (err) {
+                return res.json(err);
+              }
+              res.send(results);
+            }
+          );
+          break;
+        case "ArchiveAparelho":
+          db.query(
+            "update tblAparelhos set apaStatus = ? where apaId = ?",
+            [0, data],
+            (err, results) => {
+              if (err) {
+                return res.json(err);
+              }
+              res.send(results);
+            }
+          );
+          break;
+        case "ArchiveExercicio":
+          db.query(
+            "update tblExercicios set exeStatus = ? where exeId = ?",
             [0, data],
             (err, results) => {
               if (err) {
@@ -259,6 +389,40 @@ router.post("/Administrador", async (req, res) => {
               data.cliStatus,
               data.cliPlano,
               data.cliId,
+            ],
+            (err, results) => {
+              if (err) {
+                return res.json(err);
+              }
+              res.send(results);
+            }
+          );
+          break;
+        case "UpdateAparelhoDetalhes":
+          db.query(
+            "update tblAparelhos set apaNome = ?, apaDataEntrada = ?, apaStatus = ? where apaId = ?",
+            [
+              data.apaNome,
+              data.apaDataEntrada,
+              data.apaStatus,
+              data.apaId,
+            ],
+            (err, results) => {
+              if (err) {
+                return res.json(err);
+              }
+              res.send(results);
+            }
+          );
+          break;
+        case "UpdateExercicioDetalhes":
+          db.query(
+            "update tblExercicios set exeNome = ?, exeApaId = ?, exeStatus = ? where exeId = ?",
+            [
+              data.exeNome,
+              data.exeApaId,
+              data.exeStatus,
+              data.exeId,
             ],
             (err, results) => {
               if (err) {

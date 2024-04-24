@@ -62,6 +62,44 @@ class AdministradorServices extends FichaServices {
     }
   }
 
+  async ReadAparelhoDetalhes(idAcademia, apaId, token) {
+    try {
+      const response = await fetch("/Administrador", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
+        body: JSON.stringify({
+          data: apaId,
+          idAcademia,
+          acao: "ReadAparelhoDet",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao ler os detalhes do cliente")
+      throw err
+    }
+  }
+
+  async ReadExercicioDetalhes(idAcademia, exeId, token) {
+    try {
+      const response = await fetch("/Administrador", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
+        body: JSON.stringify({
+          data: exeId,
+          idAcademia,
+          acao: "ReadExericioDet",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao ler os detalhes do cliente")
+      throw err
+    }
+  }
+
   async ReadAcademia(idAcademia, token) {
     try {
       const response = await fetch("/Administrador", {
@@ -88,6 +126,42 @@ class AdministradorServices extends FichaServices {
         body: JSON.stringify({
           idAcademia,
           acao: "ReadClientes",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao ler o cliente")
+      throw err
+    }
+  }
+
+  async ReadAparelho(idAcademia, token) {
+    try {
+      const response = await fetch("/Administrador", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
+        body: JSON.stringify({
+          idAcademia,
+          acao: "ReadAparelhos",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao ler o cliente")
+      throw err
+    }
+  }
+
+  async ReadExercicio(idAcademia, token) {
+    try {
+      const response = await fetch("/Administrador", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
+        body: JSON.stringify({
+          idAcademia,
+          acao: "ReadExercicios",
         }),
       });
       const result = await response.json();
@@ -157,6 +231,44 @@ class AdministradorServices extends FichaServices {
     }
   }
 
+  async RegisterAparelho(data, idAcademia, token) {
+    try {
+      const response = await fetch("/Administrador", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
+        body: JSON.stringify({
+          data,
+          idAcademia,
+          acao: "RegisterAparelho",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao registrar o funcionario")
+      throw err
+    }
+  }
+
+  async RegisterExercicio(data, idAcademia, token) {
+    try {
+      const response = await fetch("/Administrador", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
+        body: JSON.stringify({
+          data,
+          idAcademia,
+          acao: "RegisterExercicio",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao registrar o funcionario")
+      throw err
+    }
+  }
+
 
 
   //ARCHIVE
@@ -199,6 +311,44 @@ class AdministradorServices extends FichaServices {
     }
   }
 
+  async ArchiveAparelho(apaId, token) {
+    try {
+      const response = await fetch("/Administrador", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
+        body: JSON.stringify({
+          data: apaId,
+          acao: "ArchiveAparelho",
+        }),
+      });
+
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao arquivar o funcionario")
+      throw err
+    }
+  }
+
+  async ArchiveExercicio(exeId, token) {
+    try {
+      const response = await fetch("/Administrador", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
+        body: JSON.stringify({
+          data: exeId,
+          acao: "ArchiveExercicio",
+        }),
+      });
+
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao arquivar o funcionario")
+      throw err
+    }
+  }
+
   //UPDATE
 
   async UpdateFuncionarioDetalhes(data, token) {
@@ -227,6 +377,42 @@ class AdministradorServices extends FichaServices {
         body: JSON.stringify({
           data,
           acao: "UpdateClienteDetalhes",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao atualizar os dados do cliente")
+      throw err
+    }
+  }
+
+  async UpdateAparelhoDetalhes(data, token) {
+    try {
+      const response = await fetch("/Administrador", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
+        body: JSON.stringify({
+          data,
+          acao: "UpdateAparelhoDetalhes",
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao atualizar os dados do cliente")
+      throw err
+    }
+  }
+
+  async UpdateExercicioDetalhes(data, token) {
+    try {
+      const response = await fetch("/Administrador", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
+        body: JSON.stringify({
+          data,
+          acao: "UpdateExercicioDetalhes",
         }),
       });
       const result = await response.json();

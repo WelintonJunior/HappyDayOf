@@ -7,20 +7,16 @@ const { jwtSecret } = require("../app.js")
 router.post("/Cliente", (req, res) => {
   const token = req.headers.authorization;
   if (!token) {
+    windows.location.href = "/"
     return res.status(401).json({ message: 'Token de autorização ausente' });
   }
   jwt.verify(token, jwtSecret, async (err, decodedToken) => {
     if (err) {
+      windows.location.href = "/"
       return res.status(401).json({ message: "Sessão expirada, faça login novamente" });
     } else {
       const { acao, idAcademia, data } = req.body;
       switch (acao) {
-        case "UpdateCliente":
-          break;
-        case "ReadCliente":
-          break;
-        case "RegisterAvaliacaoProfessor":
-          break;
         case "ReadStatusAtendimento":
           db.query("select ateStatus from tblAtendimento where ateIdCliente = ? and ateDateInicio <= ? and ateDateEncerramento is null and ateIdAcad = ?",
             [data.cliId, data.dateNow, idAcademia], (err, results) => {

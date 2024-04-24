@@ -1,6 +1,8 @@
 .listBoxClienteFicha,
 .listBoxCliente,
-.listBoxFuncionario {
+.listBoxFuncionario,
+.listBoxAparelho,
+.listBoxExercicio {
   font-family: Arial, sans-serif;
   overflow-x: auto;
   margin: 20px;

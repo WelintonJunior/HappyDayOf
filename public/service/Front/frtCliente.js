@@ -577,7 +577,6 @@ async function renderDesempenhoChart(cliId, token) {
     }
 
     const modulo = btnCadastrarMeta.innerHTML;
-    console.log(modulo)
     if (modulo === "Cadastrar Meta") {
       document.getElementById("txtModalMeta").innerHTML = "Criar Meta"
     } else {

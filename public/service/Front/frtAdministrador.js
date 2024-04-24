@@ -36,19 +36,41 @@ const btnResumo = document.getElementById("btnResumo");
 const btnCliente = document.getElementById("btnCliente");
 const btnFicha = document.getElementById("btnFicha");
 const btnFuncionario = document.getElementById("btnFuncionario");
+const btnAparelho = document.getElementById("btnAparelho");
+const btnExercicio = document.getElementById("btnExercicio");
 const TelaResumo = document.getElementById("TelaResumo");
 const TelaFicha = document.getElementById("TelaFicha");
 const TelaClientes = document.getElementById("TelaClientes");
 const TelaDetalhesClientes = document.getElementById("TelaDetalhesClientes");
 const TelaFuncionarios = document.getElementById("TelaFuncionarios");
+const TelaAparelhos = document.getElementById("TelaAparelhos");
+const TelaExercicios = document.getElementById("TelaExercicios");
 const TelaDetalhesFuncionarios = document.getElementById(
   "TelaDetalhesFuncionarios"
+);
+const TelaDetalhesExercicios = document.getElementById(
+  "TelaDetalhesExercicios"
+);
+const TelaDetalhesAparelhos = document.getElementById(
+  "TelaDetalhesAparelhos"
 );
 const btnEditarDetalhesFuncionario = document.getElementById(
   "btnEditarDetalhesFuncionario"
 );
 const btnEnviarDetalhesFuncionario = document.getElementById(
   "btnEnviarDetalhesFuncionario"
+);
+const btnEditarDetalhesExercicio = document.getElementById(
+  "btnEditarDetalhesExercicio"
+);
+const btnEditarDetalhesAparelho = document.getElementById(
+  "btnEnviarDetalhesAparelho"
+);
+const btnEnviarDetalhesExercicio = document.getElementById(
+  "btnEnviarDetalhesExercicio"
+);
+const btnEnviarDetalhesAparelho = document.getElementById(
+  "btnEnviarDetalhesAparelho"
 );
 const btnEditarDetalhesCliente = document.getElementById(
   "btnEditarDetalhesCliente"
@@ -58,11 +80,17 @@ const btnEnviarDetalhesCliente = document.getElementById(
 );
 const btnArchiveCliente = document.getElementById("btnArchiveCliente");
 const btnArchiveFuncionario = document.getElementById("btnArchiveFuncionario");
+const btnArchiveAparelho = document.getElementById("btnArchiveAparelho");
+const btnArchiveExercicio = document.getElementById("btnArchiveExercicio");
 const btnVoltarTelaFuncionario = document.getElementById("btnVoltarTelaFuncionario");
 const btnVoltarTelaCliente = document.getElementById("btnVoltarTelaCliente");
 const btnVoltarTelaFicha = document.getElementById("btnVoltarTelaFicha");
+const btnVoltarTelaAparelho = document.getElementById("btnVoltarTelaAparelho");
+const btnVoltarTelaExercicio = document.getElementById("btnVoltarTelaExercicio");
 const formDetCliente = document.getElementById("formDetalhesCliente");
 const formDetFuncionario = document.getElementById("formDetalhesFuncionario");
+const formDetAparelho = document.getElementById("formDetAparelho");
+const formDetExercicio = document.getElementById("formDetExercicio");
 const formCriarBaseFicha = document.getElementById("formCriarBaseFicha");
 const formInserirTreinoA = document.getElementById("formInserirTreinoA");
 const formInserirTreinoB = document.getElementById("formInserirTreinoB");
@@ -70,14 +98,32 @@ const formInserirTreinoC = document.getElementById("formInserirTreinoC");
 const formArquivarFuncionario = document.getElementById(
   "formArquivarFuncionario"
 );
+const formCadastrarExercicio = document.getElementById(
+  "formCadastrarExercicio"
+);
+const formCadastrarAparelho = document.getElementById(
+  "formCadastrarAparelho"
+);
 const modalCadastrarCliente = document.getElementById("modalCadastrarCliente");
 const modalCriarBaseFicha = document.getElementById("modalCriarBaseFicha");
 const modalCadastrarFuncionario = document.getElementById(
   "modalCadastrarFuncionario"
 );
+const modalCadastrarAparelho = document.getElementById(
+  "modalCadastrarAparelho"
+);
+const modalCadastrarExercicio = document.getElementById(
+  "modalCadastrarExercicio"
+);
 const modalArquivarCliente = document.getElementById("modalArquivarCliente");
 const modalArquivarFuncionario = document.getElementById(
   "modalArquivarFuncionario"
+);
+const modalArquivarAparelho = document.getElementById(
+  "modalArquivarAparelho"
+);
+const modalArquivarExercicio = document.getElementById(
+  "modalArquivarExercicio"
 );
 const fecharModalCadastrarCliente = document.getElementById(
   "fecharModalCadastrarCliente"
@@ -94,6 +140,18 @@ const fecharModalArquivarCliente = document.getElementById(
 const fecharModalArquivarFuncionario = document.getElementById(
   "fecharModalArquivarFuncionario"
 );
+const fecharModalArquivarAparelho = document.getElementById(
+  "fecharModalArquivarAparelho"
+);
+const fecharModalCadastrarAparelho = document.getElementById(
+  "fecharModalCadastrarAparelho"
+);
+const fecharModalArquivarExercicio = document.getElementById(
+  "fecharModalArquivarExercicio"
+);
+const fecharModalCadastrarExercicio = document.getElementById(
+  "fecharModalCadastrarExercicio"
+);
 
 let CheckBoxRestricoes = document.getElementById("ficRestricoes");
 
@@ -107,7 +165,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     "admInfo"
   ).innerHTML = `Olá Administrador: ${dados.funNome} da Academia: ${result.acaNome}`;
 });
-
 
 //btnResumo
 btnResumo.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
@@ -131,13 +188,203 @@ btnFuncionario.addEventListener("click", (e) => {
   MostrarTela("TelaFuncionarios");
 });
 
-//Ver Clientes/Funcionarios
+//btnAparelho
+btnAparelho.addEventListener("click", (e) => {
+  e.preventDefault();
+  MostrarTela("TelaAparelhos");
+});
+
+//btnExercicio
+btnExercicio.addEventListener("click", (e) => {
+  e.preventDefault();
+  MostrarTela("TelaExercicios");
+});
+
+//Ver Clientes/Funcionarios/Aparelhos/Exercicios
 document.addEventListener("DOMContentLoaded", async function () {
   await UpdateListaCliente(token);
   await UpdateListaFuncionario(token);
   await UpdateListaClienteFicha(token);
   await PreencherSelectProfessores(token);
+  await PreencherSelectAparelhos(token);
+  await UpdateListaAparelho(token);
+  await UpdateListaExercicio(token)
 });
+
+
+//Mudar o conteudo da tela
+
+function MostrarTela(tela) {
+  let inputsCliente = formDetCliente.querySelectorAll(
+    "input, select, textarea"
+  );
+  inputsCliente.forEach((input) => {
+    input.disabled = true;
+  });
+  btnEnviarDetalhesCliente.style.display = "none";
+  btnEditarDetalhesCliente.style.display = "block";
+
+  let inputsFuncionario = formDetFuncionario.querySelectorAll(
+    "input, select, textarea"
+  );
+  inputsFuncionario.forEach((input) => {
+    input.disabled = true;
+    btnEnviarDetalhesFuncionario.style.display = "none";
+    btnEditarDetalhesFuncionario.style.display = "block";
+  });
+
+  TelaDetalhesClientes.style.display = "none";
+  TelaDetalhesFuncionarios.style.display = "none";
+  TelaDetalhesAparelhos.style.display = "none";
+  TelaDetalhesExercicios.style.display = "none";
+  TelaCriarFicha.style.display = "none";
+  document.getElementById("listaTreinoA").innerHTML = "";
+  document.getElementById("listaTreinoB").innerHTML = "";
+  document.getElementById("listaTreinoC").innerHTML = "";
+  document.getElementById("sidebarHeader").style.paddingTop = "20px"
+  formDetCliente.reset();
+  formDetFuncionario.reset();
+  formCriarBaseFicha.reset();
+  formInserirTreinoA.reset();
+  formInserirTreinoB.reset();
+  formInserirTreinoC.reset();
+  switch (tela) {
+    case "TelaResumo":
+      btnResumo.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
+      btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnCliente.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnFuncionario.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnAparelho.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnExercicio.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      TelaResumo.style.display = "block";
+      TelaFicha.style.display = "none";
+      TelaClientes.style.display = "none";
+      TelaFuncionarios.style.display = "none";
+      TelaAparelhos.style.display = "none";
+      TelaExercicios.style.display = "none";
+
+      break;
+    case "TelaFicha":
+      if (TelaFicha.style.display === "block") {
+        TelaFicha.style.display = "none";
+        TelaResumo.style.display = "block";
+        btnResumo.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
+        btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+        return;
+      }
+      btnResumo.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnFicha.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
+      btnCliente.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnFuncionario.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnAparelho.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnExercicio.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      TelaResumo.style.display = "none";
+      TelaFicha.style.display = "block";
+      TelaClientes.style.display = "none";
+      TelaFuncionarios.style.display = "none";
+      TelaAparelhos.style.display = "none";
+      TelaExercicios.style.display = "none";
+      break;
+    case "TelaClientes":
+      if (TelaClientes.style.display === "block") {
+        TelaClientes.style.display = "none";
+        TelaResumo.style.display = "block";
+        btnResumo.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
+        btnCliente.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+        return;
+      }
+      btnResumo.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnCliente.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
+      btnFuncionario.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnAparelho.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnExercicio.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      TelaResumo.style.display = "none";
+      TelaFicha.style.display = "none";
+      TelaClientes.style.display = "block";
+      TelaFuncionarios.style.display = "none";
+      TelaAparelhos.style.display = "none";
+      TelaExercicios.style.display = "none";
+      break;
+    case "TelaFuncionarios":
+      if (TelaFuncionarios.style.display === "block") {
+        TelaFuncionarios.style.display = "none";
+        TelaResumo.style.display = "block";
+        btnResumo.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
+        btnFuncionario.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+        return;
+      }
+      btnResumo.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnCliente.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnFuncionario.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
+      btnAparelho.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnExercicio.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      TelaResumo.style.display = "none";
+      TelaFicha.style.display = "none";
+      TelaClientes.style.display = "none";
+      TelaFuncionarios.style.display = "block";
+      TelaAparelhos.style.display = "none";
+      TelaExercicios.style.display = "none";
+      break;
+    case "TelaAparelhos":
+      if (TelaAparelhos.style.display === "block") {
+        TelaAparelhos.style.display = "none";
+        TelaResumo.style.display = "block";
+        btnResumo.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
+        btnAparelho.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+        return;
+      }
+      btnResumo.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnCliente.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnFuncionario.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnExercicio.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnAparelho.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
+      TelaResumo.style.display = "none";
+      TelaFicha.style.display = "none";
+      TelaClientes.style.display = "none";
+      TelaAparelhos.style.display = "block";
+      TelaFuncionarios.style.display = "none";
+      TelaExercicios.style.display = "none";
+      break;
+    case "TelaExercicios":
+      if (TelaExercicios.style.display === "block") {
+        TelaExercicios.style.display = "none";
+        TelaResumo.style.display = "block";
+        btnResumo.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
+        btnExercicio.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+        return;
+      }
+      btnResumo.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnCliente.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnFuncionario.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnAparelho.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnExercicio.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
+      TelaResumo.style.display = "none";
+      TelaFicha.style.display = "none";
+      TelaClientes.style.display = "none";
+      TelaExercicios.style.display = "block";
+      TelaFuncionarios.style.display = "none";
+      TelaAparelhos.style.display = "none";
+      break;
+    default:
+      btnResumo.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnCliente.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnFuncionario.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnAparelho.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnExercicio.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      TelaResumo.style.display = "none";
+      TelaFicha.style.display = "none";
+      TelaClientes.style.display = "none";
+      TelaFuncionarios.style.display = "none";
+      TelaAparelhos.style.display = "none";
+      TelaExercicios.style.display = "none";
+      break;
+  }
+}
 
 //Abrir Modal Cliente
 
@@ -226,6 +473,82 @@ window.onclick = function (event) {
     modalCadastrarFuncionario.style.display = "none";
   }
 };
+
+//Abrir Modal Aparelho
+
+document
+  .getElementById("abrirModalRegisterAparelho")
+  .addEventListener("click", (e) => {
+    e.preventDefault();
+    modalCadastrarAparelho.style.display = "block";
+  });
+
+//Fechar Modal Aparelho
+
+fecharModalCadastrarAparelho.onclick = function () {
+  modalCadastrarAparelho.style.display = "none";
+};
+
+//Clicar Fora fecha o Modal Aparelho
+
+window.onclick = function (event) {
+  if (event.target == modalCadastrarAparelho) {
+    modalCadastrarAparelho.style.display = "none";
+  }
+};
+
+//Abrir Modal Exercicio
+
+document
+  .getElementById("abrirModalRegisterExercicio")
+  .addEventListener("click", (e) => {
+    e.preventDefault();
+    modalCadastrarExercicio.style.display = "block";
+  });
+
+//Fechar Modal Exercicio
+
+fecharModalCadastrarExercicio.onclick = function () {
+  modalCadastrarExercicio.style.display = "none";
+};
+
+//Clicar Fora fecha o Modal Exercicio
+
+window.onclick = function (event) {
+  if (event.target == modalCadastrarExercicio) {
+    modalCadastrarExercicio.style.display = "none";
+  }
+};
+
+//Fechar Modal arquivar Exercicio
+
+fecharModalArquivarExercicio.onclick = function () {
+  modalArquivarExercicio.style.display = "none";
+};
+
+//Clicar Fora fecha o Modal arquivar Exercicio
+
+window.onclick = function (event) {
+  if (event.target == modalArquivarExercicio) {
+    modalArquivarExercicio.style.display = "none";
+  }
+};
+
+//Fechar Modal arquivar Aparelho
+
+fecharModalArquivarAparelho.onclick = function () {
+  modalArquivarAparelho.style.display = "none";
+};
+
+//Clicar Fora fecha o Modal arquivar Aparelho
+
+window.onclick = function (event) {
+  if (event.target == modalArquivarAparelho) {
+    modalArquivarAparelho.style.display = "none";
+  }
+};
+
+
 
 //Função para pegar os dados da api de cep e jogar nos campos
 
@@ -325,115 +648,31 @@ document
     e.target.reset();
   });
 
-//Mudar o conteudo da tela
+//Cadastrar Aparelho
 
-function MostrarTela(tela) {
-  let inputsCliente = formDetCliente.querySelectorAll(
-    "input, select, textarea"
-  );
-  inputsCliente.forEach((input) => {
-    input.disabled = true;
-  });
-  btnEnviarDetalhesCliente.style.display = "none";
-  btnEditarDetalhesCliente.style.display = "block";
+formCadastrarAparelho.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const data = Object.fromEntries(fd.entries())
+  data.apaDataEntrada = await getFormattedDateTime();
+  await admServices.RegisterAparelho(data, idAcademia, token)
+  await UpdateListaAparelho(token);
+  modalCadastrarAparelho.style.display = "none";
+  e.target.reset();
+})
 
-  let inputsFuncionario = formDetFuncionario.querySelectorAll(
-    "input, select, textarea"
-  );
-  inputsFuncionario.forEach((input) => {
-    input.disabled = true;
-    btnEnviarDetalhesFuncionario.style.display = "none";
-    btnEditarDetalhesFuncionario.style.display = "block";
-  });
+//Cadastrar Exercicio
 
-  TelaDetalhesClientes.style.display = "none";
-  TelaDetalhesFuncionarios.style.display = "none";
-  TelaCriarFicha.style.display = "none";
-  document.getElementById("listaTreinoA").innerHTML = "";
-  document.getElementById("listaTreinoB").innerHTML = "";
-  document.getElementById("listaTreinoC").innerHTML = "";
-  document.getElementById("sidebarHeader").style.paddingTop = "20px"
-  formDetCliente.reset();
-  formDetFuncionario.reset();
-  formCriarBaseFicha.reset();
-  formInserirTreinoA.reset();
-  formInserirTreinoB.reset();
-  formInserirTreinoC.reset();
-  switch (tela) {
-    case "TelaResumo":
-      btnResumo.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
-      btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
-      btnCliente.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
-      btnFuncionario.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
-      TelaResumo.style.display = "block";
-      TelaFicha.style.display = "none";
-      TelaClientes.style.display = "none";
-      TelaFuncionarios.style.display = "none";
+formCadastrarExercicio.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const data = Object.fromEntries(fd.entries())
+  const result = await admServices.RegisterExercicio(data, idAcademia, token)
+  await UpdateListaExercicio(token);
+  modalCadastrarExercicio.style.display = "none";
+  e.target.reset();
+})
 
-      break;
-    case "TelaFicha":
-      if (TelaFicha.style.display === "block") {
-        TelaFicha.style.display = "none";
-        TelaResumo.style.display = "block";
-        btnResumo.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
-        btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
-        return;
-      }
-      btnResumo.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
-      btnFicha.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
-      btnCliente.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
-      btnFuncionario.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
-      TelaResumo.style.display = "none";
-      TelaFicha.style.display = "block";
-      TelaClientes.style.display = "none";
-      TelaFuncionarios.style.display = "none";
-      break;
-    case "TelaClientes":
-      if (TelaClientes.style.display === "block") {
-        TelaClientes.style.display = "none";
-        TelaResumo.style.display = "block";
-        btnResumo.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
-        btnCliente.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
-        return;
-      }
-      btnResumo.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
-      btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
-      btnCliente.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
-      btnFuncionario.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
-      TelaResumo.style.display = "none";
-      TelaFicha.style.display = "none";
-      TelaClientes.style.display = "block";
-      TelaFuncionarios.style.display = "none";
-      break;
-    case "TelaFuncionarios":
-      if (TelaFuncionarios.style.display === "block") {
-        TelaFuncionarios.style.display = "none";
-        TelaResumo.style.display = "block";
-        btnResumo.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
-        btnFuncionario.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
-        return;
-      }
-      btnResumo.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
-      btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
-      btnCliente.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
-      btnFuncionario.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
-      TelaResumo.style.display = "none";
-      TelaFicha.style.display = "none";
-      TelaClientes.style.display = "none";
-      TelaFuncionarios.style.display = "block";
-      break;
-    default:
-      btnResumo.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
-      btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
-      btnCliente.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
-      btnFuncionario.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
-      TelaResumo.style.display = "none";
-      TelaFicha.style.display = "none";
-      TelaClientes.style.display = "none";
-      TelaFuncionarios.style.display = "none";
-      break;
-  }
-}
 
 //Atualizar a Lista de Clientes
 
@@ -571,6 +810,129 @@ async function UpdateListaFuncionario(token) {
   }
 
   document.getElementById("tableFuncionarios").appendChild(tabela);
+}
+
+//Atualizar a Lista de Aparelhos
+
+async function UpdateListaAparelho(token) {
+  const result = await admServices.ReadAparelho(idAcademia, token);
+  //Colocar em alguma lista
+  const containerTabela = document.getElementById("tableAparelhos");
+  const tabelaExistente = containerTabela.querySelector("table");
+  if (tabelaExistente) {
+    containerTabela.removeChild(tabelaExistente);
+  }
+  const tabela = document.createElement("table");
+  tabela.setAttribute("border", "1");
+
+  const cabecalho = tabela.createTHead();
+  const linhaCabecalho = cabecalho.insertRow();
+  const titulos = ["Id", "Nome", "Status", "Ver Detalhes"];
+  titulos.forEach((texto) => {
+    let th = document.createElement("th");
+    th.textContent = texto;
+    linhaCabecalho.appendChild(th);
+  });
+
+  const corpoTabela = tabela.appendChild(document.createElement("tbody"));
+  if (result) {
+    result.forEach((item) => {
+      const linha = corpoTabela.insertRow();
+      const camposSelecionados = [
+        "apaId",
+        "apaNome",
+        "apaStatus",
+      ];
+
+      camposSelecionados.forEach((campo) => {
+        if (item.hasOwnProperty(campo)) {
+          let celula = linha.insertCell();
+          celula.textContent = item[campo];
+          if (campo === "apaStatus") {
+            celula.innerHTML =
+              item[campo] === "1"
+                ? `<span class="text-success">Ativo</span>`
+                : `<span class="text-danger">Arquivado</span>`;
+          }
+        }
+      });
+      let celulaBotao = linha.insertCell();
+      celulaBotao.style.cssText = "display: flex;align-items:center; padding-left: 25px "
+      let botaoDetalhes = document.createElement("button");
+      botaoDetalhes.classList.add("btnVerDetalhes")
+      botaoDetalhes.classList.add("btn")
+      botaoDetalhes.classList.add("btn-info")
+      botaoDetalhes.innerHTML = '<i class="bi bi-search"></i>';
+      botaoDetalhes.addEventListener("click", function () {
+        MostrarTelaDetalhesAparelho(item.apaId, token);
+      });
+      celulaBotao.appendChild(botaoDetalhes);
+    });
+  }
+
+  document.getElementById("tableAparelhos").appendChild(tabela);
+}
+
+//Atualizar a Lista de Aparelhos
+
+async function UpdateListaExercicio(token) {
+  const result = await admServices.ReadExercicio(idAcademia, token);
+  //Colocar em alguma lista
+  const containerTabela = document.getElementById("tableExercicios");
+  const tabelaExistente = containerTabela.querySelector("table");
+  if (tabelaExistente) {
+    containerTabela.removeChild(tabelaExistente);
+  }
+  const tabela = document.createElement("table");
+  tabela.setAttribute("border", "1");
+
+  const cabecalho = tabela.createTHead();
+  const linhaCabecalho = cabecalho.insertRow();
+  const titulos = ["Id", "Nome", "Aparelho", "Status", "Ver Detalhes"];
+  titulos.forEach((texto) => {
+    let th = document.createElement("th");
+    th.textContent = texto;
+    linhaCabecalho.appendChild(th);
+  });
+
+  const corpoTabela = tabela.appendChild(document.createElement("tbody"));
+  if (result) {
+    result.forEach((item) => {
+      const linha = corpoTabela.insertRow();
+      const camposSelecionados = [
+        "exeId",
+        "exeNome",
+        "exeApaId",
+        "exeStatus",
+      ];
+
+      camposSelecionados.forEach((campo) => {
+        if (item.hasOwnProperty(campo)) {
+          let celula = linha.insertCell();
+          celula.textContent = item[campo];
+          if (campo === "exeStatus") {
+            celula.innerHTML =
+              item[campo] === "1"
+                ? `<span class="text-success">Ativo</span>`
+                : `<span class="text-danger">Arquivado</span>`;
+          }
+        }
+      });
+      let celulaBotao = linha.insertCell();
+      celulaBotao.style.cssText = "display: flex;align-items:center; padding-left: 25px "
+      let botaoDetalhes = document.createElement("button");
+      botaoDetalhes.classList.add("btnVerDetalhes")
+      botaoDetalhes.classList.add("btn")
+      botaoDetalhes.classList.add("btn-info")
+      botaoDetalhes.innerHTML = '<i class="bi bi-search"></i>';
+      botaoDetalhes.addEventListener("click", function () {
+        MostrarTelaDetalhesExercicio(item.exeId, token);
+      });
+      celulaBotao.appendChild(botaoDetalhes);
+    });
+  }
+
+  document.getElementById("tableExercicios").appendChild(tabela);
 }
 
 //Atualizar a Lista de Fichas
@@ -958,6 +1320,172 @@ formArquivarCliente.addEventListener("submit", async (e) => {
   MostrarTela("TelaClientes");
 });
 
+//Função de mostrar a tela de detalhes do aparelho
+
+async function MostrarTelaDetalhesAparelho(apaId, token) {
+  const result = await admServices.ReadAparelhoDetalhes(idAcademia, apaId, token);
+  MostrarTela();
+  TelaDetalhesAparelhos.style.display = "block";
+
+  Object.keys(result).forEach((key) => {
+    let input = formDetAparelho.querySelector(`[name="${key}"]`);
+    if (input) {
+      if (input.type === "date") {
+        let dateValue = new Date(result[key]).toISOString().split("T")[0];
+        input.value = dateValue;
+      } else {
+        input.value = result[key];
+      }
+    }
+  });
+
+  btnEditarDetalhesAparelho.addEventListener("click", (e) => {
+    e.preventDefault();
+    Object.keys(result).forEach((key) => {
+      let input = formDetAparelho.querySelector(`[name="${key}"]`);
+      if (input) {
+        input.removeAttribute("disabled");
+      }
+    });
+    e.target.style.display = "none";
+    btnEnviarDetalhesAparelho.style.display = "block";
+  });
+}
+
+//Função de Edição Aparelho
+
+btnEnviarDetalhesAparelho.addEventListener("click", async (e) => {
+  e.preventDefault();
+  let apaId = document.getElementById("apaDetId").value;
+  const fd = new FormData(formDetAparelho);
+  const data = Object.fromEntries(fd.entries());
+  data.apaId = apaId;
+  if (verificarNumeros(data.apaNome)) {
+    alert("O nome não pode conter números");
+    return;
+  }
+  const result = await admServices.UpdateAparelhoDetalhes(data, token);
+  Object.keys(result).forEach((key) => {
+    let input = formDetAparelho.querySelector(`[name="${key}"]`);
+    if (input) {
+      input.setAttribute("disabled", "disabled");
+    }
+  });
+  formDetAparelho.reset();
+  await UpdateListaAparelho(token);
+  MostrarTela("TelaAparelhos");
+});
+
+//Função de mostrar o modal Arquivar Aparelho
+
+btnArchiveAparelho.addEventListener("click", async (e) => {
+  e.preventDefault();
+  modalArquivarAparelho.style.display = "block";
+});
+
+const formArquivarAparelho = document.getElementById("formArquivarAparelho");
+
+btnVoltarTelaAparelho.addEventListener("click", async (e) => {
+  e.preventDefault();
+  await UpdateListaAparelho(token);
+  MostrarTela("TelaAparelhos");
+})
+
+//Função de Arquivamento Aparelho
+
+formArquivarAparelho.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  let apaId = document.getElementById("apaDetId").value;
+  await admServices.ArchiveAparelho(apaId, token);
+  formDetAparelho.reset();
+  modalArquivarAparelho.style.display = "none";
+  await UpdateListaAparelho(token);
+  MostrarTela("TelaAparelhos");
+});
+
+//Função de mostrar a tela de detalhes do Exercicio
+
+async function MostrarTelaDetalhesExercicio(exeId, token) {
+  const result = await admServices.ReadExercicioDetalhes(idAcademia, exeId, token);
+  MostrarTela();
+  TelaDetalhesExercicios.style.display = "block";
+
+  Object.keys(result).forEach((key) => {
+    let input = formDetExercicio.querySelector(`[name="${key}"]`);
+    if (input) {
+      if (input.type === "date") {
+        let dateValue = new Date(result[key]).toISOString().split("T")[0];
+        input.value = dateValue;
+      } else {
+        input.value = result[key];
+      }
+    }
+  });
+
+  btnEditarDetalhesExercicio.addEventListener("click", (e) => {
+    e.preventDefault();
+    Object.keys(result).forEach((key) => {
+      let input = formDetExercicio.querySelector(`[name="${key}"]`);
+      if (input) {
+        input.removeAttribute("disabled");
+      }
+    });
+    e.target.style.display = "none";
+    btnEnviarDetalhesExercicio.style.display = "block";
+  });
+}
+
+//Função de Edição Exercicio
+
+btnEnviarDetalhesExercicio.addEventListener("click", async (e) => {
+  e.preventDefault();
+  let exeId = document.getElementById("exeDetId").value;
+  const fd = new FormData(formDetExercicio);
+  const data = Object.fromEntries(fd.entries());
+  data.exeId = exeId;
+  if (verificarNumeros(data.exeNome)) {
+    alert("O nome não pode conter números");
+    return;
+  }
+  const result = await admServices.UpdateExercicioDetalhes(data, token);
+  Object.keys(result).forEach((key) => {
+    let input = formDetExercicio.querySelector(`[name="${key}"]`);
+    if (input) {
+      input.setAttribute("disabled", "disabled");
+    }
+  });
+  formDetExercicio.reset();
+  await UpdateListaExercicio(token);
+  MostrarTela("TelaExercicios");
+});
+
+//Função de mostrar o modal Arquivar Exercicio
+
+btnArchiveExercicio.addEventListener("click", async (e) => {
+  e.preventDefault();
+  modalArquivarExercicio.style.display = "block";
+});
+
+const formArquivarExercicio = document.getElementById("formArquivarExercicio");
+
+btnVoltarTelaExercicio.addEventListener("click", async (e) => {
+  e.preventDefault();
+  await UpdateListaExercicio(token);
+  MostrarTela("TelaExercicios");
+})
+
+//Função de Arquivamento Exercicio
+
+formArquivarExercicio.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  let exeId = document.getElementById("exeDetId").value;
+  await admServices.ArchiveExercicio(exeId, token);
+  formDetExercicio.reset();
+  modalArquivarExercicio.style.display = "none";
+  await UpdateListaExercicio(token);
+  MostrarTela("TelaExercicios");
+});
+
 //Mostra a Tela de Detalhes do funcionario
 
 async function MostrarTelaDetalhesFuncionario(funId, token) {
@@ -1140,6 +1668,24 @@ async function PreencherSelectProfessores() {
     });
   } else {
     alert("Você não possui funcionários cadastrados!")
+  }
+}
+
+async function PreencherSelectAparelhos() {
+  const result = await admServices.ReadAparelho(idAcademia, token);
+  document.getElementById("apaExercicio").innerHTML = "";
+  document.getElementById("apaDetExercicio").innerHTML = "";
+  if (result.length > 0) {
+    result.forEach((item) => {
+      document.getElementById(
+        "apaExercicio"
+      ).innerHTML += `<option value=${item.apaId}>${item.apaNome}</option>`;
+      document.getElementById(
+        "apaDetExercicio"
+      ).innerHTML += `<option value=${item.apaId}>${item.apaNome}</option>`;
+    });
+  } else {
+    alert("Você não possui aparelhos cadastrados!")
   }
 }
 
