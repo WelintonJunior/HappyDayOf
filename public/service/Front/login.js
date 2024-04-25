@@ -7,7 +7,6 @@ document.getElementById("formLogin").addEventListener("submit", async (e) => {
       case "0":
         const sucessCliente = await loginServices.handleLoginCliente(data);
         if (sucessCliente) {
-          alert("Sucesso!");
           localStorage.setItem("dados", JSON.stringify(sucessCliente));
   
           window.location.href = "/Cliente";
@@ -18,7 +17,6 @@ document.getElementById("formLogin").addEventListener("submit", async (e) => {
       case "1":
         const sucessFuncionario = await loginServices.handleLoginFuncionario(data);
         if (sucessFuncionario) {
-          alert("Sucesso!");
           localStorage.setItem("dados", JSON.stringify(sucessFuncionario));
           switch (sucessFuncionario.results.funNivel) {
             case 1:

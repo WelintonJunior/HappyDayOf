@@ -13,6 +13,7 @@ router.post("/Ficha", async (req, res) => {
       return res.status(401).json({ message: "Sessão expirada, faça login novamente" });
     } else {
       const { acao, data, idAcademia } = req.body;
+      const { io } = require("../app.js");
       switch (acao) {
         case "ReadClienteFicha":
           db.query(
@@ -131,6 +132,7 @@ router.post("/Ficha", async (req, res) => {
               if (err) {
                 return res.json(err);
               }
+              io.emit("AttFicha", { data })
               res.send(results);
             }
           );
@@ -150,6 +152,7 @@ router.post("/Ficha", async (req, res) => {
               if (err) {
                 return res.json(err);
               }
+              io.emit("AttFicha", { data })
               res.send(results);
             }
           );
@@ -164,10 +167,16 @@ router.post("/Ficha", async (req, res) => {
               data.detSerie,
               data.detRepeticao,
               data.detId,
-            ]
+            ], (err, results) => {
+              io.emit("AttFicha", { data })
+              if (err) {
+                return res.json(err)
+              }
+            }
           );
           break;
         case "UpdateCampoFicha":
+          io.emit("AttFicha", { data })
           switch (data.detCampo) {
             case "detVariacao":
               db.query(
@@ -224,6 +233,7 @@ router.post("/Ficha", async (req, res) => {
             if (err) {
               return res.json(err)
             }
+            io.emit("AttFicha", { data })
             res.send(results)
           })
           break;

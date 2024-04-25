@@ -79,7 +79,6 @@ const rating1 = document.getElementById("rating-1");
 const rating2 = document.getElementById("rating-2");
 const rating3 = document.getElementById("rating-3");
 const rating4 = document.getElementById("rating-4");
-const titleConhecimento = document.getElementById("titleConhecimento")
 const modalSatisfacao = document.getElementById("modalSatisfacao")
 const formDetCliente = document.getElementById("formDetalhesCliente")
 const fecharModalRegisterMeta = document.getElementById("fecharModalRegisterMeta")
@@ -451,35 +450,9 @@ formSatisfacao.addEventListener("submit", async (e) => {
   e.preventDefault();
   const fd = new FormData(e.target)
   const data = Object.fromEntries(fd.entries())
-  switch (titleConhecimento.innerHTML) {
-    case "Conhecimento":
-      data.modulo = titleConhecimento.innerHTML
-      await clienteServices.UpdateSatisfacao(data, token)
-      titleConhecimento.innerHTML = "Clareza"
-      break;
-    case "Clareza":
-      data.modulo = titleConhecimento.innerHTML
-      await clienteServices.UpdateSatisfacao(data, token);
-      titleConhecimento.innerHTML = "Pró Atividade"
-      break;
-    case "Pró Atividade":
-      data.modulo = titleConhecimento.innerHTML
-      await clienteServices.UpdateSatisfacao(data, token);
-      titleConhecimento.innerHTML = "Disponibilidade"
-      break;
-    case "Disponibilidade":
-      data.modulo = titleConhecimento.innerHTML
-      await clienteServices.UpdateSatisfacao(data, token);
-      titleConhecimento.innerHTML = "Segurança"
-      break;
-    case "Segurança":
-      data.modulo = titleConhecimento.innerHTML
-      await clienteServices.UpdateSatisfacao(data, token);
-      modalSatisfacao.style.display = "none"
-      titleConhecimento.innerHTML = "Conhecimento"
-      mostrarModalObrigado();
-      break;
-  }
+  const result = await clienteServices.UpdateSatisfacao(data, token)
+  modalSatisfacao.style.display = "none"
+  mostrarModalObrigado();
 })
 
 

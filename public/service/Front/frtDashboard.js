@@ -11,11 +11,11 @@ class DashSatisfacao {
     }
 
     calcularMedias() {
-        this.mediaConhecimento = this.somaConhecimento / this.count;
-        this.mediaClareza = this.somaClareza / this.count;
-        this.mediaProatividade = this.somaProatividade / this.count;
-        this.mediaDisponibilidade = this.somaDisponibilidade / this.count;
-        this.mediaSeguranca = this.somaSeguranca / this.count;
+        this.mediaConhecimento = (this.somaConhecimento / this.count).toFixed(2);
+        this.mediaClareza = (this.somaClareza / this.count).toFixed(2);
+        this.mediaProatividade = (this.somaProatividade / this.count).toFixed(2);
+        this.mediaDisponibilidade = (this.somaDisponibilidade / this.count).toFixed(2);
+        this.mediaSeguranca = (this.somaSeguranca / this.count).toFixed(2);
     }
 }
 

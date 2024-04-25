@@ -257,6 +257,30 @@ class ClienteServices extends FichaServices {
         await VerificarSatisfacaoAtendimento(StatusSatisfacao, msg.data.dateNow, msg.idAcademia, msg.data.ateIdCliente, token)
       }
     })
+
+    socket.on("AttFicha", async (data) => {
+      if (data.data.cliIdFicha == dados.cliId) {
+        if (data.data.detTreino) {
+          switch (data.data.detTreino) {
+            case "A":
+              UpdateClienteFichaTreinoA(data.data.cliIdFicha, token)
+              break;
+            case "B":
+              UpdateClienteFichaTreinoB(data.data.cliIdFicha, token)
+              break;
+            case "C":
+              UpdateClienteFichaTreinoC(data.data.cliIdFicha, token)
+              break;
+          }
+        }
+        if (data.data.detCampo) {
+          UpdateClienteFichaTreinoA(data.data.cliIdFicha, token)
+          UpdateClienteFichaTreinoB(data.data.cliIdFicha, token)
+          UpdateClienteFichaTreinoC(data.data.cliIdFicha, token)
+        }
+      }
+
+    });
   }
 }
 

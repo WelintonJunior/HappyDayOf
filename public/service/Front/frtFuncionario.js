@@ -289,7 +289,7 @@ async function UpdateListaCliente(token) {
             celula.innerHTML =
               item[campo] === "1"
                 ? `<span class="text-success">Ativo</span>`
-                : `<span class="text-danger">Arquivado</span>`;
+                : `<span class="text-danger">Desativado</span>`;
           }
         }
       });
@@ -500,6 +500,7 @@ async function UpdateCampoFichaCliente(item, campo, celula, cliId, token) {
     data.detId = detId;
     data.detCampo = campoEditado;
     data.valor = novoValor;
+    data.cliIdFicha = document.getElementById("cliIdAtual").value;
 
     if (novoValor == "") {
       await funServices.DeleteCampoFicha(data, token);
@@ -523,6 +524,7 @@ async function UpdateCampoFichaCliente(item, campo, celula, cliId, token) {
       data.detId = detId;
       data.detCampo = campoEditado;
       data.valor = novoValor;
+      data.cliIdFicha = document.getElementById("cliIdAtual").value;
 
       if (novoValor == "") {
         await funServices.DeleteCampoFicha(data, token);
@@ -799,6 +801,7 @@ formCriarBaseFicha.addEventListener("submit", async (e) => {
   data.ficRestricoes === "on"
     ? (data.ficRestricoes = 1)
     : (data.ficRestricoes = 0);
+  data.cliIdFicha = document.getElementById("cliIdAtual").value;
   const result = await funServices.RegisterBaseFicha(idAcademia, data, token);
   await UpdateListaClienteFicha(token);
   document.getElementById("modalCriarBaseFicha").style.display = "none";
@@ -845,6 +848,8 @@ async function MostrarTelaCriarFicha(cliId, token) {
     result.length > 0 ? result[0].ficId : result.ficId;
   document.getElementById("idFichaTreinoC").value =
     result.length > 0 ? result[0].ficId : result.ficId;
+  document.getElementById("cliIdAtual").value =
+    result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente;
   document.getElementById("cliIdFichaTreinoA").value =
     result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente;
   document.getElementById("cliIdFichaTreinoB").value =
@@ -911,6 +916,7 @@ formInserirTreinoA.addEventListener("submit", async (e) => {
   data.detIdFicha = idFicha;
   data.detTreino = "A";
   const verificacao = await verificarForm(data);
+  data.cliIdFicha = document.getElementById("cliIdAtual").value;
   if (!verificacao) {
     const result = await funServices.RegisterDetalhesFicha(data, token);
     await UpdateClienteFichaTreinoA(cliIdFichaTreinoA, token);
@@ -932,6 +938,7 @@ formInserirTreinoB.addEventListener("submit", async (e) => {
   data.detIdFicha = idFicha;
   data.detTreino = "B";
   const verificacao = await verificarForm(data);
+  data.cliIdFicha = document.getElementById("cliIdAtual").value;
   if (!verificacao) {
     const result = await funServices.RegisterDetalhesFicha(data, token);
     await UpdateClienteFichaTreinoB(cliIdFichaTreinoB, token);
@@ -953,6 +960,7 @@ formInserirTreinoC.addEventListener("submit", async (e) => {
   data.detIdFicha = idFicha;
   data.detTreino = "C";
   const verificacao = await verificarForm(data);
+  data.cliIdFicha = document.getElementById("cliIdAtual").value;
   if (!verificacao) {
     const result = await funServices.RegisterDetalhesFicha(data, token);
     await UpdateClienteFichaTreinoC(cliIdFichaTreinoC, token);

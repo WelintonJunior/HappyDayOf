@@ -276,8 +276,6 @@
             </section>
           </section>
 
-
-
           <!-- <div class="listBoxFuncionario" id="listBoxFuncionario">
           <div id="tableFuncionarios"></div>
         </div>
@@ -285,12 +283,7 @@
         </div>
 
         <!-- Tela Detalhes Clientes -->
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
+        <br><br><br><br><br><br>
         <section class="container bg-light">
           <div class="row">
             <div class="col-12 ">
@@ -416,7 +409,7 @@
                   </div>
                   <div class="col">
 
-                    <button id="btnArchiveCliente" class="btn btn-primary mb-1 ">Arquivar Cliente</button>
+                    <button id="btnArchiveCliente" class="btn btn-primary mb-1 ">Desativar Cliente</button>
 
                     <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalArquivarCliente">
                           Arquivar um usuario
@@ -536,7 +529,7 @@
                 <div class="row">
 
                   <div class="col">
-                    <button id="btnArchiveFuncionario" class="btn btn-primary mb-1">Arquivar Funcionario</button>
+                    <button id="btnArchiveFuncionario" class="btn btn-primary mb-1">Desativar Funcionario</button>
                   </div>
 
                 </div>
@@ -598,7 +591,7 @@
                 <div class="row">
 
                   <div class="col">
-                    <button id="btnArchiveAparelho" class="btn btn-primary mb-1">Arquivar Aparelho</button>
+                    <button id="btnArchiveAparelho" class="btn btn-primary mb-1">Desativar Aparelho</button>
                   </div>
 
                 </div>
@@ -660,7 +653,7 @@
                 <div class="row">
 
                   <div class="col">
-                    <button id="btnArchiveExercicio" class="btn btn-primary mb-1">Arquivar Exercicio</button>
+                    <button id="btnArchiveExercicio" class="btn btn-primary mb-1">Desativar Exercicio</button>
                   </div>
 
                 </div>
@@ -672,193 +665,196 @@
             </section>
           </form>
         </div>
-      </div>
 
-      <!-- Tela Criar Ficha -->
+        <!-- Tela Criar Ficha -->
 
-      <div id="TelaCriarFicha" style="display: none; margin-top: -70px;">
-
+        <div id="TelaCriarFicha" style="display: none; margin-top: -70px;">
 
 
 
-        <div class="container">
 
-          <button type="button" class="btn btn-secondary" id="btnVoltarTelaFicha">Voltar</button>
-          <form class="mt-3 mb-3">
+          <div class="container">
 
-            Cliente: <span id="cliNomeCriarFicha"></span> <br />
-            Professor:<span id="funNomeCriarFicha"></span> <br />
-            <select style="display: none" name="funSelectCriarFicha" id="funSelectCriarFicha"></select>
-            Restrições:
-            <input type="checkbox" name="cliRestricoesCriarFicha" id="cliRestricoesCriarFicha" />
-            <span style="display: none" id="cliRestricoesTipoCriarFicha">Tipo de Restrições:
-            </span>
-            Intervalo: <span id="cliIntervaloCriarFicha"></span><br />
-          </form>
+            <button type="button" class="btn btn-secondary" id="btnVoltarTelaFicha">Voltar</button>
+            <form class="mt-3 mb-3">
+              <input type="text" class="d-none" id="cliIdAtual">
+              Cliente: <span id="cliNomeCriarFicha"></span> <br />
+              Professor:<span id="funNomeCriarFicha"></span> <br />
+              <select style="display: none" name="funSelectCriarFicha" id="funSelectCriarFicha"></select>
+              Restrições:
+              <input type="checkbox" name="cliRestricoesCriarFicha" id="cliRestricoesCriarFicha" />
+              <span style="display: none" id="cliRestricoesTipoCriarFicha">Tipo de Restrições:
+              </span>
+              Intervalo: <span id="cliIntervaloCriarFicha"></span><br />
+            </form>
 
 
 
-          <div class="row flex-container">
-            <!-- Treino A -->
-            <div class="ficha_treino col-sm-12 col-md-4">
-              <div class="inner">
-                <span class="pricing">
-                  <span>
-                    <strong>
-                      A
-                    </strong>
+            <div class="row flex-container">
+              <!-- Treino A -->
+              <div class="ficha_treino col-sm-12 col-md-4">
+                <div class="inner">
+                  <span class="pricing">
+                    <span>
+                      <strong>
+                        A
+                      </strong>
+                    </span>
                   </span>
-                </span>
-                <p class="title">Insira Para o treino A:</p>
+                  <p class="title">Insira Para o treino A:</p>
+                  <div class="row" style="width: 100%">
+                    <form id="formInserirTreinoA">
+
+                      <input type="text" class="d-none" id="cliIdFichaTreinoA" />
+                      <input type="text" class="d-none" id="idFichaTreinoA" />
+
+                      <input class="form-control col-md-10 col-sm-12 mb-1" aria-label="default input example"
+                        placeholder="Variação" type="text" name="detVariacao" />
+                      <input class="form-control col-md-8 col-sm-12 mb-1" aria-label="default input example"
+                        placeholder="Séries" type="text" name="detSerie" />
+                      <input class="form-control col-md-6 col-sm-12 mb-1" aria-label="default input example"
+                        placeholder="Repetições" type="text" name="detRepeticao" />
+                      <input class="form-control col-md-4 col-sm-12 mb-1" aria-label="default input example"
+                        placeholder="Carga" type="text" name="detCarga" />
+
+                      <button type="button submit" class="btn btn-success mt-2 mb-3">Enter</button>
+
+                    </form>
+                    <div class="mt-2" id="listaTreinoA">Lista aqui</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Treino B -->
+              <div class="ficha_treino col-sm-12 col-md-4">
+                <div class="inner">
+                  <span class="pricing">
+                    <span>
+                      <strong>
+                        B
+                      </strong>
+                    </span>
+                  </span>
+                  <p class="title">Insira Para o treino B:</p>
+                  <div class="row" style="width: 100%">
+                    <form id="formInserirTreinoB">
+
+                      <input type="text" class="d-none" id="cliIdFichaTreinoB" />
+                      <input type="text" class="d-none" id="idFichaTreinoB" />
+
+                      <input class="form-control col-md-10 col-sm-12 mb-1" aria-label="default input example"
+                        placeholder="Variação" type="text" name="detVariacao" />
+                      <input class="form-control col-md-8 col-sm-12 mb-1" aria-label="default input example"
+                        placeholder="Séries" type="text" name="detSerie" />
+                      <input class="form-control col-md-6 col-sm-12 mb-1" aria-label="default input example"
+                        placeholder="Repetições" type="text" name="detRepeticao" />
+                      <input class="form-control col-md-4 col-sm-12 mb-1" aria-label="default input example"
+                        placeholder="Carga" type="text" name="detCarga" />
+
+                      <button type="button submit" class="btn btn-success mt-2 mb-3">Enter</button>
+
+                    </form>
+                    <div class="mt-2" id="listaTreinoB">Lista aqui</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Treino C -->
+              <div class="ficha_treino col-sm-12 col-md-4">
+                <div class="inner">
+                  <span class="pricing">
+                    <span>
+                      <strong>
+                        C
+                      </strong>
+                    </span>
+                  </span>
+                  <p class="title">Insira Para o treino C:</p>
+                  <div class="row" style="width: 100%">
+                    <form id="formInserirTreinoC">
+
+                      <input type="text" class="d-none" id="cliIdFichaTreinoC" />
+                      <input type="text" class="d-none" id="idFichaTreinoC" />
+
+                      <input class="form-control col-md-10 col-sm-12 mb-1" aria-label="default input example"
+                        placeholder="Variação" type="text" name="detVariacao" />
+                      <input class="form-control col-md-8 col-sm-12 mb-1" aria-label="default input example"
+                        placeholder="Séries" type="text" name="detSerie" />
+                      <input class="form-control col-md-6 col-sm-12 mb-1" aria-label="default input example"
+                        placeholder="Repetições" type="text" name="detRepeticao" />
+                      <input class="form-control col-md-4 col-sm-12 mb-1" aria-label="default input example"
+                        placeholder="Carga" type="text" name="detCarga" />
+
+                      <button type="button submit" class="btn btn-success mt-2 mb-3">Enter</button>
+
+                    </form>
+                    <div class="mt-2" id="listaTreinoC">Lista aqui</div>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <!-- Treino A -->
+              <!-- <div class="col-4 px-4">
+                Insira Para o treino A:
                 <div class="row" style="width: 100%">
                   <form id="formInserirTreinoA">
-
                     <input type="text" class="d-none" id="cliIdFichaTreinoA" />
                     <input type="text" class="d-none" id="idFichaTreinoA" />
-
-                    <input class="form-control col-md-10 col-sm-12 mb-1" aria-label="default input example"
-                      placeholder="Variação" type="text" name="detVariacao" />
-                    <input class="form-control col-md-8 col-sm-12 mb-1" aria-label="default input example"
-                      placeholder="Séries" type="text" name="detSerie" />
-                    <input class="form-control col-md-6 col-sm-12 mb-1" aria-label="default input example"
-                      placeholder="Repetições" type="text" name="detRepeticao" />
-                    <input class="form-control col-md-4 col-sm-12 mb-1" aria-label="default input example"
-                      placeholder="Carga" type="text" name="detCarga" />
-
-                    <button type="button submit" class="btn btn-success mt-2 mb-3">Enter</button>
-
+  
+                    <input class="col-4" placeholder="Variação" type="text" name="detVariacao" />
+                    <input class="col-2" placeholder="Séries" type="text" name="detSerie" />
+                    <input class="col-2" placeholder="Repetições" type="text" name="detRepeticao" />
+                    <input class="col-2" placeholder="Carga" type="text" name="detCarga" />
+                    <button type="submit" class="col-2">Enter</button>
                   </form>
-                  <div class="mt-2" id="listaTreinoA">Lista aqui</div>
+                  <div class="mt-2" id="listaTreinoA"></div>
                 </div>
-              </div>
-            </div>
+              </div> -->
 
-            <!-- Treino B -->
-            <div class="ficha_treino col-sm-12 col-md-4">
-              <div class="inner">
-                <span class="pricing">
-                  <span>
-                    <strong>
-                      B
-                    </strong>
-                  </span>
-                </span>
-                <p class="title">Insira Para o treino B:</p>
-                <div class="row" style="width: 100%">
+              <!-- Treino B -->
+              <!-- <div class="col-4 px-4">
+                Insira Para o treino B:
+                <div class="row">
                   <form id="formInserirTreinoB">
-
                     <input type="text" class="d-none" id="cliIdFichaTreinoB" />
                     <input type="text" class="d-none" id="idFichaTreinoB" />
-
-                    <input class="form-control col-md-10 col-sm-12 mb-1" aria-label="default input example"
-                      placeholder="Variação" type="text" name="detVariacao" />
-                    <input class="form-control col-md-8 col-sm-12 mb-1" aria-label="default input example"
-                      placeholder="Séries" type="text" name="detSerie" />
-                    <input class="form-control col-md-6 col-sm-12 mb-1" aria-label="default input example"
-                      placeholder="Repetições" type="text" name="detRepeticao" />
-                    <input class="form-control col-md-4 col-sm-12 mb-1" aria-label="default input example"
-                      placeholder="Carga" type="text" name="detCarga" />
-
-                    <button type="button submit" class="btn btn-success mt-2 mb-3">Enter</button>
-
+                    <input class="col-4" placeholder="Variação" type="text" name="detVariacao" />
+                    <input class="col-2" placeholder="Séries" type="text" name="detSerie" />
+                    <input class="col-2" placeholder="Repetições" type="text" name="detRepeticao" />
+                    <input class="col-2" placeholder="Carga" type="text" name="detCarga" />
+                    <button type="submit" class="col-2">Enter</button>
                   </form>
-                  <div class="mt-2" id="listaTreinoB">Lista aqui</div>
+  
+                  <div class="mt-2" id="listaTreinoB"></div>
                 </div>
-              </div>
-            </div>
+              </div> -->
 
-            <!-- Treino C -->
-            <div class="ficha_treino col-sm-12 col-md-4">
-              <div class="inner">
-                <span class="pricing">
-                  <span>
-                    <strong>
-                      C
-                    </strong>
-                  </span>
-                </span>
-                <p class="title">Insira Para o treino C:</p>
+              <!-- Treino C -->
+              <!-- <div class="col-4 px-4">
+                Insira Para o treino C:
                 <div class="row" style="width: 100%">
                   <form id="formInserirTreinoC">
-
                     <input type="text" class="d-none" id="cliIdFichaTreinoC" />
                     <input type="text" class="d-none" id="idFichaTreinoC" />
-
-                    <input class="form-control col-md-10 col-sm-12 mb-1" aria-label="default input example"
-                      placeholder="Variação" type="text" name="detVariacao" />
-                    <input class="form-control col-md-8 col-sm-12 mb-1" aria-label="default input example"
-                      placeholder="Séries" type="text" name="detSerie" />
-                    <input class="form-control col-md-6 col-sm-12 mb-1" aria-label="default input example"
-                      placeholder="Repetições" type="text" name="detRepeticao" />
-                    <input class="form-control col-md-4 col-sm-12 mb-1" aria-label="default input example"
-                      placeholder="Carga" type="text" name="detCarga" />
-
-                    <button type="button submit" class="btn btn-success mt-2 mb-3">Enter</button>
-
+                    <input class="col-4" placeholder="Variação" type="text" name="detVariacao" />
+                    <input class="col-2" placeholder="Séries" type="text" name="detSerie" />
+                    <input class="col-2" placeholder="Repetições" type="text" name="detRepeticao" />
+                    <input class="col-2" placeholder="Carga" type="text" name="detCarga" />
+                    <button type="submit" class="col-2">Enter</button>
                   </form>
-                  <div class="mt-2" id="listaTreinoC">Lista aqui</div>
+  
+                  <div class="mt-2" id="listaTreinoC"></div>
                 </div>
-              </div>
+              </div> -->
             </div>
-
-
-
-            <!-- Treino A -->
-            <!-- <div class="col-4 px-4">
-              Insira Para o treino A:
-              <div class="row" style="width: 100%">
-                <form id="formInserirTreinoA">
-                  <input type="text" class="d-none" id="cliIdFichaTreinoA" />
-                  <input type="text" class="d-none" id="idFichaTreinoA" />
-
-                  <input class="col-4" placeholder="Variação" type="text" name="detVariacao" />
-                  <input class="col-2" placeholder="Séries" type="text" name="detSerie" />
-                  <input class="col-2" placeholder="Repetições" type="text" name="detRepeticao" />
-                  <input class="col-2" placeholder="Carga" type="text" name="detCarga" />
-                  <button type="submit" class="col-2">Enter</button>
-                </form>
-                <div class="mt-2" id="listaTreinoA"></div>
-              </div>
-            </div> -->
-
-            <!-- Treino B -->
-            <!-- <div class="col-4 px-4">
-              Insira Para o treino B:
-              <div class="row">
-                <form id="formInserirTreinoB">
-                  <input type="text" class="d-none" id="cliIdFichaTreinoB" />
-                  <input type="text" class="d-none" id="idFichaTreinoB" />
-                  <input class="col-4" placeholder="Variação" type="text" name="detVariacao" />
-                  <input class="col-2" placeholder="Séries" type="text" name="detSerie" />
-                  <input class="col-2" placeholder="Repetições" type="text" name="detRepeticao" />
-                  <input class="col-2" placeholder="Carga" type="text" name="detCarga" />
-                  <button type="submit" class="col-2">Enter</button>
-                </form>
-
-                <div class="mt-2" id="listaTreinoB"></div>
-              </div>
-            </div> -->
-
-            <!-- Treino C -->
-            <!-- <div class="col-4 px-4">
-              Insira Para o treino C:
-              <div class="row" style="width: 100%">
-                <form id="formInserirTreinoC">
-                  <input type="text" class="d-none" id="cliIdFichaTreinoC" />
-                  <input type="text" class="d-none" id="idFichaTreinoC" />
-                  <input class="col-4" placeholder="Variação" type="text" name="detVariacao" />
-                  <input class="col-2" placeholder="Séries" type="text" name="detSerie" />
-                  <input class="col-2" placeholder="Repetições" type="text" name="detRepeticao" />
-                  <input class="col-2" placeholder="Carga" type="text" name="detCarga" />
-                  <button type="submit" class="col-2">Enter</button>
-                </form>
-
-                <div class="mt-2" id="listaTreinoC"></div>
-              </div>
-            </div> -->
           </div>
         </div>
       </div>
+
+
+
 
     </div>
   </div>
@@ -1095,13 +1091,13 @@
     <div class="modal-dialog d-flex align-items-center justify-content-center" style="height: 80vh;">
       <div class="modal-content">
         <div class="modal-header">
-          <h2>Arquivar Funcionário</h2>
+          <h2>Desativar Funcionário</h2>
           <span id="fecharModalArquivarFuncionario" class="fechar">&times;</span>
         </div>
         <form id="formArquivarFuncionario" class="p-5">
           <br>
           <h2 class="txt-danger">Tem certeza?</h2> <br> <br>
-          <button class="float-right btn btn-danger" type="submit">Arquivar</button>
+          <button class="float-right btn btn-danger" type="submit">Desativar</button>
         </form>
       </div>
     </div>
@@ -1111,13 +1107,13 @@
     <div class="modal-dialog d-flex align-items-center justify-content-center" style="height: 80vh;">
       <div class="modal-content">
         <div class="modal-header">
-          <h2>Arquivar Aparelho</h2>
+          <h2>Desativar Aparelho</h2>
           <span id="fecharModalArquivarAparelho" class="fechar">&times;</span>
         </div>
         <form id="formArquivarAparelho" class="p-5">
           <br>
           <h2 class="txt-danger">Tem certeza?</h2> <br> <br>
-          <button class="float-right btn btn-danger" type="submit">Arquivar</button>
+          <button class="float-right btn btn-danger" type="submit">Desativar</button>
         </form>
       </div>
     </div>
@@ -1127,13 +1123,13 @@
     <div class="modal-dialog d-flex align-items-center justify-content-center" style="height: 80vh;">
       <div class="modal-content">
         <div class="modal-header">
-          <h2>Arquivar Exercicio</h2>
+          <h2>Desativar Exercicio</h2>
           <span id="fecharModalArquivarExercicio" class="fechar">&times;</span>
         </div>
         <form id="formArquivarExercicio" class="p-5">
           <br>
           <h2 class="txt-danger">Tem certeza?</h2> <br> <br>
-          <button class="float-right btn btn-danger" type="submit">Arquivar</button>
+          <button class="float-right btn btn-danger" type="submit">Desativar</button>
         </form>
       </div>
     </div>
@@ -1143,13 +1139,13 @@
     <div class="modal-dialog d-flex align-items-center justify-content-center" style="height: 80vh;">
       <div class="modal-content">
         <div class="modal-header">
-          <h2>Arquivar Cliente</h2>
+          <h2>Desativar Cliente</h2>
           <span id="fecharModalArquivarCliente" class="fechar">&times;</span>
         </div>
         <form id="formArquivarCliente" class="p-5">
           <br>
           <h2 class="txt-danger">Tem certeza?</h2> <br> <br>
-          <button class="float-right btn btn-danger" type="submit">Arquivar</button>
+          <button class="float-right btn btn-danger" type="submit">Desativar</button>
         </form>
       </div>
     </div>

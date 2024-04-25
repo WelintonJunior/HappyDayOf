@@ -324,32 +324,101 @@
         <!-- Modal satisfacao -->
         <div id="modalSatisfacao" class="modal" tabindex="-1">
           <div class="modal-dialog d-flex align-items-center justify-content-center" style="height: 80vh;">
-            <div class="modal-content">
+            <div class="modal-content" style="margin-top: 20%;">
               <div class="modal-header">
-                <h2 id="titleConhecimento">Conhecimento</h2>
+                <h2>Satisfação</h2>
               </div>
               <p class="p-3" id="satText"></p>
-              <form id="formSatisfacao" class="p-5">
+              <h4 class="text-center">Segurança</h4>
+              <form id="formSatisfacao">
                 <input type="text" class="d-none" name="satId" id="satIdSatisfacao">
                 <div class="rating">
-                  <input type="radio" id="rating-0" name="rating" value="1" />
-                  <label for="rating-0">😠</label>
+                  <input type="radio" id="rating-0-seguranca" name="rating_seguranca" value="1" />
+                  <label for="rating-0-seguranca">😠</label>
 
-                  <input type="radio" id="rating-1" name="rating" value="2" />
-                  <label for="rating-1">😦</label>
+                  <input type="radio" id="rating-1-seguranca" name="rating_seguranca" value="2" />
+                  <label for="rating-1-seguranca">😦</label>
 
-                  <input type="radio" id="rating-2" name="rating" value="3" />
-                  <label for="rating-2">😐</label>
+                  <input type="radio" id="rating-2-seguranca" name="rating_seguranca" value="3" />
+                  <label for="rating-2-seguranca">😐</label>
 
-                  <input type="radio" id="rating-3" name="rating" value="4" />
-                  <label for="rating-3">🙂</label>
+                  <input type="radio" id="rating-3-seguranca" name="rating_seguranca" value="4" />
+                  <label for="rating-3-seguranca">🙂</label>
 
-                  <input type="radio" id="rating-4" checked name="rating" value="5" />
-                  <label for="rating-4">😀</label>
+                  <input type="radio" id="rating-4-seguranca" checked name="rating_seguranca" value="5" />
+                  <label for="rating-4-seguranca">😀</label>
                 </div>
-                <br>
-                <button class="float-right btn btn-info" type="submit">Next</button>
+                <h4 class="text-center">Conhecimento</h4>
+                <div class="rating">
+                  <input type="radio" id="rating-0-conhecimento" name="rating_conhecimento" value="1" />
+                  <label for="rating-0-conhecimento">😠</label>
+
+                  <input type="radio" id="rating-1-conhecimento" name="rating_conhecimento" value="2" />
+                  <label for="rating-1-conhecimento">😦</label>
+
+                  <input type="radio" id="rating-2-conhecimento" name="rating_conhecimento" value="3" />
+                  <label for="rating-2-conhecimento">😐</label>
+
+                  <input type="radio" id="rating-3-conhecimento" name="rating_conhecimento" value="4" />
+                  <label for="rating-3-conhecimento">🙂</label>
+
+                  <input type="radio" id="rating-4-conhecimento" checked name="rating_conhecimento" value="5" />
+                  <label for="rating-4-conhecimento">😀</label>
+                </div>
+                <h4 class="text-center">Clareza</h4>
+                <div class="rating">
+                  <input type="radio" id="rating-0-clareza" name="rating_clareza" value="1" />
+                  <label for="rating-0-clareza">😠</label>
+
+                  <input type="radio" id="rating-1-clareza" name="rating_clareza" value="2" />
+                  <label for="rating-1-clareza">😦</label>
+
+                  <input type="radio" id="rating-2-clareza" name="rating_clareza" value="3" />
+                  <label for="rating-2-clareza">😐</label>
+
+                  <input type="radio" id="rating-3-clareza" name="rating_clareza" value="4" />
+                  <label for="rating-3-clareza">🙂</label>
+
+                  <input type="radio" id="rating-4-clareza" checked name="rating_clareza" value="5" />
+                  <label for="rating-4-clareza">😀</label>
+                </div>
+                <h4 class="text-center">Disponibilidade</h4>
+                <div class="rating">
+                  <input type="radio" id="rating-0-disponibilidade" name="rating_disponibilidade" value="1" />
+                  <label for="rating-0-disponibilidade">😠</label>
+
+                  <input type="radio" id="rating-1-disponibilidade" name="rating_disponibilidade" value="2" />
+                  <label for="rating-1-disponibilidade">😦</label>
+
+                  <input type="radio" id="rating-2-disponibilidade" name="rating_disponibilidade" value="3" />
+                  <label for="rating-2-disponibilidade">😐</label>
+
+                  <input type="radio" id="rating-3-disponibilidade" name="rating_disponibilidade" value="4" />
+                  <label for="rating-3-disponibilidade">🙂</label>
+
+                  <input type="radio" id="rating-4-disponibilidade" checked name="rating_disponibilidade" value="5" />
+                  <label for="rating-4-disponibilidade">😀</label>
+                </div>
+                <h4 class="text-center">Pró atividade</h4>
+                <div class="rating">
+                  <input type="radio" id="rating-0-proatividade" name="rating_proatividade" value="1" />
+                  <label for="rating-0-proatividade">😠</label>
+
+                  <input type="radio" id="rating-1-proatividade" name="rating_proatividade" value="2" />
+                  <label for="rating-1-proatividade">😦</label>
+
+                  <input type="radio" id="rating-2-proatividade" name="rating_proatividade" value="3" />
+                  <label for="rating-2-proatividade">😐</label>
+
+                  <input type="radio" id="rating-3-proatividade" name="rating_proatividade" value="4" />
+                  <label for="rating-3-proatividade">🙂</label>
+
+                  <input type="radio" id="rating-4-proatividade" checked name="rating_proatividade" value="5" />
+                  <label for="rating-4-proatividade">😀</label>
+                </div>
+                <button class="btn btn-success float-right m-3" type="submit">Enviar</button>
               </form>
+              <br>
             </div>
           </div>
         </div>

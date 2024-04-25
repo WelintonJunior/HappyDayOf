@@ -715,7 +715,7 @@ async function UpdateListaCliente(token) {
             celula.innerHTML =
               item[campo] === "1"
                 ? `<span class="text-success">Ativo</span>`
-                : `<span class="text-danger">Arquivado</span>`;
+                : `<span class="text-danger">Desativado</span>`;
           }
         }
       });
@@ -786,7 +786,7 @@ async function UpdateListaFuncionario(token) {
             celula.innerHTML =
               item[campo] === "1"
                 ? `<span class="text-success">Ativo</span>`
-                : `<span class="text-danger">Arquivado</span>`;
+                : `<span class="text-danger">Desativado</span>`;
           }
 
           if (campo === "funId") {
@@ -852,7 +852,7 @@ async function UpdateListaAparelho(token) {
             celula.innerHTML =
               item[campo] === "1"
                 ? `<span class="text-success">Ativo</span>`
-                : `<span class="text-danger">Arquivado</span>`;
+                : `<span class="text-danger">Desativado</span>`;
           }
         }
       });
@@ -914,7 +914,7 @@ async function UpdateListaExercicio(token) {
             celula.innerHTML =
               item[campo] === "1"
                 ? `<span class="text-success">Ativo</span>`
-                : `<span class="text-danger">Arquivado</span>`;
+                : `<span class="text-danger">Desativado</span>`;
           }
         }
       });
@@ -1032,7 +1032,7 @@ async function UpdateCampoFichaCliente(item, campo, celula, cliId, token) {
     data.detId = detId;
     data.detCampo = campoEditado;
     data.valor = novoValor;
-
+    data.cliIdFicha = document.getElementById("cliIdAtual").value;
     if (novoValor == "") {
       await admServices.DeleteCampoFicha(data, token);
       await UpdateClienteFichaTreinoA(cliId, token);
@@ -1055,7 +1055,7 @@ async function UpdateCampoFichaCliente(item, campo, celula, cliId, token) {
       data.detId = detId;
       data.detCampo = campoEditado;
       data.valor = novoValor;
-
+      data.cliIdFicha = document.getElementById("cliIdAtual").value;
       if (novoValor == "") {
         await admServices.DeleteCampoFicha(data, token);
         await UpdateClienteFichaTreinoA(cliId, token);
@@ -1624,6 +1624,8 @@ async function MostrarTelaCriarFicha(cliId, token) {
     result.length > 0 ? result[0].ficId : result.ficId;
   document.getElementById("idFichaTreinoC").value =
     result.length > 0 ? result[0].ficId : result.ficId;
+  document.getElementById("cliIdAtual").value =
+    result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente;
   document.getElementById("cliIdFichaTreinoA").value =
     result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente;
   document.getElementById("cliIdFichaTreinoB").value =
@@ -1698,6 +1700,7 @@ formInserirTreinoA.addEventListener("submit", async (e) => {
   data.detIdFicha = idFicha;
   data.detTreino = "A";
   const verificacao = await verificarForm(data);
+  data.cliIdFicha = document.getElementById("cliIdAtual").value;
   if (!verificacao) {
     const result = await admServices.RegisterDetalhesFicha(data, token);
     await UpdateClienteFichaTreinoA(cliIdFichaTreinoA, token);
@@ -1718,9 +1721,10 @@ formInserirTreinoB.addEventListener("submit", async (e) => {
   const idFicha = document.getElementById("idFichaTreinoB").value;
   data.detIdFicha = idFicha;
   data.detTreino = "B";
-  const result = await admServices.RegisterDetalhesFicha(data, token);
   const verificacao = await verificarForm(data);
+  data.cliIdFicha = document.getElementById("cliIdAtual").value;
   if (!verificacao) {
+    const result = await admServices.RegisterDetalhesFicha(data, token);
     await UpdateClienteFichaTreinoB(cliIdFichaTreinoB, token);
     formInserirTreinoB.querySelector(`[name="detVariacao"]`).value = "";
     formInserirTreinoB.querySelector(`[name="detSerie"]`).value = "";
@@ -1740,6 +1744,7 @@ formInserirTreinoC.addEventListener("submit", async (e) => {
   data.detIdFicha = idFicha;
   data.detTreino = "C";
   const verificacao = await verificarForm(data);
+  data.cliIdFicha = document.getElementById("cliIdAtual").value;
   if (!verificacao) {
     const result = await admServices.RegisterDetalhesFicha(data, token);
     await UpdateClienteFichaTreinoC(cliIdFichaTreinoC, token);

@@ -67,57 +67,13 @@ router.post("/Cliente", (req, res) => {
             })
           break;
         case "UpdateSatisfacao":
-          switch (data.modulo) {
-            case "Conhecimento":
-              db.query("update tblSatisfacao set satNotaConhecimento = ? where satId = ?",
-                [data.rating, data.satId], (err, results) => {
-                  if (err) {
-                    res.json(err)
-                  }
-                  res.send(results)
-                })
-              break;
-            case "Clareza":
-              db.query("update tblSatisfacao set satNotaClareza = ? where satId = ?",
-                [data.rating, data.satId], (err, results) => {
-                  if (err) {
-                    res.json(err)
-                  }
-                  res.send(results)
-
-                })
-              break;
-            case "Pró Atividade":
-              db.query("update tblSatisfacao set satNotaProatividade = ? where satId = ?",
-                [data.rating, data.satId], (err, results) => {
-                  if (err) {
-                    res.json(err)
-                  }
-                  res.send(results)
-
-                })
-              break;
-            case "Disponibilidade":
-              db.query("update tblSatisfacao set satNotaDisponibilidade = ? where satId = ?",
-                [data.rating, data.satId], (err, results) => {
-                  if (err) {
-                    res.json(err)
-                  }
-                  res.send(results)
-
-                })
-              break;
-            case "Segurança":
-              db.query("update tblSatisfacao set satNotaSeguranca = ?, satStatus = 1 where satId = ?",
-                [data.rating, data.satId], (err, results) => {
-                  if (err) {
-                    res.json(err)
-                  }
-                  res.send(results)
-
-                })
-              break;
-          }
+          db.query("update tblSatisfacao set satNotaConhecimento = ?, satNotaClareza = ?, satNotaDisponibilidade = ?, satNotaProatividade = ?, satNotaSeguranca = ?, satStatus = 1 where satId = ?",
+            [data.rating_conhecimento, data.rating_clareza, data.rating_disponibilidade, data.rating_proatividade, data.rating_seguranca, data.satId], (err, results) => {
+              if (err) {
+                return res.json(err)
+              }
+              res.send(results)
+            })
           break;
         case "ReadDesempenho":
           db.query("select * from tblDesempenho where desIdCliente = ? order by desData",

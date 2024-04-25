@@ -1,11 +1,13 @@
 const eqpServices = new EquipeServices();
 let dados = [];
+let token = ""
 //Verifica se está logado
 try {
   //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
   const dadosFromLocalStorage = JSON.parse(localStorage.getItem("dados"));
   if (dadosFromLocalStorage !== null) {
     dados = dadosFromLocalStorage.results;
+    token = dadosFromLocalStorage.token;
   } else {
     eqpServices.handleAcessoNegado()
   }
@@ -19,6 +21,15 @@ document.getElementById("eqpInfo").innerHTML = `Olá Equipe: ${dados.funNome}`;
 const idAcademia = dados.funIdAcad;
 let tela = "";
 
+const TEMPO_EXPIRACAO = 3600 * 8000;
+
+const logoutInterval = setTimeout(async () => {
+  const result = await eqpServices.VerificarSessao(token);
+  if (result === "Sessão expirada faça login novamente") {
+    alert(result)
+    admServices.login.handleLogout();
+  }
+}, (TEMPO_EXPIRACAO) + 1500);
 
 let formAcademiaBox = document.getElementById("formAcademiaBox");
 let formAdministradorAcademiaBox = document.getElementById(
@@ -35,7 +46,7 @@ document.getElementById("btnAcademia").addEventListener("click", () => {
 //Função para carregar a tabela logo quando entra na pagina
 
 document.addEventListener("DOMContentLoaded", async function () {
-  await eqpServices.CarregarTabela();
+  await eqpServices.CarregarTabela(token);
 });
 
 //Modal
@@ -86,8 +97,8 @@ formAcademia.addEventListener("submit", async (e) => {
   e.preventDefault();
   const fd = new FormData(e.target);
   const data = Object.fromEntries(fd.entries());
-  const result = await eqpServices.CreateAcademia(data);
-  eqpServices.InsertAcademiaToTheOptions();
+  const result = await eqpServices.CreateAcademia(data, token);
+  eqpServices.InsertAcademiaToTheOptions(token);
   e.target.reset();
   modalCadastrarAcademia.style.display = "none";
   modalCadastrarAdministradorAcademia.style.display = "block";
@@ -100,10 +111,10 @@ formAdministradorAcademia.addEventListener("submit", async (e) => {
   const fd = new FormData(e.target);
   const data = Object.fromEntries(fd.entries());
   data.admDataCmc = await getFormattedDateTime();
-  await eqpServices.AddAdministrador(data);
+  await eqpServices.AddAdministrador(data, token);
   e.target.reset();
   modalCadastrarAdministradorAcademia.style.display = "none";
-  await eqpServices.CarregarTabela();
+  await eqpServices.CarregarTabela(token);
 });
 
 //Função para pegar os dados da api de cep e jogar nos campos

@@ -1,10 +1,24 @@
 class EquipeServices extends LoginServices {
 
-  async AddAdministrador(data) {
+
+  async VerificarSessao(token) {
+    const response = await fetch("/Ficha", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": `${token}` },
+    })
+    const result = await response.json();
+    if (result.message === "Token de autorização ausente" || "Sessão expirada, faça login novamente") {
+      return "Sessão expirada faça login novamente"
+    } else {
+      return ""
+    }
+  }
+
+  async AddAdministrador(data, token) {
     try {
       const response = await fetch("/Equipe", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           acao: "AddAdministrador",
           data,
@@ -18,11 +32,11 @@ class EquipeServices extends LoginServices {
     }
   }
 
-  async CreateAcademia(data) {
+  async CreateAcademia(data, token) {
     try {
       const response = await fetch("/Equipe", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           acao: "CreateAcademia",
           data,
@@ -37,11 +51,11 @@ class EquipeServices extends LoginServices {
     }
   }
 
-  async CarregarTabela() {
+  async CarregarTabela(token) {
     try {
       const response = await fetch("/Equipe", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           acao: "ReadAcademiaLista",
         }),
@@ -85,12 +99,12 @@ class EquipeServices extends LoginServices {
     }
   }
 
-  async InsertAcademiaToTheOptions() {
+  async InsertAcademiaToTheOptions(token) {
     try {
       let admAcademia = document.getElementById("admAcademia");
       const response = await fetch("/Equipe", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
           acao: "ReadLastAcademia",
         }),
@@ -114,12 +128,12 @@ const acaCelular = document.getElementById("acaCelular");
 const admCelular = document.getElementById("admCelular");
 const admEmail = document.getElementById("admEmail");
 admCpf.addEventListener("input", () => HandleInputCpf(admCpf));
-admCpf.addEventListener("blur", (e) => VerificarCpfCadastrado(e, e.target.value, "fun"));
+admCpf.addEventListener("blur", (e) => VerificarCpfCadastrado(e, e.target.value, "fun", token));
 admCpf.addEventListener("blur", (e) => validarCpfCadastrado(e, e.target.value));
 acaCnpj.addEventListener("input", () => HandleInputCnpj(acaCnpj));
 acaCnpj.addEventListener("blur", () => HandleBlurCnpj(acaCnpj));
 acaTelefone.addEventListener("input", () => FormatarTelefone(acaTelefone));
 acaCelular.addEventListener("input", () => FormatarCelular(acaCelular));
 admCelular.addEventListener("input", () => FormatarCelular(admCelular));
-admEmail.addEventListener("blur", (e) => VerificarEmailCadastrado(e, e.target.value, "fun"));
+admEmail.addEventListener("blur", (e) => VerificarEmailCadastrado(e, e.target.value, "fun", token));
 
