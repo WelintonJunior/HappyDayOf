@@ -1599,7 +1599,7 @@ formCriarBaseFicha.addEventListener("submit", async (e) => {
   const result = await admServices.RegisterBaseFicha(idAcademia, data, token);
   await UpdateListaClienteFicha(token);
   document.getElementById("modalCriarBaseFicha").style.display = "none";
-  MostrarTelaCriarFicha(data.ficCliId);
+  MostrarTelaCriarFicha(data.ficCliId, token);
 });
 
 async function MostrarTelaCriarFicha(cliId, token) {

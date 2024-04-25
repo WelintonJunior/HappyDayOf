@@ -132,7 +132,6 @@ router.post("/Ficha", async (req, res) => {
               if (err) {
                 return res.json(err);
               }
-              io.emit("AttFicha", { data })
               res.send(results);
             }
           );
