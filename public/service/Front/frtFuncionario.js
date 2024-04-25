@@ -771,6 +771,7 @@ formArquivarCliente.addEventListener("submit", async (e) => {
   await funServices.ArchiveCliente(cliId, token);
   formDetCliente.reset();
   modalArquivarCliente.style.display = "none";
+  await UpdateListaClienteFicha(token);
   await UpdateListaCliente(token);
   MostrarTela("TelaClientes");
 });

@@ -21,7 +21,7 @@ router.post("/Login", async (req, res) => {
   switch (acao) {
     case "LoginCliente":
       db.query(
-        "SELECT * FROM tblCliente WHERE cliEmail = ?",
+        "SELECT * FROM tblCliente WHERE cliEmail = ? and cliStatus = 1",
         [email],
         async (err, results) => {
           if (err) {
@@ -53,7 +53,7 @@ router.post("/Login", async (req, res) => {
 
     case "LoginFuncionario":
       db.query(
-        "SELECT * FROM tblFuncionario WHERE funEmail = ?",
+        "SELECT * FROM tblFuncionario WHERE funEmail = ? and funStatus = 1",
         [email],
         async (err, results) => {
           if (err) {
