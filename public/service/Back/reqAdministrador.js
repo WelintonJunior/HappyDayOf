@@ -422,6 +422,55 @@ class AdministradorServices extends FichaServices {
       throw err
     }
   }
+
+  async AtivarCliente(data, token) {
+    const response = await fetch("/Administrador", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": `${token}` },
+      body: JSON.stringify({
+        data,
+        acao: "AtivarCliente"
+      })
+    })
+    const result = await response.json();
+    return result
+  }
+  async AtivarFuncionario(data, token) {
+    const response = await fetch("/Administrador", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": `${token}` },
+      body: JSON.stringify({
+        data,
+        acao: "AtivarFuncionario"
+      })
+    })
+    const result = await response.json();
+    return result
+  }
+  async AtivarAparelho(data, token) {
+    const response = await fetch("/Administrador", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": `${token}` },
+      body: JSON.stringify({
+        data,
+        acao: "AtivarAparelho"
+      })
+    })
+    const result = await response.json();
+    return result
+  }
+  async AtivarExercicio(data, token) {
+    const response = await fetch("/Administrador", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": `${token}` },
+      body: JSON.stringify({
+        data,
+        acao: "AtivarExercicio"
+      })
+    })
+    const result = await response.json();
+    return result
+  }
 }
 
 

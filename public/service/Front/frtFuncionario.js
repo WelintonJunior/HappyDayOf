@@ -57,6 +57,7 @@ const btnEnviarDetalhesCliente = document.getElementById(
   "btnEnviarDetalhesCliente"
 );
 const btnArchiveCliente = document.getElementById("btnArchiveCliente");
+const btnAtivarCliente = document.getElementById("btnAtivarCliente");
 const btnCadastrarAtendimento = document.getElementById(
   "btnCadastrarAtendimento"
 );
@@ -718,6 +719,15 @@ async function MostrarTelaDetalhesCliente(cliId, token) {
     }
   });
 
+  if (result.cliStatus == 1) {
+    btnArchiveCliente.classList.remove("d-none")
+    btnAtivarCliente.classList.add("d-none")
+  } else {
+    btnAtivarCliente.classList.remove("d-none")
+    btnArchiveCliente.classList.add("d-none")
+  }
+
+
   btnEditarDetalhesCliente.addEventListener("click", (e) => {
     e.preventDefault();
     Object.keys(result).forEach((key) => {
@@ -775,6 +785,31 @@ formArquivarCliente.addEventListener("submit", async (e) => {
   await UpdateListaCliente(token);
   MostrarTela("TelaClientes");
 });
+
+//Ativar
+
+btnAtivarCliente.addEventListener("click", async (e) => {
+  e.preventDefault();
+  let cliDetId = document.getElementById("cliDetId").value
+  await funServices.AtivarCliente(cliDetId, token)
+  await UpdateListaCliente(token);
+  MostrarTela("TelaClientes")
+})
+// btnAtivarAparelho.addEventListener("click", async (e) => {
+//   e.preventDefault();
+//   let apaDetId = document.getElementById("apaDetId").value
+//   await admServices.AtivarAparelho(apaDetId, token)
+//   await UpdateListaAparelho(token)
+//   MostrarTela("TelaAparelhos")
+// })
+// btnAtivarExercicio.addEventListener("click", async (e) => {
+//   e.preventDefault();
+//   let exeDetId = document.getElementById("exeDetId").value
+//   await admServices.AtivarExercicio(exeDetId, token)
+//   await UpdateListaExercicio(token)
+//   MostrarTela("TelaExercicios")
+// })
+
 
 //LOGOUT
 

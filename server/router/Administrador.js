@@ -344,6 +344,38 @@ router.post("/Administrador", async (req, res) => {
           break;
         case "UpdatePlanos":
           break;
+        case "AtivarCliente":
+          db.query("update tblCliente set cliStatus = 1 where cliId = ?", [data], (err, results) => {
+            if (err) {
+              return res.json(err)
+            }
+            res.send(results)
+          })
+          break;
+        case "AtivarFuncionario":
+          db.query("update tblFuncionario set funStatus = 1 where funId = ?", [data], (err, results) => {
+            if (err) {
+              return res.json(err)
+            }
+            res.send(results)
+          })
+          break;
+        case "AtivarAparelho":
+          db.query("update tblAparelhos set apaStatus = 1 where apaId = ?", [data], (err, results) => {
+            if (err) {
+              return res.json(err)
+            }
+            res.send(results)
+          })
+          break;
+        case "AtivarExercicio":
+          db.query("update tblExercicios set exeStatus = 1 where exeId = ?", [data], (err, results) => {
+            if (err) {
+              return res.json(err)
+            }
+            res.send(results)
+          })
+          break;
         case "UpdateFuncionarioDetalhes":
           db.query(
             "update tblFuncionario set funNome = ?, funCelular = ?, funCep = ?, funCidade = ?, funEstado = ?, funRua = ?, funNumeroRua = ?, funSexo = ?, funCpf = ?, funEmail = ?, funDataCmc = ?, funStatus = ?, funNivel = ? where funId = ?",
