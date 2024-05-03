@@ -19,7 +19,8 @@ try {
   clienteServices.login.handleAcessoNegado();
 }
 
-const idAcademia = dados.cliIdAcad;
+
+const idAcademia = dados.cliId;
 
 const TEMPO_EXPIRACAO = 3600 * 1000;
 

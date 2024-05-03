@@ -435,6 +435,7 @@ class AdministradorServices extends FichaServices {
     const result = await response.json();
     return result
   }
+
   async AtivarFuncionario(data, token) {
     const response = await fetch("/Administrador", {
       method: "POST",
@@ -447,6 +448,7 @@ class AdministradorServices extends FichaServices {
     const result = await response.json();
     return result
   }
+
   async AtivarAparelho(data, token) {
     const response = await fetch("/Administrador", {
       method: "POST",
@@ -459,6 +461,7 @@ class AdministradorServices extends FichaServices {
     const result = await response.json();
     return result
   }
+  
   async AtivarExercicio(data, token) {
     const response = await fetch("/Administrador", {
       method: "POST",
