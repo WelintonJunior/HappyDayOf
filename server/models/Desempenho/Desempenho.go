@@ -1,6 +1,10 @@
 package DESEMPENHO
 
-import "example.com/fitConnect/database"
+import (
+	"database/sql"
+
+	"example.com/fitConnect/database"
+)
 
 type Desempenho struct {
 	DesId        int64
@@ -24,6 +28,9 @@ func ReadDesempenho(IdCliente int64) ([]Desempenho, error) {
 	for rows.Next() {
 		var d Desempenho
 		if err := rows.Scan(&d.DesId, &d.DesIdCliente, &d.DesData, &d.DesPeso, &d.DesGordura); err != nil {
+			if err == sql.ErrNoRows {
+				return nil, nil
+			}
 			return nil, err
 		}
 		desempenhos = append(desempenhos, d)

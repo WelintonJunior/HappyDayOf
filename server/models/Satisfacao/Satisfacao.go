@@ -1,6 +1,8 @@
 package SATISFACAO
 
 import (
+	"database/sql"
+
 	"example.com/fitConnect/database"
 )
 
@@ -39,6 +41,10 @@ func VerificarAtendimento(CliId, IdAcad int64) (Satisfacao, error) {
 	var s Satisfacao
 
 	if err := row.Scan(&s.SatId, &s.SatIdCliente, &s.SatIdAcademia, &s.SatNotaClareza, &s.SatNotaConhecimento, &s.SatNotaProatividade, &s.SatNotaDisponibilidade, &s.SatNotaSeguranca, &s.SatIdAtendimento, &s.SatStatus); err != nil {
+		if err == sql.ErrNoRows {
+			return Satisfacao{}, nil
+
+		}
 		return Satisfacao{}, err
 	}
 

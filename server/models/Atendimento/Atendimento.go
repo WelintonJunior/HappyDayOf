@@ -1,6 +1,8 @@
 package ATENDIMENTO
 
 import (
+	"database/sql"
+
 	"example.com/fitConnect/database"
 )
 
@@ -21,6 +23,9 @@ func ReadStatusAtendimento(AteIdCliente, AteIdAcad int64, AteDateInicio string) 
 
 	var a Atendimento
 	if err := row.Scan(&a.AteStatus); err != nil {
+		if err == sql.ErrNoRows {
+			return Atendimento{}, nil
+		}
 		return Atendimento{}, err
 	}
 
@@ -34,6 +39,9 @@ func ReadAtendimentoInfo(AteId int64) (Atendimento, error) {
 
 	var a Atendimento
 	if err := row.Scan(&a.AteId, &a.AteIdCliente, &a.AteIdFuncionario, &a.AteDateInicio, &a.AteIdAcad, &a.AteStatus, &a.AteDateEncerramento); err != nil {
+		if err == sql.ErrNoRows {
+			return Atendimento{}, nil
+		}
 		return Atendimento{}, err
 	}
 

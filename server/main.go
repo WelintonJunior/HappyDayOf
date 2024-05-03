@@ -42,6 +42,14 @@ func main() {
 	router.DesempenhoRoutes(server)
 	router.MetaRoutes(server)
 	router.ClienteRoutes(server)
+	router.AparelhoRoutes(server)
+	router.ExercicioRoutes(server)
+	router.FuncionarioRoutes(server)
+	router.PlanoRoutes(server)
+	router.AcademiaRoutes(server)
+	router.FichaRoutes(server)
+	router.DashboardRoutes(server)
+	router.UtilsRoutes(server)
 
 	server.Run(":3000")
 }

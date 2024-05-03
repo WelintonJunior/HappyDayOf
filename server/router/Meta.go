@@ -1,6 +1,7 @@
 package router
 
 import (
+	"fmt"
 	"net/http"
 
 	META "example.com/fitConnect/models/Meta"
@@ -18,6 +19,7 @@ func ReadMeta(context *gin.Context) {
 	meta, err := META.ReadMeta(m.MetIdCliente)
 
 	if err != nil {
+		fmt.Println(err)
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao ler dados"})
 		return
 	}
@@ -45,6 +47,7 @@ func UpdateMeta(context *gin.Context) {
 	var m META.Meta
 
 	if err := context.ShouldBindJSON(&m); err != nil {
+		fmt.Println(err)
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
 		return
 	}

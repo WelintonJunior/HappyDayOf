@@ -51,10 +51,10 @@ async function fetchAndMapFuncionarios(Atendimentos) {
     let funcionarios = {};
     for (let i = 0; i < Atendimentos.length; i++) {
         const atendimento = Atendimentos[i];
-        const idFuncionario = atendimento.ateIdFuncionario;
+        const idFuncionario = atendimento.AteIdFuncionario;
         if (!funcionarios[idFuncionario]) {
             funcionarios[idFuncionario] = {
-                nome: await dashboardServices.ReadFuncNome(idFuncionario).then(res => res.funnome),
+                nome: await dashboardServices.ReadFuncNome(idFuncionario).then(res => res),
                 atendimentosPorMes: {}
             };
             colorMap[idFuncionario] = colorMap[idFuncionario] || generateVibrantColor();
@@ -69,8 +69,8 @@ async function renderSatisfacaoChart() {
 
     for (let i = 0; i < Satisfacoes.length; i++) {
         const Satisfacao = Satisfacoes[i];
-        const atendimento = await dashboardServices.ReadAtendimentos(Satisfacao.satIdAtendimento);
-        const idFuncionario = atendimento.ateIdFuncionario;
+        const atendimento = await dashboardServices.ReadAtendimentos(Satisfacao.SatIdAtendimento);
+        const idFuncionario = atendimento.AteIdFuncionario;
 
         if (!funcionarios[idFuncionario]) {
             funcionarios[idFuncionario] = new DashSatisfacao();
@@ -79,11 +79,11 @@ async function renderSatisfacaoChart() {
 
         let funcionario = funcionarios[idFuncionario];
         funcionario.nome = await dashboardServices.ReadFuncNome(idFuncionario);
-        funcionario.somaConhecimento += parseInt(Satisfacao.satNotaConhecimento);
-        funcionario.somaClareza += parseInt(Satisfacao.satNotaClareza);
-        funcionario.somaProatividade += parseInt(Satisfacao.satNotaProatividade);
-        funcionario.somaDisponibilidade += parseInt(Satisfacao.satNotaDisponibilidade);
-        funcionario.somaSeguranca += parseInt(Satisfacao.satNotaSeguranca);
+        funcionario.somaConhecimento += parseInt(Satisfacao.SatNotaConhecimento);
+        funcionario.somaClareza += parseInt(Satisfacao.SatNotaClareza);
+        funcionario.somaProatividade += parseInt(Satisfacao.SatNotaProatividade);
+        funcionario.somaDisponibilidade += parseInt(Satisfacao.SatNotaDisponibilidade);
+        funcionario.somaSeguranca += parseInt(Satisfacao.SatNotaSeguranca);
         funcionario.count++;
     }
     Object.values(funcionarios).forEach(func => func.calcularMedias());
@@ -95,7 +95,7 @@ async function renderSatisfacaoChart() {
             const f = funcionarios[id];
             const color = colorMap[id];
             return {
-                label: `${f.nome.funnome}`,
+                label: `${f.nome}`,
                 data: [f.mediaConhecimento, f.mediaClareza, f.mediaProatividade, f.mediaDisponibilidade, f.mediaSeguranca],
                 fill: true,
                 backgroundColor: color + '20',
@@ -164,10 +164,9 @@ async function renderProdutividadeChart() {
 
     for (let i = 0; i < Atendimentos.length; i++) {
         const atendimento = Atendimentos[i];
-        const idFuncionario = atendimento.ateIdFuncionario;
-        const date = new Date(atendimento.ateDateInicio);
+        const idFuncionario = atendimento.AteIdFuncionario;
+        const date = new Date(atendimento.AteDateInicio);
         const monthYear = date.toISOString().slice(0, 7);
-
         if (!funcionarios[idFuncionario].atendimentosPorMes[monthYear]) {
             funcionarios[idFuncionario].atendimentosPorMes[monthYear] = 0;
         }
@@ -220,17 +219,17 @@ async function renderAtendimentoChart() {
     const labels = ["Manhã", "Tarde", "Noite"];
 
     for (let atendimento of Atendimentos) {
-        const idFuncionario = atendimento.ateIdFuncionario;
+        const idFuncionario = atendimento.AteIdFuncionario;
         if (!funcionarios[idFuncionario]) {
             const nome = await dashboardServices.ReadFuncNome(idFuncionario);
             funcionarios[idFuncionario] = {
-                nome: nome.funnome,
+                nome: nome,
                 atendimentosPorTurno: { "Manhã": 0, "Tarde": 0, "Noite": 0 }
             };
             funcionarioIds.push(idFuncionario);
         }
 
-        const date = new Date(atendimento.ateDateInicio);
+        const date = new Date(atendimento.AteDateInicio);
         const turno = getTurno(date);
         funcionarios[idFuncionario].atendimentosPorTurno[turno]++;
     }
@@ -289,9 +288,8 @@ async function renderEngajamentoChart() {
     }
 
     const labels = generateLastMonths(DATA_COUNT);
-
-    const countsByMonth = engajamentos.reduce((acc, { engAccessDatetime }) => {
-        const month = new Date(engAccessDatetime).toISOString().substring(0, 7); 
+    const countsByMonth = engajamentos.reduce((acc, { EngAccessDatetime }) => {
+        const month = new Date(EngAccessDatetime).toISOString().substring(0, 7);
         acc[month] = (acc[month] || 0) + 1;
         return acc;
     }, {});

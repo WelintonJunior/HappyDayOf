@@ -6,8 +6,7 @@ document.getElementById("formLogin").addEventListener("submit", async (e) => {
   switch (data.userType) {
     case "0":
       const sucessCliente = await loginServices.handleLoginCliente(data);
-      // if (!sucessCliente.error) {
-      if (sucessCliente) {
+      if (!sucessCliente.error) {
         localStorage.setItem("dados", JSON.stringify(sucessCliente));
         window.location.href = "/Cliente";
       } else {
@@ -16,9 +15,10 @@ document.getElementById("formLogin").addEventListener("submit", async (e) => {
       break;
     case "1":
       const sucessFuncionario = await loginServices.handleLoginFuncionario(data);
-      if (sucessFuncionario) {
+      console.log(sucessFuncionario)
+      if (!sucessFuncionario.error) {
         localStorage.setItem("dados", JSON.stringify(sucessFuncionario));
-        switch (sucessFuncionario.results.funNivel) {
+        switch (sucessFuncionario.dados.FunNivel) {
           case 1:
             window.location.href = "/Funcionario";
             break;

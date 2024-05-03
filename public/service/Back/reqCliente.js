@@ -6,15 +6,15 @@ class ClienteServices extends FichaServices {
     this.login = new LoginServices();
   }
 
-  async ReadAcademia(idAcademia, token) {
+  async ReadAcademia(AcaId, token) {
     try {
-      const response = await fetch("/Administrador", {
+      const response = await fetch("/Academia/ReadAcademiaDet/", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
-          idAcademia,
-          acao: "ReadAcademia",
-        }),
+          AcaId: parseInt(AcaId)
+        }
+        ),
       });
       const result = await response.json();
       return result;
@@ -27,13 +27,12 @@ class ClienteServices extends FichaServices {
   async ReadFuncionarioDetalhes(idAcademia, funId, token) {
     try {
 
-      const response = await fetch("/Administrador", {
+      const response = await fetch("/Funcionario/ReadFuncionarioDet/", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
-          data: funId,
-          idAcademia,
-          acao: "ReadFuncionarioDet",
+          FunId: parseInt(funId),
+          FunIdAcad: parseInt(idAcademia),
         }),
       });
       const result = await response.json();
@@ -47,13 +46,12 @@ class ClienteServices extends FichaServices {
   async ReadClienteDetalhes(idAcademia, cliId, token) {
     try {
 
-      const response = await fetch("/Administrador", {
+      const response = await fetch("/Cliente/ReadClienteDet/", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
-          data: cliId,
-          idAcademia,
-          acao: "ReadClienteDet",
+          CliId: parseInt(cliId),
+          CliIdAcad: parseInt(idAcademia),
         }),
       });
       const result = await response.json();
@@ -66,14 +64,13 @@ class ClienteServices extends FichaServices {
 
   async ReadStatusAtendimento(idAcademia, cliId, dateNow, token) {
     try {
-      let data = { cliId, dateNow }
-      const response = await fetch("/Cliente", {
+      const response = await fetch("/Atendimento/ReadStatusAtendimento/", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
-          data,
-          idAcademia,
-          acao: "ReadStatusAtendimento"
+          AteIdCliente: parseInt(cliId),
+          AteIdAcad: parseInt(idAcademia),
+          AteDateInicio: dateNow
         })
       })
       const result = await response.json();
@@ -86,14 +83,12 @@ class ClienteServices extends FichaServices {
 
   async VerificarAtendimento(idAcademia, cliId, token) {
     try {
-      let data = { cliId }
-      const response = await fetch("/Cliente", {
+      const response = await fetch("/Satisfacao/VerificarAtendimento/", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
-          data,
-          idAcademia,
-          acao: "VerificarAtendimento"
+          SatIdCliente: parseInt(cliId),
+          SatIdAcademia: parseInt(idAcademia),
         })
       })
       const result = await response.json();
@@ -106,13 +101,11 @@ class ClienteServices extends FichaServices {
 
   async ReadAtendimentoInfo(ateId, token) {
     try {
-      let data = { ateId }
-      const response = await fetch("/Cliente", {
+      const response = await fetch("/Atendimento/ReadAtendimentoInfo", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
-          data,
-          acao: "ReadAtendimentoInfo"
+          AteId: parseInt(ateId)
         })
       })
       const result = await response.json();
@@ -125,12 +118,24 @@ class ClienteServices extends FichaServices {
 
   async UpdateClienteDetalhes(data, token) {
     try {
-      const response = await fetch("/Administrador", {
+      const response = await fetch("/Cliente/UpdateClienteDetalhes", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
-          data,
-          acao: "UpdateClienteDetalhes",
+          CliId: parseInt(data.CliId),
+          CliCelular: data.CliCelular,
+          CliCep: data.CliCep,
+          CliCidade: data.CliCidade,
+          CliCpf: data.CliCpf,
+          CliDataCmc: data.CliDataCmc,
+          CliEmail: data.CliEmail,
+          CliEstado: data.CliEstado,
+          CliNome: data.CliNome,
+          CliNumeroRua: parseInt(data.CliNumeroRua),
+          CliPlano: parseInt(data.CliPlano),
+          CliRua: data.CliRua,
+          CliSexo: data.CliSexo,
+          CliStatus: parseInt(data.CliStatus),
         }),
       });
       const result = await response.json();
@@ -143,7 +148,7 @@ class ClienteServices extends FichaServices {
 
   async UpdateSatisfacao(data, token) {
     try {
-      const response = await fetch("/Cliente", {
+      const response = await fetch("/Satisfacao/UpdateSatisfacao/", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
@@ -161,12 +166,11 @@ class ClienteServices extends FichaServices {
 
   async ReadDesempenho(data, token) {
     try {
-      const response = await fetch("/Cliente", {
+      const response = await fetch("/Desempenho/ReadDesempenho", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
-          data,
-          acao: "ReadDesempenho",
+          CliId: parseInt(data),
         }),
       });
       const result = await response.json();
@@ -178,13 +182,12 @@ class ClienteServices extends FichaServices {
   }
 
   async RegisterMeta(data, idAcademia, token) {
-    const response = await fetch("/Cliente", {
+    const response = await fetch("/Meta/RegisterMeta/", {
       method: "POST",
       headers: { "Content-Type": "application/json", "Authorization": `${token}` },
       body: JSON.stringify({
         data,
         idAcademia,
-        acao: "RegisterMeta"
       })
     })
     const result = await response.json();
@@ -192,26 +195,28 @@ class ClienteServices extends FichaServices {
   }
 
   async ReadMeta(cliId, token) {
-    const response = await fetch("/Cliente", {
+    const response = await fetch("/Meta/ReadMeta", {
       method: "POST",
       headers: { "Content-Type": "application/json", "Authorization": `${token}` },
       body: JSON.stringify({
-        data: cliId,
-        acao: "ReadMeta"
+        MetIdCliente: parseInt(cliId),
       })
     })
     const result = await response.json();
-    return result[0]
+    return result
   }
 
   async UpdateMeta(data, token) {
     try {
-      const response = await fetch("/Cliente", {
+      const response = await fetch("/Meta/UpdateMeta", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
-          data,
-          acao: "UpdateMeta",
+          MetIdCliente: parseInt(data.cliId),
+          MetDataCumprir: data.dataCumprir,
+          MetId: parseInt(data.idMetaAtual),
+          MetGordura: parseFloat(data.metaGordura),
+          MetPeso: parseFloat(data.metaPeso)
         }),
       });
       const result = await response.json();
@@ -224,13 +229,12 @@ class ClienteServices extends FichaServices {
 
   async ReadMetaAtual(data, idAcademia, token) {
     try {
-      const response = await fetch("/Cliente", {
+      const response = await fetch("/Meta/ReadMetaAtual", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
-          data,
-          idAcademia,
-          acao: "ReadMetaAtual",
+          MetIdCliente: parseInt(data),
+          MetIdAcad: parseInt(idAcademia),
         }),
       });
       const result = await response.json();
@@ -241,47 +245,46 @@ class ClienteServices extends FichaServices {
     }
   }
 
-  async ConnectIO() {
-    const socket = io();
+  // async ConnectIO() {
+  //   const socket = io();
 
-    socket.on('Atendimento', async (msg) => {
-      // console.log(msg.data)
-      if (msg.data.ateIdCliente = dados.cliId) {
-        await UpdateStatusAtendimento(msg.idAcademia, msg.data.ateIdCliente, msg.data.dateNow, token)
-      }
-    });
+  //   socket.on('Atendimento', async (msg) => {
+  //     if (msg.data.ateIdCliente = dados.cliId) {
+  //       await UpdateStatusAtendimento(msg.idAcademia, msg.data.ateIdCliente, msg.data.dateNow, token)
+  //     }
+  //   });
 
-    socket.on("EncerrarAtendimento", async (msg) => {
-      if (msg.data.ateIdCliente = dados.cliId) {
-        const StatusSatisfacao = await clienteServices.VerificarAtendimento(idAcademia, msg.data.ateIdCliente, token)
-        await VerificarSatisfacaoAtendimento(StatusSatisfacao, msg.data.dateNow, msg.idAcademia, msg.data.ateIdCliente, token)
-      }
-    })
+  //   socket.on("EncerrarAtendimento", async (msg) => {
+  //     if (msg.data.ateIdCliente = dados.cliId) {
+  //       const StatusSatisfacao = await clienteServices.VerificarAtendimento(idAcademia, msg.data.ateIdCliente, token)
+  //       await VerificarSatisfacaoAtendimento(StatusSatisfacao, msg.data.dateNow, msg.idAcademia, msg.data.ateIdCliente, token)
+  //     }
+  //   })
 
-    socket.on("AttFicha", async (data) => {
-      if (data.data.cliIdFicha == dados.cliId) {
-        if (data.data.detTreino) {
-          switch (data.data.detTreino) {
-            case "A":
-              UpdateClienteFichaTreinoA(data.data.cliIdFicha, token)
-              break;
-            case "B":
-              UpdateClienteFichaTreinoB(data.data.cliIdFicha, token)
-              break;
-            case "C":
-              UpdateClienteFichaTreinoC(data.data.cliIdFicha, token)
-              break;
-          }
-        }
-        if (data.data.detCampo) {
-          UpdateClienteFichaTreinoA(data.data.cliIdFicha, token)
-          UpdateClienteFichaTreinoB(data.data.cliIdFicha, token)
-          UpdateClienteFichaTreinoC(data.data.cliIdFicha, token)
-        }
-      }
+  //   socket.on("AttFicha", async (data) => {
+  //     if (data.data.cliIdFicha == dados.cliId) {
+  //       if (data.data.detTreino) {
+  //         switch (data.data.detTreino) {
+  //           case "A":
+  //             UpdateClienteFichaTreinoA(data.data.cliIdFicha, token)
+  //             break;
+  //           case "B":
+  //             UpdateClienteFichaTreinoB(data.data.cliIdFicha, token)
+  //             break;
+  //           case "C":
+  //             UpdateClienteFichaTreinoC(data.data.cliIdFicha, token)
+  //             break;
+  //         }
+  //       }
+  //       if (data.data.detCampo) {
+  //         UpdateClienteFichaTreinoA(data.data.cliIdFicha, token)
+  //         UpdateClienteFichaTreinoB(data.data.cliIdFicha, token)
+  //         UpdateClienteFichaTreinoC(data.data.cliIdFicha, token)
+  //       }
+  //     }
 
-    });
-  }
+  //   });
+  // }
 }
 
 

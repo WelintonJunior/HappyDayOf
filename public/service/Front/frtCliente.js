@@ -10,7 +10,7 @@ try {
   //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
   const dadosFromLocalStorage = JSON.parse(localStorage.getItem("dados"));
   if (dadosFromLocalStorage !== null) {
-    dados = dadosFromLocalStorage.results;
+    dados = dadosFromLocalStorage.dados;
     token = dadosFromLocalStorage.token;
   } else {
     clienteServices.login.handleAcessoNegado();
@@ -19,8 +19,8 @@ try {
   clienteServices.login.handleAcessoNegado();
 }
 
-
-const idAcademia = dados.cliId;
+const idAcademia = dados.CliIdAcad;
+const idCliente = dados.CliId
 
 const TEMPO_EXPIRACAO = 3600 * 1000;
 
@@ -92,42 +92,31 @@ const formMeta = document.getElementById("formMeta")
 //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
 
 document.addEventListener("DOMContentLoaded", async function () {
-  clienteServices.VerificarSessao(token);
+  // clienteServices.VerificarSessao(token);
   const result = await clienteServices.ReadAcademia(idAcademia, token);
-  document.getElementById("titleAcad").innerHTML = result.acaNome;
+  document.getElementById("titleAcad").innerHTML = result.AcaNome;
   document.getElementById(
     "cliInfo"
-  ).innerHTML = `Olá Cliente: ${dados.cliNome} da Academia: ${result.acaNome}`;
+  ).innerHTML = `Olá Cliente: ${dados.CliNome} da Academia: ${result.AcaNome}`;
   const dateNow = getFormattedDateTime();
-  await UpdateStatusAtendimento(idAcademia, dados.cliId, dateNow)
-  const StatusSatisfacao = await clienteServices.VerificarAtendimento(idAcademia, dados.cliId, token)
-  await VerificarSatisfacaoAtendimento(StatusSatisfacao, null, idAcademia, dados.cliId, token)
-  clienteServices.ConnectIO();
+  await UpdateStatusAtendimento(idAcademia, idCliente, dateNow)
+  const StatusSatisfacao = await clienteServices.VerificarAtendimento(idAcademia, idCliente, token)
+  await VerificarSatisfacaoAtendimento(StatusSatisfacao, null, idAcademia, idCliente, token)
+  // clienteServices.ConnectIO();
 });
 
 async function UpdateStatusAtendimento(idAcademia, cliId, dateNow) {
   const isAtendimento = await clienteServices.ReadStatusAtendimento(idAcademia, cliId, dateNow, token)
-  document.getElementById("isAtendimento").innerHTML = isAtendimento ? "<h4>Em Atendimento</h4>" : "";
+  document.getElementById("isAtendimento").innerHTML = isAtendimento.AteId != 0 ? "<h4>Em Atendimento</h4>" : "";
 }
 
 async function VerificarSatisfacaoAtendimento(StatusSatisfacao, dateNow, idAcademia, cliId, token) {
-  if (StatusSatisfacao[0]) {
-    const ateInfo = await clienteServices.ReadAtendimentoInfo(StatusSatisfacao[0].satIdAtendimento, token)
+  if (StatusSatisfacao.SatId != 0) {
+    const ateInfo = await clienteServices.ReadAtendimentoInfo(StatusSatisfacao.satIdAtendimento, token)
     const satText = document.getElementById("satText");
     modalSatisfacao.style.display = "block"
-    document.getElementById("satIdSatisfacao").value = StatusSatisfacao[0].satId
-    const date = new Date(ateInfo[0].ateDateEncerramento);
-    const horas = date.getHours().toString().padStart(2, '0') + ':' + date.getMinutes().toString().padStart(2, '0');
-    const dia = date.getDate().toString().padStart(2, '0') + '/' +
-      (date.getMonth() + 1).toString().padStart(2, '0') + '/' +
-      date.getFullYear();
-    satText.innerHTML = `Atendimento que se encerrou às ${horas} do dia ${dia}`;
-  } else if (StatusSatisfacao) {
-    const ateInfo = await clienteServices.ReadAtendimentoInfo(StatusSatisfacao.data.ateId, token)
-    const satText = document.getElementById("satText");
-    modalSatisfacao.style.display = "block"
-    document.getElementById("satIdSatisfacao").value = StatusSatisfacao[0].satId
-    const date = new Date(ateInfo[0].ateDateEncerramento);
+    document.getElementById("satIdSatisfacao").value = StatusSatisfacao.satId
+    const date = new Date(ateInfo.ateDateEncerramento);
     const horas = date.getHours().toString().padStart(2, '0') + ':' + date.getMinutes().toString().padStart(2, '0');
     const dia = date.getDate().toString().padStart(2, '0') + '/' +
       (date.getMonth() + 1).toString().padStart(2, '0') + '/' +
@@ -176,8 +165,8 @@ btnPerfil.addEventListener("click", (e) => {
 
 //Ver Clientes/Funcionarios
 document.addEventListener("DOMContentLoaded", async function () {
-  await MostrarTelaCriarFicha(dados.cliId, token)
-  await renderDesempenhoChart(dados.cliId, token)
+  await MostrarTelaCriarFicha(idCliente, token)
+  await renderDesempenhoChart(idCliente, token)
 });
 
 //Função para pegar os dados da api de cep e jogar nos campos
@@ -221,16 +210,16 @@ async function UpdateClienteFichaTreinoA(cliId, token) {
     result.forEach((item) => {
       const linha = corpoTabela.insertRow();
       const camposSelecionados = [
-        "detVariacao",
-        "detCarga",
-        "detSerie",
-        "detRepeticao",
+        "DetVariacao",
+        "DetCarga",
+        "DetSerie",
+        "DetRepeticao",
       ];
       camposSelecionados.forEach((campo) => {
         if (item.hasOwnProperty(campo)) {
           let celula = linha.insertCell();
           celula.innerHTML = item[campo];
-          celula.setAttribute("data-detId", item.detId);
+          celula.setAttribute("data-detId", item.DetId);
           celula.setAttribute("data-campo", campo);
         }
       });
@@ -266,17 +255,17 @@ async function UpdateClienteFichaTreinoB(cliId, token) {
     result.forEach((item) => {
       const linha = corpoTabela.insertRow();
       const camposSelecionados = [
-        "detVariacao",
-        "detCarga",
-        "detSerie",
-        "detRepeticao",
+        "DetVariacao",
+        "DetCarga",
+        "DetSerie",
+        "DetRepeticao",
       ];
 
       camposSelecionados.forEach((campo) => {
         if (item.hasOwnProperty(campo)) {
           let celula = linha.insertCell();
           celula.innerHTML = item[campo];
-          celula.setAttribute("data-detId", item.detId);
+          celula.setAttribute("data-detId", item.DetId);
           celula.setAttribute("data-campo", campo);
 
         }
@@ -313,10 +302,10 @@ async function UpdateClienteFichaTreinoC(cliId, token) {
     result.forEach((item) => {
       const linha = corpoTabela.insertRow();
       const camposSelecionados = [
-        "detVariacao",
-        "detCarga",
-        "detSerie",
-        "detRepeticao",
+        "DetVariacao",
+        "DetCarga",
+        "DetSerie",
+        "DetRepeticao",
       ];
 
       camposSelecionados.forEach((campo) => {
@@ -350,22 +339,22 @@ async function MostrarTelaCriarFicha(cliId, token) {
   if (result) {
     const dadosCliente = await clienteServices.ReadClienteDetalhes(
       idAcademia,
-      result.length > 0 ? result[0].ficIdCliente : result.ficIdCliente, token
+      result.length > 0 ? result[0].FicIdCliente : result.FicIdCliente, token
     );
     const dadosFuncionario = await clienteServices.ReadFuncionarioDetalhes(
       idAcademia,
-      result.length > 0 ? result[0].ficIdFuncionario : result.ficIdFuncionario, token
+      result.length > 0 ? result[0].FicIdFuncionario : result.FicIdFuncionario, token
     );
-    document.getElementById("cliNomeCriarFicha").innerHTML = dadosCliente.cliNome;
+    document.getElementById("cliNomeCriarFicha").innerHTML = dadosCliente.CliNome;
     document.getElementById("funNomeCriarFicha").innerHTML =
-      dadosFuncionario.funNome;
+      dadosFuncionario.FunNome;
     document.getElementById("funSelectCriarFicha");
     document.getElementById("cliRestricoesCriarFicha").checked =
       result.length > 0
-        ? result[0].ficRestricoes = 1
-        : result.ficRestricoes = 1;
+        ? result[0].FicRestricoes = 1
+        : result.FicRestricoes = 1;
     if (
-      result.length > 0 ? result[0].ficRestricoes == 1 : result.ficRestricoes == 1
+      result.length > 0 ? result[0].FicRestricoes == 1 : result.FicRestricoes == 1
     ) {
       document.getElementById("cliRestricoesTipoCriarFicha").style.display =
         "block";
@@ -373,14 +362,14 @@ async function MostrarTelaCriarFicha(cliId, token) {
         "Tipo de restrições: ";
       document.getElementById("cliRestricoesTipoCriarFicha").innerHTML +=
         result.length > 0
-          ? result[0].ficTipoRestricoes
-          : result.ficTipoRestricoes;
+          ? result[0].FicTipoRestricoes
+          : result.FicTipoRestricoes;
     } else {
       document.getElementById("cliRestricoesTipoCriarFicha").style.display =
         "none";
     }
     document.getElementById("cliIntervaloCriarFicha").innerHTML =
-      result.length > 0 ? result[0].ficIntervalo : result.ficIntervalo;
+      result.length > 0 ? result[0].FicIntervalo : result.FicIntervalo;
   } else {
     mostrarModalNaoPossuiFicha();
     MostrarTela("TelaPerfil", token)
@@ -469,7 +458,7 @@ async function MostrarTela(tela, token) {
       TelaFicha.style.display = "block";
       TelaDesempenho.style.display = "none";
       TelaPerfil.style.display = "none";
-      await MostrarTelaCriarFicha(dados.cliId, token)
+      await MostrarTelaCriarFicha(idCliente, token)
       break;
     case "TelaDesempenho":
       if (TelaDesempenho.style.display === "block") {
@@ -494,7 +483,7 @@ async function MostrarTela(tela, token) {
         btnPerfil.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
         return;
       }
-      await MostrarTelaDetalhesCliente(dados.cliId, token);
+      await MostrarTelaDetalhesCliente(idCliente, token);
       btnPerfil.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
       btnDesempenho.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
       btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
@@ -541,7 +530,7 @@ async function renderDesempenhoChart(cliId, token) {
     const meta = await clienteServices.ReadMeta(cliId, token)
     btnCadastrarMeta.innerHTML = "Cadastrar Meta"
     if (meta) {
-      const data = new Date(meta.metDataCumprir);
+      const data = new Date(meta.MetDataCumprir);
       const dia = data.getDate();
       const mes = data.toLocaleString('default', { month: 'short' });
       const ano = data.toLocaleString('default', { year: 'numeric' });
@@ -568,14 +557,14 @@ async function renderDesempenhoChart(cliId, token) {
     const gorduras = [];
 
     for (let i = 0; i < desempenhos.length; i++) {
-      const data = new Date(desempenhos[i].desData);
+      const data = new Date(desempenhos[i].DesData);
       const dia = data.getDate();
       const mes = data.toLocaleString('default', { month: 'short' });
       const ano = data.toLocaleString('default', { year: '2-digit' });
       const dataFormatada = `${dia} ${mes} ${ano}`;
       labels.push(dataFormatada);
-      pesos.push(desempenhos[i].desPeso);
-      gorduras.push(desempenhos[i].desGordura);
+      pesos.push(desempenhos[i].DesPeso);
+      gorduras.push(desempenhos[i].DesGordura);
     }
 
     const ctx = boxChartDesempenho.getContext('2d');
@@ -599,14 +588,14 @@ async function renderDesempenhoChart(cliId, token) {
           }
             , {
             label: 'Meta de Peso',
-            data: Array(labels.length).fill(meta.metPeso),
+            data: Array(labels.length).fill(meta.MetPeso),
             fill: false,
             borderColor: '#e6194b',
             borderDash: [5, 5],
             tension: 0
           }, {
             label: 'Meta de Gordura (%)',
-            data: Array(labels.length).fill(meta.metGordura),
+            data: Array(labels.length).fill(meta.MetGordura),
             fill: false,
             borderColor: '#3cb44b',
             borderDash: [5, 5],
@@ -655,7 +644,7 @@ formMeta.addEventListener("submit", async (e) => {
   e.preventDefault();
   const fd = new FormData(e.target)
   const data = Object.fromEntries(fd.entries())
-  data.cliId = dados.cliId
+  data.cliId = idCliente
   const modulo = btnCadastrarMeta.innerHTML;
   if (modulo === "Cadastrar Meta") {
     document.getElementById("txtModalMeta").innerHTML = "Criar Meta"
@@ -666,9 +655,9 @@ formMeta.addEventListener("submit", async (e) => {
     document.getElementById("modalAvisoMeta").style.display = "block"
     document.getElementById("btnAvisoSim").addEventListener("click", async (e) => {
       e.preventDefault();
-      data.idMetaAtual = MetaAtual[0].metId
+      data.idMetaAtual = MetaAtual.MetId
       await clienteServices.UpdateMeta(data, token)
-      await renderDesempenhoChart(dados.cliId, token);
+      await renderDesempenhoChart(idCliente, token);
       document.getElementById("modalAvisoMeta").style.display = "none"
     })
     document.getElementById("btnAvisoNao").addEventListener("click", async (e) => {
@@ -676,7 +665,7 @@ formMeta.addEventListener("submit", async (e) => {
       document.getElementById("modalAvisoMeta").style.display = "none"
     })
   }
-  await renderDesempenhoChart(dados.cliId, token);
+  await renderDesempenhoChart(idCliente, token);
   document.getElementById("modalRegisterMeta").style.display = "none"
   e.target.reset();
 })
@@ -686,13 +675,13 @@ reloadBtnDesempenho.addEventListener("click", async (e) => {
   const boxChartDesempenho = document.getElementById('boxChartDesempenho');
 
   boxChartDesempenho.innerHTML = '';
-  await renderDesempenhoChart(dados.cliId, token);
+  await renderDesempenhoChart(idCliente, token);
 });
 
 btnCadastrarMeta.addEventListener("click", async (e) => {
   e.preventDefault();
-  const MetaAtual = await clienteServices.ReadMetaAtual(dados.cliId, idAcademia, token)
-  if (MetaAtual[0].metStatusAlterar == 1) {
+  const MetaAtual = await clienteServices.ReadMetaAtual(idCliente, idAcademia, token)
+  if (MetaAtual.MetStatusAlterar == 1) {
     modalRegisterMeta.style.display = "none"
     mostrarModalObjetivo();
     return

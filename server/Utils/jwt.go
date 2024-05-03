@@ -9,11 +9,21 @@ import (
 
 const secretKey = "chaveultrasecreta3000"
 
-func GenerateToken(cliEmail string, cliId int64) (string, error) {
+func GenerateTokenCliente(cliEmail string, cliId int64) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"cliEmail": cliEmail,
 		"cliId":    cliId,
 		"exp":      time.Now().Add(time.Hour * 2).Unix(),
+	})
+
+	return token.SignedString([]byte(secretKey))
+}
+
+func GenerateTokenFuncionario(funEmail string, funId int64) (string, error) {
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"funEmail": funEmail,
+		"funId":    funId,
+		"exp":      time.Now().Add(time.Hour * 8).Unix(),
 	})
 
 	return token.SignedString([]byte(secretKey))

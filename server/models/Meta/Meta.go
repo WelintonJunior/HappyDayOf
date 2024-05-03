@@ -1,6 +1,10 @@
 package META
 
-import "example.com/fitConnect/database"
+import (
+	"database/sql"
+
+	"example.com/fitConnect/database"
+)
 
 type Meta struct {
 	MetId            int64
@@ -19,6 +23,9 @@ func ReadMeta(IdCliente int64) (Meta, error) {
 
 	var m Meta
 	if err := row.Scan(&m.MetId, &m.MetIdCliente, &m.MetGordura, &m.MetPeso, &m.MetDataCumprir, &m.MetStatus, &m.MetStatusAlterar, &m.MetIdAcad); err != nil {
+		if err == sql.ErrNoRows {
+			return Meta{}, nil
+		}
 		return Meta{}, err
 	}
 

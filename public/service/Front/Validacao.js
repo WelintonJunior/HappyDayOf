@@ -189,16 +189,13 @@ function verificarNumeros(string) {
 
 async function VerificarCpfCadastrado(e, cpf, id, modulo, token) {
   if (cpf !== "") {
-    const response = await fetch("/Administrador", {
+    const response = await fetch("/VerificarCpfCadastrado", {
       method: "POST",
       headers: { "Content-Type": "application/json", "Authorization": `${token}` },
       body: JSON.stringify({
-        data: {
-          cpf,
-          id,
-          modulo
-        },
-        acao: "VerificarCpfCadastrado"
+        Cpf: cpf,
+        Id: parseInt(id),
+        Modulo: modulo
       })
     })
     const result = await response.json()
@@ -214,15 +211,12 @@ async function VerificarCpfCadastrado(e, cpf, id, modulo, token) {
 
 async function VerificarCpfCadastradoGeral(e, cpf, modulo, token) {
   if (cpf !== "") {
-    const response = await fetch("/Administrador", {
+    const response = await fetch("/VerificarCpfCadastradoGeral", {
       method: "POST",
       headers: { "Content-Type": "application/json", "Authorization": `${token}` },
       body: JSON.stringify({
-        data: {
-          cpf,
-          modulo
-        },
-        acao: "VerificarCpfCadastradoGeral"
+        Cpf: cpf,
+        Modulo: modulo
       })
     })
     const result = await response.json()
@@ -238,16 +232,13 @@ async function VerificarCpfCadastradoGeral(e, cpf, modulo, token) {
 
 async function VerificarEmailCadastrado(e, email, id, modulo, token) {
   if (email !== "") {
-    const response = await fetch("/Administrador", {
+    const response = await fetch("/VerificarEmailCadastrado", {
       method: "POST",
-      headers: { "Content-Type": "application/json", "Authorization": `${token}`  },
+      headers: { "Content-Type": "application/json", "Authorization": `${token}` },
       body: JSON.stringify({
-        data: {
-          email,
-          id,
-          modulo
-        },
-        acao: "VerificarEmailCadastrado"
+        Email: email,
+        Id: parseInt(id),
+        Modulo: modulo
       })
     })
     const result = await response.json()
@@ -267,15 +258,12 @@ async function VerificarEmailCadastrado(e, email, id, modulo, token) {
 
 async function VerificarEmailCadastradoGeral(e, email, modulo, token) {
   if (email !== "") {
-    const response = await fetch("/Administrador", {
+    const response = await fetch("/VerificarEmailCadastradoGeral", {
       method: "POST",
-      headers: { "Content-Type": "application/json", "Authorization": `${token}`  },
+      headers: { "Content-Type": "application/json", "Authorization": `${token}` },
       body: JSON.stringify({
-        data: {
-          email,
-          modulo
-        },
-        acao: "VerificarEmailCadastradoGeral"
+        Email: email,
+        Modulo: modulo
       })
     })
     const result = await response.json()

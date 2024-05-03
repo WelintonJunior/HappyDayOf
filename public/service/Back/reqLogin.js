@@ -2,13 +2,12 @@
 class LoginServices {
   async handleLoginCliente(data) {
     try {
-      const response = await fetch("/Login", {
+      const response = await fetch("/LoginCliente", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          acao: "LoginCliente",
-          data,
-        }),
+        body: JSON.stringify(
+          data
+        ),
       });
       const result = await response.json();
       return result;
@@ -18,14 +17,14 @@ class LoginServices {
   }
 
   async handleLoginFuncionario(data) {
+    console.log(data)
     try {
-      const response = await fetch("/Login", {
+      const response = await fetch("/LoginFuncionario", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          acao: "LoginFuncionario",
+        body: JSON.stringify(
           data,
-        }),
+        ),
       });
       const result = await response.json();
       return result;

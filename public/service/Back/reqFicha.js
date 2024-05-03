@@ -1,26 +1,25 @@
 class FichaServices {
 
-  async VerificarSessao(token) {
-    const response = await fetch("/Ficha", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "Authorization": `${token}` },
-    })
-    const result = await response.json();
-    if (result.message === "Token de autorização ausente" || "Sessão expirada, faça login novamente") {
-      return "Sessão expirada faça login novamente"
-    } else {
-      return ""
-    }
-  }
+  // async VerificarSessao(token) {
+  //   const response = await fetch("/Ficha", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json", "Authorization": `${token}` },
+  //   })
+  //   const result = await response.json();
+  //   if (result.message === "Token de autorização ausente" || "Sessão expirada, faça login novamente") {
+  //     return "Sessão expirada faça login novamente"
+  //   } else {
+  //     return ""
+  //   }
+  // }
 
   async ReadClienteFicha(idAcademia, token) {
     try {
-      const response = await fetch("/Ficha", {
+      const response = await fetch("/Ficha/ReadClienteFicha", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
-          idAcademia,
-          acao: "ReadClienteFicha",
+          IdAcad: parseInt(idAcademia),
         }),
       });
       const result = await response.json();
@@ -31,15 +30,17 @@ class FichaServices {
     }
   }
 
-  async ReadFichaDetalhes(cliId, tipo, token) {
+  async ReadFichaDetalhes(CliId, Tipo, token) {
+    console.log(CliId, Tipo)
     try {
-      const response = await fetch("/Ficha", {
+      const response = await fetch("/Ficha/ReadFichaDetalhes", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
-          data: { cliId, tipo },
-          acao: "ReadFichaDetalhes"
-        })
+          CliId: parseInt(CliId),
+          Tipo
+        }
+        )
       })
       const result = await response.json();
       return result;
@@ -51,12 +52,11 @@ class FichaServices {
 
   async ReadFichaDetalhesGeral(cliId, token) {
     try {
-      const response = await fetch("/Ficha", {
+      const response = await fetch("/Ficha/ReadFichaDetalhesGeral", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
-          data: cliId,
-          acao: "ReadFichaDetalhesGeral"
+          CliId: parseInt(cliId)
         })
       })
       const result = await response.json();
@@ -69,13 +69,16 @@ class FichaServices {
 
   async RegisterBaseFicha(idAcademia, data, token) {
     try {
-      const response = await fetch("/Ficha", {
+      const response = await fetch("/Ficha/RegisterFicha", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
-          data,
-          idAcademia,
-          acao: "RegisterFicha",
+          FicIdCliente: parseInt(data.ficCliId),
+          FicIntervalo: data.ficIntervalo,
+          FicRestricoes: parseInt(data.ficRestricoes),
+          FicTipoRestricoes: data.ficTipoRestricoes,
+          FicIdFuncionario: parseInt(data.funId),
+          FicIdAcademia: parseInt(idAcademia)
         }),
       });
       const result = await response.json();
@@ -87,13 +90,18 @@ class FichaServices {
   }
 
   async RegisterDetalhesFicha(data, token) {
+    console.log(data)
     try {
-      const response = await fetch("/Ficha", {
+      const response = await fetch("/Ficha/RegisterDetalhesFicha", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
-          data,
-          acao: "RegisterDetalhesFicha"
+          DetIdFicha: parseInt(data.detIdFicha),
+          DetVariacao: data.detVariacao,
+          DetCarga: data.detCarga,
+          DetSerie: data.detSerie,
+          DetRepeticao: data.detRepeticao,
+          DetTreino: data.detTreino
         })
       })
       const result = await response.json();
@@ -106,13 +114,15 @@ class FichaServices {
   }
 
   async UpdateCampoFicha(data, token) {
+    console.log(data)
     try {
-      const response = await fetch("/Ficha", {
+      const response = await fetch("/Ficha/UpdateCampoFicha", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
-          data,
-          acao: "UpdateCampoFicha",
+          DetCampo: data.detCampo,
+          DetValor: data.valor,
+          DetId: parseInt(data.detId)
         }),
       });
       const result = await response.json();
@@ -124,13 +134,13 @@ class FichaServices {
   }
 
   async DeleteCampoFicha(data, token) {
+    console.log(data)
     try {
-      const response = await fetch("/Ficha", {
+      const response = await fetch("/Ficha/DeleteCampoFicha", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
-          data,
-          acao: "DeleteCampoFicha",
+          DetId: parseInt(data.detId),
         }),
       });
       const result = await response.json();
