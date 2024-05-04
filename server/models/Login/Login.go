@@ -18,7 +18,7 @@ type Cliente struct {
 type Funcionario struct {
 	FunId     int64
 	FunNome   string
-	FunIdAcad int64
+	FunIdAcad *int64
 	FunEmail  string `binding:"required" json:"email"`
 	FunSenha  string `binding:"required" json:"senha"`
 	FunNivel  int64

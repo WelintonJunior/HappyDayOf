@@ -7,13 +7,14 @@ class FuncionarioServices extends AdministradorServices {
 
   async RegisterAtendimento(idAcademia, data, token) {
     try {
-      const response = await fetch("/Funcionario", {
+      const response = await fetch("/Atendimento/RegisterAtendimento", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "Authorization": `${token}`  },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
-          data,
-          idAcademia,
-          acao: "RegisterAtendimento",
+          AteIdCliente: parseInt(data.ateIdCliente),
+          AteIdAcad: parseInt(idAcademia),
+          AteIdFuncionario: parseInt(data.funId),
+          ateDateInicio: data.dateNow
         }),
       });
       const result = await response.json();
@@ -25,13 +26,12 @@ class FuncionarioServices extends AdministradorServices {
   }
   async ReadAtendimento(idAcademia, data, token) {
     try {
-      const response = await fetch("/Funcionario", {
+      const response = await fetch("/Atendimento/ReadAtendimento", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "Authorization": `${token}`  },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
-          data,
-          idAcademia,
-          acao: "ReadAtendimento",
+          AteIdAcad: parseInt(idAcademia),
+          AteIdFuncionario: parseInt(data),
         }),
       });
       const result = await response.json();
@@ -42,14 +42,15 @@ class FuncionarioServices extends AdministradorServices {
     }
   }
   async ValidacaoAtendimento(idAcademia, data, token) {
+    console.log(data)
     try {
-      const response = await fetch("/Funcionario", {
+      const response = await fetch("/Atendimento/ValidacaoAtendimento", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "Authorization": `${token}`  },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
-          data,
-          idAcademia,
-          acao: "ValidacaoAtendimento",
+          AteIdCliente: parseInt(data.ateIdCliente),
+          AteIdFuncionario: parseInt(data.funId),
+          AteIdAcad: parseInt(idAcademia),
         }),
       });
       const result = await response.json();
@@ -61,13 +62,14 @@ class FuncionarioServices extends AdministradorServices {
   }
   async UpdateStatusAtendimento(idAcademia, data, token) {
     try {
-      const response = await fetch("/Funcionario", {
+      const response = await fetch("/Atendimento/UpdateStatusAtendimento", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "Authorization": `${token}`  },
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
-          data,
-          idAcademia,
-          acao: "UpdateStatusAtendimento",
+          AteId: parseInt(data.ateId),
+          AteIdCliente: parseInt(data.ateIdCliente),
+          AteDateEncerramento: data.dateNow,
+          AteIdAcad: parseInt(idAcademia),
         }),
       });
       const result = await response.json();

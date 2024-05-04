@@ -6,7 +6,7 @@ try {
   //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
   const dadosFromLocalStorage = JSON.parse(localStorage.getItem("dados"));
   if (dadosFromLocalStorage !== null) {
-    dados = dadosFromLocalStorage.results;
+    dados = dadosFromLocalStorage.dados;
     token = dadosFromLocalStorage.token;
   } else {
     eqpServices.handleAcessoNegado()
@@ -15,10 +15,10 @@ try {
   eqpServices.handleAcessoNegado()
 }
 //Pega os dados armazenados no localStorage do navegador, dados sobre o usuário logado no momento
-document.getElementById("eqpInfo").innerHTML = `Olá Equipe: ${dados.funNome}`;
+document.getElementById("eqpInfo").innerHTML = `Olá Equipe: ${dados.FunNome}`;
 
 //Pega o id da Academia de acordo com o usuario logado no momento
-const idAcademia = dados.funIdAcad;
+const idAcademia = dados.FunIdAcad;
 let tela = "";
 
 const TEMPO_EXPIRACAO = 3600 * 8000;
@@ -46,7 +46,7 @@ document.getElementById("btnAcademia").addEventListener("click", () => {
 //Função para carregar a tabela logo quando entra na pagina
 
 document.addEventListener("DOMContentLoaded", async function () {
-  await eqpServices.CarregarTabela(token);
+  await eqpServices.ReadAcademiaLista(token);
 });
 
 //Modal
@@ -114,7 +114,7 @@ formAdministradorAcademia.addEventListener("submit", async (e) => {
   await eqpServices.AddAdministrador(data, token);
   e.target.reset();
   modalCadastrarAdministradorAcademia.style.display = "none";
-  await eqpServices.CarregarTabela(token);
+  await eqpServices.ReadAcademiaLista(token);
 });
 
 //Função para pegar os dados da api de cep e jogar nos campos

@@ -39,7 +39,7 @@ func ReadAparelhos(idAcad int64) ([]Aparelho, error) {
 }
 
 func ReadAparelhoDet(ApaId, idAcad int64) (Aparelho, error) {
-	query := "select * from tblAparelho where apaId = ? and apaIdAcad = ?"
+	query := "select * from tblAparelhos where apaId = ? and apaIdAcad = ?"
 
 	row := database.DB.QueryRow(query, ApaId, idAcad)
 
@@ -73,7 +73,7 @@ func (a Aparelho) New() error {
 }
 
 func ArchiveAparelho(ApaId int64) error {
-	query := "update tblAparelho set apaStatus = ? where apaId = ?"
+	query := "update tblAparelhos set apaStatus = ? where apaId = ?"
 
 	stmt, err := database.DB.Prepare(query)
 

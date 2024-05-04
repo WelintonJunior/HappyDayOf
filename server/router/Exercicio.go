@@ -1,6 +1,7 @@
 package router
 
 import (
+	"fmt"
 	"net/http"
 
 	EXERCICIO "example.com/fitConnect/models/Exercicio"
@@ -38,6 +39,7 @@ func ReadExercicioDet(context *gin.Context) {
 	Exercicio, err := EXERCICIO.ReadExercicioDet(e.ExeId, e.ExeIdAcad)
 
 	if err != nil {
+		fmt.Println(err)
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao ler dados"})
 		return
 	}
@@ -68,6 +70,7 @@ func ArchiveExercicio(context *gin.Context) {
 	}
 
 	if err := EXERCICIO.ArchiveExercicio(ExeId.ExeId); err != nil {
+		fmt.Println(err)
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao Arquivar Exercicio"})
 		return
 	}

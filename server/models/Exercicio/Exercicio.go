@@ -2,18 +2,20 @@ package EXERCICIO
 
 import (
 	"example.com/fitConnect/database"
+	APARELHO "example.com/fitConnect/models/Aparelho"
 )
 
 type Exercicio struct {
 	ExeId     int64
 	ExeNome   string
-	ExeApaId  string
+	ExeApaId  int64
 	ExeStatus int64
 	ExeIdAcad int64
+	APARELHO.Aparelho
 }
 
 func ReadExercicios(idAcad int64) ([]Exercicio, error) {
-	query := "SELECT * FROM tblExercicios WHERE exeIdAcad = ? ORDER BY exeStatus DESC, exeNome ASC"
+	query := "SELECT e.*, a.apaNome FROM tblExercicios as e left join tblAparelhos as a on e.exeApaId = a.apaId WHERE exeIdAcad = ? ORDER BY exeStatus DESC, exeNome ASC"
 
 	rows, err := database.DB.Query(query, idAcad)
 
@@ -27,7 +29,7 @@ func ReadExercicios(idAcad int64) ([]Exercicio, error) {
 
 	for rows.Next() {
 		var e Exercicio
-		if err := rows.Scan(&e.ExeId, &e.ExeNome, &e.ExeApaId, &e.ExeStatus, &e.ExeIdAcad); err != nil {
+		if err := rows.Scan(&e.ExeId, &e.ExeNome, &e.ExeApaId, &e.ExeStatus, &e.ExeIdAcad, &e.ApaNome); err != nil {
 			return nil, err
 		}
 		Exercicios = append(Exercicios, e)
@@ -72,7 +74,7 @@ func (e Exercicio) New() error {
 }
 
 func ArchiveExercicio(ExeId int64) error {
-	query := "update tblExercicio set exeStatus = ? where exeId = ?"
+	query := "update tblExercicios set exeStatus = ? where exeId = ?"
 
 	stmt, err := database.DB.Prepare(query)
 

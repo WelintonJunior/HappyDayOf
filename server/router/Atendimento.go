@@ -47,3 +47,78 @@ func ReadAtendimentoInfo(context *gin.Context) {
 	context.JSON(http.StatusOK, atendimento)
 
 }
+
+type AteAcad struct {
+	AteIdAcad        int64
+	AteIdFuncionario int64
+}
+
+func ReadAtendimento(context *gin.Context) {
+	var ateAcad AteAcad
+	if err := context.ShouldBindJSON(&ateAcad); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
+		return
+	}
+
+	results, err := ATENDIMENTO.ReadAtendimento(ateAcad.AteIdAcad, ateAcad.AteIdFuncionario)
+
+	if err != nil {
+		fmt.Println(err)
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro Pesquisar dados"})
+		return
+	}
+
+	context.JSON(http.StatusOK, results)
+
+}
+
+func RegisterAtendimento(context *gin.Context) {
+	var atendimento ATENDIMENTO.Atendimento
+
+	if err := context.ShouldBindJSON(&atendimento); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
+		return
+	}
+
+	if err := atendimento.New(); err != nil {
+		fmt.Println(err)
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro Cadastrar Atendimento"})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "Sucesso"})
+}
+
+func ValidacaoAtendimento(context *gin.Context) {
+	var atendimento ATENDIMENTO.Atendimento
+
+	if err := context.ShouldBindJSON(&atendimento); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
+		return
+	}
+
+	result, err := atendimento.Validar()
+
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao validar Atendimento"})
+		return
+	}
+
+	context.JSON(http.StatusOK, result)
+}
+
+func UpdateStatusAtendimento(context *gin.Context) {
+	var atendimento ATENDIMENTO.Atendimento
+
+	if err := context.ShouldBindJSON(&atendimento); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
+		return
+	}
+
+	if err := atendimento.UpdateStatusAtendimento(); err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao atualizar Atendimento"})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "Sucesso"})
+}

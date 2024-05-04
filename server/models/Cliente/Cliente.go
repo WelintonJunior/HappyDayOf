@@ -85,7 +85,7 @@ func (c Cliente) New() error {
 		return err
 	}
 
-	_, err = stmt.Exec(c.CliNome, c.CliCelular, c.CliCep, c.CliCidade, c.CliEstado, c.CliRua, c.CliNumeroRua, c.CliSexo, c.CliCpf, c.CliEmail, c.CliDataCmc, c.CliStatus, c.CliPlano, c.CliIdAcad, hashed)
+	_, err = stmt.Exec(c.CliNome, c.CliCelular, c.CliCep, c.CliCidade, c.CliEstado, c.CliRua, c.CliNumeroRua, c.CliSexo, c.CliCpf, c.CliEmail, c.CliDataCmc, 1, c.CliPlano, c.CliIdAcad, hashed)
 
 	if err != nil {
 		return err

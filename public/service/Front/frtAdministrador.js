@@ -64,7 +64,7 @@ const btnEditarDetalhesExercicio = document.getElementById(
   "btnEditarDetalhesExercicio"
 );
 const btnEditarDetalhesAparelho = document.getElementById(
-  "btnEnviarDetalhesAparelho"
+  "btnEditarDetalhesAparelho"
 );
 const btnEnviarDetalhesExercicio = document.getElementById(
   "btnEnviarDetalhesExercicio"
@@ -854,7 +854,7 @@ async function UpdateListaAparelho(token) {
           celula.textContent = item[campo];
           if (campo === "ApaStatus") {
             celula.innerHTML =
-              item[campo] === "1"
+              item[campo] === 1
                 ? `<span class="text-success">Ativo</span>`
                 : `<span class="text-danger">Desativado</span>`;
           }
@@ -868,7 +868,7 @@ async function UpdateListaAparelho(token) {
       botaoDetalhes.classList.add("btn-info")
       botaoDetalhes.innerHTML = '<i class="bi bi-search"></i>';
       botaoDetalhes.addEventListener("click", function () {
-        MostrarTelaDetalhesAparelho(item.apaId, token);
+        MostrarTelaDetalhesAparelho(item.ApaId, token);
       });
       celulaBotao.appendChild(botaoDetalhes);
     });
@@ -906,7 +906,7 @@ async function UpdateListaExercicio(token) {
       const camposSelecionados = [
         "ExeId",
         "ExeNome",
-        "ExeApaId",
+        "ApaNome",
         "ExeStatus",
       ];
 
@@ -916,7 +916,7 @@ async function UpdateListaExercicio(token) {
           celula.textContent = item[campo];
           if (campo === "ExeStatus") {
             celula.innerHTML =
-              item[campo] === "1"
+              item[campo] === 1
                 ? `<span class="text-success">Ativo</span>`
                 : `<span class="text-danger">Desativado</span>`;
           }
@@ -930,7 +930,7 @@ async function UpdateListaExercicio(token) {
       botaoDetalhes.classList.add("btn-info")
       botaoDetalhes.innerHTML = '<i class="bi bi-search"></i>';
       botaoDetalhes.addEventListener("click", function () {
-        MostrarTelaDetalhesExercicio(item.exeId, token);
+        MostrarTelaDetalhesExercicio(item.ExeId, token);
       });
       celulaBotao.appendChild(botaoDetalhes);
     });
@@ -1343,6 +1343,7 @@ async function MostrarTelaDetalhesAparelho(apaId, token) {
   Object.keys(result).forEach((key) => {
     let input = formDetAparelho.querySelector(`[name="${key}"]`);
     if (input) {
+      input.setAttribute("disabled", "disabled");
       if (input.type === "date") {
         let dateValue = new Date(result[key]).toISOString().split("T")[0];
         input.value = dateValue;
@@ -1351,8 +1352,7 @@ async function MostrarTelaDetalhesAparelho(apaId, token) {
       }
     }
   });
-
-  if (result.apaStatus == 1) {
+  if (result.ApaStatus == 1) {
     btnArchiveAparelho.classList.remove("d-none")
     btnAtivarAparelho.classList.add("d-none")
   } else {
@@ -1394,6 +1394,8 @@ btnEnviarDetalhesAparelho.addEventListener("click", async (e) => {
     }
   });
   formDetAparelho.reset();
+  e.target.style.display = "none";
+  btnEditarDetalhesAparelho.style.display = "block";
   await UpdateListaAparelho(token);
   MostrarTela("TelaAparelhos");
 });
@@ -1435,6 +1437,7 @@ async function MostrarTelaDetalhesExercicio(exeId, token) {
   Object.keys(result).forEach((key) => {
     let input = formDetExercicio.querySelector(`[name="${key}"]`);
     if (input) {
+      input.setAttribute("disabled", "disabled");
       if (input.type === "date") {
         let dateValue = new Date(result[key]).toISOString().split("T")[0];
         input.value = dateValue;
@@ -1444,7 +1447,7 @@ async function MostrarTelaDetalhesExercicio(exeId, token) {
     }
   });
 
-  if (result.exeStatus == 1) {
+  if (result.ExeStatus == 1) {
     btnArchiveExercicio.classList.remove("d-none")
     btnAtivarExercicio.classList.add("d-none")
   } else {
@@ -1485,6 +1488,8 @@ btnEnviarDetalhesExercicio.addEventListener("click", async (e) => {
       input.setAttribute("disabled", "disabled");
     }
   });
+  e.target.style.display = "none";
+  btnEditarDetalhesExercicio.style.display = "block";
   formDetExercicio.reset();
   await UpdateListaExercicio(token);
   MostrarTela("TelaExercicios");

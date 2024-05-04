@@ -2,6 +2,8 @@ package ACADEMIA
 
 import (
 	"example.com/fitConnect/database"
+	ADMINISTRADOR "example.com/fitConnect/models/Administrador"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type Academia struct {
@@ -16,30 +18,30 @@ type Academia struct {
 	AcaTelefone     string
 }
 
-// func ReadExercicios(idAcad int64) ([]Exercicio, error) {
-// 	query := "SELECT * FROM tblExercicios WHERE exeIdAcad = ? ORDER BY exeStatus DESC, exeNome ASC"
+func ReadAcademiaLista() ([]Academia, error) {
+	query := "select acaNome, acaDataCadastro, acaStatus, acaCelular from tblAcademia"
 
-// 	rows, err := database.DB.Query(query, idAcad)
+	rows, err := database.DB.Query(query)
 
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	if err != nil {
+		return nil, err
+	}
 
-// 	defer rows.Close()
+	defer rows.Close()
 
-// 	var Exercicios []Exercicio
+	var Academias []Academia
 
-// 	for rows.Next() {
-// 		var e Exercicio
-// 		if err := rows.Scan(&e.ExeId, &e.ExeNome, &e.ExeApaId, &e.ExeStatus, &e.ExeIdAcad); err != nil {
-// 			return nil, err
-// 		}
-// 		Exercicios = append(Exercicios, e)
-// 	}
+	for rows.Next() {
+		var a Academia
+		if err := rows.Scan(&a.AcaNome, &a.AcaDataCadastro, &a.AcaStatus, &a.AcaCelular); err != nil {
+			return nil, err
+		}
+		Academias = append(Academias, a)
+	}
 
-// 	return Exercicios, nil
+	return Academias, nil
 
-// }
+}
 
 func ReadAcademiaDet(AcaId int64) (Academia, error) {
 	query := "select * from tblAcademia where acaId = ?"
@@ -55,25 +57,62 @@ func ReadAcademiaDet(AcaId int64) (Academia, error) {
 
 }
 
-// func (e Academia) New() error {
-// 	query := "insert into tblExercicios values (DEFAULT, ?, ?, 1, ?)"
+func (a Academia) New() error {
+	query := "insert into tblAcademia values (DEFAULT,?,?,?,?,?,?,?,?)"
 
-// 	stmt, err := database.DB.Prepare(query)
+	stmt, err := database.DB.Prepare(query)
 
-// 	if err != nil {
-// 		return err
-// 	}
+	if err != nil {
+		return err
+	}
 
-// 	defer stmt.Close()
+	defer stmt.Close()
 
-// 	_, err = stmt.Exec(e.ExeNome, e.ExeApaId, e.ExeIdAcad)
+	_, err = stmt.Exec(a.AcaCnpj, a.AcaNome, a.AcaDataCadastro, 1, a.AcaCelular, a.AcaCep, a.AcaCor, a.AcaTelefone)
 
-// 	if err != nil {
-// 		return err
-// 	}
+	if err != nil {
+		return err
+	}
 
-// 	return nil
-// }
+	return nil
+}
+
+func AddAdministrador(adm ADMINISTRADOR.Administrador) error {
+	query := "insert into tblFuncionario values(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?, 2)"
+	stmt, err := database.DB.Prepare(query)
+
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+
+	retriviedPassword, err := bcrypt.GenerateFromPassword([]byte(adm.AdmSenha), 14)
+
+	if err != nil {
+		return err
+	}
+
+	_, err = stmt.Exec(adm.AdmNome, adm.AdmCelular, adm.AdmCep, adm.AdmCidade, adm.AdmEstado, adm.AdmRua, adm.AdmNumeroRua, adm.AdmSexo, adm.AdmCpf, adm.AdmEmail, adm.AdmDataCmc, retriviedPassword, 2)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func InsertAcademiaToTheOptions() (Academia, error) {
+	query := "SELECT * FROM tblAcademia ORDER BY acaId DESC LIMIT 1"
+	row := database.DB.QueryRow(query)
+
+	var a Academia
+	if err := row.Scan(&a.AcaId, &a.AcaCnpj, &a.AcaNome, &a.AcaDataCadastro, &a.AcaStatus, &a.AcaCelular, &a.AcaCep, &a.AcaCor, &a.AcaTelefone); err != nil {
+		return Academia{}, nil
+	}
+
+	return a, nil
+}
 
 // func ArchiveExercicio(ExeId int64) error {
 // 	query := "update tblExercicio set exeStatus = ? where exeId = ?"
