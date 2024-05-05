@@ -186,12 +186,15 @@ class ClienteServices extends FichaServices {
   }
 
   async RegisterMeta(data, idAcademia, token) {
-    const response = await fetch("/Meta/RegisterMeta/", {
+    const response = await fetch("/Meta/RegisterMeta", {
       method: "POST",
       headers: { "Content-Type": "application/json", "Authorization": `${token}` },
       body: JSON.stringify({
-        data,
-        idAcademia,
+        MetIdCliente: parseInt(data.cliId),
+        MetDataCumprir: data.dataCumprir,
+        MetGordura: parseFloat(data.metaGordura),
+        MetPeso: parseFloat(data.metaPeso),
+        MetIdAcad: parseInt(idAcademia),
       })
     })
     const result = await response.json();

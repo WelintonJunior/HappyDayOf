@@ -530,7 +530,7 @@ async function renderDesempenhoChart(cliId, token) {
   if (desempenhos) {
     const meta = await clienteServices.ReadMeta(cliId, token)
     btnCadastrarMeta.innerHTML = "Cadastrar Meta"
-    if (meta) {
+    if (meta.MetId !== 0) {
       const data = new Date(meta.MetDataCumprir);
       const dia = data.getDate();
       const mes = data.toLocaleString('default', { month: 'short' });

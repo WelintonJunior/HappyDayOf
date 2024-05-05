@@ -71,6 +71,7 @@ func ReadMetaAtual(context *gin.Context) {
 	meta, err := META.ReadMetaAtual(m.MetIdCliente, m.MetIdAcad)
 
 	if err != nil {
+		fmt.Println(err)
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao ler dados"})
 		return
 	}
