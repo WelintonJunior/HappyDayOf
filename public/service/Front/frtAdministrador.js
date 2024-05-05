@@ -193,7 +193,7 @@ btnFuncionario.addEventListener("click", (e) => {
 });
 
 //btnAparelho
-btnAparelho.addEventListener("click", (e) => {
+btnAparelho.addEventListener("click", async (e) => {
   e.preventDefault();
   MostrarTela("TelaAparelhos");
 });
@@ -618,6 +618,8 @@ document
   .getElementById("formCadastrarCliente")
   .addEventListener("submit", async (e) => {
     e.preventDefault();
+    modalCadastrarCliente.style.display = "none";
+    showLoading()
     const fd = new FormData(e.target);
     const data = Object.fromEntries(fd.entries());
     if (verificarNumeros(data.cliNome)) {
@@ -628,8 +630,8 @@ document
     await admServices.RegisterCliente(data, idAcademia, token);
     await UpdateListaClienteFicha(token);
     await UpdateListaCliente(token);
-    modalCadastrarCliente.style.display = "none";
     e.target.reset();
+    hideLoading()
   });
 
 //Cadastrar Funcionario
@@ -638,6 +640,8 @@ document
   .getElementById("formCadastrarFuncionario")
   .addEventListener("submit", async (e) => {
     e.preventDefault();
+    modalCadastrarFuncionario.style.display = "none";
+    showLoading()
     const fd = new FormData(e.target);
     const data = Object.fromEntries(fd.entries());
     if (verificarNumeros(data.funNome)) {
@@ -648,40 +652,45 @@ document
     await admServices.RegisterFuncionario(data, idAcademia, token);
     await UpdateListaFuncionario(token);
     await UpdateListaClienteFicha(token);
-    modalCadastrarFuncionario.style.display = "none";
     e.target.reset();
+    hideLoading()
   });
 
 //Cadastrar Aparelho
 
 formCadastrarAparelho.addEventListener("submit", async (e) => {
   e.preventDefault();
+  modalCadastrarAparelho.style.display = "none";
+  showLoading()
   const fd = new FormData(e.target);
   const data = Object.fromEntries(fd.entries())
   data.apaDataEntrada = await getFormattedDateTime();
   await admServices.RegisterAparelho(data, idAcademia, token)
   await UpdateListaAparelho(token);
-  modalCadastrarAparelho.style.display = "none";
   e.target.reset();
+  hideLoading()
 })
 
 //Cadastrar Exercicio
 
 formCadastrarExercicio.addEventListener("submit", async (e) => {
   e.preventDefault();
+  modalCadastrarExercicio.style.display = "none";
+  showLoading()
   const fd = new FormData(e.target);
   const data = Object.fromEntries(fd.entries())
   const result = await admServices.RegisterExercicio(data, idAcademia, token)
   await UpdateListaExercicio(token);
-  modalCadastrarExercicio.style.display = "none";
   e.target.reset();
+  hideLoading()
 })
 
 
 //Atualizar a Lista de Clientes
 
-async function UpdateListaCliente(token) {
+async function UpdateListaCliente(token, filtroNome = "") {
   const result = await admServices.ReadCliente(idAcademia, token);
+  const resultadosFiltrados = filtroNome ? result.filter(item => item.CliNome.toLowerCase().includes(filtroNome.toLowerCase())) : result;
   //Colocar em alguma lista
   const containerTabela = document.getElementById("tableClientes");
   const tabelaExistente = containerTabela.querySelector("table");
@@ -701,8 +710,8 @@ async function UpdateListaCliente(token) {
   });
 
   const corpoTabela = tabela.appendChild(document.createElement("tbody"));
-  if (result) {
-    result.forEach((item) => {
+  if (resultadosFiltrados) {
+    resultadosFiltrados.forEach((item) => {
       const linha = corpoTabela.insertRow();
       const camposSelecionados = [
         "CliId",
@@ -749,8 +758,10 @@ async function UpdateListaCliente(token) {
 
 //Atualizar a Lista de Funcionarios
 
-async function UpdateListaFuncionario(token) {
+async function UpdateListaFuncionario(token, filtroNome = "") {
   const result = await admServices.ReadFuncionario(1, idAcademia, token);
+  const resultadosFiltrados = filtroNome ? result.filter(item => item.FunNome.toLowerCase().includes(filtroNome.toLowerCase())) : result;
+
   const containerTabela = document.getElementById("tableFuncionarios");
   const tabelaExistente = containerTabela.querySelector("table");
 
@@ -772,8 +783,8 @@ async function UpdateListaFuncionario(token) {
   });
 
   const corpoTabela = tabela.appendChild(document.createElement("tbody"));
-  if (result) {
-    result.forEach((item) => {
+  if (resultadosFiltrados) {
+    resultadosFiltrados.forEach((item) => {
       const linha = corpoTabela.insertRow();
       const camposSelecionados = [
         "FunId",
@@ -818,8 +829,10 @@ async function UpdateListaFuncionario(token) {
 
 //Atualizar a Lista de Aparelhos
 
-async function UpdateListaAparelho(token) {
+async function UpdateListaAparelho(token, filtroNome = "") {
   const result = await admServices.ReadAparelho(idAcademia, token);
+  const resultadosFiltrados = filtroNome ? result.filter(item => item.ApaNome.toLowerCase().includes(filtroNome.toLowerCase())) : result;
+
   //Colocar em alguma lista
   const containerTabela = document.getElementById("tableAparelhos");
   const tabelaExistente = containerTabela.querySelector("table");
@@ -839,8 +852,8 @@ async function UpdateListaAparelho(token) {
   });
 
   const corpoTabela = tabela.appendChild(document.createElement("tbody"));
-  if (result) {
-    result.forEach((item) => {
+  if (resultadosFiltrados) {
+    resultadosFiltrados.forEach((item) => {
       const linha = corpoTabela.insertRow();
       const camposSelecionados = [
         "ApaId",
@@ -879,8 +892,10 @@ async function UpdateListaAparelho(token) {
 
 //Atualizar a Lista de Aparelhos
 
-async function UpdateListaExercicio(token) {
+async function UpdateListaExercicio(token, filtroNome = "") {
   const result = await admServices.ReadExercicio(idAcademia, token);
+  const resultadosFiltrados = filtroNome ? result.filter(item => item.ExeNome.toLowerCase().includes(filtroNome.toLowerCase())) : result;
+
   //Colocar em alguma lista
   const containerTabela = document.getElementById("tableExercicios");
   const tabelaExistente = containerTabela.querySelector("table");
@@ -900,8 +915,8 @@ async function UpdateListaExercicio(token) {
   });
 
   const corpoTabela = tabela.appendChild(document.createElement("tbody"));
-  if (result) {
-    result.forEach((item) => {
+  if (resultadosFiltrados) {
+    resultadosFiltrados.forEach((item) => {
       const linha = corpoTabela.insertRow();
       const camposSelecionados = [
         "ExeId",
@@ -941,8 +956,10 @@ async function UpdateListaExercicio(token) {
 
 //Atualizar a Lista de Fichas
 
-async function UpdateListaClienteFicha(token) {
+async function UpdateListaClienteFicha(token, filtroNome = "") {
   const result = await admServices.ReadClienteFicha(idAcademia, token);
+  const resultadosFiltrados = filtroNome ? result.filter(item => item.CliNome.toLowerCase().includes(filtroNome.toLowerCase())) : result;
+
   //Colocar em alguma lista
   const containerTabela = document.getElementById("tableClientesFicha");
   const tabelaExistente = containerTabela.querySelector("table");
@@ -963,8 +980,8 @@ async function UpdateListaClienteFicha(token) {
 
   const corpoTabela = tabela.appendChild(document.createElement("tbody"));
 
-  if (result) {
-    result.forEach((item) => {
+  if (resultadosFiltrados) {
+    resultadosFiltrados.forEach((item) => {
       const linha = corpoTabela.insertRow();
       let PossuiFicha = item.ClienteExisteNaFicha === 0 ? `<span class="text-danger">Não</span>` : `<span class="text-success">Sim</span>`;
       const camposSelecionados = ["CliId", "CliNome"];
@@ -1736,14 +1753,12 @@ async function MostrarTelaCriarFicha(cliId, token) {
 async function PreencherSelectProfessores() {
   const result = await admServices.ReadFuncionario(1, idAcademia, token);
   document.getElementById("funFicha").innerHTML = "";
-  if (result.length > 0) {
+  if (result) {
     result.forEach((item) => {
       document.getElementById(
         "funFicha"
       ).innerHTML += `<option value=${item.FunId}>${item.FunNome}</option>`;
     });
-  } else {
-    alert("Você não possui funcionários cadastrados!")
   }
 }
 
@@ -1751,7 +1766,7 @@ async function PreencherSelectAparelhos() {
   const result = await admServices.ReadAparelho(idAcademia, token);
   document.getElementById("apaExercicio").innerHTML = "";
   document.getElementById("apaDetExercicio").innerHTML = "";
-  if (result.length > 0) {
+  if (result) {
     result.forEach((item) => {
       document.getElementById(
         "apaExercicio"
@@ -1760,8 +1775,6 @@ async function PreencherSelectAparelhos() {
         "apaDetExercicio"
       ).innerHTML += `<option value=${item.ApaId}>${item.ApaNome}</option>`;
     });
-  } else {
-    alert("Você não possui aparelhos cadastrados!")
   }
 }
 
@@ -1830,3 +1843,51 @@ formInserirTreinoC.addEventListener("submit", async (e) => {
     alert("Você precisa preencher todos os campos")
   }
 });
+
+//Pesquisar Ficha
+
+let pesquisarFicha = document.getElementById("pesquisarFicha")
+pesquisarFicha.addEventListener("keyup", async (e) => {
+  const nomePesquisa = e.target.value;
+  await UpdateListaClienteFicha(token, nomePesquisa);
+})
+
+//Pesquisar Cliente
+
+let pesquisarCliente = document.getElementById("pesquisarCliente")
+pesquisarCliente.addEventListener("keyup", async (e) => {
+  const nomePesquisa = e.target.value;
+  await UpdateListaCliente(token, nomePesquisa);
+})
+
+//Pesquisar Funcionario
+
+let pesquisarFuncionario = document.getElementById("pesquisarFuncionario")
+pesquisarFuncionario.addEventListener("keyup", async (e) => {
+  const nomePesquisa = e.target.value;
+  await UpdateListaFuncionario(token, nomePesquisa);
+})
+
+//Pesquisar Exercicio
+
+let pesquisarExercicio = document.getElementById("pesquisarExercicio")
+pesquisarExercicio.addEventListener("keyup", async (e) => {
+  const nomePesquisa = e.target.value;
+  await UpdateListaExercicio(token, nomePesquisa);
+})
+
+//Pesquisar Aparelho
+
+let pesquisarAparelho = document.getElementById("pesquisarAparelho")
+pesquisarAparelho.addEventListener("keyup", async (e) => {
+  const nomePesquisa = e.target.value;
+  await UpdateListaAparelho(token, nomePesquisa);
+})
+
+function showLoading() {
+  document.getElementById('loadingOverlay').style.display = 'block';
+}
+
+function hideLoading() {
+  document.getElementById('loadingOverlay').style.display = 'none';
+}

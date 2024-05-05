@@ -126,8 +126,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   await PreencherSelectProfessores(token);
   await PreencherSelectClienteAtendimento(token);
   await UpdateListaAtendimento(token);
-  const result = await funServices.FuncionarioMeuDesempenho(dados.FunId)
-  console.log(result)
+  await renderMeuDesempenhoChart()
 });
 
 //Abrir Modal Cliente
@@ -262,8 +261,10 @@ document
 
 //Atualizar a Lista de Clientes
 
-async function UpdateListaCliente(token) {
+async function UpdateListaCliente(token, filtroNome = "") {
   const result = await funServices.ReadCliente(idAcademia, token);
+  const resultadosFiltrados = filtroNome ? result.filter(item => item.CliNome.toLowerCase().includes(filtroNome.toLowerCase())) : result;
+
   //Colocar em alguma lista
   const containerTabela = document.getElementById("tableClientes");
   const tabelaExistente = containerTabela.querySelector("table");
@@ -283,8 +284,8 @@ async function UpdateListaCliente(token) {
   });
 
   const corpoTabela = tabela.appendChild(document.createElement("tbody"));
-  if (result) {
-    result.forEach((item) => {
+  if (resultadosFiltrados) {
+    resultadosFiltrados.forEach((item) => {
       const linha = corpoTabela.insertRow();
       const camposSelecionados = [
         "CliId",
@@ -331,8 +332,10 @@ async function UpdateListaCliente(token) {
 
 //Atualizar a Lista de Atendimento
 
-async function UpdateListaAtendimento(token) {
+async function UpdateListaAtendimento(token, filtroNome = "") {
   const result = await funServices.ReadAtendimento(idAcademia, dados.FunId, token);
+  const resultadosFiltrados = filtroNome ? result.filter(item => item.CliNome.toLowerCase().includes(filtroNome.toLowerCase())) : result;
+
   //Colocar em alguma lista
   const containerTabela = document.getElementById("tableAtendimento");
   const tabelaExistente = containerTabela.querySelector("table");
@@ -359,8 +362,8 @@ async function UpdateListaAtendimento(token) {
   });
 
   const corpoTabela = tabela.appendChild(document.createElement("tbody"));
-  if (result.length > 0) {
-    result.forEach((item) => {
+  if (resultadosFiltrados) {
+    resultadosFiltrados.forEach((item) => {
       const linha = corpoTabela.insertRow();
       const camposSelecionados = [
         "AteId",
@@ -420,8 +423,10 @@ async function UpdateListaAtendimento(token) {
 
 //Atualizar a Lista de Fichas
 
-async function UpdateListaClienteFicha(token) {
+async function UpdateListaClienteFicha(token, filtroNome = "") {
   const result = await funServices.ReadClienteFicha(idAcademia, token);
+  const resultadosFiltrados = filtroNome ? result.filter(item => item.CliNome.toLowerCase().includes(filtroNome.toLowerCase())) : result;
+
   //Colocar em alguma lista
   const containerTabela = document.getElementById("tableClientesFicha");
   const tabelaExistente = containerTabela.querySelector("table");
@@ -442,8 +447,8 @@ async function UpdateListaClienteFicha(token) {
 
   const corpoTabela = tabela.appendChild(document.createElement("tbody"));
 
-  if (result) {
-    result.forEach((item) => {
+  if (resultadosFiltrados) {
+    resultadosFiltrados.forEach((item) => {
       const linha = corpoTabela.insertRow();
       let PossuiFicha = item.ClienteExisteNaFicha === 0 ? `<span class="text-danger">Não</span>` : `<span class="text-success">Sim</span>`;
       const camposSelecionados = ["CliId", "CliNome"];
@@ -826,6 +831,16 @@ btnAtivarCliente.addEventListener("click", async (e) => {
 //   MostrarTela("TelaExercicios")
 // })
 
+//Reload Chart Meu Desempenho
+
+let reloadBtnMeuDesempenho = document.getElementById("reloadBtnMeuDesempenho")
+reloadBtnMeuDesempenho.addEventListener("click", async (e) => {
+  e.preventDefault();
+  const boxChartMeuDesempenho = document.getElementById('boxChartMeuDesempenho');
+  boxChartMeuDesempenho.innerHTML = '';
+  await renderMeuDesempenhoChart();
+});
+
 
 //LOGOUT
 
@@ -1117,4 +1132,36 @@ function MostrarTela(tela) {
       TelaMeuDesempenho.style.display = "none";
       break;
   }
+}
+
+//Pesquisar Ficha
+
+let pesquisarFicha = document.getElementById("pesquisarFicha")
+pesquisarFicha.addEventListener("keyup", async (e) => {
+  const nomePesquisa = e.target.value;
+  await UpdateListaClienteFicha(token, nomePesquisa);
+})
+
+//Pesquisar Cliente
+
+let pesquisarCliente = document.getElementById("pesquisarCliente")
+pesquisarCliente.addEventListener("keyup", async (e) => {
+  const nomePesquisa = e.target.value;
+  await UpdateListaCliente(token, nomePesquisa);
+})
+
+//Pesquisar Atendimento
+
+let pesquisarAtendimento = document.getElementById("pesquisarAtendimento")
+pesquisarAtendimento.addEventListener("keyup", async (e) => {
+  const nomePesquisa = e.target.value;
+  await UpdateListaAtendimento(token, nomePesquisa);
+})
+
+function showLoading() {
+  document.getElementById('loadingOverlay').style.display = 'block';
+}
+
+function hideLoading() {
+  document.getElementById('loadingOverlay').style.display = 'none';
 }

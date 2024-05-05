@@ -65,6 +65,15 @@ async function fetchAndMapFuncionarios(Atendimentos) {
 
 async function renderSatisfacaoChart() {
     const Satisfacoes = await dashboardServices.ReadSatisfacao(idAcademia);
+    if (Satisfacoes === null) {
+        document.getElementById("NaoPossuiSatisfacao").classList.remove("d-none")
+        document.getElementById("boxChartSatisfacao").classList.add("d-none")
+        return
+    }
+
+    document.getElementById("NaoPossuiSatisfacao").classList.add("d-none")
+    document.getElementById("boxChartSatisfacao").classList.remove("d-none")
+
     let funcionarios = {};
 
     for (let i = 0; i < Satisfacoes.length; i++) {
@@ -148,6 +157,15 @@ async function renderProdutividadeChart() {
     const Atendimentos = await dashboardServices.ReadAllAtendimentos(idAcademia);
     const DATA_COUNT = 7;
 
+    if (Atendimentos === null) {
+        document.getElementById("NaoPossuiProdutividade").classList.remove("d-none")
+        document.getElementById("boxChartProdutividade").classList.add("d-none")
+        return
+    }
+
+    document.getElementById("NaoPossuiProdutividade").classList.add("d-none")
+    document.getElementById("boxChartProdutividade").classList.remove("d-none")
+
     function generateLastMonths(count) {
         let months = [];
         let date = new Date();
@@ -214,6 +232,16 @@ async function renderProdutividadeChart() {
 
 async function renderAtendimentoChart() {
     const Atendimentos = await dashboardServices.ReadAllAtendimentos(idAcademia);
+
+    if (Atendimentos === null) {
+        document.getElementById("NaoPossuiAtendimento").classList.remove("d-none")
+        document.getElementById("boxChartAtendimento").classList.add("d-none")
+        return
+    }
+
+    document.getElementById("NaoPossuiAtendimento").classList.add("d-none")
+    document.getElementById("boxChartAtendimento").classList.remove("d-none")
+
     let funcionarios = {};
     let funcionarioIds = [];
     const labels = ["Manhã", "Tarde", "Noite"];
@@ -276,6 +304,16 @@ async function renderEngajamentoChart() {
     const engajamentos = await dashboardServices.ReadAllEngajamentos(idAcademia);
     const DATA_COUNT = 7;
 
+    if (engajamentos === null) {
+        document.getElementById("NaoPossuiEngajamento").classList.remove("d-none")
+        document.getElementById("boxChartEngajamento").classList.add("d-none")
+        return
+    }
+
+    document.getElementById("NaoPossuiEngajamento").classList.add("d-none")
+    document.getElementById("boxChartEngajamento").classList.remove("d-none")
+
+
     function generateLastMonths(count) {
         let months = [];
         let date = new Date();
@@ -329,44 +367,142 @@ async function renderEngajamentoChart() {
     });
 }
 
+async function renderMeuDesempenhoChart() {
+    const Satisfacoes = await funServices.FuncionarioMeuDesempenho(dados.FunId);
+    if (Satisfacoes === null || Satisfacoes.length === 0) {
+        document.getElementById("NaoPossuiMeuDesempenho").classList.remove("d-none");
+        document.getElementById("boxChartMeuDesempenho").classList.add("d-none");
+        return;
+    }
+
+    document.getElementById("NaoPossuiMeuDesempenho").classList.add("d-none");
+    document.getElementById("boxChartMeuDesempenho").classList.remove("d-none");
+
+    let funcionario = {
+        nome: await dashboardServices.ReadFuncNome(dados.FunId),
+        somaConhecimento: 0,
+        somaClareza: 0,
+        somaProatividade: 0,
+        somaDisponibilidade: 0,
+        somaSeguranca: 0,
+        count: 0
+    };
+
+    Satisfacoes.forEach(Satisfacao => {
+        funcionario.somaConhecimento += parseInt(Satisfacao.SatNotaConhecimento);
+        funcionario.somaClareza += parseInt(Satisfacao.SatNotaClareza);
+        funcionario.somaProatividade += parseInt(Satisfacao.SatNotaProatividade);
+        funcionario.somaDisponibilidade += parseInt(Satisfacao.SatNotaDisponibilidade);
+        funcionario.somaSeguranca += parseInt(Satisfacao.SatNotaSeguranca);
+        funcionario.count++;
+    });
+
+    // Calcular médias
+    funcionario.mediaConhecimento = funcionario.somaConhecimento / funcionario.count;
+    funcionario.mediaClareza = funcionario.somaClareza / funcionario.count;
+    funcionario.mediaProatividade = funcionario.somaProatividade / funcionario.count;
+    funcionario.mediaDisponibilidade = funcionario.somaDisponibilidade / funcionario.count;
+    funcionario.mediaSeguranca = funcionario.somaSeguranca / funcionario.count;
+
+    const labels = ['Conhecimento', 'Clareza', 'Proatividade', 'Disponibilidade', 'Segurança'];
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: funcionario.nome,
+            data: [funcionario.mediaConhecimento, funcionario.mediaClareza, funcionario.mediaProatividade, funcionario.mediaDisponibilidade, funcionario.mediaSeguranca],
+            fill: true,
+            backgroundColor: 'rgba(54, 162, 235, 0.2)', // Adjust the color as needed
+            borderColor: 'rgb(54, 162, 235)',
+            pointBackgroundColor: 'rgb(54, 162, 235)',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: 'rgb(54, 162, 235)'
+        }]
+    };
+
+    const boxChartMeuDesempenho = document.getElementById('boxChartMeuDesempenho');
+    if (boxChartMeuDesempenho.chart) {
+        boxChartMeuDesempenho.chart.destroy();
+    }
+    boxChartMeuDesempenho.chart = new Chart(boxChartMeuDesempenho, {
+        type: 'radar',
+        data: data,
+        options: {
+            elements: {
+                line: {
+                    borderWidth: 5
+                }
+            },
+            maintainAspectRatio: false,
+            responsive: true,
+            scales: {
+                r: {
+                    min: 1,
+                    max: 5,
+                    stepSize: 1,
+                    beginAtZero: true,
+                    angleLines: {
+                        display: false
+                    },
+                    ticks: {
+                        beginAtZero: true,
+                        min: 0,
+                        max: 5,
+                        stepSize: 1
+                    }
+                }
+            }
+        },
+    });
+}
 
 
 let reloadBtnSatisfacao = document.getElementById("reloadBtnSatisfacao")
-reloadBtnSatisfacao.addEventListener("click", async (e) => {
-    e.preventDefault();
-    const boxChartSatisfacao = document.getElementById('boxChartSatisfacao');
-    boxChartSatisfacao.innerHTML = '';
-    await renderSatisfacaoChart();
-});
+if (reloadBtnSatisfacao) {
+    reloadBtnSatisfacao.addEventListener("click", async (e) => {
+        e.preventDefault();
+        const boxChartSatisfacao = document.getElementById('boxChartSatisfacao');
+        boxChartSatisfacao.innerHTML = '';
+        await renderSatisfacaoChart();
+    });
+}
 
 let reloadBtnProdutividade = document.getElementById("reloadBtnProdutividade")
-reloadBtnProdutividade.addEventListener("click", async (e) => {
-    e.preventDefault();
-    const boxChartProdutividade = document.getElementById('boxChartProdutividade');
-    boxChartProdutividade.innerHTML = '';
-    await renderProdutividadeChart();
-});
+if (reloadBtnProdutividade) {
+    reloadBtnProdutividade.addEventListener("click", async (e) => {
+        e.preventDefault();
+        const boxChartProdutividade = document.getElementById('boxChartProdutividade');
+        boxChartProdutividade.innerHTML = '';
+        await renderProdutividadeChart();
+    });
+}
 
 let reloadBtnAtendimento = document.getElementById("reloadBtnAtendimento")
-reloadBtnAtendimento.addEventListener("click", async (e) => {
-    e.preventDefault();
-    const boxChartAtendimento = document.getElementById('boxChartAtendimento');
-    boxChartAtendimento.innerHTML = '';
-    await renderAtendimentoChart();
-});
+if (reloadBtnAtendimento) {
+    reloadBtnAtendimento.addEventListener("click", async (e) => {
+        e.preventDefault();
+        const boxChartAtendimento = document.getElementById('boxChartAtendimento');
+        boxChartAtendimento.innerHTML = '';
+        await renderAtendimentoChart();
+    });
+}
 
 let reloadBtnEngajamento = document.getElementById("reloadBtnEngajamento")
-reloadBtnEngajamento.addEventListener("click", async (e) => {
-    e.preventDefault();
-    const boxChartEngajamento = document.getElementById('boxChartEngajamento');
-    boxChartEngajamento.innerHTML = '';
-    await renderEngajamentoChart();
-});
+if (reloadBtnEngajamento) {
+    reloadBtnEngajamento.addEventListener("click", async (e) => {
+        e.preventDefault();
+        const boxChartEngajamento = document.getElementById('boxChartEngajamento');
+        boxChartEngajamento.innerHTML = '';
+        await renderEngajamentoChart();
+    });
+}
 
-document.addEventListener("DOMContentLoaded", async () => {
-    await renderSatisfacaoChart();
-    await renderProdutividadeChart();
-    await renderAtendimentoChart();
-    await renderEngajamentoChart();
-});
+if (reloadBtnAtendimento) {
+    document.addEventListener("DOMContentLoaded", async () => {
+        await renderSatisfacaoChart();
+        await renderProdutividadeChart();
+        await renderAtendimentoChart();
+        await renderEngajamentoChart();
+    });
+}
 

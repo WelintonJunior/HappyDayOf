@@ -3,6 +3,7 @@ package LOGIN
 import (
 	"errors"
 
+	UTILS "example.com/fitConnect/Utils"
 	"example.com/fitConnect/database"
 )
 
@@ -12,6 +13,7 @@ type Cliente struct {
 	CliIdAcad int64
 	CliEmail  string `binding:"required" json:"email"`
 	CliSenha  string `binding:"required" json:"senha"`
+	DateNow   string
 	Token     string
 }
 
@@ -25,6 +27,25 @@ type Funcionario struct {
 	Token     string
 }
 
+func EngajamentoAlunos(CliId, IdAcademia int64, DateNow string) error {
+	query := "insert into tblEngajamento values (default, ?, ?, ?)"
+	stmt, err := database.DB.Prepare(query)
+
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+
+	_, err = stmt.Exec(CliId, DateNow, IdAcademia)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (c Cliente) ValidateCredentials() (Cliente, error) {
 	query := "select cliId, cliNome, cliIdAcad,  cliSenha from tblCliente where cliEmail = ?"
 	row := database.DB.QueryRow(query, c.CliEmail)
@@ -34,17 +55,17 @@ func (c Cliente) ValidateCredentials() (Cliente, error) {
 		return Cliente{}, err
 	}
 
-	if retrievedPassword == c.CliSenha {
+	validateCredential, err := UTILS.CheckHashPassword(c.CliSenha, retrievedPassword)
+
+	if err != nil {
+		return Cliente{}, errors.New("Senhas divergentes")
+	}
+
+	if validateCredential {
 		return c, nil
 	} else {
 		return Cliente{}, errors.New("Senhas divergentes")
 	}
-
-	// 	if validateCredential := utils.CheckHashPassword(c.CliPassword, retrievedPassword); validateCredential {
-	// 		return nil
-	// 	} else {
-	// 		return errors.New("Credentials invalid")
-	// 	}
 }
 
 func (f Funcionario) ValidateCredentials() (Funcionario, error) {
@@ -56,15 +77,15 @@ func (f Funcionario) ValidateCredentials() (Funcionario, error) {
 		return Funcionario{}, err
 	}
 
-	if retrievedPassword == f.FunSenha {
-		return f, nil
-	} else {
-		return Funcionario{}, errors.New("Senhas divergentes")
+	validateCredential, err := UTILS.CheckHashPassword(f.FunSenha, retrievedPassword)
+
+	if err != nil {
+		return Funcionario{}, err
 	}
 
-	// 	if validateCredential := utils.CheckHashPassword(c.CliPassword, retrievedPassword); validateCredential {
-	// 		return nil
-	// 	} else {
-	// 		return errors.New("Credentials invalid")
-	// 	}
+	if validateCredential {
+		return f, nil
+	} else {
+		return Funcionario{}, errors.New("Credentials invalid")
+	}
 }

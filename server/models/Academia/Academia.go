@@ -93,7 +93,7 @@ func AddAdministrador(adm ADMINISTRADOR.Administrador) error {
 		return err
 	}
 
-	_, err = stmt.Exec(adm.AdmNome, adm.AdmCelular, adm.AdmCep, adm.AdmCidade, adm.AdmEstado, adm.AdmRua, adm.AdmNumeroRua, adm.AdmSexo, adm.AdmCpf, adm.AdmEmail, adm.AdmDataCmc, retriviedPassword, 2)
+	_, err = stmt.Exec(adm.AdmNome, adm.AdmCelular, adm.AdmCep, adm.AdmCidade, adm.AdmEstado, adm.AdmRua, adm.AdmNumeroRua, adm.AdmSexo, adm.AdmCpf, adm.AdmEmail, adm.AdmDataCmc, adm.AdmIdAcad, retriviedPassword)
 
 	if err != nil {
 		return err

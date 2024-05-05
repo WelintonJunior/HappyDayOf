@@ -41,6 +41,13 @@
 </head>
 
 <body>
+  <div id="loadingOverlay"
+    style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;">
+    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+      <div class="loader"></div>
+      <p style="color: white; text-align: center;">Carregando...</p>
+    </div>
+  </div>
   <div class="wrapper">
     <nav id="sidebar">
       <div id="sidebarHeader" class="sidebar-header">
@@ -120,7 +127,8 @@
                   <button type="button" class="btn btn-light cursor: pointer; mt-3 mb-3" id="reloadBtnSatisfacao"> <i
                       class="bi bi-arrow-clockwise"></i>Reload</button>
                   <div class="d-flex align-items-center justify-content-center mb-3">
-                    <canvas width="250" height="250" id="boxChartSatisfacao"></canvas>
+                    <p id="NaoPossuiSatisfacao" class="d-none text-center mt-5">Não Possui ainda</p>
+                    <canvas class="d-none" width="250" height="250" id="boxChartSatisfacao"></canvas>
                   </div>
                 </div>
 
@@ -130,7 +138,8 @@
                       class="bi bi-arrow-clockwise"></i>Reload</button>
 
                   <div class="d-flex align-items-center justify-content-center">
-                    <canvas width="250" height="250" id="boxChartProdutividade"></canvas>
+                    <p id="NaoPossuiProdutividade" class="d-none text-center mt-5">Não Possui ainda</p>
+                    <canvas class="d-none" width="250" height="250" id="boxChartProdutividade"></canvas>
                   </div>
                 </div>
 
@@ -142,7 +151,8 @@
                       class="bi bi-arrow-clockwise"></i>Reload</button>
 
                   <div class="d-flex align-items-center justify-content-center">
-                    <canvas width="250" height="250" id="boxChartAtendimento"></canvas>
+                    <p id="NaoPossuiAtendimento" class="d-none text-center mt-5">Não Possui ainda</p>
+                    <canvas class="d-none" width="250" height="250" id="boxChartAtendimento"></canvas>
                   </div>
                 </div>
 
@@ -154,7 +164,8 @@
                       class="bi bi-arrow-clockwise"></i>Reload</button>
 
                   <div class="d-flex align-items-center justify-content-center">
-                    <canvas width="250" height="150" id="boxChartEngajamento"></canvas>
+                    <p id="NaoPossuiEngajamento" class="d-none text-center mt-5">Não Possui ainda</p>
+                    <canvas class="d-none" width="250" height="150" id="boxChartEngajamento"></canvas>
                   </div>
                 </div>
 
@@ -172,6 +183,7 @@
 
               <section class="table" id="">
                 <table class="table__body">
+                  Pesquisar<input id="pesquisarFicha" type="text">
                   <h1 class="display-6 text-center mt-4 mb-4">Fichas de Clientes</h1>
                   <div class="listBoxClienteFicha" id="listBoxClienteFicha">
                     <div id="tableClientesFicha"></div>
@@ -188,6 +200,7 @@
             <section class="container col-md-8 col-sm-12 mt-5">
               <section class="table" id="">
                 <table class="table__body">
+                  Pesquisar<input id="pesquisarCliente" type="text">
                   <h1 class="display-6 text-center mt-4 mb-4">Lista de Clientes</h1>
                   <div class="listBoxCliente" id="listBoxCliente">
                     <div id="tableClientes"></div>
@@ -208,6 +221,7 @@
             <section class="container col-md-8 col-sm-12 mt-5">
               <section class="table" id="">
                 <table class="table__body">
+                  Pesquisar<input id="pesquisarFuncionario" type="text">
                   <h1 class="display-6 text-center mt-4 mb-4">Lista de Funcionarios</h1>
                   <div class="listBoxFuncionario" id="listBoxFuncionario">
                     <div id="tableFuncionarios"></div>
@@ -221,12 +235,6 @@
               </section>
             </section>
 
-
-
-            <!-- <div class="listBoxFuncionario" id="listBoxFuncionario">
-          <div id="tableFuncionarios"></div>
-        </div>
-        <button type="button" class="btn btn-info" id="abrirModalRegisterFuncionario">Cadastrar Funcionario</button> -->
           </div>
 
           <!-- Tela Aparelhos -->
@@ -236,6 +244,7 @@
             <section class="container col-md-8 col-sm-12 mt-5">
               <section class="table" id="">
                 <table class="table__body">
+                  Pesquisar<input id="pesquisarAparelho" type="text">
                   <h1 class="display-6 text-center mt-4 mb-4">Lista de Aparelhos</h1>
                   <div class="listBoxAparelho" id="listBoxAparelho">
                     <div id="tableAparelhos"></div>
@@ -249,12 +258,6 @@
               </section>
             </section>
 
-
-
-            <!-- <div class="listBoxFuncionario" id="listBoxFuncionario">
-          <div id="tableFuncionarios"></div>
-        </div>
-        <button type="button" class="btn btn-info" id="abrirModalRegisterFuncionario">Cadastrar Funcionario</button> -->
           </div>
 
           <!-- Tela Exercicios -->
@@ -264,6 +267,7 @@
             <section class="container col-md-8 col-sm-12 mt-5">
               <section class="table" id="">
                 <table class="table__body">
+                  Pesquisar<input id="pesquisarExercicio" type="text">
                   <h1 class="display-6 text-center mt-4 mb-4">Lista de Exercicios</h1>
                   <div class="listBoxExercicio" id="listBoxExercicio">
                     <div id="tableExercicios"></div>
@@ -277,10 +281,6 @@
               </section>
             </section>
 
-            <!-- <div class="listBoxFuncionario" id="listBoxFuncionario">
-          <div id="tableFuncionarios"></div>
-        </div>
-        <button type="button" class="btn btn-info" id="abrirModalRegisterFuncionario">Cadastrar Funcionario</button> -->
           </div>
 
           <!-- Tela Detalhes Clientes -->

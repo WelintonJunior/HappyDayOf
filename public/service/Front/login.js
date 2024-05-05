@@ -2,10 +2,14 @@ document.getElementById("formLogin").addEventListener("submit", async (e) => {
   e.preventDefault();
   const fd = new FormData(e.target);
   const data = Object.fromEntries(fd.entries());
+  const dateNow = getFormattedDateTime();
+  data.DateNow = dateNow;
   const loginServices = new LoginServices();
   switch (data.userType) {
     case "0":
+      showLoading()
       const sucessCliente = await loginServices.handleLoginCliente(data);
+      hideLoading()
       if (!sucessCliente.error) {
         localStorage.setItem("dados", JSON.stringify(sucessCliente));
         window.location.href = "/Cliente";
@@ -14,8 +18,9 @@ document.getElementById("formLogin").addEventListener("submit", async (e) => {
       }
       break;
     case "1":
+      showLoading()
       const sucessFuncionario = await loginServices.handleLoginFuncionario(data);
-      console.log(sucessFuncionario)
+      hideLoading()
       if (!sucessFuncionario.error) {
         localStorage.setItem("dados", JSON.stringify(sucessFuncionario));
         switch (sucessFuncionario.dados.FunNivel) {
@@ -66,3 +71,11 @@ document.getElementById("userType").addEventListener("change", function () {
     body.classList.add("bodyLoginFuncionario");
   }
 });
+
+function showLoading() {
+  document.getElementById('loadingOverlay').style.display = 'block';
+}
+
+function hideLoading() {
+  document.getElementById('loadingOverlay').style.display = 'none';
+}
