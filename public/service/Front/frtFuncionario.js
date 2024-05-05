@@ -245,6 +245,8 @@ document
   .getElementById("formCadastrarCliente")
   .addEventListener("submit", async (e) => {
     e.preventDefault();
+    modalCadastrarCliente.style.display = "none";
+    showLoading()
     const fd = new FormData(e.target);
     const data = Object.fromEntries(fd.entries());
     if (verificarNumeros(data.cliNome)) {
@@ -255,8 +257,8 @@ document
     await funServices.RegisterCliente(data, idAcademia, token);
     await UpdateListaClienteFicha(token);
     await UpdateListaCliente(token);
-    modalCadastrarCliente.style.display = "none";
     e.target.reset();
+    hideLoading()
   });
 
 //Atualizar a Lista de Clientes
