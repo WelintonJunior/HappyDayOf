@@ -152,8 +152,12 @@ class ClienteServices extends FichaServices {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `${token}` },
         body: JSON.stringify({
-          data,
-          acao: "UpdateSatisfacao",
+          SatId: parseInt(data.satId),
+          SatNotaConhecimento: parseInt(data.rating_conhecimento),
+          SatNotaDisponibilidade: parseInt(data.rating_disponibilidade),
+          SatNotaProatividade: parseInt(data.rating_proatividade),
+          SatNotaSeguranca: parseInt(data.rating_seguranca),
+          SatNotaClareza: parseInt(data.rating_clareza),
         }),
       });
       const result = await response.json();
@@ -244,6 +248,46 @@ class ClienteServices extends FichaServices {
       throw err
     }
   }
+
+  connectWebSocket() {
+    const socket = new WebSocket('ws://localhost:3000/ws');
+
+    socket.onopen = function (event) {
+      console.log('WebSocket is connected.');
+    };
+
+    socket.onmessage = async function (event) {
+      const message = JSON.parse(event.data);
+      switch (message.event) {
+        case "UpdateStatusAtendimento":
+          if (message.AteIdCliente === dados.CliId) {
+            UpdateStatusAtendimento(message.AteIdAcad, message.AteIdCliente, message.AteDateEncerramento);
+          }
+          break;
+        case "EncerrarAtendimento":
+          if (message.AteIdCliente === dados.CliId) {
+            console.log(message)
+            const statusSatisfacao = await clienteServices.VerificarAtendimento(message.AteIdAcad, message.AteIdCliente);
+            console.log(statusSatisfacao)
+            VerificarSatisfacaoAtendimento(statusSatisfacao, message.AteDateEncerramento, message.AteIdAcad, message.AteIdCliente);
+          }
+          break;
+        default:
+          console.log("Evento não reconhecido:", message.event);
+      }
+    };
+
+    socket.onclose = function (event) {
+      console.log('WebSocket is closed now.');
+    };
+
+    socket.onerror = function (error) {
+      console.error('WebSocket error observed:', error);
+    };
+  }
+
+  // Chamada para conectar ao WebSocket
+
 
   // async ConnectIO() {
   //   const socket = io();

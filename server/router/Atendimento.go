@@ -1,9 +1,11 @@
 package router
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 
+	UTILS "example.com/fitConnect/Utils"
 	ATENDIMENTO "example.com/fitConnect/models/Atendimento"
 	"github.com/gin-gonic/gin"
 )
@@ -86,6 +88,16 @@ func RegisterAtendimento(context *gin.Context) {
 		return
 	}
 
+	messageRegister, _ := json.Marshal(gin.H{
+		"event":               "UpdateStatusAtendimento",
+		"AteId":               atendimento.AteId,
+		"AteIdCliente":        atendimento.AteIdCliente,
+		"AteDateEncerramento": atendimento.AteDateInicio,
+		"AteIdAcad":           atendimento.AteIdAcad,
+	})
+
+	UTILS.BroadcastMessage(messageRegister)
+
 	context.JSON(http.StatusOK, gin.H{"message": "Sucesso"})
 }
 
@@ -119,6 +131,26 @@ func UpdateStatusAtendimento(context *gin.Context) {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao atualizar Atendimento"})
 		return
 	}
+
+	messageUpdate, _ := json.Marshal(gin.H{
+		"event":               "UpdateStatusAtendimento",
+		"AteId":               atendimento.AteId,
+		"AteIdCliente":        atendimento.AteIdCliente,
+		"AteDateEncerramento": atendimento.AteDateEncerramento,
+		"AteIdAcad":           atendimento.AteIdAcad,
+	})
+
+	UTILS.BroadcastMessage(messageUpdate)
+
+	messageClose, _ := json.Marshal(gin.H{
+		"event":               "EncerrarAtendimento",
+		"AteId":               atendimento.AteId,
+		"AteIdCliente":        atendimento.AteIdCliente,
+		"AteDateEncerramento": atendimento.AteDateEncerramento,
+		"AteIdAcad":           atendimento.AteIdAcad,
+	})
+
+	UTILS.BroadcastMessage(messageClose)
 
 	context.JSON(http.StatusOK, gin.H{"message": "Sucesso"})
 }

@@ -1,6 +1,7 @@
 package router
 
 import (
+	UTILS "example.com/fitConnect/Utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,6 +15,7 @@ func UtilsRoutes(server *gin.Engine) {
 	server.POST("/VerificarCpfCadastradoGeral", VerificarCpfCadastradoGeral)
 	server.POST("/VerificarEmailCadastrado", VerificarEmailCadastrado)
 	server.POST("/VerificarEmailCadastradoGeral", VerificarEmailCadastradoGeral)
+	server.GET("/ws", UTILS.HandleConnections)
 }
 
 func AtendimentoRoutes(server *gin.Engine) {
@@ -75,6 +77,7 @@ func FuncionarioRoutes(server *gin.Engine) {
 	server.POST("/Funcionario/RegisterFuncionario", RegisterFuncionario)
 	server.POST("/Funcionario/ArchiveFuncionario", ArchiveFuncionario)
 	server.POST("/Funcionario/UpdateFuncionarioDetalhes", UpdateFuncionarioDetalhes)
+	server.POST("/Funcionario/MeuDesempenho", FuncionarioMeuDesempenho)
 }
 
 func PlanoRoutes(server *gin.Engine) {

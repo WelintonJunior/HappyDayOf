@@ -93,3 +93,20 @@ func UpdateFuncionarioDetalhes(context *gin.Context) {
 
 	context.JSON(http.StatusOK, gin.H{"message": "Atualizado com sucesso"})
 }
+
+func FuncionarioMeuDesempenho(context *gin.Context) {
+	var funId FunIdData
+	if err := context.ShouldBindJSON(&funId); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
+		return
+	}
+
+	satisfacoes, err := FUNCIONARIO.FuncionarioMeuDesempenho(funId.FunId)
+
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao buscar satisfacoes do Funcionario"})
+		return
+	}
+
+	context.JSON(http.StatusOK, satisfacoes)
+}

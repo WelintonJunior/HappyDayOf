@@ -93,6 +93,7 @@ const formMeta = document.getElementById("formMeta")
 
 document.addEventListener("DOMContentLoaded", async function () {
   // clienteServices.VerificarSessao(token);
+  clienteServices.connectWebSocket()
   const result = await clienteServices.ReadAcademia(idAcademia, token);
   document.getElementById("titleAcad").innerHTML = result.AcaNome;
   document.getElementById(
@@ -107,16 +108,16 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 async function UpdateStatusAtendimento(idAcademia, cliId, dateNow) {
   const isAtendimento = await clienteServices.ReadStatusAtendimento(idAcademia, cliId, dateNow, token)
-  document.getElementById("isAtendimento").innerHTML = isAtendimento.AteId != 0 ? "<h4>Em Atendimento</h4>" : "";
+  document.getElementById("isAtendimento").innerHTML = isAtendimento ? "<h4>Em Atendimento</h4>" : "";
 }
 
 async function VerificarSatisfacaoAtendimento(StatusSatisfacao, dateNow, idAcademia, cliId, token) {
   if (StatusSatisfacao.SatId != 0) {
-    const ateInfo = await clienteServices.ReadAtendimentoInfo(StatusSatisfacao.satIdAtendimento, token)
+    const ateInfo = await clienteServices.ReadAtendimentoInfo(StatusSatisfacao.SatIdAtendimento, token)
     const satText = document.getElementById("satText");
     modalSatisfacao.style.display = "block"
-    document.getElementById("satIdSatisfacao").value = StatusSatisfacao.satId
-    const date = new Date(ateInfo.ateDateEncerramento);
+    document.getElementById("satIdSatisfacao").value = StatusSatisfacao.SatId
+    const date = new Date(ateInfo.AteDateEncerramento);
     const horas = date.getHours().toString().padStart(2, '0') + ':' + date.getMinutes().toString().padStart(2, '0');
     const dia = date.getDate().toString().padStart(2, '0') + '/' +
       (date.getMonth() + 1).toString().padStart(2, '0') + '/' +

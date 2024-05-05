@@ -14,7 +14,7 @@ class FuncionarioServices extends AdministradorServices {
           AteIdCliente: parseInt(data.ateIdCliente),
           AteIdAcad: parseInt(idAcademia),
           AteIdFuncionario: parseInt(data.funId),
-          ateDateInicio: data.dateNow
+          AteDateInicio: data.dateNow
         }),
       });
       const result = await response.json();
@@ -42,7 +42,6 @@ class FuncionarioServices extends AdministradorServices {
     }
   }
   async ValidacaoAtendimento(idAcademia, data, token) {
-    console.log(data)
     try {
       const response = await fetch("/Atendimento/ValidacaoAtendimento", {
         method: "POST",
@@ -70,6 +69,23 @@ class FuncionarioServices extends AdministradorServices {
           AteIdCliente: parseInt(data.ateIdCliente),
           AteDateEncerramento: data.dateNow,
           AteIdAcad: parseInt(idAcademia),
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Erro ao atualizar status do atendimento")
+      throw err
+    }
+  }
+
+  async FuncionarioMeuDesempenho(FunId) {
+    try {
+      const response = await fetch("/Funcionario/MeuDesempenho", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
+        body: JSON.stringify({
+          FunId: parseInt(FunId),
         }),
       });
       const result = await response.json();

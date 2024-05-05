@@ -31,7 +31,6 @@ class FichaServices {
   }
 
   async ReadFichaDetalhes(CliId, Tipo, token) {
-    console.log(CliId, Tipo)
     try {
       const response = await fetch("/Ficha/ReadFichaDetalhes", {
         method: "POST",
@@ -90,7 +89,6 @@ class FichaServices {
   }
 
   async RegisterDetalhesFicha(data, token) {
-    console.log(data)
     try {
       const response = await fetch("/Ficha/RegisterDetalhesFicha", {
         method: "POST",
@@ -114,7 +112,6 @@ class FichaServices {
   }
 
   async UpdateCampoFicha(data, token) {
-    console.log(data)
     try {
       const response = await fetch("/Ficha/UpdateCampoFicha", {
         method: "POST",
@@ -134,7 +131,6 @@ class FichaServices {
   }
 
   async DeleteCampoFicha(data, token) {
-    console.log(data)
     try {
       const response = await fetch("/Ficha/DeleteCampoFicha", {
         method: "POST",

@@ -10,6 +10,7 @@ import (
 
 func ReadClientes(context *gin.Context) {
 	var c CLIENTE.Cliente
+
 	if err := context.ShouldBindJSON(&c); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
 		return

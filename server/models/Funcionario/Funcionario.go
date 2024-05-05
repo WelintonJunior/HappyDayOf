@@ -4,6 +4,7 @@ import (
 	"database/sql"
 
 	"example.com/fitConnect/database"
+	SATISFACAO "example.com/fitConnect/models/Satisfacao"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -131,4 +132,28 @@ func (f Funcionario) UpdateFuncionarioDetalhes() error {
 
 	return nil
 
+}
+
+func FuncionarioMeuDesempenho(IdFuncionario int64) ([]SATISFACAO.Satisfacao, error) {
+	query := "select s.satNotaClareza, s.satNotaConhecimento, s.satNotaProatividade, s.satNotaDisponibilidade, s.satNotaSeguranca from tblSatisfacao as s left join tblAtendimento as a on s.satIdAtendimento = a.ateId where a.ateIdFuncionario = ?"
+	rows, err := database.DB.Query(query, IdFuncionario)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var satisfacoes []SATISFACAO.Satisfacao
+	for rows.Next() {
+		var s SATISFACAO.Satisfacao
+		if err := rows.Scan(&s.SatNotaClareza, &s.SatNotaConhecimento, &s.SatNotaProatividade, &s.SatNotaDisponibilidade, &s.SatNotaSeguranca); err != nil {
+			if err == sql.ErrNoRows {
+				return nil, nil
+			}
+			return nil, err
+		}
+		satisfacoes = append(satisfacoes, s)
+	}
+	return satisfacoes, nil
 }

@@ -24,7 +24,7 @@ type ResultReadAtendimento struct {
 	FUNCIONARIO.Funcionario
 }
 
-func ReadStatusAtendimento(AteIdCliente, AteIdAcad int64, AteDateInicio string) (Atendimento, error) {
+func ReadStatusAtendimento(AteIdCliente, AteIdAcad int64, AteDateInicio string) (bool, error) {
 	query := "select ateStatus from tblAtendimento where ateIdCliente = ? and ateDateInicio <= ? and ateDateEncerramento is null and ateIdAcad = ?"
 
 	row := database.DB.QueryRow(query, AteIdCliente, AteDateInicio, AteIdAcad)
@@ -32,12 +32,12 @@ func ReadStatusAtendimento(AteIdCliente, AteIdAcad int64, AteDateInicio string) 
 	var a Atendimento
 	if err := row.Scan(&a.AteStatus); err != nil {
 		if err == sql.ErrNoRows {
-			return Atendimento{}, nil
+			return false, nil
 		}
-		return Atendimento{}, err
+		return false, err
 	}
 
-	return a, nil
+	return true, nil
 }
 
 func ReadAtendimentoInfo(AteId int64) (Atendimento, error) {
