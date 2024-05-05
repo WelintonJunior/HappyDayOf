@@ -1,6 +1,8 @@
 package main
 
 import (
+	"net/http"
+
 	"example.com/fitConnect/database"
 	"example.com/fitConnect/router"
 	"github.com/gin-gonic/gin"
@@ -35,6 +37,12 @@ func main() {
 	server.StaticFile("/Cliente", "../pages/cliente.html")
 	server.StaticFile("/Equipe", "../pages/equipe.html")
 	server.StaticFile("/Funcionario", "../pages/funcionario.html")
+
+	server.LoadHTMLGlob("../pages/*")
+
+	server.NoRoute(func(c *gin.Context) {
+		c.HTML(http.StatusNotFound, "404.html", gin.H{"title": "Page Not Found"})
+	})
 
 	router.LoginRoutes(server)
 	router.AtendimentoRoutes(server)

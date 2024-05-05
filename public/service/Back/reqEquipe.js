@@ -94,14 +94,14 @@ class EquipeServices extends LoginServices {
       const corpoTabela = tabela.appendChild(document.createElement("tbody"));
 
       const keys = ["AcaNome", "AcaDataCadastro", "AcaStatus", "AcaCelular"];
-
-      dados.forEach((item) => {
+      dados ? dados.forEach((item) => {
         const linha = corpoTabela.insertRow();
         keys.forEach((key) => {
           let celula = linha.insertCell();
           celula.textContent = item[key];
         });
-      });
+      }) : {
+      }
 
       document.getElementById("table").appendChild(tabela);
     } catch (err) {

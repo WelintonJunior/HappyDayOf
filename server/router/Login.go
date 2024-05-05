@@ -2,6 +2,7 @@ package router
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	UTILS "example.com/fitConnect/Utils"
@@ -19,19 +20,23 @@ func LoginCliente(context *gin.Context) {
 
 	cliente, err := c.ValidateCredentials()
 	if err != nil {
-		context.JSON(http.StatusUnauthorized, gin.H{"messsage": "Não foi possivel autenticar", "error": true})
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não foi possível autenticar", "error": true})
 		return
 	}
 
-	token, err := UTILS.GenerateTokenCliente(c.CliEmail, c.CliId)
-
+	token, err := UTILS.GenerateTokenCliente(c.CliEmail, cliente.CliId)
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"messsage": "Não foi possivel autenticar", "error": true})
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Não foi possível gerar token", "error": true})
 		return
 	}
 
-	context.JSON(http.StatusOK, gin.H{"messsage": "Sucesso", "error": false, "token": token, "dados": cliente})
+	go func() {
+		if err := LOGIN.EngajamentoAlunos(cliente.CliId, cliente.CliIdAcad, c.DateNow); err != nil {
+			log.Printf("Erro ao registrar engajamento: %v", err)
+		}
+	}()
 
+	context.JSON(http.StatusOK, gin.H{"message": "Sucesso", "error": false, "token": token, "dados": cliente})
 }
 
 func LoginFuncionario(context *gin.Context) {

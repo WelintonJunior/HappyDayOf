@@ -333,11 +333,11 @@ document.getElementById("btnLogout").addEventListener("click", (e) => {
 
 async function MostrarTelaCriarFicha(cliId, token) {
   MostrarTela("", token);
-  await UpdateClienteFichaTreinoA(cliId, token);
-  await UpdateClienteFichaTreinoB(cliId, token);
-  await UpdateClienteFichaTreinoC(cliId, token);
   const result = await clienteServices.ReadFichaDetalhesGeral(cliId, token);
-  if (result) {
+  if (result.length > 0) {
+    await UpdateClienteFichaTreinoA(cliId, token);
+    await UpdateClienteFichaTreinoB(cliId, token);
+    await UpdateClienteFichaTreinoC(cliId, token);
     const dadosCliente = await clienteServices.ReadClienteDetalhes(
       idAcademia,
       result.length > 0 ? result[0].FicIdCliente : result.FicIdCliente, token
@@ -637,8 +637,7 @@ async function renderDesempenhoChart(cliId, token) {
 
       });
     }
-
-  }
+  } 
 }
 
 formMeta.addEventListener("submit", async (e) => {
