@@ -1,7 +1,6 @@
-package router
+package routes
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
@@ -49,7 +48,6 @@ func LoginFuncionario(context *gin.Context) {
 
 	funcionario, err := f.ValidateCredentials()
 	if err != nil {
-		fmt.Println(err)
 		context.JSON(http.StatusUnauthorized, gin.H{"messsage": "Não foi possivel autenticar", "error": true})
 		return
 	}
@@ -57,7 +55,6 @@ func LoginFuncionario(context *gin.Context) {
 	token, err := UTILS.GenerateTokenFuncionario(f.FunEmail, f.FunId)
 
 	if err != nil {
-		fmt.Println(err)
 		context.JSON(http.StatusInternalServerError, gin.H{"messsage": "Não foi possivel autenticar", "error": true})
 		return
 	}

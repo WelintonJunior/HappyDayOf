@@ -1,7 +1,6 @@
-package router
+package routes
 
 import (
-	"fmt"
 	"net/http"
 
 	FUNCIONARIO "example.com/fitConnect/models/Funcionario"
@@ -35,8 +34,6 @@ func ReadFuncionarioDet(context *gin.Context) {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
 		return
 	}
-
-	fmt.Println(f)
 
 	Funcionario, err := FUNCIONARIO.ReadFuncionarioDet(f.FunId, f.FunIdAcad)
 

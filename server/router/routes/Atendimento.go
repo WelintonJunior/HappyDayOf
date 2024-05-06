@@ -1,8 +1,7 @@
-package router
+package routes
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	UTILS "example.com/fitConnect/Utils"
@@ -22,7 +21,6 @@ func ReadStatusAtendimento(context *gin.Context) {
 	atendimento, err := ATENDIMENTO.ReadStatusAtendimento(a.AteIdCliente, a.AteIdAcad, a.AteDateInicio)
 
 	if err != nil {
-		fmt.Println(err)
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro Pesquisar dados"})
 		return
 	}
@@ -41,7 +39,6 @@ func ReadAtendimentoInfo(context *gin.Context) {
 	atendimento, err := ATENDIMENTO.ReadAtendimentoInfo(a.AteId)
 
 	if err != nil {
-		fmt.Println(err)
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro Pesquisar dados"})
 		return
 	}
@@ -65,7 +62,6 @@ func ReadAtendimento(context *gin.Context) {
 	results, err := ATENDIMENTO.ReadAtendimento(ateAcad.AteIdAcad, ateAcad.AteIdFuncionario)
 
 	if err != nil {
-		fmt.Println(err)
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro Pesquisar dados"})
 		return
 	}
@@ -83,7 +79,6 @@ func RegisterAtendimento(context *gin.Context) {
 	}
 
 	if err := atendimento.New(); err != nil {
-		fmt.Println(err)
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro Cadastrar Atendimento"})
 		return
 	}

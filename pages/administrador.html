@@ -674,12 +674,9 @@
           <!-- Tela Criar Ficha -->
 
           <div id="TelaCriarFicha" style="display: none; margin-top: -70px;">
-
-
-
-
-            <div class="container">
-
+            <input class="d-none" id="cliIdFichaTreino" type="text">
+            <input class="d-none" id="idCriarFichaTreino" type="text">
+            <div class="m-0 p-0">
               <button type="button" class="btn btn-secondary" id="btnVoltarTelaFicha">Voltar</button>
               <form class="mt-3 mb-3">
                 <input type="text" class="d-none" id="cliIdAtual">
@@ -693,10 +690,68 @@
                 Intervalo: <span id="cliIntervaloCriarFicha"></span><br />
               </form>
 
+              <div class="BoxCriacao row">
+                <div id="BoxExerciciosFicha" class="row col-md-4 col-12">
+                </div>
+                <div class="col-md-8 col-12">
+                  <div class="row flex-container">
+                    <!-- Treino A -->
+                    <div class="ficha_treino col-sm-12 col-md-4" style="padding: 2px;">
+                      <div id="innerA" class="inner cursor-pointer">
+                        <span class="pricing">
+                          <span>
+                            <strong>
+                              A
+                            </strong>
+                          </span>
+                        </span>
+                        <div class="row" style="width: 100%">
+                          <div class="mt-2" id="listaTreinoA"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Treino B -->
+                    <div class="ficha_treino col-sm-12 col-md-4" style="padding: 2px;">
+                      <div id="innerB" class="inner cursor-pointer">
+                        <span class="pricing">
+                          <span>
+                            <strong>
+                              B
+                            </strong>
+                          </span>
+                        </span>
+                        <div class="row" style="width: 100%">
+                          <div class="mt-2" id="listaTreinoB"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Treino C -->
+                    <div class="ficha_treino col-sm-12 col-md-4" style="padding: 2px;">
+                      <div id="innerC" class="inner cursor-pointer">
+                        <span class="pricing">
+                          <span>
+                            <strong>
+                              C
+                            </strong>
+                          </span>
+                        </span>
+                        <div class="row" style="width: 100%">
+                          <div class="mt-2" id="listaTreinoC"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
 
+
+              <!-- 
               <div class="row flex-container">
-                <!-- Treino A -->
+                <input class="d-none" id="cliIdCriarFicha" type="text">
+                Treino A
                 <div class="ficha_treino col-sm-12 col-md-4">
                   <div class="inner">
                     <span class="pricing">
@@ -730,7 +785,7 @@
                   </div>
                 </div>
 
-                <!-- Treino B -->
+                Treino B
                 <div class="ficha_treino col-sm-12 col-md-4">
                   <div class="inner">
                     <span class="pricing">
@@ -764,7 +819,7 @@
                   </div>
                 </div>
 
-                <!-- Treino C -->
+                Treino C
                 <div class="ficha_treino col-sm-12 col-md-4">
                   <div class="inner">
                     <span class="pricing">
@@ -796,12 +851,12 @@
                       <div class="mt-2" id="listaTreinoC">Lista aqui</div>
                     </div>
                   </div>
-                </div>
+                </div> -->
 
 
 
-                <!-- Treino A -->
-                <!-- <div class="col-4 px-4">
+              <!-- Treino A -->
+              <!-- <div class="col-4 px-4">
                 Insira Para o treino A:
                 <div class="row" style="width: 100%">
                   <form id="formInserirTreinoA">
@@ -818,8 +873,8 @@
                 </div>
               </div> -->
 
-                <!-- Treino B -->
-                <!-- <div class="col-4 px-4">
+              <!-- Treino B -->
+              <!-- <div class="col-4 px-4">
                 Insira Para o treino B:
                 <div class="row">
                   <form id="formInserirTreinoB">
@@ -836,8 +891,8 @@
                 </div>
               </div> -->
 
-                <!-- Treino C -->
-                <!-- <div class="col-4 px-4">
+              <!-- Treino C -->
+              <!-- <div class="col-4 px-4">
                 Insira Para o treino C:
                 <div class="row" style="width: 100%">
                   <form id="formInserirTreinoC">
@@ -853,16 +908,16 @@
                   <div class="mt-2" id="listaTreinoC"></div>
                 </div>
               </div> -->
-              </div>
             </div>
           </div>
-        </canva>
       </div>
-
-
-
-
+      </canva>
     </div>
+
+
+
+
+  </div>
   </div>
   </div>
 
@@ -1160,23 +1215,32 @@
 
 
   <div id="modalCriarBaseFicha" class="modal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered" style="height: 80vh;">
-      <div class="modal-content">
+    <div class="modal-dialog modal-dialog-centered" style="height: 80vh">
+      <div id="contentModalFicha" class="modal-content">
         <div class="modal-header">
           <h2>Cadastrar Base da Ficha</h2>
           <span id="fecharModalCriarBaseFicha" class="fechar">&times;</span>
         </div>
-        <form id="formCriarBaseFicha" class="p-5">
+        <form id="formCriarBaseFicha" class="p-5 row">
+          <input type="text" class="d-none" id="idCriarFicha" />
           <input class="d-none" name="ficCliId" type="text" id="cliIdFicha" />
+
           <div class="input-group input-group-modal col-md-12  mb-5">
-            <div class="d-flex col-sm-12"> Selecione o Professor</div>
+            <div class="col-sm-12"> Selecione o Professor</div>
             <br>
             <select style="width: 100px;" class="form-select col-md-8" name="funId" id="funFicha" required></select>
-
             </span>
           </div>
 
-          <div class="input-group input-group-modal  col-12 mb-3">
+          <div class="input-group input-group-modal  col-md-12 mb-5">
+            <div class="col-sm-12"> Defina o Intervalo</div>
+            <br>
+            <span class="input-group-text" id="basic-addon1"><i class="bi bi-stopwatch"></i></span>
+            <input type="time" name="ficIntervalo" class="form-control" placeholder="Nome" aria-label="Username"
+              aria-describedby="basic-addon1" required>
+          </div>
+
+          <div class="input-group input-group-modal  col-md-12 mb-3">
             <div class="form-check">
               <input class="form-check-input" name="ficRestricoes" type="checkbox" value="" id="ficRestricoes">
               <label class="form-check-label" for="flexCheckDefault">
@@ -1190,17 +1254,10 @@
               rows="1"></textarea>
           </div> -->
 
-          <div class="form-floating mb-3 " id="ficTipoRestricoesSpan" style="display: none;">
+          <div class="form-floating col-md-6 mb-3 " id="ficTipoRestricoesSpan" style="visibility: hidden;">
             <textarea name="ficTipoRestricoes" class="form-control" name="ficTipoRestricoes" id="ficTipoRestricoes"
               cols="30" rows="1"></textarea>
             <label for="floatingTextarea">Quais restrições?</label>
-          </div>
-
-
-          <div class="input-group input-group-modal  col-12 mb-3">
-            <span class="input-group-text" id="basic-addon1"><i class="bi bi-stopwatch"></i></span>
-            <input type="time" name="ficIntervalo" class="form-control" placeholder="Nome" aria-label="Username"
-              aria-describedby="basic-addon1" required>
           </div>
           <button class="float-right btn btn-success" type="submit">Cadastrar</button>
         </form>
@@ -1262,18 +1319,16 @@
   <script src="/public/service/Front/Validacao.js"></script>
   <script src="/public/service/Back/reqDashboard.js"></script>
   <script src="/public/service/Front/frtDashboard.js"></script>
-  <script src="/public/service/Front/frtBackGround.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- <script src="/public/assets/dist/js/bootstrap.bundle.min.js"></script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/js/bootstrap.bundle.min.js"></script>
-
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/intro.min.js"></script> -->
   <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
     integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
     crossorigin="anonymous"></script>
   <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
     integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
     crossorigin="anonymous"></script>
-
   <!-- jQuery CDN - Slim version (=without AJAX) -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

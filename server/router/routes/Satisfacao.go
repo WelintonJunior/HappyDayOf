@@ -1,7 +1,6 @@
-package router
+package routes
 
 import (
-	"fmt"
 	"net/http"
 
 	SATISFACAO "example.com/fitConnect/models/Satisfacao"
@@ -38,7 +37,6 @@ func VerificarAtendimento(context *gin.Context) {
 	s, err := SATISFACAO.VerificarAtendimento(s.SatIdCliente, s.SatIdAcademia)
 
 	if err != nil {
-		fmt.Println(err)
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao Verificar dados"})
 		return
 	}

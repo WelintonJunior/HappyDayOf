@@ -1,7 +1,6 @@
-package router
+package routes
 
 import (
-	"fmt"
 	"net/http"
 
 	APARELHO "example.com/fitConnect/models/Aparelho"
@@ -22,7 +21,6 @@ func ReadAparelhos(context *gin.Context) {
 	Aparelhos, err := APARELHO.ReadAparelhos(a.ApaId)
 
 	if err != nil {
-		fmt.Print(err)
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao ler dados"})
 		return
 	}

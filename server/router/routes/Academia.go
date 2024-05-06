@@ -1,7 +1,6 @@
-package router
+package routes
 
 import (
-	"fmt"
 	"net/http"
 
 	ACADEMIA "example.com/fitConnect/models/Academia"
@@ -26,8 +25,6 @@ func ReadAcademiaDet(context *gin.Context) {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
 		return
 	}
-
-	fmt.Println(a)
 
 	Academia, err := ACADEMIA.ReadAcademiaDet(a.AcaId)
 
@@ -62,7 +59,6 @@ func AddAdministrador(context *gin.Context) {
 	}
 
 	if err := ACADEMIA.AddAdministrador(adm); err != nil {
-		fmt.Println(err)
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao cadastrar adm"})
 		return
 	}

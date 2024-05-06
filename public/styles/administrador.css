@@ -10,6 +10,15 @@
   max-height: 300px;
 }
 
+.itemExercicioCriarFicha {
+  border: 1px solid black;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+}
+
 body {
   padding: 0;
 }
@@ -30,4 +39,31 @@ body {
   100% {
     transform: rotate(360deg);
   }
+}
+
+
+/* Ajusta o z-index do overlay e das dicas do Intro.js */
+.introjs-overlay {
+  z-index: 1099 !important; /* Mais alto que o modal */
+}
+
+.introjs-tooltip {
+  z-index: 1100 !important; /* Mais alto que o modal */
+  background: white; /* Garanta um fundo branco */
+  color: black; /* Texto em preto para contraste */
+  border: 1px solid #ccc; /* Borda sutil */
+  border-radius: 5px; /* Bordas arredondadas */
+  padding: 10px;
+}
+
+.introjs-helperLayer {
+  z-index: 1099 !important; /* Mais alto que o modal */
+}
+
+.introjs-tooltipReferenceLayer {
+  z-index: 1099 !important; /* Mais alto que o modal */
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }

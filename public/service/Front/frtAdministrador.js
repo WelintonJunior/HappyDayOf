@@ -242,16 +242,16 @@ function MostrarTela(tela) {
   TelaDetalhesAparelhos.style.display = "none";
   TelaDetalhesExercicios.style.display = "none";
   TelaCriarFicha.style.display = "none";
-  document.getElementById("listaTreinoA").innerHTML = "";
-  document.getElementById("listaTreinoB").innerHTML = "";
-  document.getElementById("listaTreinoC").innerHTML = "";
+  // document.getElementById("listaTreinoA").innerHTML = "";
+  // document.getElementById("listaTreinoB").innerHTML = "";
+  // document.getElementById("listaTreinoC").innerHTML = "";
   document.getElementById("sidebarHeader").style.paddingTop = "20px"
   formDetCliente.reset();
   formDetFuncionario.reset();
   formCriarBaseFicha.reset();
-  formInserirTreinoA.reset();
-  formInserirTreinoB.reset();
-  formInserirTreinoC.reset();
+  // formInserirTreinoA.reset();
+  // formInserirTreinoB.reset();
+  // formInserirTreinoC.reset();
   switch (tela) {
     case "TelaResumo":
       btnResumo.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
@@ -505,8 +505,9 @@ window.onclick = function (event) {
 
 document
   .getElementById("abrirModalRegisterExercicio")
-  .addEventListener("click", (e) => {
+  .addEventListener("click", async (e) => {
     e.preventDefault();
+    await PreencherSelectAparelhos(token);
     modalCadastrarExercicio.style.display = "block";
   });
 
@@ -1016,8 +1017,10 @@ async function UpdateListaClienteFicha(token, filtroNome = "") {
         botaoCriarFicha.textContent = "Criar";
         botaoCriarFicha.addEventListener("click", async function () {
           document.getElementById("funFicha").innerHTML = "";
+          await UpdateCriarFichaTreinoA(item.CliId, token)
           await PreencherSelectProfessores();
           modalCriarBaseFicha.style.display = "block";
+          // introJs().start();
           document.getElementById("cliIdFicha").value = item.CliId;
         });
         celulaBotao.appendChild(botaoCriarFicha);
@@ -1675,9 +1678,9 @@ document.getElementById("btnLogout").addEventListener("click", (e) => {
 CheckBoxRestricoes.addEventListener("change", (e) => {
   document.getElementById("ficTipoRestricoes").value = "";
   if (CheckBoxRestricoes.checked) {
-    document.getElementById("ficTipoRestricoesSpan").style.display = "block";
+    document.getElementById("ficTipoRestricoesSpan").style.visibility = "visible";
   } else {
-    document.getElementById("ficTipoRestricoesSpan").style.display = "none";
+    document.getElementById("ficTipoRestricoesSpan").style.visibility = "hidden";
   }
 });
 
@@ -1696,6 +1699,7 @@ formCriarBaseFicha.addEventListener("submit", async (e) => {
 });
 
 async function MostrarTelaCriarFicha(cliId, token) {
+  showLoading()
   MostrarTela();
   // document.getElementById("sidebarHeader").style.paddingTop = "100px"
   TelaCriarFicha.style.display = "block";
@@ -1709,19 +1713,11 @@ async function MostrarTelaCriarFicha(cliId, token) {
   const dadosFuncionario = await admServices.ReadFuncionarioDetalhes(
     idAcademia, result[0].FicIdFuncionario, token
   );
-  document.getElementById("idFichaTreinoA").value =
-    result.length > 0 ? result[0].FicId : result.FicId;
-  document.getElementById("idFichaTreinoB").value =
-    result.length > 0 ? result[0].FicId : result.FicId;
-  document.getElementById("idFichaTreinoC").value =
+  document.getElementById("idCriarFichaTreino").value =
     result.length > 0 ? result[0].FicId : result.FicId;
   document.getElementById("cliIdAtual").value =
     result.length > 0 ? result[0].FicIdCliente : result.FicIdCliente;
-  document.getElementById("cliIdFichaTreinoA").value =
-    result.length > 0 ? result[0].FicIdCliente : result.FicIdCliente;
-  document.getElementById("cliIdFichaTreinoB").value =
-    result.length > 0 ? result[0].FicIdCliente : result.FicIdCliente;
-  document.getElementById("cliIdFichaTreinoC").value =
+  document.getElementById("cliIdFichaTreino").value =
     result.length > 0 ? result[0].FicIdCliente : result.FicIdCliente;
   document.getElementById("cliNomeCriarFicha").innerHTML = dadosCliente.CliNome;
   document.getElementById("funNomeCriarFicha").innerHTML =
@@ -1748,6 +1744,8 @@ async function MostrarTelaCriarFicha(cliId, token) {
   }
   document.getElementById("cliIntervaloCriarFicha").innerHTML =
     result.length > 0 ? result[0].FicIntervalo : result.ficIntervalo;
+  await PreencherBoxExercicios();
+  hideLoading()
 }
 
 async function PreencherSelectProfessores() {
@@ -1778,71 +1776,71 @@ async function PreencherSelectAparelhos() {
   }
 }
 
-formInserirTreinoA.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const fd = new FormData(e.target);
-  const data = Object.fromEntries(fd.entries());
-  const cliIdFichaTreinoA = document.getElementById("cliIdFichaTreinoA").value;
-  const idFicha = document.getElementById("idFichaTreinoA").value;
-  data.detIdFicha = idFicha;
-  data.detTreino = "A";
-  const verificacao = await verificarForm(data);
-  data.cliIdFicha = document.getElementById("cliIdAtual").value;
-  if (!verificacao) {
-    const result = await admServices.RegisterDetalhesFicha(data, token);
-    await UpdateClienteFichaTreinoA(cliIdFichaTreinoA, token);
-    formInserirTreinoA.querySelector(`[name="detVariacao"]`).value = "";
-    formInserirTreinoA.querySelector(`[name="detSerie"]`).value = "";
-    formInserirTreinoA.querySelector(`[name="detRepeticao"]`).value = "";
-    formInserirTreinoA.querySelector(`[name="detCarga"]`).value = "";
-  } else {
-    alert("Você precisa preencher todos os campos")
-  }
-});
+// formInserirTreinoA.addEventListener("submit", async (e) => {
+//   e.preventDefault();
+//   const fd = new FormData(e.target);
+//   const data = Object.fromEntries(fd.entries());
+//   const cliIdFichaTreinoA = document.getElementById("cliIdFichaTreinoA").value;
+//   const idFicha = document.getElementById("idFichaTreinoA").value;
+//   data.detIdFicha = idFicha;
+//   data.detTreino = "A";
+//   const verificacao = await verificarForm(data);
+//   data.cliIdFicha = document.getElementById("cliIdAtual").value;
+//   if (!verificacao) {
+//     const result = await admServices.RegisterDetalhesFicha(data, token);
+//     await UpdateClienteFichaTreinoA(cliIdFichaTreinoA, token);
+//     formInserirTreinoA.querySelector(`[name="detVariacao"]`).value = "";
+//     formInserirTreinoA.querySelector(`[name="detSerie"]`).value = "";
+//     formInserirTreinoA.querySelector(`[name="detRepeticao"]`).value = "";
+//     formInserirTreinoA.querySelector(`[name="detCarga"]`).value = "";
+//   } else {
+//     alert("Você precisa preencher todos os campos")
+//   }
+// });
 
-formInserirTreinoB.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const fd = new FormData(e.target);
-  const data = Object.fromEntries(fd.entries());
-  const cliIdFichaTreinoB = document.getElementById("cliIdFichaTreinoB").value;
-  const idFicha = document.getElementById("idFichaTreinoB").value;
-  data.detIdFicha = idFicha;
-  data.detTreino = "B";
-  const verificacao = await verificarForm(data);
-  data.cliIdFicha = document.getElementById("cliIdAtual").value;
-  if (!verificacao) {
-    const result = await admServices.RegisterDetalhesFicha(data, token);
-    await UpdateClienteFichaTreinoB(cliIdFichaTreinoB, token);
-    formInserirTreinoB.querySelector(`[name="detVariacao"]`).value = "";
-    formInserirTreinoB.querySelector(`[name="detSerie"]`).value = "";
-    formInserirTreinoB.querySelector(`[name="detRepeticao"]`).value = "";
-    formInserirTreinoB.querySelector(`[name="detCarga"]`).value = "";
-  } else {
-    alert("Você precisa preencher todos os campos")
-  }
-});
+// formInserirTreinoB.addEventListener("submit", async (e) => {
+//   e.preventDefault();
+//   const fd = new FormData(e.target);
+//   const data = Object.fromEntries(fd.entries());
+//   const cliIdFichaTreinoB = document.getElementById("cliIdFichaTreinoB").value;
+//   const idFicha = document.getElementById("idFichaTreinoB").value;
+//   data.detIdFicha = idFicha;
+//   data.detTreino = "B";
+//   const verificacao = await verificarForm(data);
+//   data.cliIdFicha = document.getElementById("cliIdAtual").value;
+//   if (!verificacao) {
+//     const result = await admServices.RegisterDetalhesFicha(data, token);
+//     await UpdateClienteFichaTreinoB(cliIdFichaTreinoB, token);
+//     formInserirTreinoB.querySelector(`[name="detVariacao"]`).value = "";
+//     formInserirTreinoB.querySelector(`[name="detSerie"]`).value = "";
+//     formInserirTreinoB.querySelector(`[name="detRepeticao"]`).value = "";
+//     formInserirTreinoB.querySelector(`[name="detCarga"]`).value = "";
+//   } else {
+//     alert("Você precisa preencher todos os campos")
+//   }
+// });
 
-formInserirTreinoC.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const fd = new FormData(e.target);
-  const data = Object.fromEntries(fd.entries());
-  const cliIdFichaTreinoC = document.getElementById("cliIdFichaTreinoC").value;
-  const idFicha = document.getElementById("idFichaTreinoC").value;
-  data.detIdFicha = idFicha;
-  data.detTreino = "C";
-  const verificacao = await verificarForm(data);
-  data.cliIdFicha = document.getElementById("cliIdAtual").value;
-  if (!verificacao) {
-    const result = await admServices.RegisterDetalhesFicha(data, token);
-    await UpdateClienteFichaTreinoC(cliIdFichaTreinoC, token);
-    formInserirTreinoC.querySelector(`[name="detVariacao"]`).value = "";
-    formInserirTreinoC.querySelector(`[name="detSerie"]`).value = "";
-    formInserirTreinoC.querySelector(`[name="detRepeticao"]`).value = "";
-    formInserirTreinoC.querySelector(`[name="detCarga"]`).value = "";
-  } else {
-    alert("Você precisa preencher todos os campos")
-  }
-});
+// formInserirTreinoC.addEventListener("submit", async (e) => {
+//   e.preventDefault();
+//   const fd = new FormData(e.target);
+//   const data = Object.fromEntries(fd.entries());
+//   const cliIdFichaTreinoC = document.getElementById("cliIdFichaTreinoC").value;
+//   const idFicha = document.getElementById("idFichaTreinoC").value;
+//   data.detIdFicha = idFicha;
+//   data.detTreino = "C";
+//   const verificacao = await verificarForm(data);
+//   data.cliIdFicha = document.getElementById("cliIdAtual").value;
+//   if (!verificacao) {
+//     const result = await admServices.RegisterDetalhesFicha(data, token);
+//     await UpdateClienteFichaTreinoC(cliIdFichaTreinoC, token);
+//     formInserirTreinoC.querySelector(`[name="detVariacao"]`).value = "";
+//     formInserirTreinoC.querySelector(`[name="detSerie"]`).value = "";
+//     formInserirTreinoC.querySelector(`[name="detRepeticao"]`).value = "";
+//     formInserirTreinoC.querySelector(`[name="detCarga"]`).value = "";
+//   } else {
+//     alert("Você precisa preencher todos os campos")
+//   }
+// });
 
 //Pesquisar Ficha
 
@@ -1883,6 +1881,262 @@ pesquisarAparelho.addEventListener("keyup", async (e) => {
   const nomePesquisa = e.target.value;
   await UpdateListaAparelho(token, nomePesquisa);
 })
+
+//Criar Ficha
+
+const innerA = document.getElementById("innerA");
+const innerB = document.getElementById("innerB");
+const innerC = document.getElementById("innerC");
+let auxInner = "";
+
+function ZerarAuxIneer() {
+  innerA.style.border = "none"
+  innerB.style.border = "none"
+  innerC.style.border = "none"
+  auxInner = "";
+}
+
+innerA.addEventListener('click', (e) => {
+  ZerarAuxIneer();
+  auxInner = "A"
+  innerA.style.border = "1px solid black"
+
+})
+innerB.addEventListener('click', (e) => {
+  ZerarAuxIneer();
+  auxInner = "B"
+  innerB.style.border = "1px solid black"
+
+})
+innerC.addEventListener('click', (e) => {
+  ZerarAuxIneer();
+  auxInner = "C"
+  innerC.style.border = "1px solid black"
+
+})
+
+
+async function PreencherBoxExercicios() {
+  const result = await admServices.ReadExercicio(idAcademia, token);
+  let BoxExerciciosFicha = document.getElementById("BoxExerciciosFicha");
+  ZerarAuxIneer()
+  BoxExerciciosFicha.innerHTML = ""
+
+  result.forEach((item) => {
+    if (item.ExeStatus === 1) {
+      let exercicioDiv = document.createElement("div");
+      exercicioDiv.id = `itemExercicio${item.ExeId}`;
+      exercicioDiv.className = "itemExercicioCriarFicha cursor-pointer";
+      exercicioDiv.style.width = "30%"
+      exercicioDiv.textContent = item.ExeNome;
+      exercicioDiv.addEventListener("click", () => handleClick(item));
+      BoxExerciciosFicha.appendChild(exercicioDiv);
+    }
+  });
+
+}
+
+async function handleClick(item) {
+  if (auxInner === "") {
+    alert("Você precisa selecionar um tipo!")
+    return
+  } else {
+    let data = {
+      detIdFicha: 0,
+      detTreino: 0,
+      cliIdFicha: 0,
+      detVariacao: 0,
+      detCarga: 0,
+      detSerie: 0,
+      detRepeticao: 0,
+    };
+    const cliIdFichaTreino = document.getElementById("cliIdFichaTreino").value;
+    const idFicha = document.getElementById("idCriarFichaTreino").value;
+    switch (auxInner) {
+      case "A":
+        data.detIdFicha = idFicha;
+        data.detTreino = "A";
+        data.cliIdFicha = document.getElementById("cliIdAtual").value;
+        data.detVariacao = item.ExeNome
+        data.detCarga = 0
+        data.detSerie = 0
+        data.detRepeticao = 0
+        await admServices.RegisterDetalhesFicha(data, token);
+        await UpdateCriarFichaTreinoA(cliIdFichaTreino, token);
+        break;
+      case "B":
+        data.detIdFicha = idFicha;
+        data.detTreino = "B";
+        data.cliIdFicha = document.getElementById("cliIdAtual").value;
+        data.detVariacao = item.ExeNome
+        data.detCarga = 0
+        data.detSerie = 0
+        data.detRepeticao = 0
+        await admServices.RegisterDetalhesFicha(data, token);
+        await UpdateCriarFichaTreinoB(cliIdFichaTreino, token);
+        break;
+      case "C":
+        data.detIdFicha = idFicha;
+        data.detTreino = "C";
+        data.cliIdFicha = document.getElementById("cliIdAtual").value;
+        data.detVariacao = item.ExeNome
+        data.detCarga = 0
+        data.detSerie = 0
+        data.detRepeticao = 0
+        await admServices.RegisterDetalhesFicha(data, token);
+        await UpdateCriarFichaTreinoC(cliIdFichaTreino, token);
+        break;
+    }
+  }
+}
+
+async function UpdateCriarFichaTreinoA(cliId, token) {
+  const result = await admServices.ReadFichaDetalhes(cliId, "A", token);
+  //Colocar em alguma lista
+  if (result) {
+    const containerTabela = document.getElementById("listaTreinoA");
+    const tabelaExistente = containerTabela.querySelector("table");
+    if (tabelaExistente) {
+      containerTabela.removeChild(tabelaExistente);
+    }
+    const tabela = document.createElement("table");
+    tabela.setAttribute("border", "1");
+
+    const cabecalho = tabela.createTHead();
+    const linhaCabecalho = cabecalho.insertRow();
+    const titulos = ["Variação", "Carga", "Serie", "Repetição"];
+    titulos.forEach((texto) => {
+      let th = document.createElement("th");
+      th.textContent = texto;
+      linhaCabecalho.appendChild(th);
+    });
+
+    const corpoTabela = tabela.appendChild(document.createElement("tbody"));
+
+    result.forEach((item) => {
+      const linha = corpoTabela.insertRow();
+      const camposSelecionados = [
+        "DetVariacao",
+        "DetCarga",
+        "DetSerie",
+        "DetRepeticao",
+      ];
+      camposSelecionados.forEach((campo) => {
+        if (item.hasOwnProperty(campo)) {
+          let celula = linha.insertCell();
+          celula.innerHTML = item[campo];
+          celula.setAttribute("data-detId", item.DetId);
+          celula.setAttribute("data-campo", campo);
+
+          //Pra celular não funciona(LEMBRANDO EU MESMO) talvez mudar apenas para click
+          celula.addEventListener("click", async (e) => {
+            await UpdateCampoFichaCliente(item, campo, celula, cliId, token);
+          });
+        }
+      });
+    });
+
+    document.getElementById("listaTreinoA").appendChild(tabela);
+  }
+}
+async function UpdateCriarFichaTreinoB(cliId, token) {
+  const result = await admServices.ReadFichaDetalhes(cliId, "B", token);
+  //Colocar em alguma lista
+  if (result) {
+    const containerTabela = document.getElementById("listaTreinoB");
+    const tabelaExistente = containerTabela.querySelector("table");
+    if (tabelaExistente) {
+      containerTabela.removeChild(tabelaExistente);
+    }
+    const tabela = document.createElement("table");
+    tabela.setAttribute("border", "1");
+
+    const cabecalho = tabela.createTHead();
+    const linhaCabecalho = cabecalho.insertRow();
+    const titulos = ["Variação", "Carga", "Serie", "Repetição"];
+    titulos.forEach((texto) => {
+      let th = document.createElement("th");
+      th.textContent = texto;
+      linhaCabecalho.appendChild(th);
+    });
+
+    const corpoTabela = tabela.appendChild(document.createElement("tbody"));
+
+    result.forEach((item) => {
+      const linha = corpoTabela.insertRow();
+      const camposSelecionados = [
+        "DetVariacao",
+        "DetCarga",
+        "DetSerie",
+        "DetRepeticao",
+      ];
+      camposSelecionados.forEach((campo) => {
+        if (item.hasOwnProperty(campo)) {
+          let celula = linha.insertCell();
+          celula.innerHTML = item[campo];
+          celula.setAttribute("data-detId", item.DetId);
+          celula.setAttribute("data-campo", campo);
+
+          //Pra celular não funciona(LEMBRANDO EU MESMO) talvez mudar apenas para click
+          celula.addEventListener("click", async (e) => {
+            await UpdateCampoFichaCliente(item, campo, celula, cliId, token);
+          });
+        }
+      });
+    });
+
+    document.getElementById("listaTreinoB").appendChild(tabela);
+  }
+}
+async function UpdateCriarFichaTreinoC(cliId, token) {
+  const result = await admServices.ReadFichaDetalhes(cliId, "C", token);
+  //Colocar em alguma lista
+  if (result) {
+    const containerTabela = document.getElementById("listaTreinoC");
+    const tabelaExistente = containerTabela.querySelector("table");
+    if (tabelaExistente) {
+      containerTabela.removeChild(tabelaExistente);
+    }
+    const tabela = document.createElement("table");
+    tabela.setAttribute("border", "1");
+
+    const cabecalho = tabela.createTHead();
+    const linhaCabecalho = cabecalho.insertRow();
+    const titulos = ["Variação", "Carga", "Serie", "Repetição"];
+    titulos.forEach((texto) => {
+      let th = document.createElement("th");
+      th.textContent = texto;
+      linhaCabecalho.appendChild(th);
+    });
+
+    const corpoTabela = tabela.appendChild(document.createElement("tbody"));
+
+    result.forEach((item) => {
+      const linha = corpoTabela.insertRow();
+      const camposSelecionados = [
+        "DetVariacao",
+        "DetCarga",
+        "DetSerie",
+        "DetRepeticao",
+      ];
+      camposSelecionados.forEach((campo) => {
+        if (item.hasOwnProperty(campo)) {
+          let celula = linha.insertCell();
+          celula.innerHTML = item[campo];
+          celula.setAttribute("data-detId", item.DetId);
+          celula.setAttribute("data-campo", campo);
+
+          //Pra celular não funciona(LEMBRANDO EU MESMO) talvez mudar apenas para click
+          celula.addEventListener("click", async (e) => {
+            await UpdateCampoFichaCliente(item, campo, celula, cliId, token);
+          });
+        }
+      });
+    });
+
+    document.getElementById("listaTreinoC").appendChild(tabela);
+  }
+}
 
 function showLoading() {
   document.getElementById('loadingOverlay').style.display = 'block';

@@ -1,7 +1,6 @@
-package router
+package routes
 
 import (
-	"fmt"
 	"net/http"
 
 	CLIENTE "example.com/fitConnect/models/Cliente"
@@ -36,7 +35,6 @@ func ReadClienteDet(context *gin.Context) {
 	cliente, err := CLIENTE.ReadClienteDet(c.CliId, c.CliIdAcad)
 
 	if err != nil {
-		fmt.Println(err)
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao ler dados"})
 		return
 	}

@@ -1,7 +1,6 @@
-package router
+package routes
 
 import (
-	"fmt"
 	"net/http"
 
 	FICHA "example.com/fitConnect/models/Ficha"
@@ -77,7 +76,6 @@ func ReadFichaDetalhes(context *gin.Context) {
 	ficha, err := FICHA.ReadFichaDetalhes(cliTipo.CliId, cliTipo.Tipo)
 
 	if err != nil {
-		fmt.Println(err)
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao ler dados"})
 		return
 	}
@@ -96,7 +94,6 @@ func ReadFichaDetalhesGeral(context *gin.Context) {
 	ficha, err := FICHA.ReadFichaDetalhesGeral(CliId.CliId)
 
 	if err != nil {
-		fmt.Println(err)
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao ler dados"})
 		return
 	}
@@ -113,7 +110,6 @@ func RegisterFicha(context *gin.Context) {
 	}
 
 	if err := ficha.New(); err != nil {
-		fmt.Println(err)
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao Cadastrar Ficha"})
 		return
 	}
@@ -130,7 +126,6 @@ func RegisterDetalhesFicha(context *gin.Context) {
 	}
 
 	if err := detFicha.New(); err != nil {
-		fmt.Println(err)
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao Cadastrar Detalhes da Ficha"})
 		return
 	}

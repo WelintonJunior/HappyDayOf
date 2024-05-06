@@ -1,7 +1,6 @@
-package router
+package routes
 
 import (
-	"fmt"
 	"net/http"
 
 	DASHBOARD "example.com/fitConnect/models/DashBoard"
@@ -40,10 +39,8 @@ func ReadAtendimentos(context *gin.Context) {
 	}
 
 	atendimentos, err := DASHBOARD.ReadAtendimentos(AteId.AteId)
-	fmt.Println(atendimentos)
 
 	if err != nil {
-		fmt.Println(err)
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao ler dados"})
 		return
 	}
@@ -62,7 +59,6 @@ func ReadFuncNome(context *gin.Context) {
 	FunNome, err := DASHBOARD.ReadFuncNome(FunId.FunId)
 
 	if err != nil {
-		fmt.Println(err)
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao ler dados"})
 		return
 	}
