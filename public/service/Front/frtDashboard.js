@@ -369,6 +369,7 @@ async function renderEngajamentoChart() {
 
 async function renderMeuDesempenhoChart() {
     const Satisfacoes = await funServices.FuncionarioMeuDesempenho(dados.FunId);
+    console.log(Satisfacoes)
     if (Satisfacoes === null || Satisfacoes.length === 0) {
         document.getElementById("NaoPossuiMeuDesempenho").classList.remove("d-none");
         document.getElementById("boxChartMeuDesempenho").classList.add("d-none");

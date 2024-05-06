@@ -135,7 +135,7 @@ func (f Funcionario) UpdateFuncionarioDetalhes() error {
 }
 
 func FuncionarioMeuDesempenho(IdFuncionario int64) ([]SATISFACAO.Satisfacao, error) {
-	query := "select s.satNotaClareza, s.satNotaConhecimento, s.satNotaProatividade, s.satNotaDisponibilidade, s.satNotaSeguranca from tblSatisfacao as s left join tblAtendimento as a on s.satIdAtendimento = a.ateId where a.ateIdFuncionario = ?"
+	query := "select s.satNotaClareza, s.satNotaConhecimento, s.satNotaProatividade, s.satNotaDisponibilidade, s.satNotaSeguranca from tblSatisfacao as s left join tblAtendimento as a on s.satIdAtendimento = a.ateId where a.ateIdFuncionario = ? and s.satNotaProatividade is not null"
 	rows, err := database.DB.Query(query, IdFuncionario)
 
 	if err != nil {
