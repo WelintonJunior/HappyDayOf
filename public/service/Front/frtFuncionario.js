@@ -169,9 +169,11 @@ window.onclick = function (event) {
 //Abrir Modal Atendimento
 
 btnCadastrarAtendimento.addEventListener("click", (e) => {
+  console.log("Botão Cadastrar Atendimento clicado");
   e.preventDefault();
   modalCadastrarAtendimento.style.display = "block";
 });
+
 
 //Fechar Modal Cadastrar Atendimento
 
@@ -338,7 +340,7 @@ async function UpdateListaAtendimento(token, filtroNome = "") {
   const result = await funServices.ReadAtendimento(idAcademia, dados.FunId, token);
   const resultadosFiltrados = filtroNome ? result.filter(item => item.CliNome.toLowerCase().includes(filtroNome.toLowerCase())) : result;
 
-  //Colocar em alguma lista
+  // Colocar em alguma lista
   const containerTabela = document.getElementById("tableAtendimento");
   const tabelaExistente = containerTabela.querySelector("table");
   if (tabelaExistente) {
@@ -378,10 +380,14 @@ async function UpdateListaAtendimento(token, filtroNome = "") {
         if (item.hasOwnProperty(campo)) {
           let celula = linha.insertCell();
           if (campo === "AteStatus") {
-            celula.innerHTML =
-              item[campo] === 1
-                ? `<span class="text-success">Aberto</span>`
-                : `<span class="text-danger">Fechado</span>`;
+            let content = "";
+            if (item[campo] === 1) {
+              content = `<span class="text-success">Aberto</span>`;
+              InserirAbaFichaCliente(item); // Adicionar a aba do cliente se o atendimento estiver aberto
+            } else {
+              content = `<span class="text-danger">Fechado</span>`;
+            }
+            celula.innerHTML = content;
           } else if (
             campo === "AteDateInicio" ||
             campo === "AteDateEncerramento"
@@ -398,6 +404,7 @@ async function UpdateListaAtendimento(token, filtroNome = "") {
           }
         }
       });
+
       if (item.AteStatus === 1) {
         let celulaBotao = linha.insertCell();
         let botaoEncerrar = document.createElement("button");
@@ -412,9 +419,11 @@ async function UpdateListaAtendimento(token, filtroNome = "") {
           data.ateId = item.AteId;
           data.dateNow = dateNow;
           data.ateIdCliente = item.AteIdCliente;
+          await FecharAba(item.AteIdCliente)
           await funServices.UpdateStatusAtendimento(idAcademia, data, token);
           await UpdateListaAtendimento(token);
         });
+
         celulaBotao.appendChild(botaoEncerrar);
       }
     });
@@ -422,6 +431,7 @@ async function UpdateListaAtendimento(token, filtroNome = "") {
 
   document.getElementById("tableAtendimento").appendChild(tabela);
 }
+
 
 //Atualizar a Lista de Fichas
 
@@ -564,11 +574,11 @@ async function UpdateCampoFichaCliente(item, campo, celula, cliId, token) {
 }
 
 
-async function UpdateClienteFichaTreinoA(cliId, token) {
+async function UpdateClienteFichaTreinoA(lista, cliId, token) {
   const result = await funServices.ReadFichaDetalhes(cliId, "A", token);
   //Colocar em alguma lista
   if (result.length > 0) {
-    const containerTabela = document.getElementById("listaTreinoA");
+    const containerTabela = document.getElementById(lista);
     const tabelaExistente = containerTabela.querySelector("table");
     if (tabelaExistente) {
       containerTabela.removeChild(tabelaExistente);
@@ -610,15 +620,15 @@ async function UpdateClienteFichaTreinoA(cliId, token) {
       });
     });
 
-    document.getElementById("listaTreinoA").appendChild(tabela);
+    document.getElementById(lista).appendChild(tabela);
   }
 }
 
-async function UpdateClienteFichaTreinoB(cliId, token) {
+async function UpdateClienteFichaTreinoB(lista, cliId, token) {
   const result = await funServices.ReadFichaDetalhes(cliId, "B", token);
   //Colocar em alguma lista
   if (result.length > 0) {
-    const containerTabela = document.getElementById("listaTreinoB");
+    const containerTabela = document.getElementById(lista);
     const tabelaExistente = containerTabela.querySelector("table");
     if (tabelaExistente) {
       containerTabela.removeChild(tabelaExistente);
@@ -660,15 +670,15 @@ async function UpdateClienteFichaTreinoB(cliId, token) {
       });
     });
 
-    document.getElementById("listaTreinoB").appendChild(tabela);
+    document.getElementById(lista).appendChild(tabela);
   }
 }
 
-async function UpdateClienteFichaTreinoC(cliId, token) {
+async function UpdateClienteFichaTreinoC(lista, cliId, token) {
   const result = await funServices.ReadFichaDetalhes(cliId, "C", token);
   //Colocar em alguma lista
   if (result.length > 0) {
-    const containerTabela = document.getElementById("listaTreinoC");
+    const containerTabela = document.getElementById(lista);
     const tabelaExistente = containerTabela.querySelector("table");
     if (tabelaExistente) {
       containerTabela.removeChild(tabelaExistente);
@@ -710,7 +720,7 @@ async function UpdateClienteFichaTreinoC(cliId, token) {
       });
     });
 
-    document.getElementById("listaTreinoC").appendChild(tabela);
+    document.getElementById(lista).appendChild(tabela);
   }
 }
 
@@ -873,7 +883,8 @@ formCadastrarAtendimento.addEventListener("submit", async (e) => {
   data.funId = dados.FunId;
   const result = await funServices.ValidacaoAtendimento(idAcademia, data, token);
   if (result) {
-    const result = await funServices.RegisterAtendimento(idAcademia, data, token);
+    await funServices.RegisterAtendimento(idAcademia, data, token);
+    await InserirAbaFichaCliente(data);
     await UpdateListaAtendimento(token);
     modalCadastrarAtendimento.style.display = "none";
   } else {
@@ -881,6 +892,124 @@ formCadastrarAtendimento.addEventListener("submit", async (e) => {
     modalCadastrarAtendimento.style.display = "none";
   }
 });
+
+//Inserir aba
+const abasClientes = document.getElementById("abasClientes");
+const cardBody = document.getElementById("card-body");
+
+abasClientes.addEventListener("click", function (event) {
+  if (event.target.id === "abaListaAtendimento") {
+    AlterarAbaListaFicha();
+  }
+});
+
+async function InserirAbaFichaCliente(atendimento) {
+  const result = await funServices.ReadFichaDetalhesGeral(atendimento.ateIdCliente != undefined ? atendimento.ateIdCliente : atendimento.AteIdCliente, token);
+  const dadosCliente = await funServices.ReadClienteDetalhes(
+    idAcademia, result[0].FicIdCliente, token
+  );
+
+  if (!document.getElementById(`telaCliente${dadosCliente.CliId}`)) {
+    const divCliente = document.createElement("div");
+    divCliente.id = `telaCliente${dadosCliente.CliId}`;
+    divCliente.className = "telaCliente";
+    divCliente.style.display = "none";
+
+    divCliente.innerHTML += `
+    <div class="col-md-12">
+      <div class="row flex-container">
+        <!-- Treino A -->
+        <div class="ficha_treino col-sm-12 col-md-4" style="padding: 2px;">
+          <div id="innerA" class="inner cursor-pointer">
+            <span class="pricing">
+              <span>
+                <strong>
+                  A
+                </strong>
+              </span>
+            </span>
+            <div class="row" style="width: 100%">
+              <div class="mt-2 listaTreino"  style="height: 350px" id="listaAbaTreinoA${dadosCliente.CliId}"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Treino B -->
+        <div class="ficha_treino col-sm-12 col-md-4" style="padding: 2px;">
+          <div id="innerB" class="inner cursor-pointer">
+            <span class="pricing">
+              <span>
+                <strong>
+                  B
+                </strong>
+              </span>
+            </span>
+            <div class="row" style="width: 100%">
+              <div class="mt-2 listaTreino" style="height: 350px" id="listaAbaTreinoB${dadosCliente.CliId}"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Treino C -->
+        <div class="ficha_treino col-sm-12 col-md-4" style="padding: 2px;">
+          <div id="innerC" class="inner cursor-pointer">
+            <span class="pricing">
+              <span>
+                <strong>
+                  C
+                </strong>
+              </span>
+            </span>
+            <div class="row" style="width: 100%">
+              <div class="mt-2 listaTreino" style="height: 350px" id="listaAbaTreinoC${dadosCliente.CliId}"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+    cardBody.appendChild(divCliente);
+
+    abasClientes.innerHTML += `     
+  <li  class="nav-item">
+    <a id="abaCliente${dadosCliente.CliId}" onclick="AlterarAbaFichaCliente(${dadosCliente.CliId})" class="nav-link" href="#">${dadosCliente.CliNome}</a>
+  </li>`;
+  }
+}
+
+
+async function AlterarAbaFichaCliente(idCliente) {
+  document.getElementById("ListaAtendimento").style.display = "none";
+  const telasCliente = document.getElementsByClassName("telaCliente");
+  for (let i = 0; i < telasCliente.length; i++) {
+    telasCliente[i].style.display = "none";
+  }
+  await UpdateClienteFichaTreinoA(`listaAbaTreinoA${idCliente}`, idCliente, token)
+  await UpdateClienteFichaTreinoB(`listaAbaTreinoB${idCliente}`, idCliente, token)
+  await UpdateClienteFichaTreinoC(`listaAbaTreinoC${idCliente}`, idCliente, token)
+  document.getElementById(`telaCliente${idCliente}`).style.display = "block";
+}
+
+async function AlterarAbaListaFicha() {
+  document.getElementById("ListaAtendimento").style.display = "block";
+  const telasCliente = document.getElementsByClassName("telaCliente");
+  for (let i = 0; i < telasCliente.length; i++) {
+    telasCliente[i].style.display = "none";
+  }
+}
+
+async function FecharAba(idCliente) {
+  if (document.getElementById(`abaCliente${idCliente}`)) {
+    document.getElementById(`abaCliente${idCliente}`).remove();
+  }
+
+  if (document.getElementById(`telaCliente${idCliente}`)) {
+    document.getElementById(`telaCliente${idCliente}`).remove();
+  }
+}
+
+
 
 //Form criar base da ficha (parte de cima da foto)
 formCriarBaseFicha.addEventListener("submit", async (e) => {
@@ -900,9 +1029,9 @@ async function MostrarTelaCriarFicha(cliId, token) {
   MostrarTela();
   // document.getElementById("sidebarHeader").style.paddingTop = "100px"
   TelaCriarFicha.style.display = "block";
-  await UpdateClienteFichaTreinoA(cliId, token);
-  await UpdateClienteFichaTreinoB(cliId, token);
-  await UpdateClienteFichaTreinoC(cliId, token);
+  await UpdateClienteFichaTreinoA("listaTreinoA", cliId, token);
+  await UpdateClienteFichaTreinoB("listaTreinoB", cliId, token);
+  await UpdateClienteFichaTreinoC("listaTreinoC", cliId, token);
   const result = await funServices.ReadFichaDetalhesGeral(cliId, token);
   const dadosCliente = await funServices.ReadClienteDetalhes(
     idAcademia, result[0].FicIdCliente, token
@@ -987,7 +1116,7 @@ formInserirTreinoA.addEventListener("submit", async (e) => {
   data.cliIdFicha = document.getElementById("cliIdAtual").value;
   if (!verificacao) {
     const result = await funServices.RegisterDetalhesFicha(data, token);
-    await UpdateClienteFichaTreinoA(cliIdFichaTreinoA, token);
+    await UpdateClienteFichaTreinoA("listaTreinoA", cliIdFichaTreinoA, token);
     formInserirTreinoA.querySelector(`[name="detVariacao"]`).value = "";
     formInserirTreinoA.querySelector(`[name="detSerie"]`).value = "";
     formInserirTreinoA.querySelector(`[name="detRepeticao"]`).value = "";
@@ -1009,7 +1138,7 @@ formInserirTreinoB.addEventListener("submit", async (e) => {
   data.cliIdFicha = document.getElementById("cliIdAtual").value;
   if (!verificacao) {
     const result = await funServices.RegisterDetalhesFicha(data, token);
-    await UpdateClienteFichaTreinoB(cliIdFichaTreinoB, token);
+    await UpdateClienteFichaTreinoB("listaTreinoB", cliIdFichaTreinoB, token);
     formInserirTreinoB.querySelector(`[name="detVariacao"]`).value = "";
     formInserirTreinoB.querySelector(`[name="detSerie"]`).value = "";
     formInserirTreinoB.querySelector(`[name="detRepeticao"]`).value = "";
@@ -1031,7 +1160,7 @@ formInserirTreinoC.addEventListener("submit", async (e) => {
   data.cliIdFicha = document.getElementById("cliIdAtual").value;
   if (!verificacao) {
     const result = await funServices.RegisterDetalhesFicha(data, token);
-    await UpdateClienteFichaTreinoC(cliIdFichaTreinoC, token);
+    await UpdateClienteFichaTreinoC("listaTreinoC", cliIdFichaTreinoC, token);
     formInserirTreinoC.querySelector(`[name="detVariacao"]`).value = "";
     formInserirTreinoC.querySelector(`[name="detSerie"]`).value = "";
     formInserirTreinoC.querySelector(`[name="detRepeticao"]`).value = "";

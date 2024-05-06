@@ -172,7 +172,8 @@ body {
 
 #listaTreinoC,
 #listaTreinoB,
-#listaTreinoA {
+#listaTreinoA,
+.listaTreino {
   overflow: auto;
   max-height: 300px;
   max-width: 100%;

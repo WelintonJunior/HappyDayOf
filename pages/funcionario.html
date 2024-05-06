@@ -102,22 +102,34 @@
         <!-- Tela Atendimento -->
 
         <div id="TelaAtendimento" style="display: block">
-          <section class="container col-md-8 col-sm-12 mt-5">
-
-            <section class="table" id="">
-              <table class="table__body">
-                Pesquisar<input id="pesquisarAtendimento" type="text">
-                <h1 class="display-6 text-center mt-4 mb-4">Lista de Atendimentos</h1>
-                <div class="listBoxAtendimento" id="listBoxAtendimento">
-                  <div id="tableAtendimento"></div>
+          <section class="container col-md-12 col-sm-12 mt-5">
+            <div class="card text-center">
+              <div class="card-header">
+                <ul id="abasClientes" class="nav nav-tabs card-header-tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="abaListaAtendimento" href="#">Lista</a>
+                  </li>
+                  <!-- Abas nav -->
+                </ul>
+              </div>
+              <div id="card-body" class="card-body">
+                <div id="ListaAtendimento">
+                  <section class="table" id="">
+                    <table class="table__body">
+                      Pesquisar<input id="pesquisarAtendimento" type="text">
+                      <h1 class="display-6 text-center mt-4 mb-4">Lista de Atendimentos</h1>
+                      <div class="listBoxAtendimento" id="listBoxAtendimento">
+                        <div id="tableAtendimento"></div>
+                      </div>
+                      <div class="container ms-2">
+                        <button class="btn btn-info" id="btnCadastrarAtendimento">Cadastrar Atendimento</button>
+                      </div>
+                    </table>
+                  </section>
                 </div>
-                <div class="container ms-2">
-                  <button class="btn btn-info" id="btnCadastrarAtendimento">Cadastrar Atendimento</button>
-                </div>
-              </table>
-            </section>
+              </div>
+            </div>
           </section>
-
         </div>
 
         <!-- Tela Ficha -->
@@ -566,7 +578,7 @@
           </div>
         </div>
 
-        <div id="modalCadastrarAtendimento" class="modal" tabindex="-1">
+        <div id="modalCadastrarAtendimento" style="display: none" class="modal" tabindex="-1">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
