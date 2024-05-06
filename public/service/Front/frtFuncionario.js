@@ -989,15 +989,30 @@ async function AlterarAbaFichaCliente(idCliente) {
   await UpdateClienteFichaTreinoB(`listaAbaTreinoB${idCliente}`, idCliente, token)
   await UpdateClienteFichaTreinoC(`listaAbaTreinoC${idCliente}`, idCliente, token)
   document.getElementById(`telaCliente${idCliente}`).style.display = "block";
+  document.getElementById("abaListaAtendimento").classList.remove("active")
+  const abasCliente = document.querySelectorAll('[id^="abaCliente"]');
+  abasCliente.forEach(aba => {
+    aba.classList.remove("active");
+  });
+  document.getElementById(`abaCliente${idCliente}`).classList.add("active")
+
 }
 
 async function AlterarAbaListaFicha() {
   document.getElementById("ListaAtendimento").style.display = "block";
+  document.getElementById("abaListaAtendimento").classList.add("active");
+
   const telasCliente = document.getElementsByClassName("telaCliente");
   for (let i = 0; i < telasCliente.length; i++) {
     telasCliente[i].style.display = "none";
   }
+
+  const abasCliente = document.querySelectorAll('[id^="abaCliente"]');
+  abasCliente.forEach(aba => {
+    aba.classList.remove("active");
+  });
 }
+
 
 async function FecharAba(idCliente) {
   if (document.getElementById(`abaCliente${idCliente}`)) {
