@@ -5,19 +5,28 @@ import (
 	"net/http"
 
 	UTILS "example.com/fitConnect/Utils"
-	LOGIN "example.com/fitConnect/models/Login"
+	"example.com/fitConnect/internal/app/application"
+	"example.com/fitConnect/internal/app/domain"
 	"github.com/gin-gonic/gin"
 )
 
-func LoginCliente(context *gin.Context) {
-	var c LOGIN.Cliente
+type LoginHandlers struct {
+	service *application.LoginService
+}
+
+func NewLoginHandlers(service *application.LoginService) *LoginHandlers {
+	return &LoginHandlers{service: service}
+}
+
+func (h *LoginHandlers) LoginCliente(context *gin.Context) {
+	var c domain.ClienteLogin
 
 	if err := context.ShouldBindJSON(&c); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados", "error": true})
 		return
 	}
 
-	cliente, err := c.ValidateCredentials()
+	cliente, err := h.service.ValidateCredentialsCliente(c)
 	if err != nil {
 		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não foi possível autenticar", "error": true})
 		return
@@ -30,7 +39,7 @@ func LoginCliente(context *gin.Context) {
 	}
 
 	go func() {
-		if err := LOGIN.EngajamentoAlunos(cliente.CliId, cliente.CliIdAcad, c.DateNow); err != nil {
+		if err := h.service.EngajamentoAlunos(cliente.CliId, cliente.CliIdAcad, c.DateNow); err != nil {
 			log.Printf("Erro ao registrar engajamento: %v", err)
 		}
 	}()
@@ -38,15 +47,15 @@ func LoginCliente(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{"message": "Sucesso", "error": false, "token": token, "dados": cliente})
 }
 
-func LoginFuncionario(context *gin.Context) {
-	var f LOGIN.Funcionario
+func (h *LoginHandlers) LoginFuncionario(context *gin.Context) {
+	var f domain.FuncionarioLogin
 
 	if err := context.ShouldBindJSON(&f); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados", "error": true})
 		return
 	}
 
-	funcionario, err := f.ValidateCredentials()
+	funcionario, err := h.service.ValidateCredentialsFuncionario(f)
 	if err != nil {
 		context.JSON(http.StatusUnauthorized, gin.H{"messsage": "Não foi possivel autenticar", "error": true})
 		return

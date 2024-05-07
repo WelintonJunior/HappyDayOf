@@ -3,19 +3,28 @@ package routes
 import (
 	"net/http"
 
-	CLIENTE "example.com/fitConnect/models/Cliente"
+	"example.com/fitConnect/internal/app/application"
+	"example.com/fitConnect/internal/app/domain"
 	"github.com/gin-gonic/gin"
 )
 
-func ReadClientes(context *gin.Context) {
-	var c CLIENTE.Cliente
+type ClienteHandlers struct {
+	service *application.ClienteService
+}
+
+func NewClienteHandlers(service *application.ClienteService) *ClienteHandlers {
+	return &ClienteHandlers{service: service}
+}
+
+func (h *ClienteHandlers) ReadClientes(context *gin.Context) {
+	var c domain.Cliente
 
 	if err := context.ShouldBindJSON(&c); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
 		return
 	}
 
-	clientes, err := CLIENTE.ReadClientes(c.CliIdAcad)
+	clientes, err := h.service.ReadClientes(c.CliIdAcad)
 
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao ler dados"})
@@ -25,14 +34,14 @@ func ReadClientes(context *gin.Context) {
 	context.JSON(http.StatusOK, clientes)
 }
 
-func ReadClienteDet(context *gin.Context) {
-	var c CLIENTE.Cliente
+func (h *ClienteHandlers) ReadClienteDet(context *gin.Context) {
+	var c domain.Cliente
 	if err := context.ShouldBindJSON(&c); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
 		return
 	}
 
-	cliente, err := CLIENTE.ReadClienteDet(c.CliId, c.CliIdAcad)
+	cliente, err := h.service.ReadClienteDet(c.CliId, c.CliIdAcad)
 
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao ler dados"})
@@ -42,14 +51,14 @@ func ReadClienteDet(context *gin.Context) {
 	context.JSON(http.StatusOK, cliente)
 }
 
-func RegisterCliente(context *gin.Context) {
-	var c CLIENTE.Cliente
+func (h *ClienteHandlers) RegisterCliente(context *gin.Context) {
+	var c domain.Cliente
 	if err := context.ShouldBindJSON(&c); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
 		return
 	}
 
-	if err := c.New(); err != nil {
+	if err := h.service.CreateCliente(c); err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao ler dados"})
 		return
 	}
@@ -57,30 +66,29 @@ func RegisterCliente(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{"message": "Sucesso"})
 }
 
-func ArchiveCliente(context *gin.Context) {
-	var CliId CliIdData
+func (h *ClienteHandlers) ArchiveCliente(context *gin.Context) {
+	var CliId domain.CliIdData
 	if err := context.ShouldBindJSON(&CliId); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
 		return
 	}
 
-	if err := CLIENTE.ArchiveCliente(CliId.CliId); err != nil {
+	if err := h.service.ArchiveCliente(CliId.CliId); err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao Arquivar Cliente"})
 		return
 	}
 
 	context.JSON(http.StatusOK, gin.H{"message": "Arquivado com sucesso"})
-
 }
 
-func UpdateClienteDetalhes(context *gin.Context) {
-	var c CLIENTE.Cliente
+func (h *ClienteHandlers) UpdateClienteDetalhes(context *gin.Context) {
+	var c domain.Cliente
 	if err := context.ShouldBindJSON(&c); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
 		return
 	}
 
-	if err := c.UpdateClienteDetalhes(); err != nil {
+	if err := h.service.UpdateClienteDetalhes(c); err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao Atualizar Detalhes do Cliente"})
 		return
 	}

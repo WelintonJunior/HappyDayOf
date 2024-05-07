@@ -5,20 +5,29 @@ import (
 	"net/http"
 
 	UTILS "example.com/fitConnect/Utils"
-	ATENDIMENTO "example.com/fitConnect/models/Atendimento"
+	"example.com/fitConnect/internal/app/application"
+	"example.com/fitConnect/internal/app/domain"
 	"github.com/gin-gonic/gin"
 )
 
-func ReadStatusAtendimento(context *gin.Context) {
+type AtendimentoHandlers struct {
+	service *application.AtendimentoService
+}
 
-	var a ATENDIMENTO.Atendimento
+func NewAtendimentoHandlers(service *application.AtendimentoService) *AtendimentoHandlers {
+	return &AtendimentoHandlers{service: service}
+}
+
+func (h *AtendimentoHandlers) ReadStatusAtendimento(context *gin.Context) {
+
+	var a domain.Atendimento
 
 	if err := context.ShouldBindJSON(&a); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
 		return
 	}
 
-	atendimento, err := ATENDIMENTO.ReadStatusAtendimento(a.AteIdCliente, a.AteIdAcad, a.AteDateInicio)
+	atendimento, err := h.service.ReadStatusAtendimento(a.AteIdCliente, a.AteIdAcad, a.AteDateInicio)
 
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro Pesquisar dados"})
@@ -26,17 +35,16 @@ func ReadStatusAtendimento(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusOK, atendimento)
-
 }
 
-func ReadAtendimentoInfo(context *gin.Context) {
-	var a ATENDIMENTO.Atendimento
+func (h *AtendimentoHandlers) ReadAtendimentoInfo(context *gin.Context) {
+	var a domain.Atendimento
 	if err := context.ShouldBindJSON(&a); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
 		return
 	}
 
-	atendimento, err := ATENDIMENTO.ReadAtendimentoInfo(a.AteId)
+	atendimento, err := h.service.ReadAtendimentoInfo(a.AteId)
 
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro Pesquisar dados"})
@@ -52,14 +60,14 @@ type AteAcad struct {
 	AteIdFuncionario int64
 }
 
-func ReadAtendimento(context *gin.Context) {
+func (h *AtendimentoHandlers) ReadAtendimento(context *gin.Context) {
 	var ateAcad AteAcad
 	if err := context.ShouldBindJSON(&ateAcad); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
 		return
 	}
 
-	results, err := ATENDIMENTO.ReadAtendimento(ateAcad.AteIdAcad, ateAcad.AteIdFuncionario)
+	results, err := h.service.ReadAtendimento(ateAcad.AteIdAcad, ateAcad.AteIdFuncionario)
 
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro Pesquisar dados"})
@@ -70,15 +78,15 @@ func ReadAtendimento(context *gin.Context) {
 
 }
 
-func RegisterAtendimento(context *gin.Context) {
-	var atendimento ATENDIMENTO.Atendimento
+func (h *AtendimentoHandlers) RegisterAtendimento(context *gin.Context) {
+	var atendimento domain.Atendimento
 
 	if err := context.ShouldBindJSON(&atendimento); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
 		return
 	}
 
-	if err := atendimento.New(); err != nil {
+	if err := h.service.CreateAtendimento(atendimento); err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro Cadastrar Atendimento"})
 		return
 	}
@@ -96,15 +104,15 @@ func RegisterAtendimento(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{"message": "Sucesso"})
 }
 
-func ValidacaoAtendimento(context *gin.Context) {
-	var atendimento ATENDIMENTO.Atendimento
+func (h *AtendimentoHandlers) ValidacaoAtendimento(context *gin.Context) {
+	var atendimento domain.Atendimento
 
 	if err := context.ShouldBindJSON(&atendimento); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
 		return
 	}
 
-	result, err := atendimento.Validar()
+	result, err := h.service.Validar(atendimento)
 
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao validar Atendimento"})
@@ -114,15 +122,15 @@ func ValidacaoAtendimento(context *gin.Context) {
 	context.JSON(http.StatusOK, result)
 }
 
-func UpdateStatusAtendimento(context *gin.Context) {
-	var atendimento ATENDIMENTO.Atendimento
+func (h *AtendimentoHandlers) UpdateStatusAtendimento(context *gin.Context) {
+	var atendimento domain.Atendimento
 
 	if err := context.ShouldBindJSON(&atendimento); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
 		return
 	}
 
-	if err := atendimento.UpdateStatusAtendimento(); err != nil {
+	if err := h.service.UpdateStatusAtendimento(atendimento); err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao atualizar Atendimento"})
 		return
 	}

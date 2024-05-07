@@ -3,18 +3,27 @@ package routes
 import (
 	"net/http"
 
-	PLANO "example.com/fitConnect/models/Plano"
+	"example.com/fitConnect/internal/app/application"
+	"example.com/fitConnect/internal/app/domain"
 	"github.com/gin-gonic/gin"
 )
 
-func ReadPlanos(context *gin.Context) {
-	var p PLANO.Plano
+type PlanoHandlers struct {
+	service *application.PlanoService
+}
+
+func NewPlanoHandlers(service *application.PlanoService) *PlanoHandlers {
+	return &PlanoHandlers{service: service}
+}
+
+func (h *PlanoHandlers) ReadPlanos(context *gin.Context) {
+	var p domain.Plano
 	if err := context.ShouldBindJSON(&p); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
 		return
 	}
 
-	Planos, err := PLANO.ReadPlanos(p.PlaIdAcad)
+	Planos, err := h.service.ReadPlanos(p.PlaIdAcad)
 
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao ler dados"})

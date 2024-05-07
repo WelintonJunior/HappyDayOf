@@ -6,117 +6,117 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func LoginRoutes(server *gin.Engine) {
+func LoginRoutes(server *gin.Engine, handlers *routes.LoginHandlers) {
 
-	server.POST("/LoginCliente", routes.LoginCliente)
-	server.POST("/LoginFuncionario", routes.LoginFuncionario)
+	server.POST("/LoginCliente", handlers.LoginCliente)
+	server.POST("/LoginFuncionario", handlers.LoginFuncionario)
 }
 
-func UtilsRoutes(server *gin.Engine) {
-	server.POST("/VerificarCpfCadastrado", routes.VerificarCpfCadastrado)
-	server.POST("/VerificarCpfCadastradoGeral", routes.VerificarCpfCadastradoGeral)
-	server.POST("/VerificarEmailCadastrado", routes.VerificarEmailCadastrado)
-	server.POST("/VerificarEmailCadastradoGeral", routes.VerificarEmailCadastradoGeral)
+func UtilsRoutes(server *gin.Engine, handlers *routes.UtilsHandlers) {
+	server.POST("/VerificarCpfCadastrado", handlers.VerificarCpfCadastrado)
+	server.POST("/VerificarCpfCadastradoGeral", handlers.VerificarCpfCadastradoGeral)
+	server.POST("/VerificarEmailCadastrado", handlers.VerificarEmailCadastrado)
+	server.POST("/VerificarEmailCadastradoGeral", handlers.VerificarEmailCadastradoGeral)
 	server.GET("/ws", UTILS.HandleConnections)
 }
 
-func AtendimentoRoutes(server *gin.Engine) {
-	server.POST("/Atendimento/ReadStatusAtendimento", routes.ReadStatusAtendimento)
-	server.POST("/Atendimento/ReadAtendimentoInfo", routes.ReadAtendimentoInfo)
-	server.POST("/Atendimento/ReadAtendimento", routes.ReadAtendimento)
-	server.POST("/Atendimento/RegisterAtendimento", routes.RegisterAtendimento)
-	server.POST("/Atendimento/ValidacaoAtendimento", routes.ValidacaoAtendimento)
-	server.POST("/Atendimento/UpdateStatusAtendimento", routes.UpdateStatusAtendimento)
+func AtendimentoRoutes(server *gin.Engine, handlers *routes.AtendimentoHandlers) {
+	server.POST("/Atendimento/ReadStatusAtendimento", handlers.ReadStatusAtendimento)
+	server.POST("/Atendimento/ReadAtendimentoInfo", handlers.ReadAtendimentoInfo)
+	server.POST("/Atendimento/ReadAtendimento", handlers.ReadAtendimento)
+	server.POST("/Atendimento/RegisterAtendimento", handlers.RegisterAtendimento)
+	server.POST("/Atendimento/ValidacaoAtendimento", handlers.ValidacaoAtendimento)
+	server.POST("/Atendimento/UpdateStatusAtendimento", handlers.UpdateStatusAtendimento)
 
 }
 
-func SatisfacaoRoutes(server *gin.Engine) {
-	server.POST("/Satisfacao/VerifySatisfacaoAtendimento", routes.VerifySatisfacaoAtendimento)
-	server.POST("/Satisfacao/VerificarAtendimento", routes.VerificarAtendimento)
-	server.POST("/Satisfacao/UpdateSatisfacao", routes.UpdateSatisfacao)
+func SatisfacaoRoutes(server *gin.Engine, handlers *routes.SatisfacaoHandlers) {
+	server.POST("/Satisfacao/VerifySatisfacaoAtendimento", handlers.VerifySatisfacaoAtendimento)
+	server.POST("/Satisfacao/VerificarAtendimento", handlers.VerificarAtendimento)
+	server.POST("/Satisfacao/UpdateSatisfacao", handlers.UpdateSatisfacao)
 
 }
 
-func DesempenhoRoutes(server *gin.Engine) {
-	server.POST("/Desempenho/ReadDesempenho", routes.ReadDesempenho)
+func DesempenhoRoutes(server *gin.Engine, handlers *routes.DesempenhoHandlers) {
+	server.POST("/Desempenho/ReadDesempenho", handlers.ReadDesempenho)
 }
 
-func MetaRoutes(server *gin.Engine) {
-	server.POST("/Meta/ReadMeta", routes.ReadMeta)
-	server.POST("/Meta/RegisterMeta", routes.RegisterMeta)
-	server.POST("/Meta/UpdateMeta", routes.UpdateMeta)
-	server.POST("/Meta/ReadMetaAtual", routes.ReadMetaAtual)
+func MetaRoutes(server *gin.Engine, handlers *routes.MetaHandlers) {
+	server.POST("/Meta/ReadMeta", handlers.ReadMeta)
+	server.POST("/Meta/RegisterMeta", handlers.RegisterMeta)
+	server.POST("/Meta/UpdateMeta", handlers.UpdateMeta)
+	server.POST("/Meta/ReadMetaAtual", handlers.ReadMetaAtual)
 }
 
-func ClienteRoutes(server *gin.Engine) {
-	server.POST("/Cliente/ReadClientes", routes.ReadClientes)
-	server.POST("/Cliente/ReadClienteDet", routes.ReadClienteDet)
-	server.POST("/Cliente/RegisterCliente", routes.RegisterCliente)
-	server.POST("/Cliente/ArchiveCliente", routes.ArchiveCliente)
-	// server.POST("/Cliente/AtivarCliente", routes.AtivarCliente)
-	server.POST("/Cliente/UpdateClienteDetalhes", routes.UpdateClienteDetalhes)
+func ClienteRoutes(server *gin.Engine, handlers *routes.ClienteHandlers) {
+	server.POST("/Cliente/ReadClientes", handlers.ReadClientes)
+	server.POST("/Cliente/ReadClienteDet", handlers.ReadClienteDet)
+	server.POST("/Cliente/RegisterCliente", handlers.RegisterCliente)
+	server.POST("/Cliente/ArchiveCliente", handlers.ArchiveCliente)
+	// server.POST("/Cliente/AtivarCliente", handlers.AtivarCliente)
+	server.POST("/Cliente/UpdateClienteDetalhes", handlers.UpdateClienteDetalhes)
 }
 
-func AparelhoRoutes(server *gin.Engine) {
-	server.POST("/Aparelho/ReadAparelhos", routes.ReadAparelhos)
-	server.POST("/Aparelho/ReadAparelhoDet", routes.ReadAparelhoDet)
-	server.POST("/Aparelho/RegisterAparelho", routes.RegisterAparelho)
-	server.POST("/Aparelho/ArchiveAparelho", routes.ArchiveAparelho)
-	server.POST("/Aparelho/UpdateAparelhoDetalhes", routes.UpdateAparelhoDetalhes)
+func AparelhoRoutes(server *gin.Engine, handlers *routes.AparelhoHandlers) {
+	server.POST("/Aparelho/ReadAparelhos", handlers.GetAparelhoList)
+	server.POST("/Aparelho/ReadAparelhoDet", handlers.ReadAparelhoDet)
+	server.POST("/Aparelho/RegisterAparelho", handlers.RegisterAparelho)
+	server.POST("/Aparelho/ArchiveAparelho", handlers.ArchiveAparelho)
+	server.POST("/Aparelho/UpdateAparelhoDetalhes", handlers.UpdateAparelhoDetalhes)
 }
 
-func ExercicioRoutes(server *gin.Engine) {
-	server.POST("/Exercicio/ReadExercicios", routes.ReadExercicios)
-	server.POST("/Exercicio/ReadExercicioDet", routes.ReadExercicioDet)
-	server.POST("/Exercicio/RegisterExercicio", routes.RegisterExercicio)
-	server.POST("/Exercicio/ArchiveExercicio", routes.ArchiveExercicio)
-	server.POST("/Exercicio/UpdateExercicioDetalhes", routes.UpdateExercicioDetalhes)
+func ExercicioRoutes(server *gin.Engine, handlers *routes.ExercicioHandlers) {
+	server.POST("/Exercicio/ReadExercicios", handlers.ReadExercicios)
+	server.POST("/Exercicio/ReadExercicioDet", handlers.ReadExercicioDet)
+	server.POST("/Exercicio/RegisterExercicio", handlers.RegisterExercicio)
+	server.POST("/Exercicio/ArchiveExercicio", handlers.ArchiveExercicio)
+	server.POST("/Exercicio/UpdateExercicioDetalhes", handlers.UpdateExercicioDetalhes)
 }
 
-func FuncionarioRoutes(server *gin.Engine) {
-	server.POST("/Funcionario/ReadFuncionarios", routes.ReadFuncionarios)
-	server.POST("/Funcionario/ReadFuncionarioDet", routes.ReadFuncionarioDet)
-	server.POST("/Funcionario/RegisterFuncionario", routes.RegisterFuncionario)
-	server.POST("/Funcionario/ArchiveFuncionario", routes.ArchiveFuncionario)
-	server.POST("/Funcionario/UpdateFuncionarioDetalhes", routes.UpdateFuncionarioDetalhes)
-	server.POST("/Funcionario/MeuDesempenho", routes.FuncionarioMeuDesempenho)
+func FuncionarioRoutes(server *gin.Engine, handlers *routes.FuncionarioHandlers) {
+	server.POST("/Funcionario/ReadFuncionarios", handlers.ReadFuncionarios)
+	server.POST("/Funcionario/ReadFuncionarioDet", handlers.ReadFuncionarioDet)
+	server.POST("/Funcionario/RegisterFuncionario", handlers.RegisterFuncionario)
+	server.POST("/Funcionario/ArchiveFuncionario", handlers.ArchiveFuncionario)
+	server.POST("/Funcionario/UpdateFuncionarioDetalhes", handlers.UpdateFuncionarioDetalhes)
+	server.POST("/Funcionario/MeuDesempenho", handlers.FuncionarioMeuDesempenho)
 }
 
-func PlanoRoutes(server *gin.Engine) {
-	server.POST("/Plano/ReadPlanos", routes.ReadPlanos)
+func PlanoRoutes(server *gin.Engine, handlers *routes.PlanoHandlers) {
+	server.POST("/Plano/ReadPlanos", handlers.ReadPlanos)
 	// server.POST("/Plano/ReadPlanoDet", routes.ReadPlanoDet)
 	// server.POST("/Plano/RegisterPlano", routes.RegisterPlano)
 	// server.POST("/Plano/ArchivePlano", routes.ArchivePlano)
 	// server.POST("/Plano/UpdatePlanoDetalhes", routes.UpdatePlanoDetalhes)
 }
 
-func AcademiaRoutes(server *gin.Engine) {
-	server.POST("/Academia/ReadAcademiaDet", routes.ReadAcademiaDet)
-	server.POST("/Academia/ReadAcademiaLista", routes.ReadAcademiaLista)
-	server.POST("/Academia/CreateAcademia", routes.CreateAcademia)
-	server.POST("/Academia/AddAdministrador", routes.AddAdministrador)
-	server.POST("/Academia/InsertAcademiaToTheOptions", routes.InsertAcademiaToTheOptions)
+func AcademiaRoutes(server *gin.Engine, handlers *routes.AcademiaHandlers) {
+	server.POST("/Academia/ReadAcademiaDet", handlers.GetAcademiaDet)
+	server.POST("/Academia/ReadAcademiaLista", handlers.GetAcademiaLista)
+	server.POST("/Academia/CreateAcademia", handlers.CreateAcademia)
+	server.POST("/Academia/AddAdministrador", handlers.AddAdministrador)
+	server.POST("/Academia/InsertAcademiaToTheOptions", handlers.InsertAcademiaToTheOptions)
 }
 
-func FichaRoutes(server *gin.Engine) {
-	server.POST("/Ficha/ReadClienteFicha", routes.ReadClienteFicha)
-	server.POST("/Ficha/ReadFicha", routes.ReadFicha)
-	server.POST("/Ficha/ReadFichaDetalhes", routes.ReadFichaDetalhes)
-	server.POST("/Ficha/ReadFichaDetalhesGeral", routes.ReadFichaDetalhesGeral)
-	server.POST("/Ficha/RegisterFicha", routes.RegisterFicha)
-	server.POST("/Ficha/RegisterDetalhesFicha", routes.RegisterDetalhesFicha)
-	server.POST("/Ficha/UpdateDetalhesFicha", routes.UpdateDetalhesFicha)
-	server.POST("/Ficha/UpdateCampoFicha", routes.UpdateCampoFicha)
-	server.POST("/Ficha/DeleteCampoFicha", routes.DeleteCampoFicha)
+func FichaRoutes(server *gin.Engine, handlers *routes.FichaHandlers) {
+	server.POST("/Ficha/ReadClienteFicha", handlers.ReadClienteFicha)
+	server.POST("/Ficha/ReadFicha", handlers.ReadFicha)
+	server.POST("/Ficha/ReadFichaDetalhes", handlers.ReadFichaDetalhes)
+	server.POST("/Ficha/ReadFichaDetalhesGeral", handlers.ReadFichaDetalhesGeral)
+	server.POST("/Ficha/RegisterFicha", handlers.RegisterFicha)
+	server.POST("/Ficha/RegisterDetalhesFicha", handlers.RegisterDetalhesFicha)
+	server.POST("/Ficha/UpdateDetalhesFicha", handlers.UpdateDetalhesFicha)
+	server.POST("/Ficha/UpdateCampoFicha", handlers.UpdateCampoFicha)
+	server.POST("/Ficha/DeleteCampoFicha", handlers.DeleteCampoFicha)
 }
 
-func DashboardRoutes(server *gin.Engine) {
-	// server.POST("/DashBoard/TaxaAdocao", routes.TaxaAdocao)
-	server.POST("/DashBoard/ReadSatisfacao", routes.ReadSatisfacao)
-	server.POST("/DashBoard/ReadAtendimentos", routes.ReadAtendimentos)
-	server.POST("/DashBoard/ReadAllAtendimentos", routes.ReadAllAtendimentos)
-	server.POST("/DashBoard/ReadFuncNome", routes.ReadFuncNome)
-	server.POST("/DashBoard/ReadAllEngajamentos", routes.ReadAllEngajamentos)
-	// server.POST("/DashBoard/AvaliacaoPerformance", routes.AvaliacaoPerformance)
-	// server.POST("/DashBoard/Roi", routes.Roi)
+func DashboardRoutes(server *gin.Engine, handlers *routes.DashboardHandlers) {
+	// server.POST("/DashBoard/TaxaAdocao", handlers.TaxaAdocao)
+	server.POST("/DashBoard/ReadSatisfacao", handlers.ReadSatisfacao)
+	server.POST("/DashBoard/ReadAtendimentos", handlers.ReadAtendimentos)
+	server.POST("/DashBoard/ReadAllAtendimentos", handlers.ReadAllAtendimentos)
+	server.POST("/DashBoard/ReadFuncNome", handlers.ReadFuncNome)
+	server.POST("/DashBoard/ReadAllEngajamentos", handlers.ReadAllEngajamentos)
+	// server.POST("/DashBoard/AvaliacaoPerformance", handlers.AvaliacaoPerformance)
+	// server.POST("/DashBoard/Roi", handlers.Roi)
 }

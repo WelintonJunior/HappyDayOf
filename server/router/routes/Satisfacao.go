@@ -3,19 +3,27 @@ package routes
 import (
 	"net/http"
 
-	SATISFACAO "example.com/fitConnect/models/Satisfacao"
+	"example.com/fitConnect/internal/app/application"
+	"example.com/fitConnect/internal/app/domain"
 	"github.com/gin-gonic/gin"
 )
 
-func VerifySatisfacaoAtendimento(context *gin.Context) {
-	var s SATISFACAO.Satisfacao
+type SatisfacaoHandlers struct {
+	service *application.SatisfacaoService
+}
+
+func NewSatisfacaoHandlers(service *application.SatisfacaoService) *SatisfacaoHandlers {
+	return &SatisfacaoHandlers{service: service}
+}
+
+func (h *SatisfacaoHandlers) VerifySatisfacaoAtendimento(context *gin.Context) {
+	var s domain.Satisfacao
 
 	if err := context.ShouldBindJSON(&s); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
 		return
 	}
-
-	s, err := SATISFACAO.VerifySatisfacaoAtendimento(s.SatIdCliente, s.SatIdAcademia)
+	s, err := h.service.VerifySatisfacaoAtendimento(s.SatIdCliente, s.SatIdAcademia)
 
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao Verificar dados"})
@@ -23,18 +31,17 @@ func VerifySatisfacaoAtendimento(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusOK, s)
-
 }
 
-func VerificarAtendimento(context *gin.Context) {
-	var s SATISFACAO.Satisfacao
+func (h *SatisfacaoHandlers) VerificarAtendimento(context *gin.Context) {
+	var s domain.Satisfacao
 
 	if err := context.ShouldBindJSON(&s); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
 		return
 	}
 
-	s, err := SATISFACAO.VerificarAtendimento(s.SatIdCliente, s.SatIdAcademia)
+	s, err := h.service.VerificarAtendimento(s.SatIdCliente, s.SatIdAcademia)
 
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao Verificar dados"})
@@ -42,18 +49,17 @@ func VerificarAtendimento(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusOK, s)
-
 }
 
-func UpdateSatisfacao(context *gin.Context) {
-	var s SATISFACAO.Satisfacao
+func (h *SatisfacaoHandlers) UpdateSatisfacao(context *gin.Context) {
+	var s domain.Satisfacao
 
 	if err := context.ShouldBindJSON(&s); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
 		return
 	}
 
-	if err := s.Update(); err != nil {
+	if err := h.service.UpdateSatisfacao(s); err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao Atualizar Dados"})
 		return
 	}

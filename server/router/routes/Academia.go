@@ -3,30 +3,36 @@ package routes
 import (
 	"net/http"
 
-	ACADEMIA "example.com/fitConnect/models/Academia"
-	ADMINISTRADOR "example.com/fitConnect/models/Administrador"
+	"example.com/fitConnect/internal/app/application"
+	"example.com/fitConnect/internal/app/domain"
 	"github.com/gin-gonic/gin"
 )
 
-func ReadAcademiaLista(context *gin.Context) {
-	Academias, err := ACADEMIA.ReadAcademiaLista()
+type AcademiaHandlers struct {
+	service *application.AcademiaService
+}
 
+func NewAcademiaHandlers(service *application.AcademiaService) *AcademiaHandlers {
+	return &AcademiaHandlers{service: service}
+}
+
+func (h *AcademiaHandlers) GetAcademiaLista(context *gin.Context) {
+	academias, err := h.service.GetAcademiaList()
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao ler dados"})
 		return
 	}
-
-	context.JSON(http.StatusOK, Academias)
+	context.JSON(http.StatusOK, academias)
 }
 
-func ReadAcademiaDet(context *gin.Context) {
-	var a ACADEMIA.Academia
+func (h *AcademiaHandlers) GetAcademiaDet(context *gin.Context) {
+	var a domain.Academia
 	if err := context.ShouldBindJSON(&a); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
 		return
 	}
 
-	Academia, err := ACADEMIA.ReadAcademiaDet(a.AcaId)
+	Academia, err := h.service.GetAcademiaDetails(a.AcaId)
 
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao ler dados"})
@@ -36,29 +42,27 @@ func ReadAcademiaDet(context *gin.Context) {
 	context.JSON(http.StatusOK, Academia)
 }
 
-func CreateAcademia(context *gin.Context) {
-	var a ACADEMIA.Academia
-	if err := context.ShouldBindJSON(&a); err != nil {
+func (h *AcademiaHandlers) CreateAcademia(context *gin.Context) {
+	var academia domain.Academia
+	if err := context.ShouldBindJSON(&academia); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
 		return
 	}
-
-	if err := a.New(); err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao ler dados"})
+	if err := h.service.CreateAcademia(academia); err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao criar academia"})
 		return
 	}
-
 	context.JSON(http.StatusOK, gin.H{"message": "Sucesso"})
 }
 
-func AddAdministrador(context *gin.Context) {
-	var adm ADMINISTRADOR.Administrador
+func (h *AcademiaHandlers) AddAdministrador(context *gin.Context) {
+	var adm domain.Administrador
 	if err := context.ShouldBindJSON(&adm); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
 		return
 	}
 
-	if err := ACADEMIA.AddAdministrador(adm); err != nil {
+	if err := h.service.AddAdministrador(adm); err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao cadastrar adm"})
 		return
 	}
@@ -66,8 +70,8 @@ func AddAdministrador(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{"message": "Sucesso"})
 }
 
-func InsertAcademiaToTheOptions(context *gin.Context) {
-	result, err := ACADEMIA.InsertAcademiaToTheOptions()
+func (h *AcademiaHandlers) InsertAcademiaToTheOptions(context *gin.Context) {
+	result, err := h.service.InsertAcademiaToTheOptions()
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao cadastrar adm"})
 		return

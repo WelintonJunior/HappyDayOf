@@ -3,22 +3,27 @@ package routes
 import (
 	"net/http"
 
-	EXERCICIO "example.com/fitConnect/models/Exercicio"
+	"example.com/fitConnect/internal/app/application"
+	"example.com/fitConnect/internal/app/domain"
 	"github.com/gin-gonic/gin"
 )
 
-type ExeIdData struct {
-	ExeId int64 `json:"ExeId"`
+type ExercicioHandlers struct {
+	service *application.ExercicioService
 }
 
-func ReadExercicios(context *gin.Context) {
-	var e EXERCICIO.Exercicio
+func NewExercicioHandlers(service *application.ExercicioService) *ExercicioHandlers {
+	return &ExercicioHandlers{service: service}
+}
+
+func (h *ExercicioHandlers) ReadExercicios(context *gin.Context) {
+	var e domain.Exercicio
 	if err := context.ShouldBindJSON(&e); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
 		return
 	}
 
-	Exercicios, err := EXERCICIO.ReadExercicios(e.ExeIdAcad)
+	Exercicios, err := h.service.ReadExercicios(e.ExeIdAcad)
 
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao ler dados"})
@@ -28,14 +33,14 @@ func ReadExercicios(context *gin.Context) {
 	context.JSON(http.StatusOK, Exercicios)
 }
 
-func ReadExercicioDet(context *gin.Context) {
-	var e EXERCICIO.Exercicio
+func (h *ExercicioHandlers) ReadExercicioDet(context *gin.Context) {
+	var e domain.Exercicio
 	if err := context.ShouldBindJSON(&e); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
 		return
 	}
 
-	Exercicio, err := EXERCICIO.ReadExercicioDet(e.ExeId, e.ExeIdAcad)
+	Exercicio, err := h.service.ReadExercicioDet(e.ExeId, e.ExeIdAcad)
 
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao ler dados"})
@@ -45,14 +50,14 @@ func ReadExercicioDet(context *gin.Context) {
 	context.JSON(http.StatusOK, Exercicio)
 }
 
-func RegisterExercicio(context *gin.Context) {
-	var e EXERCICIO.Exercicio
+func (h *ExercicioHandlers) RegisterExercicio(context *gin.Context) {
+	var e domain.Exercicio
 	if err := context.ShouldBindJSON(&e); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
 		return
 	}
 
-	if err := e.New(); err != nil {
+	if err := h.service.CreateExercicio(e); err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao ler dados"})
 		return
 	}
@@ -60,30 +65,29 @@ func RegisterExercicio(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{"message": "Sucesso"})
 }
 
-func ArchiveExercicio(context *gin.Context) {
-	var ExeId ExeIdData
+func (h *ExercicioHandlers) ArchiveExercicio(context *gin.Context) {
+	var ExeId domain.ExeIdData
 	if err := context.ShouldBindJSON(&ExeId); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
 		return
 	}
 
-	if err := EXERCICIO.ArchiveExercicio(ExeId.ExeId); err != nil {
+	if err := h.service.ArchiveExercicio(ExeId.ExeId); err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao Arquivar Exercicio"})
 		return
 	}
 
 	context.JSON(http.StatusOK, gin.H{"message": "Arquivado com sucesso"})
-
 }
 
-func UpdateExercicioDetalhes(context *gin.Context) {
-	var e EXERCICIO.Exercicio
+func (h *ExercicioHandlers) UpdateExercicioDetalhes(context *gin.Context) {
+	var e domain.Exercicio
 	if err := context.ShouldBindJSON(&e); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
 		return
 	}
 
-	if err := e.UpdateExercicioDetalhes(); err != nil {
+	if err := h.service.UpdateExercicioDetalhes(e); err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao Atualizar Detalhes do Exercicio"})
 		return
 	}
