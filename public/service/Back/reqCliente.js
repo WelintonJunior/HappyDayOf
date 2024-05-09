@@ -284,9 +284,7 @@ class ClienteServices extends FichaServices {
           break;
         case "EncerrarAtendimento":
           if (message.AteIdCliente === dados.CliId) {
-            console.log(message)
             const statusSatisfacao = await clienteServices.VerificarAtendimento(message.AteIdAcad, message.AteIdCliente);
-            console.log(statusSatisfacao)
             VerificarSatisfacaoAtendimento(statusSatisfacao, message.AteDateEncerramento, message.AteIdAcad, message.AteIdCliente);
           }
           break;

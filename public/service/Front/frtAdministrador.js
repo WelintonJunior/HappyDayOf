@@ -1057,6 +1057,10 @@ async function UpdateCampoFichaCliente(item, campo, celula, cliId, token) {
     data.detCampo = campoEditado;
     data.valor = novoValor;
     data.cliIdFicha = document.getElementById("cliIdAtual").value;
+    const dateTimeString = await getFormattedDateTime();
+    const dateOnly = dateTimeString.split(" ")[0];
+    data.detDataAdicionado = dateOnly
+
     if (novoValor == "") {
       await admServices.DeleteCampoFicha(data, token);
       await UpdateClienteFichaTreinoA(cliId, token);
@@ -1080,6 +1084,9 @@ async function UpdateCampoFichaCliente(item, campo, celula, cliId, token) {
       data.detCampo = campoEditado;
       data.valor = novoValor;
       data.cliIdFicha = document.getElementById("cliIdAtual").value;
+      const dateTimeString = await getFormattedDateTime();
+      const dateOnly = dateTimeString.split(" ")[0];
+      data.detDataAdicionado = dateOnly
       if (novoValor == "") {
         await admServices.DeleteCampoFicha(data, token);
         await UpdateClienteFichaTreinoA(cliId, token);
@@ -1185,7 +1192,7 @@ async function UpdateClienteFichaTreinoB(cliId, token) {
 
       camposSelecionados.forEach((campo) => {
         if (item.hasOwnProperty(campo)) {
-    
+
           let celula = linha.insertCell();
           celula.innerHTML = item[campo];
           celula.setAttribute("data-detId", item.DetId);

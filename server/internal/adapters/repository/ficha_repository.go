@@ -206,7 +206,7 @@ func (r *localFichaRepository) CreateFichaDetalhes(fd domain.FichaDetalhes) erro
 }
 
 func (r *localFichaRepository) UpdateFichaDetalhes(fd domain.FichaDetalhes) error {
-	query := "update tblFichaDetalhes set detVariacao = ?, detCarga = ?, detSerie = ?, detRepeticao = ? where detId = ?"
+	query := "update tblFichaDetalhes set detVariacao = ?, detCarga = ?, detSerie = ?, detRepeticao = ?, detDataAdicionado = ? where detId = ?"
 
 	stmt, err := database.DB.Prepare(query)
 
@@ -216,7 +216,7 @@ func (r *localFichaRepository) UpdateFichaDetalhes(fd domain.FichaDetalhes) erro
 
 	defer stmt.Close()
 
-	_, err = stmt.Exec(fd.DetVariacao, fd.DetCarga, fd.DetSerie, fd.DetRepeticao, fd.DetIdFicha)
+	_, err = stmt.Exec(fd.DetVariacao, fd.DetCarga, fd.DetSerie, fd.DetRepeticao, fd.DetIdFicha, fd.DetDataAdicionado)
 
 	if err != nil {
 		return err
@@ -228,7 +228,7 @@ func (r *localFichaRepository) UpdateFichaDetalhes(fd domain.FichaDetalhes) erro
 func (r *localFichaRepository) UpdateCampoFicha(cf domain.CampoFicha) error {
 	switch cf.DetCampo {
 	case "DetVariacao":
-		query := "update tblFichaDetalhes set detVariacao = ? where detId = ?"
+		query := "update tblFichaDetalhes set detVariacao = ?, detDataAdicionado = ? where detId = ?"
 		stmt, err := database.DB.Prepare(query)
 		if err != nil {
 			return err
@@ -236,7 +236,7 @@ func (r *localFichaRepository) UpdateCampoFicha(cf domain.CampoFicha) error {
 
 		defer stmt.Close()
 
-		_, err = stmt.Exec(cf.DetValor, cf.DetId)
+		_, err = stmt.Exec(cf.DetValor, cf.DetDataAdicionado, cf.DetId)
 
 		if err != nil {
 			return err
@@ -244,7 +244,7 @@ func (r *localFichaRepository) UpdateCampoFicha(cf domain.CampoFicha) error {
 
 		return nil
 	case "DetCarga":
-		query := "update tblFichaDetalhes set detCarga = ? where detId = ?"
+		query := "update tblFichaDetalhes set detCarga = ?, detDataAdicionado = ? where detId = ?"
 		stmt, err := database.DB.Prepare(query)
 		if err != nil {
 			return err
@@ -252,7 +252,7 @@ func (r *localFichaRepository) UpdateCampoFicha(cf domain.CampoFicha) error {
 
 		defer stmt.Close()
 
-		_, err = stmt.Exec(cf.DetValor, cf.DetId)
+		_, err = stmt.Exec(cf.DetValor, cf.DetDataAdicionado, cf.DetId)
 
 		if err != nil {
 			return err
@@ -260,7 +260,7 @@ func (r *localFichaRepository) UpdateCampoFicha(cf domain.CampoFicha) error {
 
 		return nil
 	case "DetSerie":
-		query := "update tblFichaDetalhes set detSerie = ? where detId = ?"
+		query := "update tblFichaDetalhes set detSerie = ?, detDataAdicionado = ? where detId = ?"
 		stmt, err := database.DB.Prepare(query)
 		if err != nil {
 			return err
@@ -268,7 +268,7 @@ func (r *localFichaRepository) UpdateCampoFicha(cf domain.CampoFicha) error {
 
 		defer stmt.Close()
 
-		_, err = stmt.Exec(cf.DetValor, cf.DetId)
+		_, err = stmt.Exec(cf.DetValor, cf.DetDataAdicionado, cf.DetId)
 
 		if err != nil {
 			return err
@@ -276,7 +276,7 @@ func (r *localFichaRepository) UpdateCampoFicha(cf domain.CampoFicha) error {
 
 		return nil
 	case "DetRepeticao":
-		query := "update tblFichaDetalhes set detRepeticao = ? where detId = ?"
+		query := "update tblFichaDetalhes set detRepeticao = ?, detDataAdicionado = ? where detId = ?"
 		stmt, err := database.DB.Prepare(query)
 		if err != nil {
 			return err
@@ -284,7 +284,7 @@ func (r *localFichaRepository) UpdateCampoFicha(cf domain.CampoFicha) error {
 
 		defer stmt.Close()
 
-		_, err = stmt.Exec(cf.DetValor, cf.DetId)
+		_, err = stmt.Exec(cf.DetValor, cf.DetDataAdicionado, cf.DetId)
 
 		if err != nil {
 			return err

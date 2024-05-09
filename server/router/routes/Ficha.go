@@ -145,6 +145,7 @@ func (h *FichaHandlers) UpdateCampoFicha(context *gin.Context) {
 	}
 
 	if err := h.service.UpdateCampoFicha(campoFicha); err != nil {
+		fmt.Println(err)
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao Atualizar Campo da Ficha"})
 		return
 	}

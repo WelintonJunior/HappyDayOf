@@ -32,7 +32,8 @@ type FicDet struct {
 }
 
 type CampoFicha struct {
-	DetCampo string
-	DetValor string
-	DetId    int64
+	DetCampo          string
+	DetValor          string
+	DetId             int64
+	DetDataAdicionado string
 }

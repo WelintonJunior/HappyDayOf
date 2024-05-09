@@ -120,7 +120,8 @@ class FichaServices {
         body: JSON.stringify({
           DetCampo: data.detCampo,
           DetValor: data.valor,
-          DetId: parseInt(data.detId)
+          DetId: parseInt(data.detId),
+          DetDataAdicionado: data.detDataAdicionado
         }),
       });
       const result = await response.json();
