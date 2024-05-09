@@ -1135,6 +1135,10 @@ async function UpdateClienteFichaTreinoA(cliId, token) {
           celula.setAttribute("data-detId", item.DetId);
           celula.setAttribute("data-campo", campo);
 
+          if (item[campo] === null) {
+            celula.innerHTML = 0;
+          }
+
           //Pra celular não funciona(LEMBRANDO EU MESMO) talvez mudar apenas para click
           celula.addEventListener("click", async (e) => {
             await UpdateCampoFichaCliente(item, campo, celula, cliId, token);
@@ -1181,10 +1185,15 @@ async function UpdateClienteFichaTreinoB(cliId, token) {
 
       camposSelecionados.forEach((campo) => {
         if (item.hasOwnProperty(campo)) {
+    
           let celula = linha.insertCell();
           celula.innerHTML = item[campo];
           celula.setAttribute("data-detId", item.DetId);
           celula.setAttribute("data-campo", campo);
+
+          if (item[campo] === null) {
+            celula.innerHTML = 0;
+          }
 
           celula.addEventListener("click", async (e) => {
             await UpdateCampoFichaCliente(item, campo, celula, cliId, token);
@@ -1235,6 +1244,10 @@ async function UpdateClienteFichaTreinoC(cliId, token) {
           celula.innerHTML = item[campo];
           celula.setAttribute("data-detId", item.DetId);
           celula.setAttribute("data-campo", campo);
+
+          if (item[campo] === null) {
+            celula.innerHTML = 0;
+          }
 
           celula.addEventListener("click", async (e) => {
             await UpdateCampoFichaCliente(item, campo, celula, cliId, token);

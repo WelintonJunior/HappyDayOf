@@ -18,9 +18,9 @@ type Ficha struct {
 type FichaDetalhes struct {
 	DetId             int64
 	DetVariacao       string
-	DetCarga          int64
-	DetSerie          int64
-	DetRepeticao      int64
+	DetCarga          *int64
+	DetSerie          *int64
+	DetRepeticao      *int64
 	DetIdFicha        int64
 	DetTreino         string
 	DetDataAdicionado string
