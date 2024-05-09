@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"fmt"
 	"net/http"
 
 	"example.com/fitConnect/internal/app/application"
@@ -112,6 +113,7 @@ func (h *FichaHandlers) RegisterDetalhesFicha(context *gin.Context) {
 	}
 
 	if err := h.service.CreateFichaDetalhes(detFicha); err != nil {
+		fmt.Println(err)
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao Cadastrar Detalhes da Ficha"})
 		return
 	}

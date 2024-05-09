@@ -16,3 +16,7 @@ func NewDesempenhoService(repo repository.DesempenhoRepository) *DesempenhoServi
 func (s *DesempenhoService) ReadDesempenho(IdCliente int64) ([]domain.Desempenho, error) {
 	return s.repo.ReadDesempenho(IdCliente)
 }
+
+func (s *DesempenhoService) ReadExerciciosForDesempenho(CliId int64) ([]domain.FicDet, error) {
+	return s.repo.ReadExerciciosForDesempenho(CliId)
+}

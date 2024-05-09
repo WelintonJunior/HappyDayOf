@@ -524,121 +524,103 @@ function mostrarModalObjetivo() {
   }, 2000);
 }
 
-
 async function renderDesempenhoChart(cliId, token) {
-  const desempenhos = await clienteServices.ReadDesempenho(cliId, token);
-  if (desempenhos) {
-    const meta = await clienteServices.ReadMeta(cliId, token)
-    btnCadastrarMeta.innerHTML = "Cadastrar Meta"
-    if (meta.MetId !== 0) {
-      const data = new Date(meta.MetDataCumprir);
-      const dia = data.getDate();
-      const mes = data.toLocaleString('default', { month: 'short' });
-      const ano = data.toLocaleString('default', { year: 'numeric' });
-      const dataFormatada = `${dia} ${mes} de ${ano}`;
-      document.getElementById("metaASerCumprida").innerHTML = `Meta deve ser cumprida até: ${dataFormatada}`
-      btnCadastrarMeta.innerHTML = "Alterar Meta"
-    }
+  let exercicios = await clienteServices.ReadExerciciosForDesempenho(cliId, token);
 
-    const modulo = btnCadastrarMeta.innerHTML;
-    if (modulo === "Cadastrar Meta") {
-      document.getElementById("txtModalMeta").innerHTML = "Criar Meta"
-    } else {
-      document.getElementById("txtModalMeta").innerHTML = "Alterar Meta"
-    }
-
+  if (exercicios) {
     const boxChartDesempenho = document.getElementById('boxChartDesempenho');
-
     if (boxChartDesempenho.chart) {
       boxChartDesempenho.chart.destroy();
     }
 
-    const labels = [];
-    const pesos = [];
-    const gorduras = [];
+    const exerciciosAgrupadosPorExercicio = {};
 
-    for (let i = 0; i < desempenhos.length; i++) {
-      const data = new Date(desempenhos[i].DesData);
-      const dia = data.getDate();
-      const mes = data.toLocaleString('default', { month: 'short' });
-      const ano = data.toLocaleString('default', { year: '2-digit' });
-      const dataFormatada = `${dia} ${mes} ${ano}`;
-      labels.push(dataFormatada);
-      pesos.push(desempenhos[i].DesPeso);
-      gorduras.push(desempenhos[i].DesGordura);
-    }
+    exercicios.forEach(exercicio => {
+      const nomeExercicio = exercicio.DetVariacao;
+      if (!exerciciosAgrupadosPorExercicio[nomeExercicio]) {
+        exerciciosAgrupadosPorExercicio[nomeExercicio] = {
+          label: nomeExercicio,
+          data: [],
+          borderColor: getRandomColor(),
+          fill: false,
+          spanGaps: true
+        };
+      }
+      exerciciosAgrupadosPorExercicio[nomeExercicio].data.push({
+        x: new Date(exercicio.DetDataAdicionado).toLocaleDateString('pt-BR'),
+        y: exercicio.DetCarga
+      });
+    });
+
+    const datasets = Object.values(exerciciosAgrupadosPorExercicio);
 
     const ctx = boxChartDesempenho.getContext('2d');
-    if (meta) {
-      boxChartDesempenho.chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'Peso',
-            data: pesos,
-            fill: false,
-            borderColor: '#e6194b',
-            tension: 0.1
-          }, {
-            label: 'Gordura (%)',
-            data: gorduras,
-            fill: false,
-            borderColor: '#3cb44b',
-            tension: 0.1
+    boxChartDesempenho.chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        datasets: datasets
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            type: 'time',
+            display: false, 
+            offset: false, 
+            time: {
+              parser: 'dd/MM/yyyy',
+              tooltipFormat: 'dd/MM/yyyy',
+              unit: 'day',
+              displayFormats: {
+                day: 'dd/MM/yyyy'
+              },
+              minUnit: 'day'
+            },
+            title: {
+              display: true,
+              text: 'Data'
+            }
+          },
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Carga'
+            }
           }
-            , {
-            label: 'Meta de Peso',
-            data: Array(labels.length).fill(meta.MetPeso),
-            fill: false,
-            borderColor: '#e6194b',
-            borderDash: [5, 5],
-            tension: 0
-          }, {
-            label: 'Meta de Gordura (%)',
-            data: Array(labels.length).fill(meta.MetGordura),
-            fill: false,
-            borderColor: '#3cb44b',
-            borderDash: [5, 5],
-            tension: 0
-          }
-          ]
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false
-        }
-
-      });
-    } else {
-      boxChartDesempenho.chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'Peso',
-            data: pesos,
-            fill: false,
-            borderColor: '#e6194b',
-            tension: 0.1
-          }, {
-            label: 'Gordura (%)',
-            data: gorduras,
-            fill: false,
-            borderColor: '#3cb44b',
-            tension: 0.1
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top'
           }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false
         }
-
-      });
-    }
-  } 
+      }
+    });
+  }
 }
+
+
+
+
+
+
+
+
+
+
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+
+
 
 formMeta.addEventListener("submit", async (e) => {
   e.preventDefault();

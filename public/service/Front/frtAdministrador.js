@@ -1949,9 +1949,15 @@ async function handleClick(item) {
       detCarga: 0,
       detSerie: 0,
       detRepeticao: 0,
+      detDataAdicionado: ""
     };
     const cliIdFichaTreino = document.getElementById("cliIdFichaTreino").value;
     const idFicha = document.getElementById("idCriarFichaTreino").value;
+
+    const dateTimeString = await getFormattedDateTime();
+    const dateOnly = dateTimeString.split(" ")[0]; // Pega apenas a parte da data
+    data.detDataAdicionado = dateOnly
+
     switch (auxInner) {
       case "A":
         data.detIdFicha = idFicha;

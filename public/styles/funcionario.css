@@ -14,6 +14,19 @@ body {
   max-height: 300px;
 }
 
+.itemExercicioCriarFicha {
+  border: 1px solid black;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;

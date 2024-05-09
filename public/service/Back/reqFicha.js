@@ -99,7 +99,8 @@ class FichaServices {
           DetCarga: data.detCarga,
           DetSerie: data.detSerie,
           DetRepeticao: data.detRepeticao,
-          DetTreino: data.detTreino
+          DetTreino: data.detTreino,
+          DetDataAdicionado: data.detDataAdicionado
         })
       })
       const result = await response.json();

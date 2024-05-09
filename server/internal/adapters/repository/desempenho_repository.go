@@ -9,6 +9,7 @@ import (
 
 type DesempenhoRepository interface {
 	ReadDesempenho(IdCliente int64) ([]domain.Desempenho, error)
+	ReadExerciciosForDesempenho(CliId int64) ([]domain.FicDet, error)
 }
 
 type localDesempenhoRepository struct{}
@@ -40,4 +41,36 @@ func (r *localDesempenhoRepository) ReadDesempenho(IdCliente int64) ([]domain.De
 	}
 
 	return desempenhos, nil
+}
+
+func (r *localDesempenhoRepository) ReadExerciciosForDesempenho(CliId int64) ([]domain.FicDet, error) {
+	query := `SELECT 
+    d.detVariacao, 
+    d.detDataAdicionado,
+    d.detCarga FROM tblFichaDetalhes AS d
+LEFT JOIN tblFicha AS f ON d.detIdFicha = f.ficId 
+LEFT JOIN tblExercicios AS e ON e.exeNome = d.detVariacao
+WHERE f.ficIdCliente = ? AND e.exeApaId != 1 order by detDataAdicionado;`
+
+	rows, err := database.DB.Query(query, CliId)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var exercicios []domain.FicDet
+	for rows.Next() {
+		var e domain.FicDet
+		if err := rows.Scan(&e.DetVariacao, &e.DetDataAdicionado, &e.DetCarga); err != nil {
+			if err == sql.ErrNoRows {
+				return nil, nil
+			}
+			return nil, err
+		}
+		exercicios = append(exercicios, e)
+	}
+
+	return exercicios, nil
 }

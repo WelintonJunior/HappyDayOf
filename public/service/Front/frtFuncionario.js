@@ -169,7 +169,6 @@ window.onclick = function (event) {
 //Abrir Modal Atendimento
 
 btnCadastrarAtendimento.addEventListener("click", (e) => {
-  console.log("Botão Cadastrar Atendimento clicado");
   e.preventDefault();
   modalCadastrarAtendimento.style.display = "block";
 });
@@ -383,7 +382,7 @@ async function UpdateListaAtendimento(token, filtroNome = "") {
             let content = "";
             if (item[campo] === 1) {
               content = `<span class="text-success">Aberto</span>`;
-              InserirAbaFichaCliente(item); // Adicionar a aba do cliente se o atendimento estiver aberto
+              InserirAbaFichaCliente(item);
             } else {
               content = `<span class="text-danger">Fechado</span>`;
             }
@@ -431,7 +430,6 @@ async function UpdateListaAtendimento(token, filtroNome = "") {
 
   document.getElementById("tableAtendimento").appendChild(tabela);
 }
-
 
 //Atualizar a Lista de Fichas
 
@@ -495,8 +493,10 @@ async function UpdateListaClienteFicha(token, filtroNome = "") {
         botaoCriarFicha.textContent = "Criar";
         botaoCriarFicha.addEventListener("click", async function () {
           document.getElementById("funFicha").innerHTML = "";
+          await UpdateCriarFichaTreinoA(item.CliId, token)
           await PreencherSelectProfessores();
           modalCriarBaseFicha.style.display = "block";
+          // introJs().start();
           document.getElementById("cliIdFicha").value = item.CliId;
         });
         celulaBotao.appendChild(botaoCriarFicha);
@@ -535,9 +535,9 @@ async function UpdateCampoFichaCliente(item, campo, celula, cliId, token) {
     data.cliIdFicha = document.getElementById("cliIdAtual").value;
     if (novoValor == "") {
       await funServices.DeleteCampoFicha(data, token);
-      await UpdateClienteFichaTreinoA(cliId, token);
-      await UpdateClienteFichaTreinoB(cliId, token);
-      await UpdateClienteFichaTreinoC(cliId, token);
+      await UpdateClienteFichaTreinoA("listaTreinoA", cliId, token);
+      await UpdateClienteFichaTreinoB("listaTreinoB", cliId, token);
+      await UpdateClienteFichaTreinoC("listaTreinoC", cliId, token);
       if (celula.parentElement.parentElement.querySelectorAll('td').length === 1) {
         celula.parentElement.parentElement.parentElement.remove();
       }
@@ -558,9 +558,9 @@ async function UpdateCampoFichaCliente(item, campo, celula, cliId, token) {
       data.cliIdFicha = document.getElementById("cliIdAtual").value;
       if (novoValor == "") {
         await funServices.DeleteCampoFicha(data, token);
-        await UpdateClienteFichaTreinoA(cliId, token);
-        await UpdateClienteFichaTreinoB(cliId, token);
-        await UpdateClienteFichaTreinoC(cliId, token);
+        await UpdateClienteFichaTreinoA("listaTreinoA", cliId, token);
+        await UpdateClienteFichaTreinoB("listaTreinoB", cliId, token);
+        await UpdateClienteFichaTreinoC("listaTreinoC", cliId, token);
 
         if (celula.parentElement.parentElement.querySelectorAll('td').length === 4) {
           celula.parentElement.parentElement.parentElement.remove();
@@ -572,6 +572,185 @@ async function UpdateCampoFichaCliente(item, campo, celula, cliId, token) {
     }
   });
 }
+
+btnVoltarTelaFicha.addEventListener("click", async (e) => {
+  await UpdateListaClienteFicha(token);
+  MostrarTela("TelaFicha");
+})
+
+
+//Função de mostrar a tela de detalhes do cliente
+
+async function MostrarTelaDetalhesCliente(cliId, token) {
+  const result = await funServices.ReadClienteDetalhes(idAcademia, cliId, token);
+  MostrarTela();
+  TelaDetalhesClientes.style.display = "block";
+
+  Object.keys(result).forEach((key) => {
+    let input = formDetCliente.querySelector(`[name="${key}"]`);
+    if (input) {
+      if (input.type === "date") {
+        let dateValue = new Date(result[key]).toISOString().split("T")[0];
+        input.value = dateValue;
+      } else {
+        input.value = result[key];
+      }
+    }
+  });
+
+  if (result.CliStatus == 1) {
+    btnArchiveCliente.classList.remove("d-none")
+    btnAtivarCliente.classList.add("d-none")
+  } else {
+    btnAtivarCliente.classList.remove("d-none")
+    btnArchiveCliente.classList.add("d-none")
+  }
+
+  btnEditarDetalhesCliente.addEventListener("click", (e) => {
+    e.preventDefault();
+    Object.keys(result).forEach((key) => {
+      let input = formDetCliente.querySelector(`[name="${key}"]`);
+      if (input) {
+        input.removeAttribute("disabled");
+      }
+    });
+    e.target.style.display = "none";
+    btnEnviarDetalhesCliente.style.display = "block";
+  });
+}
+
+//Função de Edição CLiente
+
+
+btnEnviarDetalhesCliente.addEventListener("click", async (e) => {
+  e.preventDefault();
+  let cliId = document.getElementById("cliDetId").value;
+  const fd = new FormData(formDetCliente);
+  const data = Object.fromEntries(fd.entries());
+  data.cliId = cliId;
+  if (verificarNumeros(data.cliNome)) {
+    alert("O nome não pode conter números");
+    return;
+  }
+  const result = await funServices.UpdateClienteDetalhes(data, token);
+  Object.keys(result).forEach((key) => {
+    let input = formDetCliente.querySelector(`[name="${key}"]`);
+    if (input) {
+      input.setAttribute("disabled", "disabled");
+    }
+  });
+  formDetCliente.reset();
+  await UpdateListaClienteFicha(token);
+  // await UpdateListaClienteFicha();
+  await UpdateListaCliente(token);
+  MostrarTela("TelaClientes");
+});
+
+
+//Função de mostrar o modal Arquivar Cliente
+
+btnArchiveCliente.addEventListener("click", async (e) => {
+  e.preventDefault();
+  modalArquivarCliente.style.display = "block";
+});
+
+//Função de Arquivamento Cliente
+
+formArquivarCliente.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  let cliId = document.getElementById("cliDetId").value;
+  await funServices.ArchiveCliente(cliId, token);
+  formDetCliente.reset();
+  modalArquivarCliente.style.display = "none";
+  await UpdateListaClienteFicha(token);
+  await UpdateListaCliente(token);
+  MostrarTela("TelaClientes");
+});
+
+//Ativar
+
+btnAtivarCliente.addEventListener("click", async (e) => {
+  e.preventDefault();
+  let cliDetId = document.getElementById("cliDetId").value
+  await funServices.AtivarCliente(cliDetId, token)
+  await UpdateListaCliente(token);
+  MostrarTela("TelaClientes")
+})
+// btnAtivarAparelho.addEventListener("click", async (e) => {
+//   e.preventDefault();
+//   let apaDetId = document.getElementById("apaDetId").value
+//   await funServices.AtivarAparelho(apaDetId, token)
+//   await UpdateListaAparelho(token)
+//   MostrarTela("TelaAparelhos")
+// })
+// btnAtivarExercicio.addEventListener("click", async (e) => {
+//   e.preventDefault();
+//   let exeDetId = document.getElementById("exeDetId").value
+//   await funServices.AtivarExercicio(exeDetId, token)
+//   await UpdateListaExercicio(token)
+//   MostrarTela("TelaExercicios")
+// })
+
+//Reload Chart Meu Desempenho
+
+let reloadBtnMeuDesempenho = document.getElementById("reloadBtnMeuDesempenho")
+reloadBtnMeuDesempenho.addEventListener("click", async (e) => {
+  e.preventDefault();
+  const boxChartMeuDesempenho = document.getElementById('boxChartMeuDesempenho');
+  boxChartMeuDesempenho.innerHTML = '';
+  await renderMeuDesempenhoChart();
+});
+
+
+//LOGOUT
+
+document.getElementById("btnLogout").addEventListener("click", (e) => {
+  e.preventDefault();
+  funServices.login.handleLogout();
+});
+
+//CHECKBOX POSSUI RESTRIÇÕES
+
+CheckBoxRestricoes.addEventListener("change", (e) => {
+  document.getElementById("ficTipoRestricoes").value = "";
+  if (CheckBoxRestricoes.checked) {
+    document.getElementById("ficTipoRestricoesSpan").style.display = "block";
+  } else {
+    document.getElementById("ficTipoRestricoesSpan").style.display = "none";
+  }
+});
+
+
+
+//Form Cadastrar Atendimento
+formCadastrarAtendimento.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const data = Object.fromEntries(fd.entries());
+  const dateNow = getFormattedDateTime();
+  data.dateNow = dateNow;
+  data.funId = dados.FunId;
+  const result = await funServices.ValidacaoAtendimento(idAcademia, data, token);
+  if (result) {
+    await funServices.RegisterAtendimento(idAcademia, data, token);
+    await InserirAbaFichaCliente(data);
+    await UpdateListaAtendimento(token);
+    modalCadastrarAtendimento.style.display = "none";
+  } else {
+    alert("Já possui um Atendimento em aberto");
+    modalCadastrarAtendimento.style.display = "none";
+  }
+});
+
+//Inserir aba
+const abasClientes = document.getElementById("abasClientes");
+const cardBody = document.getElementById("card-body");
+
+abasClientes.addEventListener("click", function (event) {
+  if (event.target.id === "abaListaAtendimento") {
+    AlterarAbaListaFicha();
+  }
+});
 
 
 async function UpdateClienteFichaTreinoA(lista, cliId, token) {
@@ -724,190 +903,20 @@ async function UpdateClienteFichaTreinoC(lista, cliId, token) {
   }
 }
 
-
-btnVoltarTelaFicha.addEventListener("click", async (e) => {
-  await UpdateListaClienteFicha(token);
-  MostrarTela("TelaFicha");
-})
-
-
-//Função de mostrar a tela de detalhes do cliente
-
-async function MostrarTelaDetalhesCliente(cliId, token) {
-  const result = await funServices.ReadClienteDetalhes(idAcademia, cliId, token);
-  MostrarTela();
-  TelaDetalhesClientes.style.display = "block";
-
-  Object.keys(result).forEach((key) => {
-    let input = formDetCliente.querySelector(`[name="${key}"]`);
-    if (input) {
-      if (input.type === "date") {
-        let dateValue = new Date(result[key]).toISOString().split("T")[0];
-        input.value = dateValue;
-      } else {
-        input.value = result[key];
-      }
-    }
-  });
-
-  if (result.CliStatus == 1) {
-    btnArchiveCliente.classList.remove("d-none")
-    btnAtivarCliente.classList.add("d-none")
-  } else {
-    btnAtivarCliente.classList.remove("d-none")
-    btnArchiveCliente.classList.add("d-none")
-  }
-
-  btnEditarDetalhesCliente.addEventListener("click", (e) => {
-    e.preventDefault();
-    Object.keys(result).forEach((key) => {
-      let input = formDetCliente.querySelector(`[name="${key}"]`);
-      if (input) {
-        input.removeAttribute("disabled");
-      }
-    });
-    e.target.style.display = "none";
-    btnEnviarDetalhesCliente.style.display = "block";
-  });
-}
-
-//Função de Edição CLiente
-
-
-btnEnviarDetalhesCliente.addEventListener("click", async (e) => {
-  e.preventDefault();
-  let cliId = document.getElementById("cliDetId").value;
-  const fd = new FormData(formDetCliente);
-  const data = Object.fromEntries(fd.entries());
-  data.cliId = cliId;
-  if (verificarNumeros(data.cliNome)) {
-    alert("O nome não pode conter números");
-    return;
-  }
-  const result = await funServices.UpdateClienteDetalhes(data, token);
-  Object.keys(result).forEach((key) => {
-    let input = formDetCliente.querySelector(`[name="${key}"]`);
-    if (input) {
-      input.setAttribute("disabled", "disabled");
-    }
-  });
-  formDetCliente.reset();
-  await UpdateListaClienteFicha(token);
-  // await UpdateListaClienteFicha();
-  await UpdateListaCliente(token);
-  MostrarTela("TelaClientes");
-});
-
-
-//Função de mostrar o modal Arquivar Cliente
-
-btnArchiveCliente.addEventListener("click", async (e) => {
-  e.preventDefault();
-  modalArquivarCliente.style.display = "block";
-});
-
-//Função de Arquivamento Cliente
-
-formArquivarCliente.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  let cliId = document.getElementById("cliDetId").value;
-  await funServices.ArchiveCliente(cliId, token);
-  formDetCliente.reset();
-  modalArquivarCliente.style.display = "none";
-  await UpdateListaClienteFicha(token);
-  await UpdateListaCliente(token);
-  MostrarTela("TelaClientes");
-});
-
-//Ativar
-
-btnAtivarCliente.addEventListener("click", async (e) => {
-  e.preventDefault();
-  let cliDetId = document.getElementById("cliDetId").value
-  await funServices.AtivarCliente(cliDetId, token)
-  await UpdateListaCliente(token);
-  MostrarTela("TelaClientes")
-})
-// btnAtivarAparelho.addEventListener("click", async (e) => {
-//   e.preventDefault();
-//   let apaDetId = document.getElementById("apaDetId").value
-//   await funServices.AtivarAparelho(apaDetId, token)
-//   await UpdateListaAparelho(token)
-//   MostrarTela("TelaAparelhos")
-// })
-// btnAtivarExercicio.addEventListener("click", async (e) => {
-//   e.preventDefault();
-//   let exeDetId = document.getElementById("exeDetId").value
-//   await funServices.AtivarExercicio(exeDetId, token)
-//   await UpdateListaExercicio(token)
-//   MostrarTela("TelaExercicios")
-// })
-
-//Reload Chart Meu Desempenho
-
-let reloadBtnMeuDesempenho = document.getElementById("reloadBtnMeuDesempenho")
-reloadBtnMeuDesempenho.addEventListener("click", async (e) => {
-  e.preventDefault();
-  const boxChartMeuDesempenho = document.getElementById('boxChartMeuDesempenho');
-  boxChartMeuDesempenho.innerHTML = '';
-  await renderMeuDesempenhoChart();
-});
-
-
-//LOGOUT
-
-document.getElementById("btnLogout").addEventListener("click", (e) => {
-  e.preventDefault();
-  funServices.login.handleLogout();
-});
-
-//CHECKBOX POSSUI RESTRIÇÕES
-
-CheckBoxRestricoes.addEventListener("change", (e) => {
-  document.getElementById("ficTipoRestricoes").value = "";
-  if (CheckBoxRestricoes.checked) {
-    document.getElementById("ficTipoRestricoesSpan").style.display = "block";
-  } else {
-    document.getElementById("ficTipoRestricoesSpan").style.display = "none";
-  }
-});
-
-
-//Form Cadastrar Atendimento
-formCadastrarAtendimento.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const fd = new FormData(e.target);
-  const data = Object.fromEntries(fd.entries());
-  const dateNow = getFormattedDateTime();
-  data.dateNow = dateNow;
-  data.funId = dados.FunId;
-  const result = await funServices.ValidacaoAtendimento(idAcademia, data, token);
-  if (result) {
-    await funServices.RegisterAtendimento(idAcademia, data, token);
-    await InserirAbaFichaCliente(data);
-    await UpdateListaAtendimento(token);
-    modalCadastrarAtendimento.style.display = "none";
-  } else {
-    alert("Já possui um Atendimento em aberto");
-    modalCadastrarAtendimento.style.display = "none";
-  }
-});
-
-//Inserir aba
-const abasClientes = document.getElementById("abasClientes");
-const cardBody = document.getElementById("card-body");
-
-abasClientes.addEventListener("click", function (event) {
-  if (event.target.id === "abaListaAtendimento") {
-    AlterarAbaListaFicha();
-  }
-});
-
 async function InserirAbaFichaCliente(atendimento) {
   const result = await funServices.ReadFichaDetalhesGeral(atendimento.ateIdCliente != undefined ? atendimento.ateIdCliente : atendimento.AteIdCliente, token);
   const dadosCliente = await funServices.ReadClienteDetalhes(
-    idAcademia, result[0].FicIdCliente, token
+    idAcademia, atendimento.AteIdCliente, token
   );
+
+  if (result.length === 0) {
+    alert(`${dadosCliente.CliNome} não possui ficha cadastrada!`)
+    return
+  }
+
+  if (dadosCliente.length === 0) {
+    return
+  }
 
   if (!document.getElementById(`telaCliente${dadosCliente.CliId}`)) {
     const divCliente = document.createElement("div");
@@ -970,11 +979,13 @@ async function InserirAbaFichaCliente(atendimento) {
   `;
 
     cardBody.appendChild(divCliente);
+    if (dadosCliente.CliId != 0 && dadosCliente.CliId != null) {
+      abasClientes.innerHTML += `     
+    <li  class="nav-item">
+      <a id="abaCliente${dadosCliente.CliId}" onclick="AlterarAbaFichaCliente(${dadosCliente.CliId})" class="nav-link" href="#">${dadosCliente.CliNome}</a>
+    </li>`;
+    }
 
-    abasClientes.innerHTML += `     
-  <li  class="nav-item">
-    <a id="abaCliente${dadosCliente.CliId}" onclick="AlterarAbaFichaCliente(${dadosCliente.CliId})" class="nav-link" href="#">${dadosCliente.CliNome}</a>
-  </li>`;
   }
 }
 
@@ -1041,6 +1052,7 @@ formCriarBaseFicha.addEventListener("submit", async (e) => {
 });
 
 async function MostrarTelaCriarFicha(cliId, token) {
+  showLoading()
   MostrarTela();
   // document.getElementById("sidebarHeader").style.paddingTop = "100px"
   TelaCriarFicha.style.display = "block";
@@ -1054,19 +1066,11 @@ async function MostrarTelaCriarFicha(cliId, token) {
   const dadosFuncionario = await funServices.ReadFuncionarioDetalhes(
     idAcademia, result[0].FicIdFuncionario, token
   );
-  document.getElementById("idFichaTreinoA").value =
-    result.length > 0 ? result[0].FicId : result.FicId;
-  document.getElementById("idFichaTreinoB").value =
-    result.length > 0 ? result[0].FicId : result.FicId;
-  document.getElementById("idFichaTreinoC").value =
+  document.getElementById("idCriarFichaTreino").value =
     result.length > 0 ? result[0].FicId : result.FicId;
   document.getElementById("cliIdAtual").value =
     result.length > 0 ? result[0].FicIdCliente : result.FicIdCliente;
-  document.getElementById("cliIdFichaTreinoA").value =
-    result.length > 0 ? result[0].FicIdCliente : result.FicIdCliente;
-  document.getElementById("cliIdFichaTreinoB").value =
-    result.length > 0 ? result[0].FicIdCliente : result.FicIdCliente;
-  document.getElementById("cliIdFichaTreinoC").value =
+  document.getElementById("cliIdFichaTreino").value =
     result.length > 0 ? result[0].FicIdCliente : result.FicIdCliente;
   document.getElementById("cliNomeCriarFicha").innerHTML = dadosCliente.CliNome;
   document.getElementById("funNomeCriarFicha").innerHTML =
@@ -1093,7 +1097,10 @@ async function MostrarTelaCriarFicha(cliId, token) {
   }
   document.getElementById("cliIntervaloCriarFicha").innerHTML =
     result.length > 0 ? result[0].FicIntervalo : result.ficIntervalo;
+  await PreencherBoxExercicios();
+  hideLoading()
 }
+
 
 async function PreencherSelectProfessores(token) {
   const result = await funServices.ReadFuncionario(1, idAcademia, token);
@@ -1119,72 +1126,6 @@ async function PreencherSelectClienteAtendimento(token) {
   }
 }
 
-formInserirTreinoA.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const fd = new FormData(e.target);
-  const data = Object.fromEntries(fd.entries());
-  const cliIdFichaTreinoA = document.getElementById("cliIdFichaTreinoA").value;
-  const idFicha = document.getElementById("idFichaTreinoA").value;
-  data.detIdFicha = idFicha;
-  data.detTreino = "A";
-  const verificacao = await verificarForm(data);
-  data.cliIdFicha = document.getElementById("cliIdAtual").value;
-  if (!verificacao) {
-    const result = await funServices.RegisterDetalhesFicha(data, token);
-    await UpdateClienteFichaTreinoA("listaTreinoA", cliIdFichaTreinoA, token);
-    formInserirTreinoA.querySelector(`[name="detVariacao"]`).value = "";
-    formInserirTreinoA.querySelector(`[name="detSerie"]`).value = "";
-    formInserirTreinoA.querySelector(`[name="detRepeticao"]`).value = "";
-    formInserirTreinoA.querySelector(`[name="detCarga"]`).value = "";
-  } else {
-    alert("Você precisa preencher todos os campos")
-  }
-});
-
-formInserirTreinoB.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const fd = new FormData(e.target);
-  const data = Object.fromEntries(fd.entries());
-  const cliIdFichaTreinoB = document.getElementById("cliIdFichaTreinoB").value;
-  const idFicha = document.getElementById("idFichaTreinoB").value;
-  data.detIdFicha = idFicha;
-  data.detTreino = "B";
-  const verificacao = await verificarForm(data);
-  data.cliIdFicha = document.getElementById("cliIdAtual").value;
-  if (!verificacao) {
-    const result = await funServices.RegisterDetalhesFicha(data, token);
-    await UpdateClienteFichaTreinoB("listaTreinoB", cliIdFichaTreinoB, token);
-    formInserirTreinoB.querySelector(`[name="detVariacao"]`).value = "";
-    formInserirTreinoB.querySelector(`[name="detSerie"]`).value = "";
-    formInserirTreinoB.querySelector(`[name="detRepeticao"]`).value = "";
-    formInserirTreinoB.querySelector(`[name="detCarga"]`).value = "";
-  } else {
-    alert("Você precisa preencher todos os campos")
-  }
-});
-
-formInserirTreinoC.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const fd = new FormData(e.target);
-  const data = Object.fromEntries(fd.entries());
-  const cliIdFichaTreinoC = document.getElementById("cliIdFichaTreinoC").value;
-  const idFicha = document.getElementById("idFichaTreinoC").value;
-  data.detIdFicha = idFicha;
-  data.detTreino = "C";
-  const verificacao = await verificarForm(data);
-  data.cliIdFicha = document.getElementById("cliIdAtual").value;
-  if (!verificacao) {
-    const result = await funServices.RegisterDetalhesFicha(data, token);
-    await UpdateClienteFichaTreinoC("listaTreinoC", cliIdFichaTreinoC, token);
-    formInserirTreinoC.querySelector(`[name="detVariacao"]`).value = "";
-    formInserirTreinoC.querySelector(`[name="detSerie"]`).value = "";
-    formInserirTreinoC.querySelector(`[name="detRepeticao"]`).value = "";
-    formInserirTreinoC.querySelector(`[name="detCarga"]`).value = "";
-  } else {
-    alert("Você precisa preencher todos os campos")
-  }
-});
-
 function MostrarTela(tela) {
   let inputsCliente = formDetCliente.querySelectorAll(
     "input, select, textarea"
@@ -1202,9 +1143,6 @@ function MostrarTela(tela) {
   document.getElementById("listaTreinoC").innerHTML = "";
   formDetCliente.reset();
   formCriarBaseFicha.reset();
-  formInserirTreinoA.reset();
-  formInserirTreinoB.reset();
-  formInserirTreinoC.reset();
   switch (tela) {
     case "TelaAtendimento":
       btnAtendimento.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
@@ -1303,6 +1241,267 @@ pesquisarAtendimento.addEventListener("keyup", async (e) => {
   const nomePesquisa = e.target.value;
   await UpdateListaAtendimento(token, nomePesquisa);
 })
+
+//Criar Ficha
+
+const innerA = document.getElementById("innerA");
+const innerB = document.getElementById("innerB");
+const innerC = document.getElementById("innerC");
+let auxInner = "";
+
+function ZerarAuxIneer() {
+  innerA.style.border = "none"
+  innerB.style.border = "none"
+  innerC.style.border = "none"
+  auxInner = "";
+}
+
+innerA.addEventListener('click', (e) => {
+  ZerarAuxIneer();
+  auxInner = "A"
+  innerA.style.border = "1px solid black"
+
+})
+innerB.addEventListener('click', (e) => {
+  ZerarAuxIneer();
+  auxInner = "B"
+  innerB.style.border = "1px solid black"
+
+})
+innerC.addEventListener('click', (e) => {
+  ZerarAuxIneer();
+  auxInner = "C"
+  innerC.style.border = "1px solid black"
+
+})
+
+async function PreencherBoxExercicios() {
+  const result = await funServices.ReadExercicio(idAcademia, token);
+  let BoxExerciciosFicha = document.getElementById("BoxExerciciosFicha");
+  ZerarAuxIneer()
+  BoxExerciciosFicha.innerHTML = ""
+
+  result.forEach((item) => {
+    if (item.ExeStatus === 1) {
+      let exercicioDiv = document.createElement("div");
+      exercicioDiv.id = `itemExercicio${item.ExeId}`;
+      exercicioDiv.className = "itemExercicioCriarFicha cursor-pointer";
+      exercicioDiv.style.width = "30%"
+      exercicioDiv.textContent = item.ExeNome;
+      exercicioDiv.addEventListener("click", () => handleClick(item));
+      BoxExerciciosFicha.appendChild(exercicioDiv);
+    }
+  });
+
+}
+
+async function handleClick(item) {
+  if (auxInner === "") {
+    alert("Você precisa selecionar um tipo!")
+    return
+  } else {
+    let data = {
+      detIdFicha: 0,
+      detTreino: 0,
+      cliIdFicha: 0,
+      detVariacao: 0,
+      detCarga: 0,
+      detSerie: 0,
+      detRepeticao: 0,
+      detDataAdicionado: ""
+    };
+    const cliIdFichaTreino = document.getElementById("cliIdFichaTreino").value;
+    const idFicha = document.getElementById("idCriarFichaTreino").value;
+
+    const dateTimeString = await getFormattedDateTime();
+    const dateOnly = dateTimeString.split(" ")[0]; // Pega apenas a parte da data
+    data.detDataAdicionado = dateOnly
+
+    switch (auxInner) {
+      case "A":
+        data.detIdFicha = idFicha;
+        data.detTreino = "A";
+        data.cliIdFicha = document.getElementById("cliIdAtual").value;
+        data.detVariacao = item.ExeNome
+        data.detCarga = 0
+        data.detSerie = 0
+        data.detRepeticao = 0
+        await funServices.RegisterDetalhesFicha(data, token);
+        await UpdateCriarFichaTreinoA(cliIdFichaTreino, token);
+        break;
+      case "B":
+        data.detIdFicha = idFicha;
+        data.detTreino = "B";
+        data.cliIdFicha = document.getElementById("cliIdAtual").value;
+        data.detVariacao = item.ExeNome
+        data.detCarga = 0
+        data.detSerie = 0
+        data.detRepeticao = 0
+        await funServices.RegisterDetalhesFicha(data, token);
+        await UpdateCriarFichaTreinoB(cliIdFichaTreino, token);
+        break;
+      case "C":
+        data.detIdFicha = idFicha;
+        data.detTreino = "C";
+        data.cliIdFicha = document.getElementById("cliIdAtual").value;
+        data.detVariacao = item.ExeNome
+        data.detCarga = 0
+        data.detSerie = 0
+        data.detRepeticao = 0
+        await funServices.RegisterDetalhesFicha(data, token);
+        await UpdateCriarFichaTreinoC(cliIdFichaTreino, token);
+        break;
+    }
+  }
+}
+
+async function UpdateCriarFichaTreinoA(cliId, token) {
+  const result = await funServices.ReadFichaDetalhes(cliId, "A", token);
+  //Colocar em alguma lista
+  if (result) {
+    const containerTabela = document.getElementById("listaTreinoA");
+    const tabelaExistente = containerTabela.querySelector("table");
+    if (tabelaExistente) {
+      containerTabela.removeChild(tabelaExistente);
+    }
+    const tabela = document.createElement("table");
+    tabela.setAttribute("border", "1");
+
+    const cabecalho = tabela.createTHead();
+    const linhaCabecalho = cabecalho.insertRow();
+    const titulos = ["Variação", "Carga", "Serie", "Repetição"];
+    titulos.forEach((texto) => {
+      let th = document.createElement("th");
+      th.textContent = texto;
+      linhaCabecalho.appendChild(th);
+    });
+
+    const corpoTabela = tabela.appendChild(document.createElement("tbody"));
+
+    result.forEach((item) => {
+      const linha = corpoTabela.insertRow();
+      const camposSelecionados = [
+        "DetVariacao",
+        "DetCarga",
+        "DetSerie",
+        "DetRepeticao",
+      ];
+      camposSelecionados.forEach((campo) => {
+        if (item.hasOwnProperty(campo)) {
+          let celula = linha.insertCell();
+          celula.innerHTML = item[campo];
+          celula.setAttribute("data-detId", item.DetId);
+          celula.setAttribute("data-campo", campo);
+
+          //Pra celular não funciona(LEMBRANDO EU MESMO) talvez mudar apenas para click
+          celula.addEventListener("click", async (e) => {
+            await UpdateCampoFichaCliente(item, campo, celula, cliId, token);
+          });
+        }
+      });
+    });
+
+    document.getElementById("listaTreinoA").appendChild(tabela);
+  }
+}
+async function UpdateCriarFichaTreinoB(cliId, token) {
+  const result = await funServices.ReadFichaDetalhes(cliId, "B", token);
+  //Colocar em alguma lista
+  if (result) {
+    const containerTabela = document.getElementById("listaTreinoB");
+    const tabelaExistente = containerTabela.querySelector("table");
+    if (tabelaExistente) {
+      containerTabela.removeChild(tabelaExistente);
+    }
+    const tabela = document.createElement("table");
+    tabela.setAttribute("border", "1");
+
+    const cabecalho = tabela.createTHead();
+    const linhaCabecalho = cabecalho.insertRow();
+    const titulos = ["Variação", "Carga", "Serie", "Repetição"];
+    titulos.forEach((texto) => {
+      let th = document.createElement("th");
+      th.textContent = texto;
+      linhaCabecalho.appendChild(th);
+    });
+
+    const corpoTabela = tabela.appendChild(document.createElement("tbody"));
+
+    result.forEach((item) => {
+      const linha = corpoTabela.insertRow();
+      const camposSelecionados = [
+        "DetVariacao",
+        "DetCarga",
+        "DetSerie",
+        "DetRepeticao",
+      ];
+      camposSelecionados.forEach((campo) => {
+        if (item.hasOwnProperty(campo)) {
+          let celula = linha.insertCell();
+          celula.innerHTML = item[campo];
+          celula.setAttribute("data-detId", item.DetId);
+          celula.setAttribute("data-campo", campo);
+
+          //Pra celular não funciona(LEMBRANDO EU MESMO) talvez mudar apenas para click
+          celula.addEventListener("click", async (e) => {
+            await UpdateCampoFichaCliente(item, campo, celula, cliId, token);
+          });
+        }
+      });
+    });
+
+    document.getElementById("listaTreinoB").appendChild(tabela);
+  }
+}
+async function UpdateCriarFichaTreinoC(cliId, token) {
+  const result = await funServices.ReadFichaDetalhes(cliId, "C", token);
+  //Colocar em alguma lista
+  if (result) {
+    const containerTabela = document.getElementById("listaTreinoC");
+    const tabelaExistente = containerTabela.querySelector("table");
+    if (tabelaExistente) {
+      containerTabela.removeChild(tabelaExistente);
+    }
+    const tabela = document.createElement("table");
+    tabela.setAttribute("border", "1");
+
+    const cabecalho = tabela.createTHead();
+    const linhaCabecalho = cabecalho.insertRow();
+    const titulos = ["Variação", "Carga", "Serie", "Repetição"];
+    titulos.forEach((texto) => {
+      let th = document.createElement("th");
+      th.textContent = texto;
+      linhaCabecalho.appendChild(th);
+    });
+
+    const corpoTabela = tabela.appendChild(document.createElement("tbody"));
+
+    result.forEach((item) => {
+      const linha = corpoTabela.insertRow();
+      const camposSelecionados = [
+        "DetVariacao",
+        "DetCarga",
+        "DetSerie",
+        "DetRepeticao",
+      ];
+      camposSelecionados.forEach((campo) => {
+        if (item.hasOwnProperty(campo)) {
+          let celula = linha.insertCell();
+          celula.innerHTML = item[campo];
+          celula.setAttribute("data-detId", item.DetId);
+          celula.setAttribute("data-campo", campo);
+
+          //Pra celular não funciona(LEMBRANDO EU MESMO) talvez mudar apenas para click
+          celula.addEventListener("click", async (e) => {
+            await UpdateCampoFichaCliente(item, campo, celula, cliId, token);
+          });
+        }
+      });
+    });
+
+    document.getElementById("listaTreinoC").appendChild(tabela);
+  }
+}
 
 function showLoading() {
   document.getElementById('loadingOverlay').style.display = 'block';

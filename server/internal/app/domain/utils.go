@@ -25,8 +25,9 @@ type ExeIdData struct {
 }
 
 type CliTipo struct {
-	CliId int64
-	Tipo  string
+	CliId             int64
+	Tipo              string
+	DetHoraAdicionado string
 }
 
 type CliFicha struct {

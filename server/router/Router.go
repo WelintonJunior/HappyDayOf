@@ -39,6 +39,7 @@ func SatisfacaoRoutes(server *gin.Engine, handlers *routes.SatisfacaoHandlers) {
 
 func DesempenhoRoutes(server *gin.Engine, handlers *routes.DesempenhoHandlers) {
 	server.POST("/Desempenho/ReadDesempenho", handlers.ReadDesempenho)
+	server.POST("/Desempenho/ReadExerciciosForDesempenho", handlers.ReadExerciciosForDesempenho)
 }
 
 func MetaRoutes(server *gin.Engine, handlers *routes.MetaHandlers) {

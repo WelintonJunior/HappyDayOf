@@ -94,7 +94,7 @@ func (r *localFichaRepository) ReadFichaDetalhes(CliId int64, Tipo string) ([]an
 		}
 
 		var fd domain.FicDet
-		if err := rows.Scan(&fd.FicId, &fd.FicIdCliente, &fd.FicIdFuncionario, &fd.FicIdAcademia, &fd.FicIntervalo, &fd.FicRestricoes, &fd.FicTipoRestricoes, &fd.DetId, &fd.DetVariacao, &fd.DetCarga, &fd.DetSerie, &fd.DetRepeticao, &fd.DetIdFicha, &fd.DetTreino); err != nil {
+		if err := rows.Scan(&fd.FicId, &fd.FicIdCliente, &fd.FicIdFuncionario, &fd.FicIdAcademia, &fd.FicIntervalo, &fd.FicRestricoes, &fd.FicTipoRestricoes, &fd.DetId, &fd.DetVariacao, &fd.DetCarga, &fd.DetSerie, &fd.DetRepeticao, &fd.DetIdFicha, &fd.DetTreino, &fd.DetDataAdicionado); err != nil {
 			if err == sql.ErrNoRows {
 				return nil, nil
 			}
@@ -138,7 +138,7 @@ func (r *localFichaRepository) ReadFichaDetalhesGeral(CliId int64) ([]any, error
 		}
 
 		var fd domain.FicDet
-		if err := rows.Scan(&fd.FicId, &fd.FicIdCliente, &fd.FicIdFuncionario, &fd.FicIdAcademia, &fd.FicIntervalo, &fd.FicRestricoes, &fd.FicTipoRestricoes, &fd.DetId, &fd.DetVariacao, &fd.DetCarga, &fd.DetSerie, &fd.DetRepeticao, &fd.DetIdFicha, &fd.DetTreino); err != nil {
+		if err := rows.Scan(&fd.FicId, &fd.FicIdCliente, &fd.FicIdFuncionario, &fd.FicIdAcademia, &fd.FicIntervalo, &fd.FicRestricoes, &fd.FicTipoRestricoes, &fd.DetId, &fd.DetVariacao, &fd.DetCarga, &fd.DetSerie, &fd.DetRepeticao, &fd.DetIdFicha, &fd.DetTreino, &fd.DetDataAdicionado); err != nil {
 			if err == sql.ErrNoRows {
 				return []any{}, nil
 			}
@@ -186,7 +186,7 @@ func (r *localFichaRepository) CreateFicha(f domain.Ficha) error {
 }
 
 func (r *localFichaRepository) CreateFichaDetalhes(fd domain.FichaDetalhes) error {
-	query := "insert into tblFichaDetalhes values (default, ?, ?, ?, ?, ?, ?)"
+	query := "insert into tblFichaDetalhes values (default, ?, ?, ?, ?, ?, ?, ?)"
 
 	stmt, err := database.DB.Prepare(query)
 
@@ -196,7 +196,7 @@ func (r *localFichaRepository) CreateFichaDetalhes(fd domain.FichaDetalhes) erro
 
 	defer stmt.Close()
 
-	_, err = stmt.Exec(fd.DetVariacao, fd.DetCarga, fd.DetSerie, fd.DetRepeticao, fd.DetIdFicha, fd.DetTreino)
+	_, err = stmt.Exec(fd.DetVariacao, fd.DetCarga, fd.DetSerie, fd.DetRepeticao, fd.DetIdFicha, fd.DetTreino, fd.DetDataAdicionado)
 
 	if err != nil {
 		return err
