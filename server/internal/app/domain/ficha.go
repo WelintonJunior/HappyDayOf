@@ -24,11 +24,13 @@ type FichaDetalhes struct {
 	DetIdFicha        int64
 	DetTreino         string
 	DetDataAdicionado string
+	DetStatus         int64
 }
 
 type FicDet struct {
 	Ficha
 	FichaDetalhes
+	Exercicio
 }
 
 type CampoFicha struct {

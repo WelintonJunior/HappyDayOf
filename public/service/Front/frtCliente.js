@@ -168,6 +168,8 @@ btnPerfil.addEventListener("click", (e) => {
 document.addEventListener("DOMContentLoaded", async function () {
   await MostrarTelaCriarFicha(idCliente, token)
   await renderDesempenhoChart(idCliente, token)
+  await preencherMetaExercicios(idCliente, token)
+  await RenderListaMeta(token)
 });
 
 //Função para pegar os dados da api de cep e jogar nos campos
@@ -207,8 +209,10 @@ async function UpdateClienteFichaTreinoA(cliId, token) {
     });
 
     const corpoTabela = tabela.appendChild(document.createElement("tbody"));
-
-    result.forEach((item) => {
+    for (const item of result) {
+      if (item.DetStatus === 0) {
+        continue;
+      }
       const linha = corpoTabela.insertRow();
       const camposSelecionados = [
         "DetVariacao",
@@ -218,13 +222,19 @@ async function UpdateClienteFichaTreinoA(cliId, token) {
       ];
       camposSelecionados.forEach((campo) => {
         if (item.hasOwnProperty(campo)) {
+
+          if (campo === "DetStatus") {
+            if (item[campo] === 0) {
+              return
+            }
+          }
           let celula = linha.insertCell();
           celula.innerHTML = item[campo];
           celula.setAttribute("data-detId", item.DetId);
           celula.setAttribute("data-campo", campo);
         }
       });
-    });
+    };
 
     document.getElementById("listaTreinoA").appendChild(tabela);
   }
@@ -232,16 +242,16 @@ async function UpdateClienteFichaTreinoA(cliId, token) {
 
 async function UpdateClienteFichaTreinoB(cliId, token) {
   const result = await clienteServices.ReadFichaDetalhes(cliId, "B", token);
-  //Colocar em alguma lista
+
   if (result.length > 0) {
     const containerTabela = document.getElementById("listaTreinoB");
     const tabelaExistente = containerTabela.querySelector("table");
     if (tabelaExistente) {
       containerTabela.removeChild(tabelaExistente);
     }
+
     const tabela = document.createElement("table");
     tabela.setAttribute("border", "1");
-
     const cabecalho = tabela.createTHead();
     const linhaCabecalho = cabecalho.insertRow();
     const titulos = ["Variação", "Carga", "Serie", "Repetição"];
@@ -253,14 +263,13 @@ async function UpdateClienteFichaTreinoB(cliId, token) {
 
     const corpoTabela = tabela.appendChild(document.createElement("tbody"));
 
-    result.forEach((item) => {
+    for (const item of result) {
+      if (item.DetStatus === 0) {
+        continue;
+      }
+
       const linha = corpoTabela.insertRow();
-      const camposSelecionados = [
-        "DetVariacao",
-        "DetCarga",
-        "DetSerie",
-        "DetRepeticao",
-      ];
+      const camposSelecionados = ["DetVariacao", "DetCarga", "DetSerie", "DetRepeticao"];
 
       camposSelecionados.forEach((campo) => {
         if (item.hasOwnProperty(campo)) {
@@ -268,14 +277,14 @@ async function UpdateClienteFichaTreinoB(cliId, token) {
           celula.innerHTML = item[campo];
           celula.setAttribute("data-detId", item.DetId);
           celula.setAttribute("data-campo", campo);
-
         }
       });
-    });
+    }
 
     document.getElementById("listaTreinoB").appendChild(tabela);
   }
 }
+
 
 async function UpdateClienteFichaTreinoC(cliId, token) {
   const result = await clienteServices.ReadFichaDetalhes(cliId, "C", token);
@@ -300,7 +309,12 @@ async function UpdateClienteFichaTreinoC(cliId, token) {
 
     const corpoTabela = tabela.appendChild(document.createElement("tbody"));
 
-    result.forEach((item) => {
+
+    for (const item of result) {
+      if (item.DetStatus === 0) {
+        continue;
+      }
+
       const linha = corpoTabela.insertRow();
       const camposSelecionados = [
         "DetVariacao",
@@ -311,6 +325,14 @@ async function UpdateClienteFichaTreinoC(cliId, token) {
 
       camposSelecionados.forEach((campo) => {
         if (item.hasOwnProperty(campo)) {
+
+
+          if (campo === "DetStatus") {
+            if (item[campo] === 0) {
+              return
+            }
+          }
+
           let celula = linha.insertCell();
           celula.innerHTML = item[campo];
           celula.setAttribute("data-detId", item.detId);
@@ -318,7 +340,7 @@ async function UpdateClienteFichaTreinoC(cliId, token) {
 
         }
       });
-    });
+    };
 
     document.getElementById("listaTreinoC").appendChild(tabela);
   }
@@ -566,8 +588,8 @@ async function renderDesempenhoChart(cliId, token) {
         scales: {
           x: {
             type: 'time',
-            display: false, 
-            offset: false, 
+            display: false,
+            offset: false,
             time: {
               parser: 'dd/MM/yyyy',
               tooltipFormat: 'dd/MM/yyyy',
@@ -601,15 +623,6 @@ async function renderDesempenhoChart(cliId, token) {
   }
 }
 
-
-
-
-
-
-
-
-
-
 function getRandomColor() {
   var letters = '0123456789ABCDEF';
   var color = '#';
@@ -619,38 +632,52 @@ function getRandomColor() {
   return color;
 }
 
-
-
-
 formMeta.addEventListener("submit", async (e) => {
   e.preventDefault();
   const fd = new FormData(e.target)
   const data = Object.fromEntries(fd.entries())
   data.cliId = idCliente
-  const modulo = btnCadastrarMeta.innerHTML;
-  if (modulo === "Cadastrar Meta") {
-    document.getElementById("txtModalMeta").innerHTML = "Criar Meta"
-    const result = await clienteServices.RegisterMeta(data, idAcademia, token)
-  } else {
-    const MetaAtual = await clienteServices.ReadMetaAtual(data.cliId, idAcademia, token)
-    document.getElementById("txtModalMeta").innerHTML = "Alterar Meta"
-    document.getElementById("modalAvisoMeta").style.display = "block"
-    document.getElementById("btnAvisoSim").addEventListener("click", async (e) => {
-      e.preventDefault();
-      data.idMetaAtual = MetaAtual.MetId
-      await clienteServices.UpdateMeta(data, token)
-      await renderDesempenhoChart(idCliente, token);
-      document.getElementById("modalAvisoMeta").style.display = "none"
-    })
-    document.getElementById("btnAvisoNao").addEventListener("click", async (e) => {
-      e.preventDefault();
-      document.getElementById("modalAvisoMeta").style.display = "none"
-    })
+  if (data.metCarga <= 0) {
+    alert("Carga inválida")
+    return
   }
-  await renderDesempenhoChart(idCliente, token);
+  await clienteServices.RegisterMeta(data, idAcademia, token)
+
+  await RenderListaMeta(token)
+
+  // await clienteServices.UpdateMeta(data, token)
   document.getElementById("modalRegisterMeta").style.display = "none"
   e.target.reset();
 })
+
+async function RenderListaMeta(token) {
+  const result = await clienteServices.ReadMetas(idCliente, token)
+  let itemsMeta = document.getElementById("itemsMeta")
+  itemsMeta.innerHTML = ""
+
+  let count = 1
+
+  result.forEach((item) => {
+    let content = `<div class="col-1"></div><div class="itemsMeta row col-11 my-2 align-items-center">
+    <div class="col-md-2">
+      ${count}.
+    </div>
+    <div class="col-md-2">
+      ${item.ExeNome}
+    </div>
+    <div class="col-md-2">
+      Carga ${item.MetCarga}
+    </div>
+    <div class="col-md-6">
+      <span>Cumprir Até ${new Date(item.MetDataCumprir).toLocaleDateString('pt-BR')}</span>
+    </div>
+  </div>`
+    itemsMeta.innerHTML += content
+    count++
+  })
+
+
+}
 
 reloadBtnDesempenho.addEventListener("click", async (e) => {
   e.preventDefault();
@@ -671,6 +698,12 @@ btnCadastrarMeta.addEventListener("click", async (e) => {
   document.getElementById("modalRegisterMeta").style.display = "block"
 })
 
-
+async function preencherMetaExercicios(idCliente, token) {
+  const result = await clienteServices.ReadExerciciosFichaCliente(idCliente, token)
+  const exeMetaNome = document.getElementById("exeMetaNome")
+  for (i = 0; i < result.length; i++) {
+    exeMetaNome.innerHTML += `<option value= ${result[i].DetId}>${result[i].DetVariacao}</option>`
+  }
+}
 
 

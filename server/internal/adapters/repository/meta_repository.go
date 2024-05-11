@@ -8,7 +8,7 @@ import (
 )
 
 type MetaRepository interface {
-	ReadMeta(IdCliente int64) (domain.Meta, error)
+	ReadMetas(IdCliente int64) ([]domain.Meta, error)
 	CreateMeta(m domain.Meta) error
 	UpdateMeta(m domain.Meta) error
 	ReadMetaAtual(idCliente, idAcademia int64) (domain.Meta, error)
@@ -20,23 +20,33 @@ func NewLocalMetaRepository() *localMetaRepository {
 	return &localMetaRepository{}
 }
 
-func (r *localMetaRepository) ReadMeta(IdCliente int64) (domain.Meta, error) {
-	query := "select * from tblMeta where metIdCliente = ? and metStatus = 1"
-	row := database.DB.QueryRow(query, IdCliente)
+func (r *localMetaRepository) ReadMetas(IdCliente int64) ([]domain.Meta, error) {
+	query := "select m.*, e.exeNome from tblMeta as m left join tblFichaDetalhes as d on m.metIdExercicio = d.detId left join tblExercicios as e on d.detVariacao = e.exeNome where m.metStatus = 1 and m.metIdCliente = ?;"
+	rows, err := database.DB.Query(query, IdCliente)
 
-	var m domain.Meta
-	if err := row.Scan(&m.MetId, &m.MetIdCliente, &m.MetGordura, &m.MetPeso, &m.MetDataCumprir, &m.MetStatus, &m.MetStatusAlterar, &m.MetIdAcad); err != nil {
-		if err == sql.ErrNoRows {
-			return domain.Meta{}, nil
-		}
-		return domain.Meta{}, err
+	if err != nil {
+		return nil, err
 	}
 
-	return m, nil
+	defer rows.Close()
+
+	var metas []domain.Meta
+	for rows.Next() {
+		var m domain.Meta
+		if err := rows.Scan(&m.MetId, &m.MetIdCliente, &m.MetDataCumprir, &m.MetStatus, &m.MetStatusAlterar, &m.MetIdAcad, &m.MetCarga, &m.MetIdExercicio, &m.ExeNome); err != nil {
+			if err == sql.ErrNoRows {
+				return nil, nil
+			}
+			return nil, err
+		}
+		metas = append(metas, m)
+	}
+
+	return metas, nil
 }
 
 func (r *localMetaRepository) CreateMeta(m domain.Meta) error {
-	query := "insert into tblMeta values (default, ?, ?, ?, ?, 1, 0, ?)"
+	query := "insert into tblMeta values (default, ?, ?, 1, 0, ?, ?, ?)"
 	stmt, err := database.DB.Prepare(query)
 	if err != nil {
 		return err
@@ -44,7 +54,7 @@ func (r *localMetaRepository) CreateMeta(m domain.Meta) error {
 
 	defer stmt.Close()
 
-	_, err = stmt.Exec(m.MetIdCliente, m.MetGordura, m.MetPeso, m.MetDataCumprir, m.MetIdAcad)
+	_, err = stmt.Exec(m.MetIdCliente, m.MetDataCumprir, m.MetIdAcad, m.MetCarga, m.MetIdExercicio)
 
 	if err != nil {
 		return err
@@ -54,7 +64,7 @@ func (r *localMetaRepository) CreateMeta(m domain.Meta) error {
 }
 
 func (r *localMetaRepository) UpdateMeta(m domain.Meta) error {
-	query := "update tblMeta set metGordura = ?, metPeso = ?, metDataCumprir = ?, metStatusAlterar = 1 where metId = ?"
+	query := "update tblMeta set metDataCumprir = ?, metStatusAlterar = 1 where metId = ?"
 	stmt, err := database.DB.Prepare(query)
 	if err != nil {
 		return err
@@ -62,7 +72,7 @@ func (r *localMetaRepository) UpdateMeta(m domain.Meta) error {
 
 	defer stmt.Close()
 
-	_, err = stmt.Exec(m.MetGordura, m.MetPeso, m.MetDataCumprir, m.MetId)
+	_, err = stmt.Exec(m.MetDataCumprir, m.MetId)
 
 	if err != nil {
 		return err

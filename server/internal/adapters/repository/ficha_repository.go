@@ -94,7 +94,7 @@ func (r *localFichaRepository) ReadFichaDetalhes(CliId int64, Tipo string) ([]an
 		}
 
 		var fd domain.FicDet
-		if err := rows.Scan(&fd.FicId, &fd.FicIdCliente, &fd.FicIdFuncionario, &fd.FicIdAcademia, &fd.FicIntervalo, &fd.FicRestricoes, &fd.FicTipoRestricoes, &fd.DetId, &fd.DetVariacao, &fd.DetCarga, &fd.DetSerie, &fd.DetRepeticao, &fd.DetIdFicha, &fd.DetTreino, &fd.DetDataAdicionado); err != nil {
+		if err := rows.Scan(&fd.FicId, &fd.FicIdCliente, &fd.FicIdFuncionario, &fd.FicIdAcademia, &fd.FicIntervalo, &fd.FicRestricoes, &fd.FicTipoRestricoes, &fd.DetId, &fd.DetVariacao, &fd.DetCarga, &fd.DetSerie, &fd.DetRepeticao, &fd.DetIdFicha, &fd.DetTreino, &fd.DetDataAdicionado, &fd.DetStatus); err != nil {
 			if err == sql.ErrNoRows {
 				return nil, nil
 			}
@@ -138,7 +138,7 @@ func (r *localFichaRepository) ReadFichaDetalhesGeral(CliId int64) ([]any, error
 		}
 
 		var fd domain.FicDet
-		if err := rows.Scan(&fd.FicId, &fd.FicIdCliente, &fd.FicIdFuncionario, &fd.FicIdAcademia, &fd.FicIntervalo, &fd.FicRestricoes, &fd.FicTipoRestricoes, &fd.DetId, &fd.DetVariacao, &fd.DetCarga, &fd.DetSerie, &fd.DetRepeticao, &fd.DetIdFicha, &fd.DetTreino, &fd.DetDataAdicionado); err != nil {
+		if err := rows.Scan(&fd.FicId, &fd.FicIdCliente, &fd.FicIdFuncionario, &fd.FicIdAcademia, &fd.FicIntervalo, &fd.FicRestricoes, &fd.FicTipoRestricoes, &fd.DetId, &fd.DetVariacao, &fd.DetCarga, &fd.DetSerie, &fd.DetRepeticao, &fd.DetIdFicha, &fd.DetTreino, &fd.DetDataAdicionado, &fd.DetStatus); err != nil {
 			if err == sql.ErrNoRows {
 				return []any{}, nil
 			}
@@ -186,7 +186,7 @@ func (r *localFichaRepository) CreateFicha(f domain.Ficha) error {
 }
 
 func (r *localFichaRepository) CreateFichaDetalhes(fd domain.FichaDetalhes) error {
-	query := "insert into tblFichaDetalhes values (default, ?, ?, ?, ?, ?, ?, ?)"
+	query := "insert into tblFichaDetalhes values (default, ?, ?, ?, ?, ?, ?, ?, 1)"
 
 	stmt, err := database.DB.Prepare(query)
 
@@ -297,7 +297,7 @@ func (r *localFichaRepository) UpdateCampoFicha(cf domain.CampoFicha) error {
 }
 
 func (r *localFichaRepository) DeleteCampoFicha(DetId int64) error {
-	query := "delete from tblFichaDetalhes where detId = ?"
+	query := "update tblFichaDetalhes set detStatus = 0 where detId = ?"
 	stmt, err := database.DB.Prepare(query)
 
 	if err != nil {

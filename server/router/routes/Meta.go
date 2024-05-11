@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"fmt"
 	"net/http"
 
 	"example.com/fitConnect/internal/app/application"
@@ -16,7 +17,7 @@ func NewMetaHandlers(service *application.MetaService) *MetaHandlers {
 	return &MetaHandlers{service: service}
 }
 
-func (h *MetaHandlers) ReadMeta(context *gin.Context) {
+func (h *MetaHandlers) ReadMetas(context *gin.Context) {
 	var m domain.Meta
 
 	if err := context.ShouldBindJSON(&m); err != nil {
@@ -24,14 +25,15 @@ func (h *MetaHandlers) ReadMeta(context *gin.Context) {
 		return
 	}
 
-	meta, err := h.service.ReadMeta(m.MetIdCliente)
+	metas, err := h.service.ReadMetas(m.MetIdCliente)
 
 	if err != nil {
+		fmt.Println(err)
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao ler dados"})
 		return
 	}
 
-	context.JSON(http.StatusOK, meta)
+	context.JSON(http.StatusOK, metas)
 }
 
 func (h *MetaHandlers) RegisterMeta(context *gin.Context) {
@@ -43,6 +45,7 @@ func (h *MetaHandlers) RegisterMeta(context *gin.Context) {
 	}
 
 	if err := h.service.CreateMeta(m); err != nil {
+		fmt.Println(err)
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao ler dados"})
 		return
 	}

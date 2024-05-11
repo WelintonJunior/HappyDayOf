@@ -51,3 +51,22 @@ func (h *DesempenhoHandlers) ReadExerciciosForDesempenho(context *gin.Context) {
 
 	context.JSON(http.StatusOK, exercicios)
 }
+
+func (h *DesempenhoHandlers) ReadExerciciosFichaCliente(context *gin.Context) {
+	var CliId int64
+	if err := context.ShouldBindJSON(&CliId); err != nil {
+		fmt.Print(err)
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber id do cliente"})
+		return
+	}
+
+	exercicios, err := h.service.ReadExerciciosFichaCliente(CliId)
+
+	if err != nil {
+		fmt.Println(err)
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao let exercicios da ficha do cliente"})
+		return
+	}
+
+	context.JSON(http.StatusOK, exercicios)
+}

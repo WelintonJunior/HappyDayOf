@@ -38,3 +38,9 @@
   .btn{
     padding: 150px;
   }
+
+  .itemsMeta {
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0.1em 0.1em 1em black;
+  }

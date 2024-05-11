@@ -191,9 +191,9 @@ class ClienteServices extends FichaServices {
       headers: { "Content-Type": "application/json", "Authorization": `${token}` },
       body: JSON.stringify({
         MetIdCliente: parseInt(data.cliId),
+        MetIdExercicio: parseInt(data.ExeId),
+        MetCarga: parseFloat(data.metCarga),
         MetDataCumprir: data.dataCumprir,
-        MetGordura: parseFloat(data.metaGordura),
-        MetPeso: parseFloat(data.metaPeso),
         MetIdAcad: parseInt(idAcademia),
       })
     })
@@ -201,8 +201,8 @@ class ClienteServices extends FichaServices {
     return result
   }
 
-  async ReadMeta(cliId, token) {
-    const response = await fetch("/Meta/ReadMeta", {
+  async ReadMetas(cliId, token) {
+    const response = await fetch("/Meta/ReadMetas", {
       method: "POST",
       headers: { "Content-Type": "application/json", "Authorization": `${token}` },
       body: JSON.stringify({
@@ -265,6 +265,16 @@ class ClienteServices extends FichaServices {
       console.error("Erro ao ler exercicios")
       throw err
     }
+  }
+
+  async ReadExerciciosFichaCliente(CliId, token) {
+    const response = await fetch("/Desempenho/ReadExerciciosFichaCliente", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": token },
+      body: JSON.stringify(parseInt(CliId))
+    })
+    const result = await response.json()
+    return result
   }
 
   connectWebSocket() {

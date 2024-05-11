@@ -10,6 +10,7 @@ import (
 type DesempenhoRepository interface {
 	ReadDesempenho(IdCliente int64) ([]domain.Desempenho, error)
 	ReadExerciciosForDesempenho(CliId int64) ([]domain.FicDet, error)
+	ReadExerciciosFichaCliente(CliId int64) ([]domain.FicDet, error)
 }
 
 type localDesempenhoRepository struct{}
@@ -45,6 +46,7 @@ func (r *localDesempenhoRepository) ReadDesempenho(IdCliente int64) ([]domain.De
 
 func (r *localDesempenhoRepository) ReadExerciciosForDesempenho(CliId int64) ([]domain.FicDet, error) {
 	query := `SELECT 
+	d.detId,
     d.detVariacao, 
     d.detDataAdicionado,
     d.detCarga FROM tblFichaDetalhes AS d
@@ -63,7 +65,33 @@ WHERE f.ficIdCliente = ? AND e.exeApaId != 1 order by detDataAdicionado;`
 	var exercicios []domain.FicDet
 	for rows.Next() {
 		var e domain.FicDet
-		if err := rows.Scan(&e.DetVariacao, &e.DetDataAdicionado, &e.DetCarga); err != nil {
+		if err := rows.Scan(&e.DetId, &e.DetVariacao, &e.DetDataAdicionado, &e.DetCarga); err != nil {
+			if err == sql.ErrNoRows {
+				return nil, nil
+			}
+			return nil, err
+		}
+		exercicios = append(exercicios, e)
+	}
+
+	return exercicios, nil
+}
+
+func (r *localDesempenhoRepository) ReadExerciciosFichaCliente(CliId int64) ([]domain.FicDet, error) {
+	query := `SELECT d.detVariacao, MAX(d.detId) as detId FROM tblFichaDetalhes as d INNER JOIN tblFicha as f ON f.ficIdCliente = ? GROUP BY d.detVariacao;
+`
+	rows, err := database.DB.Query(query, CliId)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var exercicios []domain.FicDet
+	for rows.Next() {
+		var e domain.FicDet
+		if err := rows.Scan(&e.DetVariacao, &e.DetId); err != nil {
 			if err == sql.ErrNoRows {
 				return nil, nil
 			}

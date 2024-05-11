@@ -20,3 +20,7 @@ func (s *DesempenhoService) ReadDesempenho(IdCliente int64) ([]domain.Desempenho
 func (s *DesempenhoService) ReadExerciciosForDesempenho(CliId int64) ([]domain.FicDet, error) {
 	return s.repo.ReadExerciciosForDesempenho(CliId)
 }
+
+func (s *DesempenhoService) ReadExerciciosFichaCliente(CliId int64) ([]domain.FicDet, error) {
+	return s.repo.ReadExerciciosFichaCliente(CliId)
+}

@@ -124,7 +124,9 @@
                 <button id="btnCadastrarMeta" class="btn btn-info mt-3 mb-3 ">Cadastrar Nova Meta</button>
 
                 <div class="listMetas">
-                  asdasd
+                  <div class="row" id="itemsMeta">
+                    
+                  </div>
                 </div>
 
               </div>
@@ -459,43 +461,37 @@
           <div class="modal-dialog d-flex align-items-center justify-content-center" style="height: 80vh;">
             <div class="modal-content">
               <div class="modal-header">
-                <h2 id="txtModalMeta"></h2>
+                <h2 id="txtModalMeta">Cadastrar Meta</h2>
                 <span id="fecharModalRegisterMeta" class="fechar">&times;</span>
               </div>
               <div class="p-5">
                 <form id="formMeta">
 
-                  <label for="metaPeso">Meta de Peso:</label>
+                  <!-- <label for="metaPeso">Meta de Peso:</label>
                   <input type="number" class="form-control mb-3" name="metaPeso" placeholder="Digite sua meta de peso">
 
                   <label for="metaGordura">Meta de Gordura (%):</label>
                   <input type="number" class="form-control mb-3" name="metaGordura"
-                    placeholder="Digite sua meta de gordura">
+                    placeholder="Digite sua meta de gordura"> -->
 
-                  <label for="dataCumprir">Data para cumprir a meta:</label>
-                  <input type="date" class="form-control mb-3" name="dataCumprir">
+                  <div class="input-group input-group-modal col-md-12  mb-5">
+                    <div class="col-sm-12"> Selecione o Exercicio</div>
+                    <select class="form-select col-md-12" name="ExeId" id="exeMetaNome"></select>
+                  </div>
+
+                  <div class="input-group input-group-modal col-md-12  mb-5">
+                    <div class="col-sm-12"> Digite a Carga</div>
+                    <input type="number" class="form-control col-md-12" name="metCarga" id="metCarga" required></input>
+                  </div>
+
+                  <div class="input-group input-group-modal col-md-12  mb-5">
+                    <div class="col-sm-12"> Data para cumprir a meta</div>
+                    <input type="date" class="form-control mb-3" name="dataCumprir" required>
+                  </div>
+
 
                   <button class="btn btn-success" type="submit">Enviar</button>
 
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Modal Aviso Meta -->
-        <div id="modalAvisoMeta" class="modal" tabindex="-1">
-          <div class="modal-dialog d-flex align-items-center justify-content-center" style="height: 80vh;">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h2 id="txtModalMeta"></h2>
-              </div>
-              <div class="p-5">
-                <form id="formAvisoMeta">
-                  <h3 class="text-danger">Você só pode mudar a meta uma vez!</h3>
-                  <h2>Deseja Prosseguir?</h2>
-                  <button class="btn btn-warning" id="btnAvisoSim" type="submit">Sim</button>
-                  <button class="btn btn-info" id="btnAvisoNao" type="submit">Não</button>
                 </form>
               </div>
             </div>

@@ -40,10 +40,11 @@ func SatisfacaoRoutes(server *gin.Engine, handlers *routes.SatisfacaoHandlers) {
 func DesempenhoRoutes(server *gin.Engine, handlers *routes.DesempenhoHandlers) {
 	server.POST("/Desempenho/ReadDesempenho", handlers.ReadDesempenho)
 	server.POST("/Desempenho/ReadExerciciosForDesempenho", handlers.ReadExerciciosForDesempenho)
+	server.POST("/Desempenho/ReadExerciciosFichaCliente", handlers.ReadExerciciosFichaCliente)
 }
 
 func MetaRoutes(server *gin.Engine, handlers *routes.MetaHandlers) {
-	server.POST("/Meta/ReadMeta", handlers.ReadMeta)
+	server.POST("/Meta/ReadMetas", handlers.ReadMetas)
 	server.POST("/Meta/RegisterMeta", handlers.RegisterMeta)
 	server.POST("/Meta/UpdateMeta", handlers.UpdateMeta)
 	server.POST("/Meta/ReadMetaAtual", handlers.ReadMetaAtual)

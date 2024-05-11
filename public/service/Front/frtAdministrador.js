@@ -1127,15 +1127,21 @@ async function UpdateClienteFichaTreinoA(cliId, token) {
 
     const corpoTabela = tabela.appendChild(document.createElement("tbody"));
 
-    result.forEach((item) => {
+    for (const item of result) {
+      if (item.DetStatus === 0) {
+        continue;
+      }
+
       const linha = corpoTabela.insertRow();
       const camposSelecionados = [
         "DetVariacao",
         "DetCarga",
         "DetSerie",
         "DetRepeticao",
+        "DetStatus"
       ];
       camposSelecionados.forEach((campo) => {
+        console.log(campo)
         if (item.hasOwnProperty(campo)) {
           let celula = linha.insertCell();
           celula.innerHTML = item[campo];
@@ -1152,7 +1158,7 @@ async function UpdateClienteFichaTreinoA(cliId, token) {
           });
         }
       });
-    });
+    };
 
     document.getElementById("listaTreinoA").appendChild(tabela);
   }
@@ -1181,7 +1187,11 @@ async function UpdateClienteFichaTreinoB(cliId, token) {
 
     const corpoTabela = tabela.appendChild(document.createElement("tbody"));
 
-    result.forEach((item) => {
+    for (const item of result) {
+      if (item.DetStatus === 0) {
+        continue;
+      }
+
       const linha = corpoTabela.insertRow();
       const camposSelecionados = [
         "DetVariacao",
@@ -1207,7 +1217,7 @@ async function UpdateClienteFichaTreinoB(cliId, token) {
           });
         }
       });
-    });
+    };
 
     document.getElementById("listaTreinoB").appendChild(tabela);
   }
@@ -1236,7 +1246,12 @@ async function UpdateClienteFichaTreinoC(cliId, token) {
 
     const corpoTabela = tabela.appendChild(document.createElement("tbody"));
 
-    result.forEach((item) => {
+
+    for (const item of result) {
+      console.log(item)
+      if (item.DetStatus === 0) {
+        continue;
+      }
       const linha = corpoTabela.insertRow();
       const camposSelecionados = [
         "DetVariacao",
@@ -1261,7 +1276,7 @@ async function UpdateClienteFichaTreinoC(cliId, token) {
           });
         }
       });
-    });
+    };
 
     document.getElementById("listaTreinoC").appendChild(tabela);
   }
@@ -2039,7 +2054,11 @@ async function UpdateCriarFichaTreinoA(cliId, token) {
 
     const corpoTabela = tabela.appendChild(document.createElement("tbody"));
 
-    result.forEach((item) => {
+    for (const item of result) {
+      // Pular inserção se DetStatus for 0
+      if (item.DetStatus === 0) {
+        continue;
+      }
       const linha = corpoTabela.insertRow();
       const camposSelecionados = [
         "DetVariacao",
@@ -2060,7 +2079,7 @@ async function UpdateCriarFichaTreinoA(cliId, token) {
           });
         }
       });
-    });
+    };
 
     document.getElementById("listaTreinoA").appendChild(tabela);
   }
@@ -2088,7 +2107,12 @@ async function UpdateCriarFichaTreinoB(cliId, token) {
 
     const corpoTabela = tabela.appendChild(document.createElement("tbody"));
 
-    result.forEach((item) => {
+
+    for (const item of result) {
+      // Pular inserção se DetStatus for 0
+      if (item.DetStatus === 0) {
+        continue;
+      }
       const linha = corpoTabela.insertRow();
       const camposSelecionados = [
         "DetVariacao",
@@ -2109,7 +2133,7 @@ async function UpdateCriarFichaTreinoB(cliId, token) {
           });
         }
       });
-    });
+    };
 
     document.getElementById("listaTreinoB").appendChild(tabela);
   }
@@ -2137,7 +2161,13 @@ async function UpdateCriarFichaTreinoC(cliId, token) {
 
     const corpoTabela = tabela.appendChild(document.createElement("tbody"));
 
-    result.forEach((item) => {
+
+
+    for (const item of result) {
+      // Pular inserção se DetStatus for 0
+      if (item.DetStatus === 0) {
+        continue;
+      }
       const linha = corpoTabela.insertRow();
       const camposSelecionados = [
         "DetVariacao",
@@ -2158,7 +2188,7 @@ async function UpdateCriarFichaTreinoC(cliId, token) {
           });
         }
       });
-    });
+    };
 
     document.getElementById("listaTreinoC").appendChild(tabela);
   }

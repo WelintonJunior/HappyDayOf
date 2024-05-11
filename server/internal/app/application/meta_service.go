@@ -13,8 +13,8 @@ func NewMetaService(repo repository.MetaRepository) *MetaService {
 	return &MetaService{repo: repo}
 }
 
-func (s *MetaService) ReadMeta(IdCliente int64) (domain.Meta, error) {
-	return s.repo.ReadMeta(IdCliente)
+func (s *MetaService) ReadMetas(IdCliente int64) ([]domain.Meta, error) {
+	return s.repo.ReadMetas(IdCliente)
 }
 
 func (s *MetaService) CreateMeta(m domain.Meta) error {
