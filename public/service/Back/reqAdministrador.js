@@ -181,6 +181,21 @@ class AdministradorServices extends FichaServices {
     }
   }
 
+  async ReadExerciciosForDesempenho(CliId, token) {
+    try {
+      const response = await fetch("/Desempenho/ReadExerciciosForDesempenho", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": token },
+        body: JSON.stringify(CliId)
+      })
+      const result = await response.json()
+      return result
+    } catch (err) {
+      console.error("Erro ao ler exercicios")
+      throw err
+    }
+  }
+
   //REGISTER
 
   async RegisterCliente(data, idAcademia, token) {

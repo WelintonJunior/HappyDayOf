@@ -12,6 +12,7 @@
 
 .itemExercicioCriarFicha {
   border: 1px solid black;
+  border-radius: 15px;
   height: 100px;
   display: flex;
   align-items: center;
@@ -40,7 +41,6 @@ body {
     transform: rotate(360deg);
   }
 }
-
 
 /* Ajusta o z-index do overlay e das dicas do Intro.js */
 .introjs-overlay {

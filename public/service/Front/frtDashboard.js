@@ -456,6 +456,89 @@ async function renderMeuDesempenhoChart() {
     });
 }
 
+async function renderClienteDesempenhoChart(cliId, token, service) {
+    let exercicios = await service.ReadExerciciosForDesempenho(cliId, token);
+    const boxChartDesempenho = document.getElementById('boxChartDesempenhoCliente');
+    document.getElementById("txtNaoPossui").style.display = "none"
+    boxChartDesempenho.style.display = "block"
+    if (boxChartDesempenho.chart) {
+        boxChartDesempenho.chart.destroy();
+    }
+    if (exercicios) {
+        const exerciciosAgrupadosPorExercicio = {};
+
+        exercicios.forEach(exercicio => {
+            const nomeExercicio = exercicio.DetVariacao;
+            if (!exerciciosAgrupadosPorExercicio[nomeExercicio]) {
+                exerciciosAgrupadosPorExercicio[nomeExercicio] = {
+                    label: nomeExercicio,
+                    data: [],
+                    borderColor: generateVibrantColor(),
+                    fill: false,
+                    spanGaps: true
+                };
+            }
+            exerciciosAgrupadosPorExercicio[nomeExercicio].data.push({
+                x: new Date(exercicio.DetDataAdicionado).toLocaleDateString('pt-BR'),
+                y: exercicio.DetCarga
+            });
+        });
+
+        const datasets = Object.values(exerciciosAgrupadosPorExercicio);
+
+        const ctx = boxChartDesempenho.getContext('2d');
+        boxChartDesempenho.chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                datasets: datasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        type: 'time',
+                        display: false,
+                        offset: false,
+                        time: {
+                            parser: 'dd/MM/yyyy',
+                            tooltipFormat: 'dd/MM/yyyy',
+                            unit: 'day',
+                            displayFormats: {
+                                day: 'dd/MM/yyyy'
+                            },
+                            minUnit: 'day'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Data'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Carga'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                }
+            }
+
+        });
+    } else {
+        document.getElementById("txtNaoPossui").style.display = "block"
+        boxChartDesempenho.style.display = "none"
+        if (boxChartDesempenho.chart) {
+            boxChartDesempenho.chart.destroy();
+        }
+    }
+}
 
 let reloadBtnSatisfacao = document.getElementById("reloadBtnSatisfacao")
 if (reloadBtnSatisfacao) {

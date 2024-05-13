@@ -1298,6 +1298,7 @@ function Detalhes(linha) {
 
 async function MostrarTelaDetalhesCliente(cliId, token) {
   const result = await admServices.ReadClienteDetalhes(idAcademia, cliId, token);
+  await renderClienteDesempenhoChart(cliId, token, admServices)
   MostrarTela();
   TelaDetalhesClientes.style.display = "block";
 

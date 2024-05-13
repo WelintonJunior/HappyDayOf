@@ -563,7 +563,7 @@ async function renderDesempenhoChart(cliId, token) {
         exerciciosAgrupadosPorExercicio[nomeExercicio] = {
           label: nomeExercicio,
           data: [],
-          borderColor: getRandomColor(),
+          borderColor: generateVibrantColor(),
           fill: false,
           spanGaps: true
         };
@@ -623,14 +623,28 @@ async function renderDesempenhoChart(cliId, token) {
   }
 }
 
-function getRandomColor() {
-  var letters = '0123456789ABCDEF';
-  var color = '#';
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
+let vibrantColors = [
+  "#e6194b", "#000075", "#ffe119", "#4363d8", "#f58231",
+  "#911eb4", "#46f0f0", "#f032e6", "#bcf60c", "#fabebe",
+  "#008080", "#e6beff", "#9a6324", "#fffac8", "#800000",
+  "#aaffc3", "#808000", "#ffd8b1", "#3cb44b", "#808080"
+];
+
+let colorIndex = 0;
+
+function generateVibrantColor() {
+  let color = vibrantColors[colorIndex];
+  colorIndex = (colorIndex + 1) % vibrantColors.length;
   return color;
 }
+
+reloadBtnDesempenho.addEventListener("click", async (e) => {
+  e.preventDefault();
+  const boxChartDesempenho = document.getElementById('boxChartDesempenho');
+
+  boxChartDesempenho.innerHTML = '';
+  await renderDesempenhoChart(idCliente, token);
+});
 
 formMeta.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -658,19 +672,21 @@ async function RenderListaMeta(token) {
   let count = 1
 
   result.forEach((item) => {
+    console.log(item)
     let content = `<div class="col-1"></div><div class="itemsMeta row col-11 my-2 align-items-center">
-    <div class="col-md-2">
-      ${count}.
-    </div>
-    <div class="col-md-2">
+    <input class="d-none" value="${item.MetId}" id="itemId${item.MetId}"></input>
+    <div class="col-md-3">
       ${item.ExeNome}
     </div>
     <div class="col-md-2">
       Carga ${item.MetCarga}
     </div>
-    <div class="col-md-6">
+    <div class="col-md-5">
       <span>Cumprir Até ${new Date(item.MetDataCumprir).toLocaleDateString('pt-BR')}</span>
     </div>
+    <div class="col-md-2">
+    <button class="btn btn-info">Editar</button>
+  </div>
   </div>`
     itemsMeta.innerHTML += content
     count++
@@ -679,13 +695,7 @@ async function RenderListaMeta(token) {
 
 }
 
-reloadBtnDesempenho.addEventListener("click", async (e) => {
-  e.preventDefault();
-  const boxChartDesempenho = document.getElementById('boxChartDesempenho');
 
-  boxChartDesempenho.innerHTML = '';
-  await renderDesempenhoChart(idCliente, token);
-});
 
 btnCadastrarMeta.addEventListener("click", async (e) => {
   e.preventDefault();

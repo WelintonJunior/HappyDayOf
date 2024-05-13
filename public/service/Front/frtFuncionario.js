@@ -589,6 +589,7 @@ btnVoltarTelaFicha.addEventListener("click", async (e) => {
 
 async function MostrarTelaDetalhesCliente(cliId, token) {
   const result = await funServices.ReadClienteDetalhes(idAcademia, cliId, token);
+  await renderClienteDesempenhoChart(cliId, token, funServices)
   MostrarTela();
   TelaDetalhesClientes.style.display = "block";
 
@@ -1406,6 +1407,7 @@ async function UpdateCriarFichaTreinoA(cliId, token) {
 
     const corpoTabela = tabela.appendChild(document.createElement("tbody"));
 
+
     for (const item of result) {
       // Pular inserção se DetStatus for 0
       if (item.DetStatus === 0) {
@@ -1418,22 +1420,23 @@ async function UpdateCriarFichaTreinoA(cliId, token) {
         "DetSerie",
         "DetRepeticao",
       ];
+      camposSelecionados.forEach((campo) => {
+        if (item.hasOwnProperty(campo)) {
+          let celula = linha.insertCell();
+          celula.innerHTML = item[campo];
+          celula.setAttribute("data-detId", item.DetId);
+          celula.setAttribute("data-campo", campo);
 
-      if (item.hasOwnProperty(campo)) {
-        let celula = linha.insertCell();
-        celula.innerHTML = item[campo];
-        celula.setAttribute("data-detId", item.DetId);
-        celula.setAttribute("data-campo", campo);
-
-        //Pra celular não funciona(LEMBRANDO EU MESMO) talvez mudar apenas para click
-        celula.addEventListener("click", async (e) => {
-          await UpdateCampoFichaCliente(item, campo, celula, cliId, token);
-        });
-      }
+          //Pra celular não funciona(LEMBRANDO EU MESMO) talvez mudar apenas para click
+          celula.addEventListener("click", async (e) => {
+            await UpdateCampoFichaCliente(item, campo, celula, cliId, token);
+          });
+        }
+      });
     };
-  };
 
-  document.getElementById("listaTreinoA").appendChild(tabela);
+    document.getElementById("listaTreinoA").appendChild(tabela);
+  }
 }
 
 async function UpdateCriarFichaTreinoB(cliId, token) {

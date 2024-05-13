@@ -40,7 +40,13 @@
   }
 
   .itemsMeta {
-    background-color: white;
-    border-radius: 20px;
-    box-shadow: 0.1em 0.1em 1em black;
+    background-color: rgba(255, 255, 255, 0.358);
+    border-radius: 15px;
+    box-shadow: 0.1em 0.1em 1em rgba(0, 0, 0, 0.201);
+  }
+
+  #itemsMeta {
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
