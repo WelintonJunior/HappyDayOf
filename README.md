@@ -5,7 +5,7 @@ https://go.dev/dl/go1.22.2.windows-amd64.msi
 
 Comandos para iniciar o servidor
 
-cd /HappyDayOf/server
+cd /HappyDayOf/server/cmd
 
 go get
 
