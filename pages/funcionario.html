@@ -115,13 +115,18 @@
               <div id="card-body" class="card-body">
                 <div id="ListaAtendimento">
                   <section class="table" id="">
+                    <section class="table__header">
+                      <div class="input-group py-2">
+                        <input id="pesquisarAtendimento" type="search" placeholder="Procurar">
+                        <!-- <div class="bi bi-search"></div> -->
+                      </div>
+                    </section>
                     <table class="table__body">
-                      Pesquisar<input id="pesquisarAtendimento" type="text">
                       <h1 class="display-6 text-center mt-4 mb-4">Lista de Atendimentos</h1>
                       <div class="listBoxAtendimento" id="listBoxAtendimento">
                         <div id="tableAtendimento"></div>
                       </div>
-                      <div class="container ms-2">
+                      <div class="col-md-1">
                         <button class="btn btn-info" id="btnCadastrarAtendimento">Cadastrar Atendimento</button>
                       </div>
                     </table>
@@ -139,8 +144,13 @@
           <section class="container col-md-8 col-sm-12 mt-5">
 
             <section class="table" id="">
+              <section class="table__header">
+                <div class="input-group py-2">
+                  <input id="pesquisarFicha" type="search" placeholder="Procurar">
+                  <!-- <div class="bi bi-search"></div> -->
+                </div>
+              </section>
               <table class="table__body">
-                Pesquisar<input id="pesquisarFicha" type="text">
                 <h1 class="display-6 text-center mt-4 mb-4">Fichas de Clientes</h1>
                 <div class="listBoxClienteFicha" id="listBoxClienteFicha">
                   <div id="tableClientesFicha"></div>
@@ -175,8 +185,13 @@
         <div id="TelaClientes" style="display: none">
           <section class="container col-md-8 col-sm-12 mt-5">
             <section class="table" id="">
+              <section class="table__header">
+                <div class="input-group py-2">
+                  <input id="pesquisarCliente" type="search" placeholder="Procurar">
+                  <!-- <div class="bi bi-search"></div> -->
+                </div>
+              </section>
               <table class="table__body">
-                Pesquisar<input id="pesquisarCliente" type="text">
                 <h1 class="display-6 text-center mt-4 mb-4">Lista de Clientes</h1>
                 <div class="listBoxCliente" id="listBoxCliente">
                   <div id="tableClientes"></div>

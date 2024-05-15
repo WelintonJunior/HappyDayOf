@@ -3,6 +3,7 @@ package routes
 import (
 	"log"
 	"net/http"
+	"fmt"
 
 	UTILS "example.com/fitConnect/Utils"
 	"example.com/fitConnect/internal/app/application"
@@ -22,18 +23,21 @@ func (h *LoginHandlers) LoginCliente(context *gin.Context) {
 	var c domain.ClienteLogin
 
 	if err := context.ShouldBindJSON(&c); err != nil {
+		fmt.Println(err)
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados", "error": true})
 		return
 	}
 
 	cliente, err := h.service.ValidateCredentialsCliente(c)
 	if err != nil {
+		fmt.Println(err)
 		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não foi possível autenticar", "error": true})
 		return
 	}
 
 	token, err := UTILS.GenerateTokenCliente(c.CliEmail, cliente.CliId)
 	if err != nil {
+		fmt.Println(err)
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Não foi possível gerar token", "error": true})
 		return
 	}

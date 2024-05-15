@@ -182,9 +182,16 @@
 
             <section class="container col-md-8 col-sm-12 mt-5">
 
+
+
               <section class="table" id="">
+                <section class="table__header">
+                  <div class="input-group py-2">
+                    <input id="pesquisarFicha" type="search" placeholder="Procurar">
+                    <!-- <div class="bi bi-search"></div> -->
+                  </div>
+                </section>
                 <table class="table__body">
-                  Pesquisar<input id="pesquisarFicha" type="text">
                   <h1 class="display-6 text-center mt-4 mb-4">Fichas de Clientes</h1>
                   <div class="listBoxClienteFicha" id="listBoxClienteFicha">
                     <div id="tableClientesFicha"></div>
@@ -199,8 +206,13 @@
           <div id="TelaClientes" style="display: none">
             <section class="container col-md-8 col-sm-12 mt-5">
               <section class="table" id="">
+                <section class="table__header">
+                  <div class="input-group py-2">
+                    <input id="pesquisarCliente" type="search" placeholder="Procurar">
+                    <!-- <div class="bi bi-search"></div> -->
+                  </div>
+                </section>
                 <table class="table__body">
-                  Pesquisar<input id="pesquisarCliente" type="text">
                   <h1 class="display-6 text-center mt-4 mb-4">Lista de Clientes</h1>
                   <div class="listBoxCliente" id="listBoxCliente">
                     <div id="tableClientes"></div>
@@ -220,8 +232,13 @@
 
             <section class="container col-md-8 col-sm-12 mt-5">
               <section class="table" id="">
+                <section class="table__header">
+                  <div class="input-group py-2">
+                    <input id="pesquisarFuncionario" type="search" placeholder="Procurar">
+                    <!-- <div class="bi bi-search"></div> -->
+                  </div>
+                </section>
                 <table class="table__body">
-                  Pesquisar<input id="pesquisarFuncionario" type="text">
                   <h1 class="display-6 text-center mt-4 mb-4">Lista de Funcionarios</h1>
                   <div class="listBoxFuncionario" id="listBoxFuncionario">
                     <div id="tableFuncionarios"></div>
@@ -243,8 +260,13 @@
 
             <section class="container col-md-8 col-sm-12 mt-5">
               <section class="table" id="">
+                <section class="table__header">
+                  <div class="input-group py-2">
+                    <input id="pesquisarAparelho" type="search" placeholder="Procurar">
+                    <!-- <div class="bi bi-search"></div> -->
+                  </div>
+                </section>
                 <table class="table__body">
-                  Pesquisar<input id="pesquisarAparelho" type="text">
                   <h1 class="display-6 text-center mt-4 mb-4">Lista de Aparelhos</h1>
                   <div class="listBoxAparelho" id="listBoxAparelho">
                     <div id="tableAparelhos"></div>
@@ -266,8 +288,13 @@
 
             <section class="container col-md-8 col-sm-12 mt-5">
               <section class="table" id="">
+                <section class="table__header">
+                  <div class="input-group py-2">
+                    <input id="pesquisarExercicio" type="search" placeholder="Procurar">
+                    <!-- <div class="bi bi-search"></div> -->
+                  </div>
+                </section>
                 <table class="table__body">
-                  Pesquisar<input id="pesquisarExercicio" type="text">
                   <h1 class="display-6 text-center mt-4 mb-4">Lista de Exercicios</h1>
                   <div class="listBoxExercicio" id="listBoxExercicio">
                     <div id="tableExercicios"></div>
@@ -426,8 +453,7 @@
                       <div class="col-md-3"></div>
                       <div class="dashbordadministrador col-md-6 col-sm-12 col-12 mt-2">
                         <h3 class="mt-3">Desempenho</h3>
-                        <div
-                          class="d-flex align-items-center justify-content-center mb-3">
+                        <div class="d-flex align-items-center justify-content-center mb-3">
                           <span id="txtNaoPossui">Não possui!</span>
                           <canvas width="768" height="384" id="boxChartDesempenhoCliente"></canvas>
                         </div>
