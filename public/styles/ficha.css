@@ -29,7 +29,7 @@ body {
   background-color: #9e9e9e;
 }
 
-/* table {
+/* table {BoxCriacao
     width: 100%;
     border-collapse: collapse;
     table-layout: auto;
@@ -74,6 +74,13 @@ section.table {
   box-shadow: 0 0.4rem 0.8rem #0005;
   border-radius: 0.8rem;
   overflow: hidden;
+}
+
+
+.entralizar {
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
 
 * {
@@ -179,12 +186,7 @@ body {
   max-width: 100%;
 }
 
-#BoxExerciciosFicha {
-  overflow: auto;
-  max-height: 350px;
-  max-width: 90%;
-  margin-right: 10px;
-}
+
 
 #listaTreinoC::-webkit-scrollbar,
 #listaTreinoB::-webkit-scrollbar,
@@ -311,6 +313,21 @@ tbody tr.hide td img {
     }
   } */
 
+  .centralizar {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+
+  .flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+ 
+  
+  
 thead th span.icon-arrow {
   display: inline-block;
   width: 1.3rem;
@@ -342,7 +359,7 @@ thead th.asc span.icon-arrow {
 
 thead th.active,
 tbody td.active {
-  color: #e95420;
+  color: #3236ff;
 }
 
 .flex-container {
@@ -352,9 +369,13 @@ tbody td.active {
 
 .ficha_treino {
   border-radius: 16px;
-  background-color: #fff;
+  /* background-color: #fff; */
   color: #697e91;
   max-width: 300px;
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .ficha_treino strong {
@@ -460,6 +481,7 @@ tbody td.active {
   width: 100%;
   padding: 0.625em 0.75em;
   text-decoration: none;
+  
 }
 
 .ficha_treino .button:hover,
@@ -467,18 +489,31 @@ tbody td.active {
   background-color: #4133b7;
 }
 
+
 #BoxExerciciosFicha {
   overflow: auto;
-  max-height: 350px;
-  max-width: 90%;
+  max-height: 300px;
+  max-width: 60%;
+  
   margin-right: 10px;
+  margin-left: 10px;
+  margin-bottom: 25px;
+
   /* Adicione estilos para a barra de rolagem */
   scrollbar-width: thin; /* Largura fina da barra de rolagem */
   scrollbar-color: #b6b6b6 #f0f0f0; /* Cor da barra e do thumb */
+  justify-content: space-evenly;
 }
 
+@media (max-width: 480px) {
+  #BoxExerciciosFicha {
+    max-width: 100%;
+  }
+}
+
+
 #BoxExerciciosFicha::-webkit-scrollbar {
-  width: 8px; /* Largura da barra de rolagem */
+  width: 80px; /* Largura da barra de rolagem */
 }
 
 #BoxExerciciosFicha::-webkit-scrollbar-thumb {
@@ -488,7 +523,7 @@ tbody td.active {
 }
 
 #BoxExerciciosFicha::-webkit-scrollbar-track {
-  background-color: #f0f0f0; /* Cor da track */
+  background-color: #60169c; /* Cor da track */
   border-radius: 10px;
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
 }

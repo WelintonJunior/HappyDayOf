@@ -50,3 +50,10 @@
     overflow-y: auto;
     overflow-x: hidden;
   }
+
+  .flex-container {
+    display: flex;
+    justify-content: center; /* Centraliza os elementos horizontalmente */
+    align-items: center;    /* Centraliza os elementos verticalmente */
+  }
+  

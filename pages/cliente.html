@@ -101,10 +101,9 @@
         <div id="TelaDesempenho" style="display: none">
           <div class="container-md">
             <div class="row mt-3 flex-item">
-              <div class="dashbordcliente col-md-6 col-sm-12 col-12 mt-2 py-5">
 
-
-                <h3 class="mt-3">Desempenho</h3>
+              <div class="dashbordcliente col-md-6 col-sm-12 col-12 mt-2 py-1 mb-3">
+                <h3 class="mt-1">Desempenho</h3>
                 <button type="button" class="btn btn-light cursor: pointer; mt-3 mb-3" id="reloadBtnDesempenho"> <i
                     class="bi bi-arrow-clockwise"></i>Reload</button>
 
@@ -117,19 +116,20 @@
 
                 <!-- <button id="btnCadastrarMeta" class="btn btn-info mt-3 mb-3 "></button> -->
               </div>
-              <div class="dashbordcliente col-md-5 col-sm-12 col-12 mt-2">
 
 
+              <div class="dashbordcliente col-md-6 col-sm-12 col-12 mt-2">
                 <h3 class="mt-3">Metas</h3>
                 <button id="btnCadastrarMeta" class="btn btn-info mt-3 mb-3 ">Cadastrar Nova Meta</button>
+                <button id="" class="btn btn-warning mt-3 mb-3 ">Alterar Meta</button>
 
                 <div class="listMetas">
-                  <div class="row" id="itemsMeta">
-                    
+                  <div class="row mb-5" id="itemsMeta">
                   </div>
                 </div>
-
               </div>
+
+
             </div>
 
           </div>
@@ -155,56 +155,59 @@
             </form>
 
 
-
-            <div class="row flex-container">
-              <!-- Treino A -->
-              <div class="ficha_treino col-sm-12 col-md-4">
-                <div class="inner">
-                  <span class="pricing">
-                    <span>
-                      <strong>
-                        A
-                      </strong>
+            <div class="container">
+              <div class="row flex-container pt-5 pb-4">
+                <!-- Treino A -->
+                <div class="ficha_treino col-sm-12 col-md-8 col-lg-4">
+                  <div class="inner">
+                    <span class="pricing">
+                      <span>
+                        <strong>
+                          A
+                        </strong>
+                      </span>
                     </span>
-                  </span>
-                  <div class="row" style="width: 100%">
-                    <div class="mt-2" id="listaTreinoA"></div>
+                    <div class="row" style="width: 100%">
+                      <div class="mt-2" id="listaTreinoA"></div>
+                    </div>
                   </div>
                 </div>
-              </div>
-
-              <!-- Treino B -->
-              <div class="ficha_treino col-sm-12 col-md-4">
-                <div class="inner">
-                  <span class="pricing">
-                    <span>
-                      <strong>
-                        B
-                      </strong>
+              
+                <!-- Treino B -->
+                <div class="ficha_treino col-sm-12 col-md-8 col-lg-4">
+                  <div class="inner">
+                    <span class="pricing">
+                      <span>
+                        <strong>
+                          B
+                        </strong>
+                      </span>
                     </span>
-                  </span>
-                  <div class="row" style="width: 100%">
-                    <div class="mt-2" id="listaTreinoB"></div>
+                    <div class="row" style="width: 100%">
+                      <div class="mt-2" id="listaTreinoB"></div>
+                    </div>
                   </div>
                 </div>
-              </div>
-
-              <!-- Treino C -->
-              <div class="ficha_treino col-sm-12 col-md-4">
-                <div class="inner">
-                  <span class="pricing">
-                    <span>
-                      <strong>
-                        C
-                      </strong>
+              
+                <!-- Treino C -->
+                <div class="ficha_treino col-sm-12 col-md-8 col-lg-4">
+                  <div class="inner">
+                    <span class="pricing">
+                      <span>
+                        <strong>
+                          C
+                        </strong>
+                      </span>
                     </span>
-                  </span>
-                  <div class="row" style="width: 100%">
-                    <div class="mt-2" id="listaTreinoC"></div>
+                    <div class="row" style="width: 100%">
+                      <div class="mt-2" id="listaTreinoC"></div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+              
+
           </div>
         </div>
 
