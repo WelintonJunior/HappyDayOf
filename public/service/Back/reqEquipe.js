@@ -1,19 +1,4 @@
 class EquipeServices extends LoginServices {
-
-
-  async VerificarSessao(token) {
-    const response = await fetch("/Ficha", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "Authorization": `${token}` },
-    })
-    const result = await response.json();
-    if (result.message === "Token de autorização ausente" || "Sessão expirada, faça login novamente") {
-      return "Sessão expirada faça login novamente"
-    } else {
-      return ""
-    }
-  }
-
   async AddAdministrador(data, token) {
     try {
       const response = await fetch("/Academia/AddAdministrador", {
@@ -37,6 +22,12 @@ class EquipeServices extends LoginServices {
         }),
       });
       const result = await response.json();
+       if (result.message === "Não autorizado") {
+            alert("Sessão expirada faça login novamente!")
+            localStorage.clear()
+            window.location.href = "/"
+          }
+
       return result;
     } catch (err) {
       console.error("Erro ao adicionar administrador")
@@ -62,6 +53,12 @@ class EquipeServices extends LoginServices {
       });
 
       const result = await response.json();
+       if (result.message === "Não autorizado") {
+            alert("Sessão expirada faça login novamente!")
+            localStorage.clear()
+            window.location.href = "/"
+          }
+
       return result;
     } catch (err) {
       console.error("Erro ao criar academia")
@@ -119,6 +116,12 @@ class EquipeServices extends LoginServices {
         headers: { "Content-Type": "application/json", "Authorization": `${token}` },
       });
       const result = await response.json();
+       if (result.message === "Não autorizado") {
+            alert("Sessão expirada faça login novamente!")
+            localStorage.clear()
+            window.location.href = "/"
+          }
+
       console.log(result)
       admAcademia.innerHTML = "";
       admAcademia.innerHTML += `<option value='${result.AcaId}'></option>`;

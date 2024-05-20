@@ -690,6 +690,7 @@ formCadastrarExercicio.addEventListener("submit", async (e) => {
 //Atualizar a Lista de Clientes
 
 async function UpdateListaCliente(token, filtroNome = "") {
+  console.log(token)
   const result = await admServices.ReadCliente(idAcademia, token);
   const resultadosFiltrados = filtroNome ? result.filter(item => item.CliNome.toLowerCase().includes(filtroNome.toLowerCase())) : result;
   //Colocar em alguma lista

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	UTILS "example.com/fitConnect/Utils"
 	"example.com/fitConnect/internal/app/application"
 	"example.com/fitConnect/internal/app/domain"
 	"github.com/gin-gonic/gin"
@@ -18,6 +19,17 @@ func NewFichaHandlers(service *application.FichaService) *FichaHandlers {
 }
 
 func (h *FichaHandlers) ReadClienteFicha(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var IdAcad domain.IdAcadData
 	if err := context.ShouldBindJSON(&IdAcad); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
@@ -35,6 +47,17 @@ func (h *FichaHandlers) ReadClienteFicha(context *gin.Context) {
 }
 
 func (h *FichaHandlers) ReadFicha(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var cliFicha domain.CliFicha
 
 	if err := context.ShouldBindJSON(&cliFicha); err != nil {
@@ -53,6 +76,17 @@ func (h *FichaHandlers) ReadFicha(context *gin.Context) {
 }
 
 func (h *FichaHandlers) ReadFichaDetalhes(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var cliTipo domain.CliTipo
 
 	if err := context.ShouldBindJSON(&cliTipo); err != nil {
@@ -71,6 +105,17 @@ func (h *FichaHandlers) ReadFichaDetalhes(context *gin.Context) {
 }
 
 func (h *FichaHandlers) ReadFichaDetalhesGeral(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var CliId domain.CliIdData
 
 	if err := context.ShouldBindJSON(&CliId); err != nil {
@@ -89,6 +134,17 @@ func (h *FichaHandlers) ReadFichaDetalhesGeral(context *gin.Context) {
 }
 
 func (h *FichaHandlers) RegisterFicha(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var ficha domain.Ficha
 
 	if err := context.ShouldBindJSON(&ficha); err != nil {
@@ -105,6 +161,17 @@ func (h *FichaHandlers) RegisterFicha(context *gin.Context) {
 }
 
 func (h *FichaHandlers) RegisterDetalhesFicha(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var detFicha domain.FichaDetalhes
 
 	if err := context.ShouldBindJSON(&detFicha); err != nil {
@@ -122,6 +189,17 @@ func (h *FichaHandlers) RegisterDetalhesFicha(context *gin.Context) {
 }
 
 func (h *FichaHandlers) UpdateDetalhesFicha(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var detFicha domain.FichaDetalhes
 
 	if err := context.ShouldBindJSON(&detFicha); err != nil {
@@ -138,6 +216,17 @@ func (h *FichaHandlers) UpdateDetalhesFicha(context *gin.Context) {
 }
 
 func (h *FichaHandlers) UpdateCampoFicha(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var campoFicha domain.CampoFicha
 	if err := context.ShouldBindJSON(&campoFicha); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
@@ -154,6 +243,17 @@ func (h *FichaHandlers) UpdateCampoFicha(context *gin.Context) {
 }
 
 func (h *FichaHandlers) DeleteCampoFicha(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var DetId domain.DetIdData
 	if err := context.ShouldBindJSON(&DetId); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})

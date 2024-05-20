@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   const dateNow = getFormattedDateTime();
   await UpdateStatusAtendimento(idAcademia, idCliente, dateNow)
   const StatusSatisfacao = await clienteServices.VerificarAtendimento(idAcademia, idCliente, token)
-  await VerificarSatisfacaoAtendimento(StatusSatisfacao, null, idAcademia, idCliente, token)
+  await VerificarSatisfacaoAtendimento(StatusSatisfacao, null, idAcademia, idCliente)
   // clienteServices.ConnectIO();
 });
 
@@ -111,7 +111,7 @@ async function UpdateStatusAtendimento(idAcademia, cliId, dateNow) {
   document.getElementById("isAtendimento").innerHTML = isAtendimento ? "<h4>Em Atendimento</h4>" : "";
 }
 
-async function VerificarSatisfacaoAtendimento(StatusSatisfacao, dateNow, idAcademia, cliId, token) {
+async function VerificarSatisfacaoAtendimento(StatusSatisfacao, dateNow, idAcademia, cliId) {
   if (StatusSatisfacao.SatId != 0) {
     const ateInfo = await clienteServices.ReadAtendimentoInfo(StatusSatisfacao.SatIdAtendimento, token)
     const satText = document.getElementById("satText");
@@ -672,7 +672,6 @@ async function RenderListaMeta(token) {
   let count = 1
 
   result.forEach((item) => {
-    console.log(item)
     let content = `<div class="col-1"></div><div class="itemsMeta row col-11 my-2 align-items-center">
     <input class="d-none" value="${item.MetId}" id="itemId${item.MetId}"></input>
     <div class="col-md-3">

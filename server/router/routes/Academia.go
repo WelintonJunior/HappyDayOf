@@ -3,6 +3,7 @@ package routes
 import (
 	"net/http"
 
+	UTILS "example.com/fitConnect/Utils"
 	"example.com/fitConnect/internal/app/application"
 	"example.com/fitConnect/internal/app/domain"
 	"github.com/gin-gonic/gin"
@@ -17,6 +18,17 @@ func NewAcademiaHandlers(service *application.AcademiaService) *AcademiaHandlers
 }
 
 func (h *AcademiaHandlers) GetAcademiaLista(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	academias, err := h.service.GetAcademiaList()
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao ler dados"})
@@ -26,6 +38,17 @@ func (h *AcademiaHandlers) GetAcademiaLista(context *gin.Context) {
 }
 
 func (h *AcademiaHandlers) GetAcademiaDet(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var a domain.Academia
 	if err := context.ShouldBindJSON(&a); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
@@ -43,6 +66,17 @@ func (h *AcademiaHandlers) GetAcademiaDet(context *gin.Context) {
 }
 
 func (h *AcademiaHandlers) CreateAcademia(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var academia domain.Academia
 	if err := context.ShouldBindJSON(&academia); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
@@ -56,6 +90,17 @@ func (h *AcademiaHandlers) CreateAcademia(context *gin.Context) {
 }
 
 func (h *AcademiaHandlers) AddAdministrador(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var adm domain.Administrador
 	if err := context.ShouldBindJSON(&adm); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
@@ -71,6 +116,17 @@ func (h *AcademiaHandlers) AddAdministrador(context *gin.Context) {
 }
 
 func (h *AcademiaHandlers) InsertAcademiaToTheOptions(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	result, err := h.service.InsertAcademiaToTheOptions()
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao cadastrar adm"})

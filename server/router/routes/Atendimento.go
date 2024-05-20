@@ -19,6 +19,16 @@ func NewAtendimentoHandlers(service *application.AtendimentoService) *Atendiment
 }
 
 func (h *AtendimentoHandlers) ReadStatusAtendimento(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
 
 	var a domain.Atendimento
 
@@ -38,6 +48,17 @@ func (h *AtendimentoHandlers) ReadStatusAtendimento(context *gin.Context) {
 }
 
 func (h *AtendimentoHandlers) ReadAtendimentoInfo(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var a domain.Atendimento
 	if err := context.ShouldBindJSON(&a); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
@@ -61,6 +82,17 @@ type AteAcad struct {
 }
 
 func (h *AtendimentoHandlers) ReadAtendimento(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var ateAcad AteAcad
 	if err := context.ShouldBindJSON(&ateAcad); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
@@ -79,6 +111,17 @@ func (h *AtendimentoHandlers) ReadAtendimento(context *gin.Context) {
 }
 
 func (h *AtendimentoHandlers) RegisterAtendimento(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var atendimento domain.Atendimento
 
 	if err := context.ShouldBindJSON(&atendimento); err != nil {
@@ -105,6 +148,17 @@ func (h *AtendimentoHandlers) RegisterAtendimento(context *gin.Context) {
 }
 
 func (h *AtendimentoHandlers) ValidacaoAtendimento(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var atendimento domain.Atendimento
 
 	if err := context.ShouldBindJSON(&atendimento); err != nil {
@@ -123,6 +177,17 @@ func (h *AtendimentoHandlers) ValidacaoAtendimento(context *gin.Context) {
 }
 
 func (h *AtendimentoHandlers) UpdateStatusAtendimento(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var atendimento domain.Atendimento
 
 	if err := context.ShouldBindJSON(&atendimento); err != nil {

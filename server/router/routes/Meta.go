@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	UTILS "example.com/fitConnect/Utils"
 	"example.com/fitConnect/internal/app/application"
 	"example.com/fitConnect/internal/app/domain"
 	"github.com/gin-gonic/gin"
@@ -18,6 +19,17 @@ func NewMetaHandlers(service *application.MetaService) *MetaHandlers {
 }
 
 func (h *MetaHandlers) ReadMetas(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var m domain.Meta
 
 	if err := context.ShouldBindJSON(&m); err != nil {
@@ -37,6 +49,17 @@ func (h *MetaHandlers) ReadMetas(context *gin.Context) {
 }
 
 func (h *MetaHandlers) RegisterMeta(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var m domain.Meta
 
 	if err := context.ShouldBindJSON(&m); err != nil {
@@ -54,6 +77,17 @@ func (h *MetaHandlers) RegisterMeta(context *gin.Context) {
 }
 
 func (h *MetaHandlers) UpdateMeta(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var m domain.Meta
 
 	if err := context.ShouldBindJSON(&m); err != nil {
@@ -70,6 +104,17 @@ func (h *MetaHandlers) UpdateMeta(context *gin.Context) {
 }
 
 func (h *MetaHandlers) ReadMetaAtual(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var m domain.Meta
 
 	if err := context.ShouldBindJSON(&m); err != nil {

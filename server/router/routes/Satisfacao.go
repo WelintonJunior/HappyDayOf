@@ -3,6 +3,7 @@ package routes
 import (
 	"net/http"
 
+	UTILS "example.com/fitConnect/Utils"
 	"example.com/fitConnect/internal/app/application"
 	"example.com/fitConnect/internal/app/domain"
 	"github.com/gin-gonic/gin"
@@ -17,6 +18,17 @@ func NewSatisfacaoHandlers(service *application.SatisfacaoService) *SatisfacaoHa
 }
 
 func (h *SatisfacaoHandlers) VerifySatisfacaoAtendimento(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var s domain.Satisfacao
 
 	if err := context.ShouldBindJSON(&s); err != nil {
@@ -34,6 +46,17 @@ func (h *SatisfacaoHandlers) VerifySatisfacaoAtendimento(context *gin.Context) {
 }
 
 func (h *SatisfacaoHandlers) VerificarAtendimento(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var s domain.Satisfacao
 
 	if err := context.ShouldBindJSON(&s); err != nil {
@@ -52,6 +75,16 @@ func (h *SatisfacaoHandlers) VerificarAtendimento(context *gin.Context) {
 }
 
 func (h *SatisfacaoHandlers) UpdateSatisfacao(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
 	var s domain.Satisfacao
 
 	if err := context.ShouldBindJSON(&s); err != nil {

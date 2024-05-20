@@ -18,6 +18,12 @@ class FuncionarioServices extends AdministradorServices {
         }),
       });
       const result = await response.json();
+      if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
+
       return result;
     } catch (err) {
       console.error("Erro ao registrar atendimento")
@@ -35,6 +41,12 @@ class FuncionarioServices extends AdministradorServices {
         }),
       });
       const result = await response.json();
+      if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
+
       return result;
     } catch (err) {
       console.error("Erro ao ler atendimento")
@@ -53,6 +65,12 @@ class FuncionarioServices extends AdministradorServices {
         }),
       });
       const result = await response.json();
+      if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
+
       return result;
     } catch (err) {
       console.error("Erro ao validar atendimento")
@@ -72,6 +90,12 @@ class FuncionarioServices extends AdministradorServices {
         }),
       });
       const result = await response.json();
+      if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
+
       return result;
     } catch (err) {
       console.error("Erro ao atualizar status do atendimento")
@@ -89,6 +113,12 @@ class FuncionarioServices extends AdministradorServices {
         }),
       });
       const result = await response.json();
+      if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
+
       return result;
     } catch (err) {
       console.error("Erro ao atualizar status do atendimento")

@@ -3,6 +3,7 @@ package routes
 import (
 	"net/http"
 
+	UTILS "example.com/fitConnect/Utils"
 	"example.com/fitConnect/internal/app/application"
 	"example.com/fitConnect/internal/app/domain"
 	"github.com/gin-gonic/gin"
@@ -17,6 +18,17 @@ func NewFuncionarioHandlers(service *application.FuncionarioService) *Funcionari
 }
 
 func (h *FuncionarioHandlers) ReadFuncionarios(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var f domain.Funcionario
 	if err := context.ShouldBindJSON(&f); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
@@ -34,6 +46,17 @@ func (h *FuncionarioHandlers) ReadFuncionarios(context *gin.Context) {
 }
 
 func (h *FuncionarioHandlers) ReadFuncionarioDet(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var f domain.Funcionario
 	if err := context.ShouldBindJSON(&f); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
@@ -51,6 +74,17 @@ func (h *FuncionarioHandlers) ReadFuncionarioDet(context *gin.Context) {
 }
 
 func (h *FuncionarioHandlers) RegisterFuncionario(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var f domain.Funcionario
 	if err := context.ShouldBindJSON(&f); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
@@ -66,6 +100,17 @@ func (h *FuncionarioHandlers) RegisterFuncionario(context *gin.Context) {
 }
 
 func (h *FuncionarioHandlers) ArchiveFuncionario(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var FunId domain.FunIdData
 	if err := context.ShouldBindJSON(&FunId); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
@@ -81,6 +126,17 @@ func (h *FuncionarioHandlers) ArchiveFuncionario(context *gin.Context) {
 }
 
 func (h *FuncionarioHandlers) UpdateFuncionarioDetalhes(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var f domain.Funcionario
 	if err := context.ShouldBindJSON(&f); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
@@ -96,6 +152,17 @@ func (h *FuncionarioHandlers) UpdateFuncionarioDetalhes(context *gin.Context) {
 }
 
 func (h *FuncionarioHandlers) FuncionarioMeuDesempenho(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var funId domain.FunIdData
 	if err := context.ShouldBindJSON(&funId); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})

@@ -3,6 +3,7 @@ package routes
 import (
 	"net/http"
 
+	UTILS "example.com/fitConnect/Utils"
 	"example.com/fitConnect/internal/app/application"
 	"example.com/fitConnect/internal/app/domain"
 	"github.com/gin-gonic/gin"
@@ -21,6 +22,17 @@ func NewAparelhoHandlers(service *application.AparelhoService) *AparelhoHandlers
 }
 
 func (h *AparelhoHandlers) GetAparelhoList(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var a ApaIdData
 	if err := context.ShouldBindJSON(&a); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
@@ -38,6 +50,17 @@ func (h *AparelhoHandlers) GetAparelhoList(context *gin.Context) {
 }
 
 func (h *AparelhoHandlers) ReadAparelhoDet(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var a domain.Aparelho
 	if err := context.ShouldBindJSON(&a); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
@@ -55,6 +78,17 @@ func (h *AparelhoHandlers) ReadAparelhoDet(context *gin.Context) {
 }
 
 func (h *AparelhoHandlers) RegisterAparelho(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var a domain.Aparelho
 	if err := context.ShouldBindJSON(&a); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
@@ -70,6 +104,17 @@ func (h *AparelhoHandlers) RegisterAparelho(context *gin.Context) {
 }
 
 func (h *AparelhoHandlers) ArchiveAparelho(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var ApaId ApaIdData
 	if err := context.ShouldBindJSON(&ApaId); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
@@ -85,6 +130,17 @@ func (h *AparelhoHandlers) ArchiveAparelho(context *gin.Context) {
 }
 
 func (h *AparelhoHandlers) UpdateAparelhoDetalhes(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var a domain.Aparelho
 	if err := context.ShouldBindJSON(&a); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})

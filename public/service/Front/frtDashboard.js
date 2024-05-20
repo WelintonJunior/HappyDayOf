@@ -54,7 +54,7 @@ async function fetchAndMapFuncionarios(Atendimentos) {
         const idFuncionario = atendimento.AteIdFuncionario;
         if (!funcionarios[idFuncionario]) {
             funcionarios[idFuncionario] = {
-                nome: await dashboardServices.ReadFuncNome(idFuncionario).then(res => res),
+                nome: await dashboardServices.ReadFuncNome(idFuncionario, token).then(res => res),
                 atendimentosPorMes: {}
             };
             colorMap[idFuncionario] = colorMap[idFuncionario] || generateVibrantColor();
@@ -64,7 +64,7 @@ async function fetchAndMapFuncionarios(Atendimentos) {
 }
 
 async function renderSatisfacaoChart() {
-    const Satisfacoes = await dashboardServices.ReadSatisfacao(idAcademia);
+    const Satisfacoes = await dashboardServices.ReadSatisfacao(idAcademia, token);
     if (Satisfacoes === null) {
         document.getElementById("NaoPossuiSatisfacao").classList.remove("d-none")
         document.getElementById("boxChartSatisfacao").classList.add("d-none")
@@ -78,7 +78,7 @@ async function renderSatisfacaoChart() {
 
     for (let i = 0; i < Satisfacoes.length; i++) {
         const Satisfacao = Satisfacoes[i];
-        const atendimento = await dashboardServices.ReadAtendimentos(Satisfacao.SatIdAtendimento);
+        const atendimento = await dashboardServices.ReadAtendimentos(Satisfacao.SatIdAtendimento, token);
         const idFuncionario = atendimento.AteIdFuncionario;
 
         if (!funcionarios[idFuncionario]) {
@@ -87,7 +87,7 @@ async function renderSatisfacaoChart() {
         }
 
         let funcionario = funcionarios[idFuncionario];
-        funcionario.nome = await dashboardServices.ReadFuncNome(idFuncionario);
+        funcionario.nome = await dashboardServices.ReadFuncNome(idFuncionario, token);
         funcionario.somaConhecimento += parseInt(Satisfacao.SatNotaConhecimento);
         funcionario.somaClareza += parseInt(Satisfacao.SatNotaClareza);
         funcionario.somaProatividade += parseInt(Satisfacao.SatNotaProatividade);
@@ -154,7 +154,7 @@ async function renderSatisfacaoChart() {
 }
 
 async function renderProdutividadeChart() {
-    const Atendimentos = await dashboardServices.ReadAllAtendimentos(idAcademia);
+    const Atendimentos = await dashboardServices.ReadAllAtendimentos(idAcademia, token);
     const DATA_COUNT = 7;
 
     if (Atendimentos === null) {
@@ -231,7 +231,7 @@ async function renderProdutividadeChart() {
 }
 
 async function renderAtendimentoChart() {
-    const Atendimentos = await dashboardServices.ReadAllAtendimentos(idAcademia);
+    const Atendimentos = await dashboardServices.ReadAllAtendimentos(idAcademia, token);
 
     if (Atendimentos === null) {
         document.getElementById("NaoPossuiAtendimento").classList.remove("d-none")
@@ -249,7 +249,7 @@ async function renderAtendimentoChart() {
     for (let atendimento of Atendimentos) {
         const idFuncionario = atendimento.AteIdFuncionario;
         if (!funcionarios[idFuncionario]) {
-            const nome = await dashboardServices.ReadFuncNome(idFuncionario);
+            const nome = await dashboardServices.ReadFuncNome(idFuncionario, token);
             funcionarios[idFuncionario] = {
                 nome: nome,
                 atendimentosPorTurno: { "Manhã": 0, "Tarde": 0, "Noite": 0 }
@@ -301,7 +301,7 @@ async function renderAtendimentoChart() {
 }
 
 async function renderEngajamentoChart() {
-    const engajamentos = await dashboardServices.ReadAllEngajamentos(idAcademia);
+    const engajamentos = await dashboardServices.ReadAllEngajamentos(idAcademia, token);
     const DATA_COUNT = 7;
 
     if (engajamentos === null) {
@@ -368,7 +368,7 @@ async function renderEngajamentoChart() {
 }
 
 async function renderMeuDesempenhoChart() {
-    const Satisfacoes = await funServices.FuncionarioMeuDesempenho(dados.FunId);
+    const Satisfacoes = await funServices.FuncionarioMeuDesempenho(dados.FunId, token);
     if (Satisfacoes === null || Satisfacoes.length === 0) {
         document.getElementById("NaoPossuiMeuDesempenho").classList.remove("d-none");
         document.getElementById("boxChartMeuDesempenho").classList.add("d-none");
@@ -379,7 +379,7 @@ async function renderMeuDesempenhoChart() {
     document.getElementById("boxChartMeuDesempenho").classList.remove("d-none");
 
     let funcionario = {
-        nome: await dashboardServices.ReadFuncNome(dados.FunId),
+        nome: await dashboardServices.ReadFuncNome(dados.FunId, token),
         somaConhecimento: 0,
         somaClareza: 0,
         somaProatividade: 0,

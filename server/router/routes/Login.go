@@ -1,9 +1,9 @@
 package routes
 
 import (
+	"fmt"
 	"log"
 	"net/http"
-	"fmt"
 
 	UTILS "example.com/fitConnect/Utils"
 	"example.com/fitConnect/internal/app/application"
@@ -73,5 +73,4 @@ func (h *LoginHandlers) LoginFuncionario(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusOK, gin.H{"messsage": "Sucesso", "error": false, "token": token, "dados": funcionario})
-
 }

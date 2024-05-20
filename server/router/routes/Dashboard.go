@@ -3,6 +3,7 @@ package routes
 import (
 	"net/http"
 
+	UTILS "example.com/fitConnect/Utils"
 	"example.com/fitConnect/internal/app/application"
 	"example.com/fitConnect/internal/app/domain"
 	"github.com/gin-gonic/gin"
@@ -17,6 +18,17 @@ func NewDashBoardHandlers(service *application.DashboardService) *DashboardHandl
 }
 
 func (h *DashboardHandlers) ReadSatisfacao(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var AcaId domain.IdAcadData
 
 	if err := context.ShouldBindJSON(&AcaId); err != nil {
@@ -35,6 +47,17 @@ func (h *DashboardHandlers) ReadSatisfacao(context *gin.Context) {
 }
 
 func (h *DashboardHandlers) ReadAtendimentos(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var AteId domain.AteIdData
 
 	if err := context.ShouldBindJSON(&AteId); err != nil {
@@ -54,6 +77,17 @@ func (h *DashboardHandlers) ReadAtendimentos(context *gin.Context) {
 }
 
 func (h *DashboardHandlers) ReadFuncNome(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var FunId domain.FunIdData
 	if err := context.ShouldBindJSON(&FunId); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
@@ -72,6 +106,17 @@ func (h *DashboardHandlers) ReadFuncNome(context *gin.Context) {
 }
 
 func (h *DashboardHandlers) ReadAllAtendimentos(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var AcaId domain.IdAcadData
 	if err := context.ShouldBindJSON(&AcaId); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
@@ -90,6 +135,17 @@ func (h *DashboardHandlers) ReadAllAtendimentos(context *gin.Context) {
 }
 
 func (h *DashboardHandlers) ReadAllEngajamentos(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var AcaId domain.IdAcadData
 	if err := context.ShouldBindJSON(&AcaId); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})

@@ -3,6 +3,7 @@ package routes
 import (
 	"net/http"
 
+	UTILS "example.com/fitConnect/Utils"
 	"example.com/fitConnect/internal/app/application"
 	"example.com/fitConnect/internal/app/domain"
 	"github.com/gin-gonic/gin"
@@ -17,6 +18,17 @@ func NewExercicioHandlers(service *application.ExercicioService) *ExercicioHandl
 }
 
 func (h *ExercicioHandlers) ReadExercicios(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var e domain.Exercicio
 	if err := context.ShouldBindJSON(&e); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
@@ -34,6 +46,17 @@ func (h *ExercicioHandlers) ReadExercicios(context *gin.Context) {
 }
 
 func (h *ExercicioHandlers) ReadExercicioDet(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var e domain.Exercicio
 	if err := context.ShouldBindJSON(&e); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
@@ -51,6 +74,17 @@ func (h *ExercicioHandlers) ReadExercicioDet(context *gin.Context) {
 }
 
 func (h *ExercicioHandlers) RegisterExercicio(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var e domain.Exercicio
 	if err := context.ShouldBindJSON(&e); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
@@ -66,6 +100,17 @@ func (h *ExercicioHandlers) RegisterExercicio(context *gin.Context) {
 }
 
 func (h *ExercicioHandlers) ArchiveExercicio(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var ExeId domain.ExeIdData
 	if err := context.ShouldBindJSON(&ExeId); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
@@ -81,6 +126,17 @@ func (h *ExercicioHandlers) ArchiveExercicio(context *gin.Context) {
 }
 
 func (h *ExercicioHandlers) UpdateExercicioDetalhes(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
+	if err := UTILS.VerifyToken(token); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+		return
+	}
+
 	var e domain.Exercicio
 	if err := context.ShouldBindJSON(&e); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})

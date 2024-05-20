@@ -2,12 +2,13 @@ package UTILS
 
 import (
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/golang-jwt/jwt"
 )
 
-const secretKey = "chaveultrasecreta3000"
+const secretKey = "chaveultrasecreta"
 
 func GenerateTokenCliente(cliEmail string, cliId int64) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
@@ -31,20 +32,19 @@ func GenerateTokenFuncionario(funEmail string, funId int64) (string, error) {
 
 func VerifyToken(token string) error {
 	parsedToken, err := jwt.Parse(token, func(token *jwt.Token) (any, error) {
-		_, ok := token.Method.(*jwt.SigningMethodHMAC)
-		if !ok {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, errors.New("Unexpected signing method")
 		}
-		return secretKey, nil
+		return []byte(secretKey), nil
 	})
 
 	if err != nil {
-		return errors.New("Não foi possivel parse token")
+		fmt.Println(err)
+		return errors.New("Não foi possível parse token")
 	}
 
-	tokenIsValid := parsedToken.Valid
-
-	if !tokenIsValid {
+	// Check if the token is valid
+	if !parsedToken.Valid {
 		return errors.New("Invalid Token")
 	}
 

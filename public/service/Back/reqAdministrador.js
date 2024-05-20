@@ -16,6 +16,11 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
+       if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
       return result;
     } catch (err) {
       console.error("Erro ao ler os planos")
@@ -34,6 +39,11 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
+       if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
       return result;
     } catch (err) {
       console.error("Erro ao ler os detalhes do funcionario")
@@ -52,6 +62,11 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
+       if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
       return result;
     } catch (err) {
       console.error("Erro ao ler os detalhes do cliente")
@@ -70,6 +85,11 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
+       if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
       return result;
     } catch (err) {
       console.error("Erro ao ler os detalhes do cliente")
@@ -88,6 +108,11 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
+       if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
       return result;
     } catch (err) {
       console.error("Erro ao ler os detalhes do cliente")
@@ -105,6 +130,11 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
+       if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
       return result;
     } catch (err) {
       console.error("Erro ao ler as academias")
@@ -122,6 +152,11 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
+       if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
       return result;
     } catch (err) {
       console.error("Erro ao ler o cliente")
@@ -139,6 +174,11 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
+       if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
       return result;
     } catch (err) {
       console.error("Erro ao ler os aparelhos")
@@ -156,6 +196,11 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
+       if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
       return result;
     } catch (err) {
       console.error("Erro ao ler o cliente")
@@ -174,6 +219,11 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
+       if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
       return result;
     } catch (err) {
       console.error("Erro ao ler o Funcionario")
@@ -221,6 +271,11 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
+       if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
       return result;
     } catch (err) {
       console.error("Erro ao registrar o cliente")
@@ -251,6 +306,11 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
+       if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
       return result;
     } catch (err) {
       console.error("Erro ao registrar o funcionario")
@@ -270,6 +330,11 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
+       if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
       return result;
     } catch (err) {
       console.error("Erro ao registrar o funcionario")
@@ -289,6 +354,11 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
+       if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
       return result;
     } catch (err) {
       console.error("Erro ao registrar o funcionario")
@@ -311,6 +381,11 @@ class AdministradorServices extends FichaServices {
       });
 
       const result = await response.json();
+       if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
       return result;
     } catch (err) {
       console.error("Erro ao arquivar o cliente")
@@ -329,6 +404,11 @@ class AdministradorServices extends FichaServices {
       });
 
       const result = await response.json();
+       if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
       return result;
     } catch (err) {
       console.error("Erro ao arquivar o funcionario")
@@ -347,6 +427,11 @@ class AdministradorServices extends FichaServices {
       });
 
       const result = await response.json();
+       if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
       return result;
     } catch (err) {
       console.error("Erro ao arquivar o funcionario")
@@ -365,6 +450,11 @@ class AdministradorServices extends FichaServices {
       });
 
       const result = await response.json();
+       if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
       return result;
     } catch (err) {
       console.error("Erro ao arquivar o funcionario")
@@ -397,6 +487,11 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
+       if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
       return result;
     } catch (err) {
       console.error("Erro ao atualizar os dados do funcionario")
@@ -427,6 +522,11 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
+       if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
       return result;
     } catch (err) {
       console.error("Erro ao atualizar os dados do cliente")
@@ -447,6 +547,11 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
+       if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
       return result;
     } catch (err) {
       console.error("Erro ao atualizar os dados do cliente")
@@ -467,6 +572,11 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
+       if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
       return result;
     } catch (err) {
       console.error("Erro ao atualizar os dados do cliente")
@@ -484,6 +594,11 @@ class AdministradorServices extends FichaServices {
       })
     })
     const result = await response.json();
+     if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
     return result
   }
 
@@ -497,6 +612,11 @@ class AdministradorServices extends FichaServices {
       })
     })
     const result = await response.json();
+     if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
     return result
   }
 
@@ -510,6 +630,11 @@ class AdministradorServices extends FichaServices {
       })
     })
     const result = await response.json();
+     if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
     return result
   }
 
@@ -523,6 +648,11 @@ class AdministradorServices extends FichaServices {
       })
     })
     const result = await response.json();
+     if (result.message === "Não autorizado") {
+        alert("Sessão expirada faça login novamente!")
+        localStorage.clear()
+        window.location.href = "/"
+      }
     return result
   }
 }
