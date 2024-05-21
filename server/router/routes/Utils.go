@@ -83,3 +83,52 @@ func (h *UtilsHandlers) VerificarEmailCadastradoGeral(context *gin.Context) {
 
 	context.JSON(http.StatusOK, result)
 }
+
+func (h *UtilsHandlers) EnviarEmail(context *gin.Context) {
+	var EmailData domain.EmailData
+	if err := context.ShouldBindJSON(&EmailData); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
+		return
+	}
+
+	if err := h.service.EnviarEmail(EmailData.Email, EmailData.Modulo); err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao enviar email"})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "Sucesso"})
+}
+
+func (h *UtilsHandlers) VerificarCodigo(context *gin.Context) {
+	var ReqCodigo int64
+	if err := context.ShouldBindJSON(&ReqCodigo); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
+		return
+	}
+
+	recSenha, err := h.service.VerificarCodigo(ReqCodigo)
+
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao verificar código"})
+		return
+	}
+
+	context.JSON(http.StatusOK, recSenha)
+}
+
+func (h *UtilsHandlers) TrocarSenha(context *gin.Context) {
+	var recData domain.RecuperarSenhaData
+	if err := context.ShouldBindJSON(&recData); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
+		return
+	}
+
+	result, err := h.service.TrocarSenha(recData.Email, recData.Senha, recData.Modulo)
+
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao Trocar Senha"})
+		return
+	}
+
+	context.JSON(http.StatusOK, result)
+}

@@ -36,7 +36,6 @@ class EquipeServices extends LoginServices {
   }
 
   async CreateAcademia(data, token) {
-    console.log(data)
     try {
       const response = await fetch("/Academia/CreateAcademia", {
         method: "POST",
@@ -122,7 +121,6 @@ class EquipeServices extends LoginServices {
             window.location.href = "/"
           }
 
-      console.log(result)
       admAcademia.innerHTML = "";
       admAcademia.innerHTML += `<option value='${result.AcaId}'></option>`;
     } catch (err) {

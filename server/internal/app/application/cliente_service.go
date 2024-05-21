@@ -32,3 +32,7 @@ func (s *ClienteService) ArchiveCliente(CliId int64) error {
 func (s *ClienteService) UpdateClienteDetalhes(c domain.Cliente) error {
 	return s.repo.UpdateClienteDetalhes(c)
 }
+
+func (s *ClienteService) AtivarCliente(CliId int64) error {
+	return s.repo.AtivarCliente(CliId)
+}

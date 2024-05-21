@@ -15,6 +15,7 @@ type FuncionarioRepository interface {
 	ArchiveFuncionario(FunId int64) error
 	UpdateFuncionarioDetalhes(f domain.Funcionario) error
 	FuncionarioMeuDesempenho(IdFuncionario int64) ([]domain.Satisfacao, error)
+	AtivarFuncionario(FunId int64) error
 }
 
 type localFuncionarioRepository struct{}
@@ -149,4 +150,23 @@ func (r *localFuncionarioRepository) FuncionarioMeuDesempenho(IdFuncionario int6
 		satisfacoes = append(satisfacoes, s)
 	}
 	return satisfacoes, nil
+}
+
+func (r *localFuncionarioRepository) AtivarFuncionario(FunId int64) error {
+	query := "update tblFuncionario set funStatus = 1 where funId = ?"
+	stmt, err := database.DB.Prepare(query)
+
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+
+	_, err = stmt.Exec(FunId)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

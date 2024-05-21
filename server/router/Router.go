@@ -17,6 +17,9 @@ func UtilsRoutes(server *gin.Engine, handlers *routes.UtilsHandlers) {
 	server.POST("/VerificarCpfCadastradoGeral", handlers.VerificarCpfCadastradoGeral)
 	server.POST("/VerificarEmailCadastrado", handlers.VerificarEmailCadastrado)
 	server.POST("/VerificarEmailCadastradoGeral", handlers.VerificarEmailCadastradoGeral)
+	server.POST("/EnviarEmail", handlers.EnviarEmail)
+	server.POST("/VerificarCodigo", handlers.VerificarCodigo)
+	server.POST("/TrocarSenha", handlers.TrocarSenha)
 	server.GET("/ws", UTILS.HandleConnections)
 }
 
@@ -55,7 +58,7 @@ func ClienteRoutes(server *gin.Engine, handlers *routes.ClienteHandlers) {
 	server.POST("/Cliente/ReadClienteDet", handlers.ReadClienteDet)
 	server.POST("/Cliente/RegisterCliente", handlers.RegisterCliente)
 	server.POST("/Cliente/ArchiveCliente", handlers.ArchiveCliente)
-	// server.POST("/Cliente/AtivarCliente", handlers.AtivarCliente)
+	server.POST("/Cliente/AtivarCliente", handlers.AtivarCliente)
 	server.POST("/Cliente/UpdateClienteDetalhes", handlers.UpdateClienteDetalhes)
 }
 
@@ -64,6 +67,7 @@ func AparelhoRoutes(server *gin.Engine, handlers *routes.AparelhoHandlers) {
 	server.POST("/Aparelho/ReadAparelhoDet", handlers.ReadAparelhoDet)
 	server.POST("/Aparelho/RegisterAparelho", handlers.RegisterAparelho)
 	server.POST("/Aparelho/ArchiveAparelho", handlers.ArchiveAparelho)
+	server.POST("/Aparelho/AtivarAparelho", handlers.AtivarAparelho)
 	server.POST("/Aparelho/UpdateAparelhoDetalhes", handlers.UpdateAparelhoDetalhes)
 }
 
@@ -72,6 +76,7 @@ func ExercicioRoutes(server *gin.Engine, handlers *routes.ExercicioHandlers) {
 	server.POST("/Exercicio/ReadExercicioDet", handlers.ReadExercicioDet)
 	server.POST("/Exercicio/RegisterExercicio", handlers.RegisterExercicio)
 	server.POST("/Exercicio/ArchiveExercicio", handlers.ArchiveExercicio)
+	server.POST("/Exercicio/AtivarExercicio", handlers.AtivarExercicio)
 	server.POST("/Exercicio/UpdateExercicioDetalhes", handlers.UpdateExercicioDetalhes)
 }
 
@@ -80,6 +85,7 @@ func FuncionarioRoutes(server *gin.Engine, handlers *routes.FuncionarioHandlers)
 	server.POST("/Funcionario/ReadFuncionarioDet", handlers.ReadFuncionarioDet)
 	server.POST("/Funcionario/RegisterFuncionario", handlers.RegisterFuncionario)
 	server.POST("/Funcionario/ArchiveFuncionario", handlers.ArchiveFuncionario)
+	server.POST("/Funcionario/AtivarFuncionario", handlers.AtivarFuncionario)
 	server.POST("/Funcionario/UpdateFuncionarioDetalhes", handlers.UpdateFuncionarioDetalhes)
 	server.POST("/Funcionario/MeuDesempenho", handlers.FuncionarioMeuDesempenho)
 }

@@ -32,3 +32,7 @@ func (s *AparelhoService) ArchiveAparelho(ApaId int64) error {
 func (s *AparelhoService) UpdateAparelhoDetalhes(a domain.Aparelho) error {
 	return s.repo.UpdateAparelhoDetalhes(a)
 }
+
+func (s *AparelhoService) AtivarAparelho(ApaId int64) error {
+	return s.repo.AtivarAparelho(ApaId)
+}

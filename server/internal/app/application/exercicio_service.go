@@ -32,3 +32,7 @@ func (s *ExercicioService) ArchiveExercicio(ExeId int64) error {
 func (s *ExercicioService) UpdateExercicioDetalhes(e domain.Exercicio) error {
 	return s.repo.UpdateExercicioDetalhes(e)
 }
+
+func (s *ExercicioService) AtivarExercicio(ExeId int64) error {
+	return s.repo.AtivarExercicio(ExeId)
+}

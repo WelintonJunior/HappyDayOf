@@ -14,6 +14,7 @@ type ClienteRepository interface {
 	CreateCliente(c domain.Cliente) error
 	ArchiveCliente(CliId int64) error
 	UpdateClienteDetalhes(c domain.Cliente) error
+	AtivarCliente(CliId int64) error
 }
 
 type localClienteRepository struct{}
@@ -127,6 +128,21 @@ func (r *localClienteRepository) UpdateClienteDetalhes(c domain.Cliente) error {
 	return nil
 }
 
-// func AtivarCliente(CliId int64) {
-// 	query := ""
-// }
+func (r *localClienteRepository) AtivarCliente(CliId int64) error {
+	query := "update tblCliente set cliStatus = 1 where cliId = ?"
+	stmt, err := database.DB.Prepare(query)
+
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+
+	_, err = stmt.Exec(CliId)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

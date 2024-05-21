@@ -178,3 +178,18 @@ func (h *FuncionarioHandlers) FuncionarioMeuDesempenho(context *gin.Context) {
 
 	context.JSON(http.StatusOK, satisfacoes)
 }
+
+func (h *FuncionarioHandlers) AtivarFuncionario(context *gin.Context) {
+	var FunId int64
+	if err := context.ShouldBindJSON(&FunId); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
+		return
+	}
+
+	if err := h.service.AtivarFuncionario(FunId); err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao ativar Funcionario"})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "Sucesso"})
+}

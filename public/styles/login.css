@@ -148,6 +148,15 @@ body {
   animation: spin 2s linear infinite;
 }
 
+#btnEsqueceuSenha {
+  cursor: pointer;
+}
+
+#btnEsqueceuSenha:hover {
+  color: gray;
+  transition: 0.3s;
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);

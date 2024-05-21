@@ -152,11 +152,18 @@ func (h *ClienteHandlers) UpdateClienteDetalhes(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{"message": "Atualizado com sucesso"})
 }
 
-// func AtivarCliente(context *gin.Context) {
-// 	var CliId CliIdData
-// 	if err := context.ShouldBindJSON(&CliId); err != nil {
-// 		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
-// 		return
-// 	}
+func (h *ClienteHandlers) AtivarCliente(context *gin.Context) {
+	var CliId int64
+	if err := context.ShouldBindJSON(&CliId); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
+		return
+	}
 
-// }
+	if err := h.service.AtivarCliente(CliId); err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao ativar cliente"})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "Sucesso"})
+
+}

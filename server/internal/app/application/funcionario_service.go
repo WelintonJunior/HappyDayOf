@@ -36,3 +36,7 @@ func (s *FuncionarioService) UpdateFuncionarioDetalhes(f domain.Funcionario) err
 func (s *FuncionarioService) FuncionarioMeuDesempenho(IdFuncionario int64) ([]domain.Satisfacao, error) {
 	return s.repo.FuncionarioMeuDesempenho(IdFuncionario)
 }
+
+func (s *FuncionarioService) AtivarFuncionario(FunId int64) error {
+	return s.repo.AtivarFuncionario(FunId)
+}

@@ -45,3 +45,9 @@ type EmailData struct {
 	Email  string
 	Modulo string
 }
+
+type RecuperarSenhaData struct {
+	Email  string
+	Modulo string
+	Senha  string
+}

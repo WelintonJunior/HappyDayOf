@@ -154,3 +154,18 @@ func (h *AparelhoHandlers) UpdateAparelhoDetalhes(context *gin.Context) {
 
 	context.JSON(http.StatusOK, gin.H{"message": "Atualizado com sucesso"})
 }
+
+func (h *AparelhoHandlers) AtivarAparelho(context *gin.Context) {
+	var ApaId int64
+	if err := context.ShouldBindJSON(&ApaId); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
+		return
+	}
+
+	if err := h.service.AtivarAparelho(ApaId); err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao ativar aparelho"})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "Sucesso"})
+}

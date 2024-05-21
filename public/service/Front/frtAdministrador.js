@@ -690,7 +690,6 @@ formCadastrarExercicio.addEventListener("submit", async (e) => {
 //Atualizar a Lista de Clientes
 
 async function UpdateListaCliente(token, filtroNome = "") {
-  console.log(token)
   const result = await admServices.ReadCliente(idAcademia, token);
   const resultadosFiltrados = filtroNome ? result.filter(item => item.CliNome.toLowerCase().includes(filtroNome.toLowerCase())) : result;
   //Colocar em alguma lista
@@ -1142,7 +1141,6 @@ async function UpdateClienteFichaTreinoA(cliId, token) {
         "DetStatus"
       ];
       camposSelecionados.forEach((campo) => {
-        console.log(campo)
         if (item.hasOwnProperty(campo)) {
           let celula = linha.insertCell();
           celula.innerHTML = item[campo];
@@ -1249,7 +1247,6 @@ async function UpdateClienteFichaTreinoC(cliId, token) {
 
 
     for (const item of result) {
-      console.log(item)
       if (item.DetStatus === 0) {
         continue;
       }

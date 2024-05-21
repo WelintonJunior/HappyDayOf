@@ -150,3 +150,18 @@ func (h *ExercicioHandlers) UpdateExercicioDetalhes(context *gin.Context) {
 
 	context.JSON(http.StatusOK, gin.H{"message": "Atualizado com sucesso"})
 }
+
+func (h *ExercicioHandlers) AtivarExercicio(context *gin.Context) {
+	var ExeId int64
+	if err := context.ShouldBindJSON(&ExeId); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
+		return
+	}
+
+	if err := h.service.AtivarExercicio(ExeId); err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao ativar exercicio"})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "Sucesso"})
+}

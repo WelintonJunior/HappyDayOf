@@ -11,6 +11,7 @@ type ExercicioRepository interface {
 	CreateExercicio(e domain.Exercicio) error
 	ArchiveExercicio(ExeId int64) error
 	UpdateExercicioDetalhes(e domain.Exercicio) error
+	AtivarExercicio(ExeId int64) error
 }
 
 type localExercicioRepository struct{}
@@ -106,6 +107,25 @@ func (r *localExercicioRepository) UpdateExercicioDetalhes(e domain.Exercicio) e
 	defer stmt.Close()
 
 	_, err = stmt.Exec(e.ExeNome, e.ExeApaId, e.ExeStatus, e.ExeId)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r *localExercicioRepository) AtivarExercicio(ExeId int64) error {
+	query := "update tblExercicios set exeStatus = 1 where exeId = ?"
+	stmt, err := database.DB.Prepare(query)
+
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+
+	_, err = stmt.Exec(ExeId)
 
 	if err != nil {
 		return err

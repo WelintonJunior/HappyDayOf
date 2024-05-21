@@ -11,6 +11,7 @@ type AparelhoRepository interface {
 	CreateAparelho(a domain.Aparelho) error
 	ArchiveAparelho(ApaId int64) error
 	UpdateAparelhoDetalhes(a domain.Aparelho) error
+	AtivarAparelho(ApaId int64) error
 }
 
 type localAparelhoRepository struct{}
@@ -107,6 +108,25 @@ func (r *localAparelhoRepository) UpdateAparelhoDetalhes(a domain.Aparelho) erro
 	defer stmt.Close()
 
 	_, err = stmt.Exec(a.ApaNome, a.ApaDataEntrada, a.ApaStatus, a.ApaId)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r *localAparelhoRepository) AtivarAparelho(ApaId int64) error {
+	query := "update tblAparelhos set apaStatus = 1 where apaId = ?"
+	stmt, err := database.DB.Prepare(query)
+
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+
+	_, err = stmt.Exec(ApaId)
 
 	if err != nil {
 		return err

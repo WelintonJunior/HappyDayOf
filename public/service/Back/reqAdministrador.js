@@ -16,7 +16,7 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
-       if (result.message === "Não autorizado") {
+      if (result.message === "Não autorizado") {
         alert("Sessão expirada faça login novamente!")
         localStorage.clear()
         window.location.href = "/"
@@ -39,7 +39,7 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
-       if (result.message === "Não autorizado") {
+      if (result.message === "Não autorizado") {
         alert("Sessão expirada faça login novamente!")
         localStorage.clear()
         window.location.href = "/"
@@ -62,7 +62,7 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
-       if (result.message === "Não autorizado") {
+      if (result.message === "Não autorizado") {
         alert("Sessão expirada faça login novamente!")
         localStorage.clear()
         window.location.href = "/"
@@ -85,7 +85,7 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
-       if (result.message === "Não autorizado") {
+      if (result.message === "Não autorizado") {
         alert("Sessão expirada faça login novamente!")
         localStorage.clear()
         window.location.href = "/"
@@ -108,7 +108,7 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
-       if (result.message === "Não autorizado") {
+      if (result.message === "Não autorizado") {
         alert("Sessão expirada faça login novamente!")
         localStorage.clear()
         window.location.href = "/"
@@ -130,7 +130,7 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
-       if (result.message === "Não autorizado") {
+      if (result.message === "Não autorizado") {
         alert("Sessão expirada faça login novamente!")
         localStorage.clear()
         window.location.href = "/"
@@ -152,7 +152,7 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
-       if (result.message === "Não autorizado") {
+      if (result.message === "Não autorizado") {
         alert("Sessão expirada faça login novamente!")
         localStorage.clear()
         window.location.href = "/"
@@ -174,7 +174,7 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
-       if (result.message === "Não autorizado") {
+      if (result.message === "Não autorizado") {
         alert("Sessão expirada faça login novamente!")
         localStorage.clear()
         window.location.href = "/"
@@ -196,7 +196,7 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
-       if (result.message === "Não autorizado") {
+      if (result.message === "Não autorizado") {
         alert("Sessão expirada faça login novamente!")
         localStorage.clear()
         window.location.href = "/"
@@ -219,7 +219,7 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
-       if (result.message === "Não autorizado") {
+      if (result.message === "Não autorizado") {
         alert("Sessão expirada faça login novamente!")
         localStorage.clear()
         window.location.href = "/"
@@ -271,7 +271,7 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
-       if (result.message === "Não autorizado") {
+      if (result.message === "Não autorizado") {
         alert("Sessão expirada faça login novamente!")
         localStorage.clear()
         window.location.href = "/"
@@ -306,7 +306,7 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
-       if (result.message === "Não autorizado") {
+      if (result.message === "Não autorizado") {
         alert("Sessão expirada faça login novamente!")
         localStorage.clear()
         window.location.href = "/"
@@ -330,7 +330,7 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
-       if (result.message === "Não autorizado") {
+      if (result.message === "Não autorizado") {
         alert("Sessão expirada faça login novamente!")
         localStorage.clear()
         window.location.href = "/"
@@ -354,7 +354,7 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
-       if (result.message === "Não autorizado") {
+      if (result.message === "Não autorizado") {
         alert("Sessão expirada faça login novamente!")
         localStorage.clear()
         window.location.href = "/"
@@ -381,7 +381,7 @@ class AdministradorServices extends FichaServices {
       });
 
       const result = await response.json();
-       if (result.message === "Não autorizado") {
+      if (result.message === "Não autorizado") {
         alert("Sessão expirada faça login novamente!")
         localStorage.clear()
         window.location.href = "/"
@@ -404,7 +404,7 @@ class AdministradorServices extends FichaServices {
       });
 
       const result = await response.json();
-       if (result.message === "Não autorizado") {
+      if (result.message === "Não autorizado") {
         alert("Sessão expirada faça login novamente!")
         localStorage.clear()
         window.location.href = "/"
@@ -427,7 +427,7 @@ class AdministradorServices extends FichaServices {
       });
 
       const result = await response.json();
-       if (result.message === "Não autorizado") {
+      if (result.message === "Não autorizado") {
         alert("Sessão expirada faça login novamente!")
         localStorage.clear()
         window.location.href = "/"
@@ -450,7 +450,7 @@ class AdministradorServices extends FichaServices {
       });
 
       const result = await response.json();
-       if (result.message === "Não autorizado") {
+      if (result.message === "Não autorizado") {
         alert("Sessão expirada faça login novamente!")
         localStorage.clear()
         window.location.href = "/"
@@ -487,7 +487,7 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
-       if (result.message === "Não autorizado") {
+      if (result.message === "Não autorizado") {
         alert("Sessão expirada faça login novamente!")
         localStorage.clear()
         window.location.href = "/"
@@ -522,7 +522,7 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
-       if (result.message === "Não autorizado") {
+      if (result.message === "Não autorizado") {
         alert("Sessão expirada faça login novamente!")
         localStorage.clear()
         window.location.href = "/"
@@ -547,7 +547,7 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
-       if (result.message === "Não autorizado") {
+      if (result.message === "Não autorizado") {
         alert("Sessão expirada faça login novamente!")
         localStorage.clear()
         window.location.href = "/"
@@ -572,7 +572,7 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
-       if (result.message === "Não autorizado") {
+      if (result.message === "Não autorizado") {
         alert("Sessão expirada faça login novamente!")
         localStorage.clear()
         window.location.href = "/"
@@ -584,75 +584,71 @@ class AdministradorServices extends FichaServices {
     }
   }
 
-  async AtivarCliente(data, token) {
-    const response = await fetch("/Administrador", {
+  async AtivarCliente(CliId, token) {
+    const response = await fetch("/Cliente/AtivarCliente", {
       method: "POST",
       headers: { "Content-Type": "application/json", "Authorization": `${token}` },
-      body: JSON.stringify({
-        data,
-        acao: "AtivarCliente"
-      })
+      body:
+        CliId
+
     })
     const result = await response.json();
-     if (result.message === "Não autorizado") {
-        alert("Sessão expirada faça login novamente!")
-        localStorage.clear()
-        window.location.href = "/"
-      }
+    if (result.message === "Não autorizado") {
+      alert("Sessão expirada faça login novamente!")
+      localStorage.clear()
+      window.location.href = "/"
+    }
     return result
   }
 
-  async AtivarFuncionario(data, token) {
-    const response = await fetch("/Administrador", {
+  async AtivarFuncionario(funDetId, token) {
+    const response = await fetch("/Funcionario/AtivarFuncionario", {
       method: "POST",
       headers: { "Content-Type": "application/json", "Authorization": `${token}` },
-      body: JSON.stringify({
-        data,
-        acao: "AtivarFuncionario"
-      })
+      body:
+        funDetId
+
     })
     const result = await response.json();
-     if (result.message === "Não autorizado") {
-        alert("Sessão expirada faça login novamente!")
-        localStorage.clear()
-        window.location.href = "/"
-      }
+    if (result.message === "Não autorizado") {
+      alert("Sessão expirada faça login novamente!")
+      localStorage.clear()
+      window.location.href = "/"
+    }
     return result
   }
 
-  async AtivarAparelho(data, token) {
-    const response = await fetch("/Administrador", {
+  async AtivarAparelho(apaDetId, token) {
+    const response = await fetch("/Aparelho/AtivarAparelho", {
       method: "POST",
       headers: { "Content-Type": "application/json", "Authorization": `${token}` },
-      body: JSON.stringify({
-        data,
-        acao: "AtivarAparelho"
-      })
+      body:
+        apaDetId
+
     })
     const result = await response.json();
-     if (result.message === "Não autorizado") {
-        alert("Sessão expirada faça login novamente!")
-        localStorage.clear()
-        window.location.href = "/"
-      }
+    if (result.message === "Não autorizado") {
+      alert("Sessão expirada faça login novamente!")
+      localStorage.clear()
+      window.location.href = "/"
+    }
     return result
   }
 
-  async AtivarExercicio(data, token) {
-    const response = await fetch("/Administrador", {
+  async AtivarExercicio(exeDetId, token) {
+    const response = await fetch("/Exercicio/AtivarExercicio", {
       method: "POST",
       headers: { "Content-Type": "application/json", "Authorization": `${token}` },
-      body: JSON.stringify({
-        data,
-        acao: "AtivarExercicio"
-      })
+      body:
+        exeDetId
+
     })
     const result = await response.json();
-     if (result.message === "Não autorizado") {
-        alert("Sessão expirada faça login novamente!")
-        localStorage.clear()
-        window.location.href = "/"
-      }
+    if (result.message === "Não autorizado") {
+      alert("Sessão expirada faça login novamente!")
+      localStorage.clear()
+      window.location.href = "/"
+    }
     return result
   }
 }
