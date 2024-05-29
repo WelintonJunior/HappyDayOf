@@ -210,7 +210,6 @@ func (r *localUtilsRepository) VerificarCodigo(cod int64) (domain.RecuperarSenha
 }
 
 func (r *localUtilsRepository) TrocarSenha(Email, Senha, Modulo string) (bool, error) {
-	fmt.Println(Modulo)
 	switch Modulo {
 	case "cli":
 		query := "update tblCliente set cliSenha = ? where cliEmail = ?"
