@@ -46,16 +46,16 @@ func (h *SatisfacaoHandlers) VerifySatisfacaoAtendimento(context *gin.Context) {
 }
 
 func (h *SatisfacaoHandlers) VerificarAtendimento(context *gin.Context) {
-	token := context.Request.Header.Get("Authorization")
-	if token == "" {
-		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
-		return
-	}
+	// token := context.Request.Header.Get("Authorization")
+	// if token == "" {
+	// 	context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+	// 	return
+	// }
 
-	if err := UTILS.VerifyToken(token); err != nil {
-		context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
-		return
-	}
+	// if err := UTILS.VerifyToken(token); err != nil {
+	// 	context.JSON(http.StatusUnauthorized, gin.H{"message": "Não autorizado"})
+	// 	return
+	// }
 
 	var s domain.Satisfacao
 
