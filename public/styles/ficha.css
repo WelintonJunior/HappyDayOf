@@ -493,8 +493,6 @@ tbody td.active {
 #BoxExerciciosFicha {
   overflow: auto;
   max-height: 300px;
-  max-width: 60%;
-  
   margin-right: 10px;
   margin-left: 10px;
   margin-bottom: 25px;

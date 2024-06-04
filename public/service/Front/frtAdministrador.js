@@ -245,7 +245,7 @@ function MostrarTela(tela) {
   // document.getElementById("listaTreinoA").innerHTML = "";
   // document.getElementById("listaTreinoB").innerHTML = "";
   // document.getElementById("listaTreinoC").innerHTML = "";
-  document.getElementById("sidebarHeader").style.paddingTop = "20px"
+  // document.getElementById("sidebarHeader").style.paddingTop = "20px"
   formDetCliente.reset();
   formDetFuncionario.reset();
   formCriarBaseFicha.reset();
@@ -1138,7 +1138,6 @@ async function UpdateClienteFichaTreinoA(cliId, token) {
         "DetCarga",
         "DetSerie",
         "DetRepeticao",
-        "DetStatus"
       ];
       camposSelecionados.forEach((campo) => {
         if (item.hasOwnProperty(campo)) {
@@ -1678,6 +1677,7 @@ btnAtivarCliente.addEventListener("click", async (e) => {
   await UpdateListaCliente(token);
   MostrarTela("TelaClientes")
 })
+
 btnAtivarFuncionario.addEventListener("click", async (e) => {
   e.preventDefault();
   let funDetId = document.getElementById("funDetId").value
@@ -1685,6 +1685,7 @@ btnAtivarFuncionario.addEventListener("click", async (e) => {
   await UpdateListaFuncionario(token)
   MostrarTela("TelaFuncionarios")
 })
+
 btnAtivarAparelho.addEventListener("click", async (e) => {
   e.preventDefault();
   let apaDetId = document.getElementById("apaDetId").value
@@ -1692,6 +1693,7 @@ btnAtivarAparelho.addEventListener("click", async (e) => {
   await UpdateListaAparelho(token)
   MostrarTela("TelaAparelhos")
 })
+
 btnAtivarExercicio.addEventListener("click", async (e) => {
   e.preventDefault();
   let exeDetId = document.getElementById("exeDetId").value
@@ -1810,74 +1812,6 @@ async function PreencherSelectAparelhos() {
   }
 }
 
-// formInserirTreinoA.addEventListener("submit", async (e) => {
-//   e.preventDefault();
-//   const fd = new FormData(e.target);
-//   const data = Object.fromEntries(fd.entries());
-//   const cliIdFichaTreinoA = document.getElementById("cliIdFichaTreinoA").value;
-//   const idFicha = document.getElementById("idFichaTreinoA").value;
-//   data.detIdFicha = idFicha;
-//   data.detTreino = "A";
-//   const verificacao = await verificarForm(data);
-//   data.cliIdFicha = document.getElementById("cliIdAtual").value;
-//   if (!verificacao) {
-//     const result = await admServices.RegisterDetalhesFicha(data, token);
-//     await UpdateClienteFichaTreinoA(cliIdFichaTreinoA, token);
-//     formInserirTreinoA.querySelector(`[name="detVariacao"]`).value = "";
-//     formInserirTreinoA.querySelector(`[name="detSerie"]`).value = "";
-//     formInserirTreinoA.querySelector(`[name="detRepeticao"]`).value = "";
-//     formInserirTreinoA.querySelector(`[name="detCarga"]`).value = "";
-//   } else {
-//     alert("Você precisa preencher todos os campos")
-//   }
-// });
-
-// formInserirTreinoB.addEventListener("submit", async (e) => {
-//   e.preventDefault();
-//   const fd = new FormData(e.target);
-//   const data = Object.fromEntries(fd.entries());
-//   const cliIdFichaTreinoB = document.getElementById("cliIdFichaTreinoB").value;
-//   const idFicha = document.getElementById("idFichaTreinoB").value;
-//   data.detIdFicha = idFicha;
-//   data.detTreino = "B";
-//   const verificacao = await verificarForm(data);
-//   data.cliIdFicha = document.getElementById("cliIdAtual").value;
-//   if (!verificacao) {
-//     const result = await admServices.RegisterDetalhesFicha(data, token);
-//     await UpdateClienteFichaTreinoB(cliIdFichaTreinoB, token);
-//     formInserirTreinoB.querySelector(`[name="detVariacao"]`).value = "";
-//     formInserirTreinoB.querySelector(`[name="detSerie"]`).value = "";
-//     formInserirTreinoB.querySelector(`[name="detRepeticao"]`).value = "";
-//     formInserirTreinoB.querySelector(`[name="detCarga"]`).value = "";
-//   } else {
-//     alert("Você precisa preencher todos os campos")
-//   }
-// });
-
-// formInserirTreinoC.addEventListener("submit", async (e) => {
-//   e.preventDefault();
-//   const fd = new FormData(e.target);
-//   const data = Object.fromEntries(fd.entries());
-//   const cliIdFichaTreinoC = document.getElementById("cliIdFichaTreinoC").value;
-//   const idFicha = document.getElementById("idFichaTreinoC").value;
-//   data.detIdFicha = idFicha;
-//   data.detTreino = "C";
-//   const verificacao = await verificarForm(data);
-//   data.cliIdFicha = document.getElementById("cliIdAtual").value;
-//   if (!verificacao) {
-//     const result = await admServices.RegisterDetalhesFicha(data, token);
-//     await UpdateClienteFichaTreinoC(cliIdFichaTreinoC, token);
-//     formInserirTreinoC.querySelector(`[name="detVariacao"]`).value = "";
-//     formInserirTreinoC.querySelector(`[name="detSerie"]`).value = "";
-//     formInserirTreinoC.querySelector(`[name="detRepeticao"]`).value = "";
-//     formInserirTreinoC.querySelector(`[name="detCarga"]`).value = "";
-//   } else {
-//     alert("Você precisa preencher todos os campos")
-//   }
-// });
-
-//Pesquisar Ficha
-
 let pesquisarFicha = document.getElementById("pesquisarFicha")
 pesquisarFicha.addEventListener("keyup", async (e) => {
   const nomePesquisa = e.target.value;
@@ -1918,42 +1852,56 @@ pesquisarAparelho.addEventListener("keyup", async (e) => {
 
 //Criar Ficha
 
+let countFicha = 1;
+
 const innerA = document.getElementById("innerA");
 const innerB = document.getElementById("innerB");
 const innerC = document.getElementById("innerC");
-let auxInner = "";
+const btnVoltarFicha = document.getElementById("btnVoltarFicha")
+const btnAvancarFicha = document.getElementById("btnAvancarFicha")
 
-function ZerarAuxIneer() {
-  innerA.style.border = "none"
-  innerB.style.border = "none"
-  innerC.style.border = "none"
-  auxInner = "";
+btnVoltarFicha.addEventListener("click", () => {
+  if (countFicha >= 2) {
+    countFicha--
+    MudarFicha(countFicha)
+  } else {
+    alert("Não se pode ultrapassar a ficha A")
+  }
+})
+
+btnAvancarFicha.addEventListener("click", () => {
+  if (countFicha <= 2) {
+    countFicha++
+    MudarFicha(countFicha)
+  } else {
+    alert("Não se pode ultrapassar a ficha C")
+  }
+})
+
+async function MudarFicha(count) {
+  switch (count) {
+    case 1:
+      innerA.style.display = "block"
+      innerB.style.display = "none"
+      innerC.style.display = "none"
+      break; 
+    case 2:
+      innerA.style.display = "none"
+      innerB.style.display = "block"
+      innerC.style.display = "none"
+      break; 
+    case 3:
+      innerA.style.display = "none"
+      innerB.style.display = "none"
+      innerC.style.display = "block"
+      break; 
+  }
 }
-
-innerA.addEventListener('click', (e) => {
-  ZerarAuxIneer();
-  auxInner = "A"
-  innerA.style.border = "1px solid black"
-
-})
-innerB.addEventListener('click', (e) => {
-  ZerarAuxIneer();
-  auxInner = "B"
-  innerB.style.border = "1px solid black"
-
-})
-innerC.addEventListener('click', (e) => {
-  ZerarAuxIneer();
-  auxInner = "C"
-  innerC.style.border = "1px solid black"
-
-})
-
 
 async function PreencherBoxExercicios() {
   const result = await admServices.ReadExercicio(idAcademia, token);
   let BoxExerciciosFicha = document.getElementById("BoxExerciciosFicha");
-  ZerarAuxIneer()
+  // ZerarAuxIneer()
   BoxExerciciosFicha.innerHTML = ""
 
   result.forEach((item) => {
@@ -1971,10 +1919,6 @@ async function PreencherBoxExercicios() {
 }
 
 async function handleClick(item) {
-  if (auxInner === "") {
-    alert("Você precisa selecionar um tipo!")
-    return
-  } else {
     let data = {
       detIdFicha: 0,
       detTreino: 0,
@@ -1992,8 +1936,8 @@ async function handleClick(item) {
     const dateOnly = dateTimeString.split(" ")[0]; // Pega apenas a parte da data
     data.detDataAdicionado = dateOnly
 
-    switch (auxInner) {
-      case "A":
+    switch (countFicha) {
+      case 1:
         data.detIdFicha = idFicha;
         data.detTreino = "A";
         data.cliIdFicha = document.getElementById("cliIdAtual").value;
@@ -2004,7 +1948,7 @@ async function handleClick(item) {
         await admServices.RegisterDetalhesFicha(data, token);
         await UpdateCriarFichaTreinoA(cliIdFichaTreino, token);
         break;
-      case "B":
+      case 2:
         data.detIdFicha = idFicha;
         data.detTreino = "B";
         data.cliIdFicha = document.getElementById("cliIdAtual").value;
@@ -2015,7 +1959,7 @@ async function handleClick(item) {
         await admServices.RegisterDetalhesFicha(data, token);
         await UpdateCriarFichaTreinoB(cliIdFichaTreino, token);
         break;
-      case "C":
+      case 3:
         data.detIdFicha = idFicha;
         data.detTreino = "C";
         data.cliIdFicha = document.getElementById("cliIdAtual").value;
@@ -2028,7 +1972,6 @@ async function handleClick(item) {
         break;
     }
   }
-}
 
 async function UpdateCriarFichaTreinoA(cliId, token) {
   const result = await admServices.ReadFichaDetalhes(cliId, "A", token);
