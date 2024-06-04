@@ -45,24 +45,22 @@
   <div class="wrapper">
     <div class="scroll">
       <div id="content">
-
         <button class="btn btn-info" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
-        aria-controls="offcanvasScrolling"><i class="fas fa-align-left"></i> Alernar Menu</button>
+          aria-controls="offcanvasScrolling"><i class="fas fa-align-left"></i> Alternar Menu</button>
 
         <div class="offcanvas offcanvas-start offcanvas-start show text-bg-dark" data-bs-scroll="true" data-b
           s-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
-
-          
-
-
-
-
-
-
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasScrollingLabel">
+              <div class="sidebar-header p-2 mt-4">
+                <h4 id="cliInfo"></h4>
+              </div>
+            </h5>
+            <i class="bi bi-x fs-3 me-3" type="button" class="btn-close text-reset" aria-label="Close"
+              data-bs-dismiss="offcanvas"></i>
+            <!-- <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button> -->
+          </div>
           <nav class="offcanvas-body" id="sidebar">
-            <div class="sidebar-header">
-              <h4 id="cliInfo"></h4>
-            </div>
             <span class="ps-2" id="isAtendimento"> </span>
             <ul class="list-unstyled components ps-2">
               <li id="btnFicha">
