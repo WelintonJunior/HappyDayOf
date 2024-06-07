@@ -77,7 +77,7 @@
                 <a><i class="bi bi-card-list"></i> Ficha</a>
               </li>
               <li id="btnCliente">
-                <a> <i class="bi bi-people"></i> Clientes</a>
+                <a> <i class="bi bi-people"></i> Alunos</a>
               </li>
               <li id="btnFuncionario">
                 <a> <i class="bi bi-file-earmark-person-fill"> </i>Funcionários</a>
@@ -108,7 +108,7 @@
             <div class="row mt-3 flex-item">
 
               <div class="dashbordadministrador col-md-5 col-sm-12 col-12 mt-2">
-                <h3 class="mt-3">Satisfação Cliente/Funcionário</h3>
+                <h3 class="mt-3">Satisfação Aluno/Professor</h3>
                 <button type="button" class="btn btn-light cursor: pointer; mt-3 mb-3" id="reloadBtnSatisfacao"> <i
                     class="bi bi-arrow-clockwise"></i>Reload</button>
                 <div class="d-flex align-items-center justify-content-center mb-3">
@@ -176,7 +176,7 @@
                 </div>
               </section>
               <table class="table__body">
-                <h1 class="display-6 text-center mt-4 mb-4">Fichas de Clientes</h1>
+                <h1 class="display-6 text-center mt-4 mb-4">Fichas de Alunos</h1>
                 <div class="listBoxClienteFicha" id="listBoxClienteFicha">
                   <div id="tableClientesFicha"></div>
                 </div>
@@ -197,12 +197,12 @@
                 </div>
               </section>
               <table class="table__body">
-                <h1 class="display-6 text-center mt-4 mb-4">Lista de Clientes</h1>
+                <h1 class="display-6 text-center mt-4 mb-4">Lista de Alunos</h1>
                 <div class="listBoxCliente" id="listBoxCliente">
                   <div id="tableClientes"></div>
                 </div>
                 <div class="container ms-2">
-                  <button type="button" class="btn btn-info" id="abrirModalRegisterCliente">Cadastrar Cliente</button>
+                  <button type="button" class="btn btn-info" id="abrirModalRegisterCliente">Cadastrar Aluno</button>
                 </div>
 
               </table>
@@ -423,8 +423,8 @@
                       </div>
 
                       <div class="col-md-12">
-                        <button id="btnAtivarCliente" class="d-none btn btn-primary mb-1">Ativar Cliente</button>
-                        <button id="btnArchiveCliente" class="btn btn-primary mb-1 ">Desativar Cliente</button>
+                        <button id="btnAtivarCliente" class="d-none btn btn-primary mb-1">Ativar Aluno</button>
+                        <button id="btnArchiveCliente" class="btn btn-primary mb-1 ">Desativar Aluno</button>
                       </div>
                       <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalArquivarCliente">
                           Arquivar um usuario
@@ -704,7 +704,7 @@
                 <button type="button" class="btn btn-secondary" id="btnVoltarTelaFicha">Voltar</button>
                 <form class="mt-3 mb-3">
                   <input type="text" class="d-none" id="cliIdAtual">
-                  Cliente: <span id="cliNomeCriarFicha"></span> <br />
+                  Aluno: <span id="cliNomeCriarFicha"></span> <br />
                   Professor:<span id="funNomeCriarFicha"></span> <br />
                   <select style="display: none" name="funSelectCriarFicha" id="funSelectCriarFicha"></select>
                   Restrições:
@@ -781,7 +781,7 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h3 class="mt-4 mb-4"> Cadastrar Cliente</h3>
+                <h3 class="mt-4 mb-4"> Cadastrar Aluno</h3>
                 <span id="fecharModalCadastrarCliente" class="fechar">&times;</span>
               </div>
               <div class="modal-body">
@@ -1057,7 +1057,7 @@
           <div class="modal-dialog d-flex align-items-center justify-content-center" style="height: 80vh;">
             <div class="modal-content">
               <div class="modal-header">
-                <h2>Desativar Cliente</h2>
+                <h2>Desativar Aluno</h2>
                 <span id="fecharModalArquivarCliente" class="fechar">&times;</span>
               </div>
               <form id="formArquivarCliente" class="p-5">
