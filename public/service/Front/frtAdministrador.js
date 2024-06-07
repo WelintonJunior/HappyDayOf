@@ -1017,7 +1017,7 @@ async function UpdateListaClienteFicha(token, filtroNome = "") {
         botaoCriarFicha.textContent = "Criar";
         botaoCriarFicha.addEventListener("click", async function () {
           document.getElementById("funFicha").innerHTML = "";
-          await UpdateCriarFichaTreinoA(item.CliId, token)
+          // await UpdateCriarFichaTreinoA(item.CliId, token)
           await PreencherSelectProfessores();
           modalCriarBaseFicha.style.display = "block";
           // introJs().start();
