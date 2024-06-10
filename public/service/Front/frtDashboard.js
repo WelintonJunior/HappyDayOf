@@ -95,6 +95,8 @@ async function renderSatisfacaoChart() {
         funcionario.somaSeguranca += parseInt(Satisfacao.SatNotaSeguranca);
         funcionario.count++;
     }
+
+    console.log(funcionarios)
     Object.values(funcionarios).forEach(func => func.calcularMedias());
 
     const labels = ['Conhecimento', 'Clareza', 'Proatividade', 'Disponibilidade', 'Segurança'];
