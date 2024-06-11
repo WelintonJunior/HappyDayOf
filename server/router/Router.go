@@ -126,6 +126,7 @@ func DashboardRoutes(server *gin.Engine, handlers *routes.DashboardHandlers) {
 	server.POST("/DashBoard/ReadAllAtendimentos", handlers.ReadAllAtendimentos)
 	server.POST("/DashBoard/ReadFuncNome", handlers.ReadFuncNome)
 	server.POST("/DashBoard/ReadAllEngajamentos", handlers.ReadAllEngajamentos)
+	server.POST("/Dashboard/CountClientes", handlers.ReadAllClientes)
 	// server.POST("/DashBoard/AvaliacaoPerformance", handlers.AvaliacaoPerformance)
 	// server.POST("/DashBoard/Roi", handlers.Roi)
 }

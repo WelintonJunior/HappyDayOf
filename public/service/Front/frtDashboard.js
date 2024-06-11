@@ -542,6 +542,12 @@ async function renderClienteDesempenhoChart(cliId, token, service) {
     }
 }
 
+async function renderNumeracaoChart() {
+    const allClientes = await dashboardServices.ReadAllClientes(idAcademia, token)
+    const dashNumeracao = document.getElementById("dashNumeracao")
+    dashNumeracao.innerHTML = allClientes.IdAcad
+}
+
 let reloadBtnSatisfacao = document.getElementById("reloadBtnSatisfacao")
 if (reloadBtnSatisfacao) {
     reloadBtnSatisfacao.addEventListener("click", async (e) => {
@@ -588,6 +594,7 @@ if (reloadBtnAtendimento) {
         await renderProdutividadeChart();
         await renderAtendimentoChart();
         await renderEngajamentoChart();
+        await renderNumeracaoChart();
     });
 }
 

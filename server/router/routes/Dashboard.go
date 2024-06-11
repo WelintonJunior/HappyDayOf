@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"fmt"
 	"net/http"
 
 	UTILS "example.com/fitConnect/Utils"
@@ -160,4 +161,23 @@ func (h *DashboardHandlers) ReadAllEngajamentos(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusOK, engajamentos)
+}
+
+func (h *DashboardHandlers) ReadAllClientes(c *gin.Context) {
+	var idAcad domain.IdAcadData
+	if err := c.ShouldBindJSON(&idAcad); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
+		return
+	}
+
+	allClientes, err := h.service.ReadAllClientes(idAcad.IdAcad)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao puxar dados da contagem de clientes"})
+		fmt.Println(err)
+		return
+	}
+
+	c.JSON(http.StatusOK, allClientes)
+
 }
