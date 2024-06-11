@@ -35,7 +35,7 @@ class FichaServices {
         )
       })
       const result = await response.json();
-       if (!result && result.message === "Não autorizado") {
+       if (result.message === "Não autorizado") {
             alert("Sessão expirada faça login novamente!")
             localStorage.clear()
             window.location.href = "/"

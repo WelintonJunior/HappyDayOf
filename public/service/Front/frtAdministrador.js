@@ -1017,7 +1017,7 @@ async function UpdateListaClienteFicha(token, filtroNome = "") {
         botaoCriarFicha.textContent = "Criar";
         botaoCriarFicha.addEventListener("click", async function () {
           document.getElementById("funFicha").innerHTML = "";
-          // await UpdateCriarFichaTreinoA(item.CliId, token)
+          await UpdateCriarFichaTreinoA(item.CliId, token)
           await PreencherSelectProfessores();
           modalCriarBaseFicha.style.display = "block";
           // introJs().start();
@@ -1852,13 +1852,11 @@ pesquisarAparelho.addEventListener("keyup", async (e) => {
 
 //Criar Ficha
 
-const boxInnerA = document.getElementById("boxInnerA");
-const boxInnerB = document.getElementById("boxInnerB");
-const boxInnerC = document.getElementById("boxInnerC");
-
-
 let countFicha = 1;
 
+const innerA = document.getElementById("innerA");
+const innerB = document.getElementById("innerB");
+const innerC = document.getElementById("innerC");
 const btnVoltarFicha = document.getElementById("btnVoltarFicha")
 const btnAvancarFicha = document.getElementById("btnAvancarFicha")
 
@@ -1883,76 +1881,23 @@ btnAvancarFicha.addEventListener("click", () => {
 async function MudarFicha(count) {
   switch (count) {
     case 1:
-      boxInnerA.style.display = "block"
-      boxInnerB.style.display = "none"
-      boxInnerC.style.display = "none"
+      innerA.style.display = "block"
+      innerB.style.display = "none"
+      innerC.style.display = "none"
       break; 
     case 2:
-      boxInnerA.style.display = "none"
-      boxInnerB.style.display = "block"
-      boxInnerC.style.display = "none"
+      innerA.style.display = "none"
+      innerB.style.display = "block"
+      innerC.style.display = "none"
       break; 
     case 3:
-      boxInnerA.style.display = "none"
-      boxInnerB.style.display = "none"
-      boxInnerC.style.display = "block"
+      innerA.style.display = "none"
+      innerB.style.display = "none"
+      innerC.style.display = "block"
       break; 
   }
 }
-async function handleClick(item) {
-  let data = {
-    detIdFicha: 0,
-    detTreino: 0,
-    cliIdFicha: 0,
-    detVariacao: 0,
-    detCarga: 0,
-    detSerie: 0,
-    detRepeticao: 0,
-    detDataAdicionado: ""
-  };
-  const cliIdFichaTreino = document.getElementById("cliIdFichaTreino").value;
-  const idFicha = document.getElementById("idCriarFichaTreino").value;
 
-  const dateTimeString = await getFormattedDateTime();
-  const dateOnly = dateTimeString.split(" ")[0]; // Pega apenas a parte da data
-  data.detDataAdicionado = dateOnly
-
-  switch (countFicha) {
-    case 1:
-      data.detIdFicha = idFicha;
-      data.detTreino = "A";
-      data.cliIdFicha = document.getElementById("cliIdAtual").value;
-      data.detVariacao = item.ExeNome
-      data.detCarga = 0
-      data.detSerie = 0
-      data.detRepeticao = 0
-      await admServices.RegisterDetalhesFicha(data, token);
-      await UpdateCriarFichaTreinoA(cliIdFichaTreino, token);
-      break;
-    case 2:
-      data.detIdFicha = idFicha;
-      data.detTreino = "B";
-      data.cliIdFicha = document.getElementById("cliIdAtual").value;
-      data.detVariacao = item.ExeNome
-      data.detCarga = 0
-      data.detSerie = 0
-      data.detRepeticao = 0
-      await admServices.RegisterDetalhesFicha(data, token);
-      await UpdateCriarFichaTreinoB(cliIdFichaTreino, token);
-      break;
-    case 3:
-      data.detIdFicha = idFicha;
-      data.detTreino = "C";
-      data.cliIdFicha = document.getElementById("cliIdAtual").value;
-      data.detVariacao = item.ExeNome
-      data.detCarga = 0
-      data.detSerie = 0
-      data.detRepeticao = 0
-      await admServices.RegisterDetalhesFicha(data, token);
-      await UpdateCriarFichaTreinoC(cliIdFichaTreino, token);
-      break;
-  }
-}
 async function PreencherBoxExercicios() {
   const result = await admServices.ReadExercicio(idAcademia, token);
   let BoxExerciciosFicha = document.getElementById("BoxExerciciosFicha");
@@ -1973,6 +1918,60 @@ async function PreencherBoxExercicios() {
 
 }
 
+async function handleClick(item) {
+    let data = {
+      detIdFicha: 0,
+      detTreino: 0,
+      cliIdFicha: 0,
+      detVariacao: 0,
+      detCarga: 0,
+      detSerie: 0,
+      detRepeticao: 0,
+      detDataAdicionado: ""
+    };
+    const cliIdFichaTreino = document.getElementById("cliIdFichaTreino").value;
+    const idFicha = document.getElementById("idCriarFichaTreino").value;
+
+    const dateTimeString = await getFormattedDateTime();
+    const dateOnly = dateTimeString.split(" ")[0]; // Pega apenas a parte da data
+    data.detDataAdicionado = dateOnly
+
+    switch (countFicha) {
+      case 1:
+        data.detIdFicha = idFicha;
+        data.detTreino = "A";
+        data.cliIdFicha = document.getElementById("cliIdAtual").value;
+        data.detVariacao = item.ExeNome
+        data.detCarga = 0
+        data.detSerie = 0
+        data.detRepeticao = 0
+        await admServices.RegisterDetalhesFicha(data, token);
+        await UpdateCriarFichaTreinoA(cliIdFichaTreino, token);
+        break;
+      case 2:
+        data.detIdFicha = idFicha;
+        data.detTreino = "B";
+        data.cliIdFicha = document.getElementById("cliIdAtual").value;
+        data.detVariacao = item.ExeNome
+        data.detCarga = 0
+        data.detSerie = 0
+        data.detRepeticao = 0
+        await admServices.RegisterDetalhesFicha(data, token);
+        await UpdateCriarFichaTreinoB(cliIdFichaTreino, token);
+        break;
+      case 3:
+        data.detIdFicha = idFicha;
+        data.detTreino = "C";
+        data.cliIdFicha = document.getElementById("cliIdAtual").value;
+        data.detVariacao = item.ExeNome
+        data.detCarga = 0
+        data.detSerie = 0
+        data.detRepeticao = 0
+        await admServices.RegisterDetalhesFicha(data, token);
+        await UpdateCriarFichaTreinoC(cliIdFichaTreino, token);
+        break;
+    }
+  }
 
 async function UpdateCriarFichaTreinoA(cliId, token) {
   const result = await admServices.ReadFichaDetalhes(cliId, "A", token);

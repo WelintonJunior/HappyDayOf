@@ -14,7 +14,6 @@ type AtendimentoRepository interface {
 	CreateAtendimento(a domain.Atendimento) error
 	Validar(a domain.Atendimento) (bool, error)
 	UpdateStatusAtendimento(a domain.Atendimento) error
-	VerificarQuantidadeAtendimento() (int64, error)
 }
 
 type localAtendimentoRepository struct{}
@@ -156,16 +155,4 @@ func InsertSatisfacaoVazia(a domain.Atendimento) error {
 	}
 
 	return nil
-}
-
-func (r *localAtendimentoRepository) VerificarQuantidadeAtendimento() (int64, error) {
-	query := "select count(AteId) from tblAtendimento where ateStatus = 1;"
-	row := database.DB.QueryRow(query)
-
-	var qtd int64
-	if err := row.Scan(&qtd); err != nil {
-		return 0, err
-	}
-
-	return qtd, nil
 }

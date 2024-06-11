@@ -13,7 +13,7 @@ class DashboardServices {
             alert("Sessão expirada faça login novamente!")
             localStorage.clear()
             window.location.href = "/"
-        }
+          }
         return result
     }
 
@@ -30,7 +30,7 @@ class DashboardServices {
             alert("Sessão expirada faça login novamente!")
             localStorage.clear()
             window.location.href = "/"
-        }
+          }
         return result
     }
 
@@ -47,7 +47,7 @@ class DashboardServices {
             alert("Sessão expirada faça login novamente!")
             localStorage.clear()
             window.location.href = "/"
-        }
+          }
         return result
     }
 
@@ -64,7 +64,7 @@ class DashboardServices {
             alert("Sessão expirada faça login novamente!")
             localStorage.clear()
             window.location.href = "/"
-        }
+          }
         return result
     }
 
@@ -81,23 +81,10 @@ class DashboardServices {
             alert("Sessão expirada faça login novamente!")
             localStorage.clear()
             window.location.href = "/"
-        }
+          }
         return result
     }
 
-    async ReadAllClientes(idAcademia, token) {
-        const response = await fetch("/Dashboard/CountClientes", {
-            headers: { "Content-Type": "application/json", "Authorization": `${token}` },
-            method: "POST",
-            body: JSON.stringify({
-                IdAcad: parseInt(idAcademia)
-            })
-        })
-
-        const result = await response.json();
-        return result
-    }
-
-
+ 
 
 }

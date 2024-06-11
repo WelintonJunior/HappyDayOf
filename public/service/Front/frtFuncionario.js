@@ -493,7 +493,7 @@ async function UpdateListaClienteFicha(token, filtroNome = "") {
         botaoCriarFicha.textContent = "Criar";
         botaoCriarFicha.addEventListener("click", async function () {
           document.getElementById("funFicha").innerHTML = "";
-          // await UpdateCriarFichaTreinoA(item.CliId, token)
+          await UpdateCriarFichaTreinoA(item.CliId, token)
           await PreencherSelectProfessores();
           modalCriarBaseFicha.style.display = "block";
           // introJs().start();
@@ -958,7 +958,7 @@ async function InserirAbaFichaCliente(atendimento) {
       <div class="row flex-container">
         <!-- Treino A -->
         <div class="ficha_treino col-sm-12 col-md-4" style="padding: 2px;">
-          <div id="innerA" style="width: 100%;" class="inner cursor-pointer">
+          <div id="innerA" class="inner cursor-pointer">
             <span class="pricing">
               <span>
                 <strong>
@@ -974,7 +974,7 @@ async function InserirAbaFichaCliente(atendimento) {
 
         <!-- Treino B -->
         <div class="ficha_treino col-sm-12 col-md-4" style="padding: 2px;">
-          <div id="innerB" style="width: 100%;" class="inner cursor-pointer">
+          <div id="innerB" class="inner cursor-pointer">
             <span class="pricing">
               <span>
                 <strong>
@@ -990,7 +990,7 @@ async function InserirAbaFichaCliente(atendimento) {
 
         <!-- Treino C -->
         <div class="ficha_treino col-sm-12 col-md-4" style="padding: 2px;">
-          <div id="innerC" style="width: 100%;" class="inner cursor-pointer">
+          <div id="innerC" class="inner cursor-pointer">
             <span class="pricing">
               <span>
                 <strong>
@@ -1271,10 +1271,43 @@ pesquisarAtendimento.addEventListener("keyup", async (e) => {
   await UpdateListaAtendimento(token, nomePesquisa);
 })
 
+//Criar Ficha
+
+const innerA = document.getElementById("innerA");
+const innerB = document.getElementById("innerB");
+const innerC = document.getElementById("innerC");
+let auxInner = "";
+
+function ZerarAuxIneer() {
+  innerA.style.border = "none"
+  innerB.style.border = "none"
+  innerC.style.border = "none"
+  auxInner = "";
+}
+
+innerA.addEventListener('click', (e) => {
+  ZerarAuxIneer();
+  auxInner = "A"
+  innerA.style.border = "1px solid black"
+
+})
+innerB.addEventListener('click', (e) => {
+  ZerarAuxIneer();
+  auxInner = "B"
+  innerB.style.border = "1px solid black"
+
+})
+innerC.addEventListener('click', (e) => {
+  ZerarAuxIneer();
+  auxInner = "C"
+  innerC.style.border = "1px solid black"
+
+})
 
 async function PreencherBoxExercicios() {
   const result = await funServices.ReadExercicio(idAcademia, token);
   let BoxExerciciosFicha = document.getElementById("BoxExerciciosFicha");
+  ZerarAuxIneer()
   BoxExerciciosFicha.innerHTML = ""
 
   result.forEach((item) => {
@@ -1291,7 +1324,65 @@ async function PreencherBoxExercicios() {
 
 }
 
+async function handleClick(item) {
+  if (auxInner === "") {
+    alert("Você precisa selecionar um tipo!")
+    return
+  } else {
+    let data = {
+      detIdFicha: 0,
+      detTreino: 0,
+      cliIdFicha: 0,
+      detVariacao: 0,
+      detCarga: 0,
+      detSerie: 0,
+      detRepeticao: 0,
+      detDataAdicionado: ""
+    };
+    const cliIdFichaTreino = document.getElementById("cliIdFichaTreino").value;
+    const idFicha = document.getElementById("idCriarFichaTreino").value;
 
+    const dateTimeString = await getFormattedDateTime();
+    const dateOnly = dateTimeString.split(" ")[0]; // Pega apenas a parte da data
+    data.detDataAdicionado = dateOnly
+
+    switch (auxInner) {
+      case "A":
+        data.detIdFicha = idFicha;
+        data.detTreino = "A";
+        data.cliIdFicha = document.getElementById("cliIdAtual").value;
+        data.detVariacao = item.ExeNome
+        data.detCarga = 0
+        data.detSerie = 0
+        data.detRepeticao = 0
+        await funServices.RegisterDetalhesFicha(data, token);
+        await UpdateCriarFichaTreinoA(cliIdFichaTreino, token);
+        break;
+      case "B":
+        data.detIdFicha = idFicha;
+        data.detTreino = "B";
+        data.cliIdFicha = document.getElementById("cliIdAtual").value;
+        data.detVariacao = item.ExeNome
+        data.detCarga = 0
+        data.detSerie = 0
+        data.detRepeticao = 0
+        await funServices.RegisterDetalhesFicha(data, token);
+        await UpdateCriarFichaTreinoB(cliIdFichaTreino, token);
+        break;
+      case "C":
+        data.detIdFicha = idFicha;
+        data.detTreino = "C";
+        data.cliIdFicha = document.getElementById("cliIdAtual").value;
+        data.detVariacao = item.ExeNome
+        data.detCarga = 0
+        data.detSerie = 0
+        data.detRepeticao = 0
+        await funServices.RegisterDetalhesFicha(data, token);
+        await UpdateCriarFichaTreinoC(cliIdFichaTreino, token);
+        break;
+    }
+  }
+}
 
 async function UpdateCriarFichaTreinoA(cliId, token) {
   const result = await funServices.ReadFichaDetalhes(cliId, "A", token);
@@ -1463,109 +1554,4 @@ function showLoading() {
 
 function hideLoading() {
   document.getElementById('loadingOverlay').style.display = 'none';
-}
-
-
-//Criar Ficha
-
-const boxInnerA = document.getElementById("boxInnerA");
-const boxInnerB = document.getElementById("boxInnerB");
-const boxInnerC = document.getElementById("boxInnerC");
-
-
-let countFicha = 1;
-
-const btnVoltarFicha = document.getElementById("btnVoltarFicha")
-const btnAvancarFicha = document.getElementById("btnAvancarFicha")
-
-btnVoltarFicha.addEventListener("click", () => {
-  if (countFicha >= 2) {
-    countFicha--
-    MudarFicha(countFicha)
-  } else {
-    alert("Não se pode ultrapassar a ficha A")
-  }
-})
-
-btnAvancarFicha.addEventListener("click", () => {
-  if (countFicha <= 2) {
-    countFicha++
-    MudarFicha(countFicha)
-  } else {
-    alert("Não se pode ultrapassar a ficha C")
-  }
-})
-
-async function MudarFicha(count) {
-  switch (count) {
-    case 1:
-      boxInnerA.style.display = "block"
-      boxInnerB.style.display = "none"
-      boxInnerC.style.display = "none"
-      break; 
-    case 2:
-      boxInnerA.style.display = "none"
-      boxInnerB.style.display = "block"
-      boxInnerC.style.display = "none"
-      break; 
-    case 3:
-      boxInnerA.style.display = "none"
-      boxInnerB.style.display = "none"
-      boxInnerC.style.display = "block"
-      break; 
-  }
-}
-async function handleClick(item) {
-  let data = {
-    detIdFicha: 0,
-    detTreino: 0,
-    cliIdFicha: 0,
-    detVariacao: 0,
-    detCarga: 0,
-    detSerie: 0,
-    detRepeticao: 0,
-    detDataAdicionado: ""
-  };
-  const cliIdFichaTreino = document.getElementById("cliIdFichaTreino").value;
-  const idFicha = document.getElementById("idCriarFichaTreino").value;
-
-  const dateTimeString = await getFormattedDateTime();
-  const dateOnly = dateTimeString.split(" ")[0]; // Pega apenas a parte da data
-  data.detDataAdicionado = dateOnly
-
-  switch (countFicha) {
-    case 1:
-      data.detIdFicha = idFicha;
-      data.detTreino = "A";
-      data.cliIdFicha = document.getElementById("cliIdAtual").value;
-      data.detVariacao = item.ExeNome
-      data.detCarga = 0
-      data.detSerie = 0
-      data.detRepeticao = 0
-      await funServices.RegisterDetalhesFicha(data, token);
-      await UpdateCriarFichaTreinoA(cliIdFichaTreino, token);
-      break;
-    case 2:
-      data.detIdFicha = idFicha;
-      data.detTreino = "B";
-      data.cliIdFicha = document.getElementById("cliIdAtual").value;
-      data.detVariacao = item.ExeNome
-      data.detCarga = 0
-      data.detSerie = 0
-      data.detRepeticao = 0
-      await funServices.RegisterDetalhesFicha(data, token);
-      await UpdateCriarFichaTreinoB(cliIdFichaTreino, token);
-      break;
-    case 3:
-      data.detIdFicha = idFicha;
-      data.detTreino = "C";
-      data.cliIdFicha = document.getElementById("cliIdAtual").value;
-      data.detVariacao = item.ExeNome
-      data.detCarga = 0
-      data.detSerie = 0
-      data.detRepeticao = 0
-      await funServices.RegisterDetalhesFicha(data, token);
-      await UpdateCriarFichaTreinoC(cliIdFichaTreino, token);
-      break;
-  }
 }
