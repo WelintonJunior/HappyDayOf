@@ -36,7 +36,7 @@
   </style>
 </head>
 
-<body>
+<body class="">
   <div id="loadingOverlay"
     style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;">
     <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
@@ -47,20 +47,23 @@
   <div class="wrapper">
     <div class="scroll">
       <div id="content">
+
         <button class="btn btn-info" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
           aria-controls="offcanvasScrolling"><i class="fas fa-align-left"></i> Alternar Menu</button>
 
         <div class="offcanvas offcanvas-start offcanvas-start show text-bg-dark" data-bs-scroll="true" data-b
           s-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+          
           <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasScrollingLabel">
               <div class="sidebar-header p-2 mt-4">
                 <h4 id="funInfo"></h4>
               </div>
             </h5>
-            <i class="bi bi-x fs-3 me-3" type="button" class="btn-close text-reset" aria-label="Close"
-              data-bs-dismiss="offcanvas"></i>
-            <!-- <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button> -->
+            
+
+             <button type="button" class="btn-close btn-close-white text-reset" aria-label="Close"
+             data-bs-dismiss="offcanvas"></button>
           </div>
 
           <div class="offcanvas-body" id="sidebar">
@@ -75,7 +78,7 @@
                 <a><i class="bi bi-graph-up"></i> Meu Desempenho</a>
               </li>
               <li id="btnCliente">
-                <a> <i class="bi bi-people"></i> Alunos</a>
+                <a> <i class="bi bi-people"></i> Clientes</a>
               </li>
             </ul>
 
@@ -93,7 +96,7 @@
         <!-- Tela Atendimento -->
 
         <div id="TelaAtendimento" style="display: block">
-          <section class="container col-md-8 col-sm-12 mt-5">
+          <section class="container col-md-10 col-sm-12 mt-5">
             <div class="card text-center">
               <div class="card-header">
                 <ul id="abasClientes" class="nav nav-tabs card-header-tabs">
@@ -142,7 +145,7 @@
                 </div>
               </section>
               <table class="table__body">
-                <h1 class="display-6 text-center mt-4 mb-4">Fichas de Alunos</h1>
+                <h1 class="display-6 text-center mt-4 mb-4">Fichas de Clientes</h1>
                 <div class="listBoxClienteFicha" id="listBoxClienteFicha">
                   <div id="tableClientesFicha"></div>
                 </div>
@@ -183,12 +186,12 @@
                 </div>
               </section>
               <table class="table__body">
-                <h1 class="display-6 text-center mt-4 mb-4">Lista de Alunos</h1>
+                <h1 class="display-6 text-center mt-4 mb-4">Lista de Clientes</h1>
                 <div class="listBoxCliente" id="listBoxCliente">
                   <div id="tableClientes"></div>
                 </div>
                 <div class="container ms-2">
-                  <button type="button" class="btn btn-info" id="abrirModalRegisterCliente">Cadastrar Aluno</button>
+                  <button type="button" class="btn btn-info" id="abrirModalRegisterCliente">Cadastrar Cliente</button>
                 </div>
 
               </table>
@@ -197,9 +200,9 @@
         </div>
 
         <!-- Tela Detalhes Clientes -->
-        <section class="container bg-light">
-          <div class="row">
-            <div class="col-12 ">
+        <section class="container bg-light" >
+          <div class="row mt-5"  >
+            <div class="col-12 border bortder-5">
               <div id="TelaDetalhesClientes" style="display: none">
 
                 <form id="formDetalhesCliente">
@@ -324,8 +327,8 @@
                       </div>
 
                       <div class="col-md-12">
-                        <button id="btnAtivarCliente" class="d-none btn btn-primary mb-1">Ativar Aluno</button>
-                        <button id="btnArchiveCliente" class="btn btn-primary mb-1 ">Desativar Aluno</button>
+                        <button id="btnAtivarCliente" class="d-none btn btn-primary mb-1">Ativar Cliente</button>
+                        <button id="btnArchiveCliente" class="btn btn-danger  mb-1 ">Desativar Cliente</button>
                       </div>
                       <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalArquivarCliente">
                         Arquivar um usuario
@@ -335,55 +338,63 @@
                       </div>
                     </div>
                     <div class="col-md-3"></div>
-                    <div class="dashbordadministrador col-md-6 col-sm-12 col-12 mt-2">
-                      <h3 class="mt-3">Desempenho</h3>
-                      <div class="d-flex align-items-center justify-content-center mb-3">
-                        <span id="txtNaoPossui">Não possui!</span>
-                        <canvas width="768" height="384" id="boxChartDesempenhoCliente"></canvas>
-                      </div>
-                    </div>
+                    
                   </div>
 
                 </form>
+                <section class="d-flex justify-content-center justify-content-sm-center ">
+                  <div class="dashbordadministrador col-md-10 col-sm-12 col-12 mt-2 mb-4">
+                    <h3 class="mt-3">Desempenho </h3>
+                    <div class="d-flex align-items-center justify-content-center mb-3">
+                      <span id="txtNaoPossui">Não possui!</span>
+                      <canvas width="768" height="384" id="boxChartDesempenhoCliente"></canvas>
+                    </div>
+                  </div>
+                </section>
               </div>
+
+
             </div>
           </div>
+          
         </section>
 
         <!-- Tela Criar Ficha -->
+        <section class="d-flex justify-content-center justify-content-sm-center ">
+          <div id="TelaCriarFicha" style="display: none;">
+            <button type="button" class="btn btn-secondary" id="btnVoltarTelaFicha">Voltar</button>
+            
+            <div class="BoxCriacao container-lg row ms-1">
+              
+              <form class="mt-3 mb-3 col-12">
+                <input type="text" class="d-none" id="cliIdAtual">
+                Cliente: <span id="cliNomeCriarFicha"></span> <br />
+                Professor:<span id="funNomeCriarFicha"></span> <br />
+                <select style="display: none" name="funSelectCriarFicha" id="funSelectCriarFicha"></select>
+                Restrições:
+                <input type="checkbox" name="cliRestricoesCriarFicha" id="cliRestricoesCriarFicha" />
+                <span style="display: none" id="cliRestricoesTipoCriarFicha">Tipo de Restrições:
+                </span>
+                Intervalo: <span id="cliIntervaloCriarFicha"></span><br />
+              </form>
 
-        <div id="TelaCriarFicha" style="display: none;">
-          <div class="BoxCriacao row">
-            <div class="col-md-5 col-12">
-              <input class="d-none" id="cliIdFichaTreino" type="text">
-              <input class="d-none" id="idCriarFichaTreino" type="text">
-              <div class="m-0 p-0">
-                <button type="button" class="btn btn-secondary" id="btnVoltarTelaFicha">Voltar</button>
-                <form class="mt-3 mb-3">
-                  <input type="text" class="d-none" id="cliIdAtual">
-                  Aluno: <span id="cliNomeCriarFicha"></span> <br />
-                  Professor:<span id="funNomeCriarFicha"></span> <br />
-                  <select style="display: none" name="funSelectCriarFicha" id="funSelectCriarFicha"></select>
-                  Restrições:
-                  <input type="checkbox" name="cliRestricoesCriarFicha" id="cliRestricoesCriarFicha" />
-                  <span style="display: none" id="cliRestricoesTipoCriarFicha">Tipo de Restrições:
-                  </span>
-                  Intervalo: <span id="cliIntervaloCriarFicha"></span><br />
-                </form>
+              <div class="col-md-8 col-12 d-flex justify-content-center">
+                <input class="d-none" id="cliIdFichaTreino" type="text">
+                <input class="d-none" id="idCriarFichaTreino" type="text">
+                
+                <div class=" m-0 p-0">
+                  
 
-
-                <!-- Lista de exercicios -->
-                <div id="BoxExerciciosFicha" class="row">
-
+                  <!-- Lista de exercicios -->
+                  <div id="BoxExerciciosFicha" class="row col-sm-12"> </div>
                 </div>
               </div>
-            </div>
 
-            <div class="col-md-6 col-12" style="padding-top: 150px;">
-                <div class="row flex-container justify-content-center">
+              <div class="col-md-4 col-12">
+                <div class="row flex-container justify-content-center ">
                   <!-- Treino A -->
-                  <div id="boxInnerA" class="ficha_treino col-sm-12 col-md-7" style="padding: 2px; display: block">
-                    <div id="innerA" class="inner">
+                  <div class="ficha_treino col-sm-12 col-md-7" style="padding: 2px;">
+                    <div id="innerA" style="display: block;" class="inner">
                       <span class="pricing">
                         <span>
                           <strong>A</strong>
@@ -396,8 +407,8 @@
                   </div>
 
                   <!-- Treino B -->
-                  <div id="boxInnerB" class="ficha_treino col-sm-12 col-md-7" style="padding: 2px;display: none">
-                    <div id="innerB" class="inner">
+                  <div class="ficha_treino col-sm-12 col-md-12" style="padding: 2px;">
+                    <div id="innerB" style="display: none;" class="inner">
                       <span class="pricing">
                         <span>
                           <strong>B</strong>
@@ -410,8 +421,8 @@
                   </div>
 
                   <!-- Treino C -->
-                  <div id="boxInnerC" class="ficha_treino col-sm-12 col-md-7" style="padding: 2px;display: none">
-                    <div id="innerC" class="inner">
+                  <div class="ficha_treino col-sm-12 col-md-7" style="padding: 2px;">
+                    <div id="innerC" style="display: none" class="inner">
                       <span class="pricing">
                         <span>
                           <strong>C</strong>
@@ -429,10 +440,11 @@
                   <button id="btnAvancarFicha" class="btn btn-secondary px-2"><i
                       class="bi bi-arrow-bar-right"></i></button>
                 </div>
+              </div>
             </div>
-          </div>
 
-        </div>
+          </div>
+        </section>
 
 
         <div id="modalCadastrarCliente" class="modal" tabindex="-1">
@@ -569,7 +581,7 @@
 
 
                   <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Selecione o Aluno</label>
+                    <label for="exampleInputEmail1" class="form-label">Selecione o Cliente</label>
                     <select class="form-select" aria-label="Default select example" name="ateIdCliente"
                       id="selectClienteAtendimento"></select>
                   </div>
@@ -584,12 +596,12 @@
           <div class="modal-dialog d-flex align-items-center justify-content-center" style="height: 80vh;">
             <div class="modal-content">
               <div class="modal-header">
-                <h2>Desativar Aluno</h2>
+                <h2>Desativar Cliente</h2>
                 <span id="fecharModalArquivarCliente" class="fechar">&times;</span>
               </div>
               <form id="formArquivarCliente">
                 <div class="row">
-                  <p> Tem certeza? </p>
+                  <p class="ms-4"> Tem certeza? </p>
                 </div>
                 <button class="float-right btn btn-danger m-3" type="submit">Desativar</button>
               </form>

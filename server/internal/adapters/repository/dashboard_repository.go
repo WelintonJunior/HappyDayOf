@@ -13,7 +13,6 @@ type DashboardRepository interface {
 	ReadFuncNome(FunId int64) (string, error)
 	ReadAllAtendimentos(AcaId int64) ([]domain.Atendimento, error)
 	ReadAllEngajamentos(AcaId int64) ([]domain.Engajamento, error)
-	ReadAllClientes(idAcademia int64) (domain.IdAcadData, error)
 }
 
 type localDashboardRepository struct{}
@@ -120,16 +119,4 @@ func (r *localDashboardRepository) ReadAllEngajamentos(AcaId int64) ([]domain.En
 	}
 
 	return engajamento, nil
-}
-
-func (r *localDashboardRepository) ReadAllClientes(idAcademia int64) (domain.IdAcadData, error) {
-	query := "select count(*) as AllClientes from tblCliente where cliIdACad = ?"
-	row := database.DB.QueryRow(query, idAcademia)
-
-	var allClientes domain.IdAcadData
-	if err := row.Scan(&allClientes.IdAcad); err != nil {
-		return domain.IdAcadData{}, err
-	}
-
-	return allClientes, nil
 }

@@ -95,8 +95,6 @@ async function renderSatisfacaoChart() {
         funcionario.somaSeguranca += parseInt(Satisfacao.SatNotaSeguranca);
         funcionario.count++;
     }
-
-    console.log(funcionarios)
     Object.values(funcionarios).forEach(func => func.calcularMedias());
 
     const labels = ['Conhecimento', 'Clareza', 'Proatividade', 'Disponibilidade', 'Segurança'];
@@ -585,6 +583,16 @@ if (reloadBtnEngajamento) {
         const boxChartEngajamento = document.getElementById('boxChartEngajamento');
         boxChartEngajamento.innerHTML = '';
         await renderEngajamentoChart();
+    });
+}
+
+let reloadBtnNumeracao = document.getElementById("reloadBtnNumeracao")
+if (reloadBtnNumeracao) {
+    reloadBtnNumeracao.addEventListener("click", async (e) => {
+        e.preventDefault();
+        const dashNumeracao = document.getElementById('dashNumeracao');
+        dashNumeracao.innerHTML = '';
+        await renderNumeracaoChart();
     });
 }
 

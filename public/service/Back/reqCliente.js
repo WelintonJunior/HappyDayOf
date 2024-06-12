@@ -352,15 +352,6 @@ class ClienteServices extends FichaServices {
     return result
   }
 
-  async VerificarQuantidadeAtendimento(token) {
-    const response = await fetch("/Atendimento/Quantidade", {
-      method: "GET",
-      headers: { "Content-Type": "application/json", "Authorization": `${token}` }
-    })
-    const result = await response.json()
-    return result
-  }
-
   connectWebSocket() {
     const socket = new WebSocket('ws://localhost:3000/ws');
 

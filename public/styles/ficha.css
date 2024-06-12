@@ -391,6 +391,8 @@ tbody td.active {
   border-radius: 12px;
   position: relative;
   box-shadow: 0 30px 30px -25px rgba(0, 38, 255, 0.205);
+  width: 305px; 
+  height: 450px; 
 }
 
 .ficha_treino .pricing {
@@ -492,15 +494,21 @@ tbody td.active {
 
 #BoxExerciciosFicha {
   overflow: auto;
-  max-height: 300px;
-  margin-right: 10px;
-  margin-left: 10px;
+  max-height: 500px;
+ 
   margin-bottom: 25px;
+  
+      padding-left: 0px;
+      margin-left: 0px;
+      margin-right: 0px;
+      padding-right: 0px;
+  
 
   /* Adicione estilos para a barra de rolagem */
   scrollbar-width: thin; /* Largura fina da barra de rolagem */
   scrollbar-color: #b6b6b6 #f0f0f0; /* Cor da barra e do thumb */
   justify-content: space-evenly;
+  
 }
 
 @media (max-width: 480px) {

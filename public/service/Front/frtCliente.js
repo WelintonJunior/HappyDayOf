@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   document.getElementById("titleAcad").innerHTML = result.AcaNome;
   document.getElementById(
     "cliInfo"
-  ).innerHTML = `Olá Aluno: ${dados.CliNome} da Academia: ${result.AcaNome}`;
+  ).innerHTML = `Olá Cliente: ${dados.CliNome} da Academia: ${result.AcaNome}`;
   const dateNow = getFormattedDateTime();
   await UpdateStatusAtendimento(idAcademia, idCliente, dateNow)
   const StatusSatisfacao = await clienteServices.VerificarAtendimento(idAcademia, idCliente, token)
@@ -716,21 +716,3 @@ async function preencherMetaExercicios(idCliente, token) {
 }
 
 
-//Lotação Acad
-
-let lotacaoAcad = document.getElementById("lotacaoAcad")
-
-document.addEventListener("DOMContentLoaded", async () => {
-  const qtd = await clienteServices.VerificarQuantidadeAtendimento()
-  if (qtd <= 20) {
-    lotacaoAcad.innerHTML = "Lotação pequena"
-    lotacaoAcad.style.cssText = "text-shadow: -0.5px -0.5px 0 green, 0.5px -0.5px 0 green, -0.5px 0.5px 0 green, 0.5px 0.5px 0 green"
-  } else if (qtd > 20 && qtd <= 45) {
-    lotacaoAcad.innerHTML = "Lotação média"
-    lotacaoAcad.style.cssText = "text-shadow: -0.5px -0.5px 0 yellow, 0.5px -0.5px 0 yellow, -0.5px 0.5px 0 yellow, 0.5px 0.5px 0 yellow"
-
-  } else if (qtd > 45) {
-    lotacaoAcad.innerHTML = "Lotação grande"
-    lotacaoAcad.style.cssText = "text-shadow: -0.5px -0.5px 0 red, 0.5px -0.5px 0 red, -0.5px 0.5px 0 red, 0.5px 0.5px 0 red"
-  }
-})

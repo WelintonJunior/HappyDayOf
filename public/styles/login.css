@@ -72,11 +72,11 @@ body {
 }
 
 .formlogin select:focus {
-  background: #4a8fbd;
+  background: #3498db ;
 }
 
 .bodyLoginCliente {
-  background-color: #3eb1e2;
+  background-color: #3498db  ;
   background-image: linear-gradient(
       to bottom left,
       rgba(119, 41, 83, 0.16) 0,

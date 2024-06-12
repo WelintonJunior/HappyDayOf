@@ -84,7 +84,7 @@ class DashboardServices {
         }
         return result
     }
-
+    
     async ReadAllClientes(idAcademia, token) {
         const response = await fetch("/Dashboard/CountClientes", {
             headers: { "Content-Type": "application/json", "Authorization": `${token}` },
@@ -97,7 +97,6 @@ class DashboardServices {
         const result = await response.json();
         return result
     }
-
 
 
 }

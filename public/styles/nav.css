@@ -36,7 +36,7 @@ a:focus {
     border: none;
     border-radius: 0;
     margin-bottom: 40px;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+
 }
 
 .navbar-btn {
@@ -64,10 +64,13 @@ a:focus {
 
 #sidebar {
     min-width: 250px;
-    /* max-width: 250px; */
-    /* background: #2e2e2e; */
+    background: #2e2e2e; 
     color: #fff;
     transition: all 0.3s;
+}
+
+.offcanvas-header {
+    background: #2e2e2e !important;
 }
 
 #sidebar.active {
@@ -76,7 +79,7 @@ a:focus {
 
 #sidebar .sidebar-header {
     padding: 20px;
-    /* background: #2e2e2e; */
+     background: #2e2e2e; 
 }
 
 #sidebar ul.components {
@@ -89,6 +92,8 @@ a:focus {
     padding: 10px;
     font-size: 1.1em;
     display: block;
+    background: #2e2e2e; 
+
 }
 
 #sidebar ul li a:hover {
@@ -134,7 +139,7 @@ ul.CTAs a {
 
 a.btn1 {
     background: #fff;
-    /* color: #2e2e2e; */
+     color: #2e2e2e; 
 }
 
 a.btn2,
@@ -146,6 +151,7 @@ a.btn2:hover {
 .list-unstyled li {
     cursor: pointer;
 }
+
 
 
 /* ---------------------------------------------------
