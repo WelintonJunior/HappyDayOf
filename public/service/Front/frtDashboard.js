@@ -540,6 +540,12 @@ async function renderClienteDesempenhoChart(cliId, token, service) {
     }
 }
 
+async function renderNumeracaoChart() {
+    const allClientes = await dashboardServices.ReadAllClientes(idAcademia, token)
+    const dashNumeracao = document.getElementById("dashNumeracao")
+    dashNumeracao.innerHTML = allClientes.IdAcad
+}
+
 let reloadBtnSatisfacao = document.getElementById("reloadBtnSatisfacao")
 if (reloadBtnSatisfacao) {
     reloadBtnSatisfacao.addEventListener("click", async (e) => {
@@ -580,12 +586,23 @@ if (reloadBtnEngajamento) {
     });
 }
 
+let reloadBtnNumeracao = document.getElementById("reloadBtnNumeracao")
+if (reloadBtnNumeracao) {
+    reloadBtnNumeracao.addEventListener("click", async (e) => {
+        e.preventDefault();
+        const dashNumeracao = document.getElementById('dashNumeracao');
+        dashNumeracao.innerHTML = '';
+        await renderNumeracaoChart();
+    });
+}
+
 if (reloadBtnAtendimento) {
     document.addEventListener("DOMContentLoaded", async () => {
         await renderSatisfacaoChart();
         await renderProdutividadeChart();
         await renderAtendimentoChart();
         await renderEngajamentoChart();
+        await renderNumeracaoChart();
     });
 }
 
