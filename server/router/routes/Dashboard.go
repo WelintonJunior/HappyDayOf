@@ -161,3 +161,39 @@ func (h *DashboardHandlers) ReadAllEngajamentos(context *gin.Context) {
 
 	context.JSON(http.StatusOK, engajamentos)
 }
+
+func (h *DashboardHandlers) ReadAllClientes(c *gin.Context) {
+	var idAcad domain.IdAcadData
+	if err := c.ShouldBindJSON(&idAcad); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
+		return
+	}
+
+	allClientes, err := h.service.ReadAllClientes(idAcad.IdAcad)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao puxar dados da contagem de clientes"})
+		return
+	}
+
+	c.JSON(http.StatusOK, allClientes)
+
+}
+
+func (h *DashboardHandlers) ReadEvasao(c *gin.Context) {
+	var idAcad domain.IdAcadData
+	if err := c.ShouldBindJSON(&idAcad); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao receber dados"})
+		return
+	}
+
+	EvasaoP, err := h.service.ReadEvasao(idAcad.IdAcad)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao puxar dados da contagem de clientes"})
+		return
+	}
+
+	c.JSON(http.StatusOK, EvasaoP)
+
+}

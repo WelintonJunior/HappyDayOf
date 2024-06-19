@@ -32,3 +32,11 @@ func (s *DashboardService) ReadAllAtendimentos(AcaId int64) ([]domain.Atendiment
 func (s *DashboardService) ReadAllEngajamentos(AcaId int64) ([]domain.Engajamento, error) {
 	return s.repo.ReadAllEngajamentos(AcaId)
 }
+
+func (s *DashboardService) ReadAllClientes(idAcademia int64) (domain.IdAcadData, error) {
+	return s.repo.ReadAllClientes(idAcademia)
+}
+
+func (s *DashboardService) ReadEvasao(idAcademia int64) (float64, error) {
+	return s.repo.ReadEvasao(idAcademia)
+}
