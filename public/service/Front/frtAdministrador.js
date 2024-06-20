@@ -38,6 +38,7 @@ const btnFicha = document.getElementById("btnFicha");
 const btnFuncionario = document.getElementById("btnFuncionario");
 const btnAparelho = document.getElementById("btnAparelho");
 const btnExercicio = document.getElementById("btnExercicio");
+const btnAddAdministrador = document.getElementById("btnAddAdministrador");
 const TelaResumo = document.getElementById("TelaResumo");
 const TelaFicha = document.getElementById("TelaFicha");
 const TelaClientes = document.getElementById("TelaClientes");
@@ -108,6 +109,9 @@ const formCadastrarExercicio = document.getElementById(
 const formCadastrarAparelho = document.getElementById(
   "formCadastrarAparelho"
 );
+const formAdministradorAcademia = document.getElementById(
+  "formAdministradorAcademia"
+);
 const modalCadastrarCliente = document.getElementById("modalCadastrarCliente");
 const modalCriarBaseFicha = document.getElementById("modalCriarBaseFicha");
 const modalCadastrarFuncionario = document.getElementById(
@@ -123,6 +127,8 @@ const modalArquivarCliente = document.getElementById("modalArquivarCliente");
 const modalArquivarFuncionario = document.getElementById(
   "modalArquivarFuncionario"
 );
+const modalCadastrarAdministradorAcademia = document.getElementById("modalCadastrarAdministradorAcademia")
+
 const modalArquivarAparelho = document.getElementById(
   "modalArquivarAparelho"
 );
@@ -155,6 +161,9 @@ const fecharModalArquivarExercicio = document.getElementById(
 );
 const fecharModalCadastrarExercicio = document.getElementById(
   "fecharModalCadastrarExercicio"
+);
+const fecharModalAdicionarAdministrador = document.getElementById(
+  "fecharModalAdicionarAdministrador"
 );
 
 let CheckBoxRestricoes = document.getElementById("ficRestricoes");
@@ -203,6 +212,16 @@ btnExercicio.addEventListener("click", (e) => {
   e.preventDefault();
   MostrarTela("TelaExercicios");
 });
+
+//btnAddAdministrador
+btnAddAdministrador.addEventListener("click", (e) => {
+  e.preventDefault()
+  AbrirModalAddAdministrador()
+})
+
+function AbrirModalAddAdministrador() {
+  modalCadastrarAdministradorAcademia.style.display = "block"
+}
 
 //Ver Clientes/Funcionarios/Aparelhos/Exercicios
 document.addEventListener("DOMContentLoaded", async function () {
@@ -553,6 +572,20 @@ window.onclick = function (event) {
   }
 };
 
+//Fechar Modal arquivar Aparelho
+
+fecharModalAdicionarAdministrador.onclick = function () {
+  modalCadastrarAdministradorAcademia.style.display = "none";
+};
+
+//Clicar Fora fecha o Modal arquivar Aparelho
+
+window.onclick = function (event) {
+  if (event.target == modalCadastrarAdministradorAcademia) {
+    modalCadastrarAdministradorAcademia.style.display = "none";
+  }
+};
+
 
 
 //Função para pegar os dados da api de cep e jogar nos campos
@@ -683,6 +716,19 @@ formCadastrarExercicio.addEventListener("submit", async (e) => {
   const result = await admServices.RegisterExercicio(data, idAcademia, token)
   await UpdateListaExercicio(token);
   e.target.reset();
+  hideLoading()
+})
+
+formAdministradorAcademia.addEventListener("submit", async (e) => {
+  e.preventDefault()
+  modalCadastrarAdministradorAcademia.style.display = "none"
+  showLoading()
+  const fd = new FormData(e.target)
+  const data = Object.fromEntries(fd.entries())
+  data.admDataCmc = await getFormattedDateTime();
+  const result = await admServices.AddAdministrador(data, idAcademia, token)
+  console.log(result)
+  e.target.reset()
   hideLoading()
 })
 

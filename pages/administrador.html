@@ -57,7 +57,7 @@
 
         <div class="offcanvas offcanvas-start offcanvas-start show text-bg-dark" data-bs-scroll="true" data-b
           s-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
-          
+
           <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasScrollingLabel">
               <div class="sidebar-header p-2 mt-4">
@@ -65,8 +65,8 @@
               </div>
             </h5>
             <button type="button" class="btn-close btn-close-white text-reset" aria-label="Close"
-             data-bs-dismiss="offcanvas"></button>
-          
+              data-bs-dismiss="offcanvas"></button>
+
           </div>
 
           <div class="offcanvas-body" id="sidebar">
@@ -89,6 +89,9 @@
               <li id="btnExercicio">
                 <a> <i class="bi bi-person-arms-up"> </i>Exercícios</a>
               </li>
+              <li id="btnAddAdministrador">
+                <a> <i class="bi bi-person-add"> </i>Adicionar Administrador</a>
+              </li>
             </ul>
 
             <ul class="list-unstyled CTAs">
@@ -108,25 +111,25 @@
           <div class="container-md">
             <div class="row mt-3 flex-item">
 
-                <div class="dashbordadministrador col-md-5 col-sm-12 col-12 mt-2">
-                  <h3 class="mt-3">N° Alunos Cadastrados</h3>
-                  <button type="button" class="btn btn-light cursor: pointer; mt-3 mb-3" id="reloadBtnNumeracao"> <i
-                      class="bi bi-arrow-clockwise"></i>Reload</button>
-                  <div class="d-flex align-items-center justify-content-center mb-3">
-                    <p id="NaoPossuiNumeracao" class="d-none text-center mt-5">Não Possui ainda</p>
-                    <h1 class="mt-5" id="dashNumeracao"></h1>
-                  </div>
+              <div class="dashbordadministrador col-md-5 col-sm-12 col-12 mt-2">
+                <h3 class="mt-3">N° Alunos Cadastrados</h3>
+                <button type="button" class="btn btn-light cursor: pointer; mt-3 mb-3" id="reloadBtnNumeracao"> <i
+                    class="bi bi-arrow-clockwise"></i>Reload</button>
+                <div class="d-flex align-items-center justify-content-center mb-3">
+                  <p id="NaoPossuiNumeracao" class="d-none text-center mt-5">Não Possui ainda</p>
+                  <h1 class="mt-5" id="dashNumeracao"></h1>
                 </div>
-          
-                <div class="dashbordadministrador col-md-5 col-sm-12 col-12 mt-2">
-                  <h3 class="mt-3">% de Evasão</h3>
-                  <button type="button" class="btn btn-light cursor: pointer; mt-3 mb-3" id="reloadBtnEvasao"> <i
-                      class="bi bi-arrow-clockwise"></i>Reload</button>
-                  <div class="d-flex align-items-center justify-content-center mb-3">
-                    <p id="NaoPossuiEvasao" class="d-none text-center mt-5">Não Possui ainda</p>
-                    <h1 class="mt-5" id="dashEvasao"></h1>
-                  </div>
+              </div>
+
+              <div class="dashbordadministrador col-md-5 col-sm-12 col-12 mt-2">
+                <h3 class="mt-3">% de Evasão</h3>
+                <button type="button" class="btn btn-light cursor: pointer; mt-3 mb-3" id="reloadBtnEvasao"> <i
+                    class="bi bi-arrow-clockwise"></i>Reload</button>
+                <div class="d-flex align-items-center justify-content-center mb-3">
+                  <p id="NaoPossuiEvasao" class="d-none text-center mt-5">Não Possui ainda</p>
+                  <h1 class="mt-5" id="dashEvasao"></h1>
                 </div>
+              </div>
 
               <div class="dashbordadministrador col-md-5 col-sm-12 col-12 mt-2">
                 <h3 class="mt-3">Satisfação Cliente/Funcionário</h3>
@@ -316,7 +319,7 @@
         </div>
 
         <!-- Tela Detalhes Clientes -->
-        
+
         <section class="container bg-light border border-5 mt-5">
           <div class="row">
             <div class="col-12">
@@ -454,8 +457,8 @@
                         <button id="btnVoltarTelaCliente" class="btn btn-secondary mb-4">Voltar</button>
                       </div>
                     </div>
-                    
-                    
+
+
                   </div>
                   <div class="d-flex justify-content-center">
                     <div class="dashbordadministrador col-md-8 col-sm-12 col-12 mt-2 mb-4">
@@ -466,7 +469,7 @@
                       </div>
                     </div>
                   </div>
-                    
+
 
                 </form>
               </div>
@@ -479,7 +482,7 @@
         <div id="TelaDetalhesFuncionarios" style="display: none">
           <!-- <button id="btnVoltarTelaFuncionario">Voltar</button> -->
           <form id="formDetalhesFuncionario">
-           
+
 
             <section class="container bg-light border border-5">
               <div class="row">
@@ -568,23 +571,23 @@
                 </div>
               </div>
 
-              
-                
-                <div class="row mt-3">
-                  <div class="col-md-2 col-sm-5">
-                    <button id="btnEditarDetalhesFuncionario" class="btn btn-warning mb-1"
+
+
+              <div class="row mt-3">
+                <div class="col-md-2 col-sm-5">
+                  <button id="btnEditarDetalhesFuncionario" class="btn btn-warning mb-1"
                     style="display: block">Editar</button>
                   <button id="btnEnviarDetalhesFuncionario" class="btn btn-success mb-1" style="display: none"
                     type="submit">Enviar</button>
-                    <button id="btnAtivarFuncionario" class="d-none btn btn-primary mb-1">Ativar Funcionario</button>
-                    <button id="btnArchiveFuncionario" class="btn btn-danger mb-1">Desativar Funcionario</button>
-                    <button id="btnVoltarTelaFuncionario" class="btn btn btn-secondary mb-4">Voltar</button>
-                  </div>
-
+                  <button id="btnAtivarFuncionario" class="d-none btn btn-primary mb-1">Ativar Funcionario</button>
+                  <button id="btnArchiveFuncionario" class="btn btn-danger mb-1">Desativar Funcionario</button>
+                  <button id="btnVoltarTelaFuncionario" class="btn btn btn-secondary mb-4">Voltar</button>
                 </div>
 
-                
-            
+              </div>
+
+
+
             </section>
 
 
@@ -597,7 +600,7 @@
         <div id="TelaDetalhesAparelhos" style="display: none">
           <!-- <button id="btnVoltarTelaAparelho">Voltar</button> -->
           <form id="formDetAparelho">
-      
+
 
             <section class="container bg-light border border-5 ">
               <div class="row">
@@ -633,13 +636,13 @@
                     style="display: block">Editar</button>
                   <button id="btnEnviarDetalhesAparelho" class="btn btn-success mb-1" style="display: none"
                     type="submit">Enviar</button>
-                    <button id="btnAtivarAparelho" class="d-none btn btn-primary mb-1">Ativar Aparelho</button>
-                    <button id="btnArchiveAparelho" class="btn btn-danger mb-1">Desativar Aparelho</button>
-                    <button id="btnVoltarTelaAparelho" class="btn btn-secondary mb-4">Voltar</button>
+                  <button id="btnAtivarAparelho" class="d-none btn btn-primary mb-1">Ativar Aparelho</button>
+                  <button id="btnArchiveAparelho" class="btn btn-danger mb-1">Desativar Aparelho</button>
+                  <button id="btnVoltarTelaAparelho" class="btn btn-secondary mb-4">Voltar</button>
                 </div>
 
 
-                
+
             </section>
 
 
@@ -652,7 +655,7 @@
         <div id="TelaDetalhesExercicios" style="display: none">
           <!-- <button id="btnVoltarTelaExercicio">Voltar</button> -->
           <form id="formDetExercicio">
-       
+
 
             <section class="container col-md-6 bg-light border border-5">
               <div class="row">
@@ -669,15 +672,15 @@
                 <div class="input-group input-group-modal col-md-12  mb-5">
                   <div class="d-flex col-sm-12 mt-4 mb-2"> Selecione o Aparelho</div>
                   <br>
-                  <select style="width: 100px;"class="form-select col-5 mb-4" name="ExeApaId"
+                  <select style="width: 100px;" class="form-select col-5 mb-4" name="ExeApaId"
                     id="apaDetExercicio"></select>
                   </span>
                 </div>
                 <div class="col-md-6 mt-2">
                   <div class="input-group mt-3">
                     <span class="input-group-text">Status</span>
-                    <input type="text" class="form-control col-1" aria-label="Satus" aria-describedby="basic-addon1" disabled
-                      name="ExeStatus">
+                    <input type="text" class="form-control col-1" aria-label="Satus" aria-describedby="basic-addon1"
+                      disabled name="ExeStatus">
                   </div>
                 </div>
               </div>
@@ -688,12 +691,12 @@
                     style="display: block">Editar</button>
                   <button id="btnEnviarDetalhesExercicio" class="btn btn-success mb-1" style="display: none"
                     type="submit">Enviar</button>
-                    <button id="btnAtivarExercicio" class="d-none btn btn-primary mb-1">Ativar Exercicio</button>
-                    <button id="btnArchiveExercicio" class="btn btn-danger mb-1">Desativar Exercicio</button>
-                    <button id="btnVoltarTelaExercicio" class="btn btn btn-secondary mb-4">Voltar</button>
+                  <button id="btnAtivarExercicio" class="d-none btn btn-primary mb-1">Ativar Exercicio</button>
+                  <button id="btnArchiveExercicio" class="btn btn-danger mb-1">Desativar Exercicio</button>
+                  <button id="btnVoltarTelaExercicio" class="btn btn btn-secondary mb-4">Voltar</button>
                 </div>
 
-                
+
               </div>
             </section>
           </form>
@@ -707,29 +710,29 @@
 
             <div class="BoxCriacao container-lg row ms-1">
 
-                  <form class="mt-3 ms-3 mb-3 col-12">
-                    <input type="text" class="d-none" id="cliIdAtual">
-                    Cliente: <span id="cliNomeCriarFicha"></span> <br />
-                    Professor:<span id="funNomeCriarFicha"></span> <br />
-                    <select style="display: none" name="funSelectCriarFicha" id="funSelectCriarFicha"></select>
-                    Restrições:
-                    <input type="checkbox" name="cliRestricoesCriarFicha" id="cliRestricoesCriarFicha" />
-                    <span style="display: none" id="cliRestricoesTipoCriarFicha">Tipo de Restrições:
-                    </span>
-                    Intervalo: <span id="cliIntervaloCriarFicha"></span><br />
-                  </form>
+              <form class="mt-3 ms-3 mb-3 col-12">
+                <input type="text" class="d-none" id="cliIdAtual">
+                Cliente: <span id="cliNomeCriarFicha"></span> <br />
+                Professor:<span id="funNomeCriarFicha"></span> <br />
+                <select style="display: none" name="funSelectCriarFicha" id="funSelectCriarFicha"></select>
+                Restrições:
+                <input type="checkbox" name="cliRestricoesCriarFicha" id="cliRestricoesCriarFicha" />
+                <span style="display: none" id="cliRestricoesTipoCriarFicha">Tipo de Restrições:
+                </span>
+                Intervalo: <span id="cliIntervaloCriarFicha"></span><br />
+              </form>
 
-                  <div class="col-md-8 col-12 d-flex justify-content-center">
-                    <input class="d-none" id="cliIdFichaTreino" type="text">
-                    <input class="d-none" id="idCriarFichaTreino" type="text">
+              <div class="col-md-8 col-12 d-flex justify-content-center">
+                <input class="d-none" id="cliIdFichaTreino" type="text">
+                <input class="d-none" id="idCriarFichaTreino" type="text">
 
-                    <div class="m-0 p-0">
+                <div class="m-0 p-0">
 
 
-                        <!-- Lista de exercicios -->
-                      <div id="BoxExerciciosFicha" class="row col-sm-12"> </div>
-                    </div>
-                  </div>
+                  <!-- Lista de exercicios -->
+                  <div id="BoxExerciciosFicha" class="row col-sm-12"> </div>
+                </div>
+              </div>
 
               <div class="col-md-4 col-12">
                 <div class="row flex-container justify-content-center">
@@ -786,7 +789,7 @@
 
           </div>
         </section>
-        
+
         <div id="modalCadastrarCliente" class="modal" tabindex="-1">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -1165,20 +1168,118 @@
                     aria-label="Nome do Exercicio" aria-describedby="basic-addon1" required>
                 </div>
 
-              
+
 
                 <div class="input-group input-group-modal col-md-12  mt-4 mb-5">
                   <div class="d-flex col-sm-12 mb-2 "> Selecione o Aparelho </div>
-                  
-                  <select style="width: 100px;" class="form-select col-md-8" name="exeApaId" id="apaExercicio"
-                    required>
-                    
+
+                  <select style="width: 100px;" class="form-select col-md-8" name="exeApaId" id="apaExercicio" required>
+
                   </select>
                   </span>
                 </div>
 
                 <button class="float-right btn btn-success" type="submit">Cadastrar</button>
               </form>
+            </div>
+          </div>
+        </div>
+
+        <div id="modalCadastrarAdministradorAcademia" class="modal" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3 class="mt-4 mb-4"> Adicionar Administrador</h3>
+                <span id="fecharModalAdicionarAdministrador" class="fechar">&times;</span>
+              </div>
+              <div class="modal-body">
+                <form id="formAdministradorAcademia">
+
+                  <!-- Nome -->
+                  <div class="input-group input-group-modal col-12 mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+                    <input type="text" name="admNome" class="form-control" placeholder="Nome" aria-label="Username"
+                      aria-describedby="basic-addon1" required>
+                  </div>
+
+                  <!-- Celular -->
+                  <div class="input-group input-group-modal col-md-6 col-sm-6 mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-telephone-fill"></i></span>
+                    <input type="text" id="admCelular" maxlength="15" name="admCelular" class="form-control"
+                      placeholder="Celular" aria-label="Username" aria-describedby="basic-addon1" required>
+                  </div>
+
+                  <!-- CEP -->
+                  <div class="input-group input-group-modal col-md-6 col-sm-6 mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt-fill"></i></span>
+                    <input type="text" maxlength="9" id="admCep" name="admCep" class="form-control" placeholder="CEP"
+                      aria-label="Username" aria-describedby="basic-addon1">
+                  </div>
+
+                  <!-- Estado -->
+                  <div class="input-group input-group-modal col-md-5 col-sm-6 mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt-fill"></i></span>
+                    <input type="text" id="admEstado" name="admEstado" class="form-control" placeholder="Estado"
+                      aria-label="Username" aria-describedby="basic-addon1">
+                  </div>
+
+                  <!-- Cidade -->
+                  <div class="input-group input-group-modal col-md-6 col-sm-6 mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt-fill"></i></span>
+                    <input type="text" id="admCidade" name="admCidade" class="form-control" placeholder="Cidade"
+                      aria-label="Username" aria-describedby="basic-addon1">
+                  </div>
+
+                  <!-- Rua -->
+                  <div class="input-group input-group-modal col-md-10 col-sm-6 mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-signpost-fill"></i></span>
+                    <input type="text" id="admRua" name="admRua" class="form-control" placeholder="Rua"
+                      aria-label="Username" aria-describedby="basic-addon1">
+                  </div>
+
+                  <!-- Numero da Rua -->
+                  <div class="input-group input-group-modal col-md-6 col-sm-6 mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-123"></i></span>
+                    <input type="text" name="admNumeroRua" class="form-control" placeholder="Numero"
+                      aria-label="Username" aria-describedby="basic-addon1">
+                  </div>
+
+                  <!-- Sexo -->
+                  <div class="input-group input-group-modal col-md-4 col-sm-6 mb-3">
+                    <select class="form-select" aria-label="Default select example" name="admSexo" required>
+                      <option value="M">Masculino</option>
+                      <option value="F">Feminino</option>
+                      <option value="P">Prefiro não dizer</option>
+                    </select>
+                  </div>
+
+                  <!-- CPF -->
+                  <div class="input-group input-group-modal mb-3 col-md-6 col-sm-6 mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-card-heading"></i></span>
+                    <input type="text" maxlength="14" id="admCpf" name="admCpf" class="form-control" placeholder="CPF"
+                      aria-label="Username" aria-describedby="basic-addon1" required>
+                  </div>
+
+                  <!-- E-mail -->
+                  <div class="input-group input-group-modal col-md-6 col-sm-6 mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-envelope-at-fill"></i></span>
+                    <input type="email" name="admEmail" id="admEmail" class="form-control" placeholder="E-mail"
+                      aria-label="Username" aria-describedby="basic-addon1" required>
+                  </div>
+
+
+                  <!-- Senha -->
+                  <div class="input-group input-group-modal col-md-6 col-sm-6 mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-file-lock-fill"></i></span>
+                    <input type="password" name="admSenha" id="admSenha" class="form-control" placeholder="Senha"
+                      aria-label="Username" aria-describedby="basic-addon1" required>
+                  </div>
+                  <input class="d-none" id="admAcademia" type="text">
+                  <div class="col">
+                    <button type="submit" class="btn btn-success mb-1">Enviar</button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>

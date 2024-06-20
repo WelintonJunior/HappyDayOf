@@ -68,9 +68,11 @@ const logoutInterval = setTimeout(async () => {
 const btnFicha = document.getElementById("btnFicha");
 const btnDesempenho = document.getElementById("btnDesempenho");
 const btnPerfil = document.getElementById("btnPerfil");
+const btnImc = document.getElementById("btnCalculadoraImc");
 const TelaFicha = document.getElementById("TelaFicha");
 const TelaDesempenho = document.getElementById("TelaDesempenho");
 const TelaPerfil = document.getElementById("TelaPerfil");
+const TelaImc = document.getElementById("TelaImc");
 const formInserirTreinoA = document.getElementById("formInserirTreinoA");
 const formInserirTreinoB = document.getElementById("formInserirTreinoB");
 const formInserirTreinoC = document.getElementById("formInserirTreinoC");
@@ -163,6 +165,11 @@ btnPerfil.addEventListener("click", (e) => {
   e.preventDefault();
   MostrarTela("TelaPerfil", token);
 });
+//btnCalcularImc
+btnImc.addEventListener("click", (e) => {
+  e.preventDefault()
+  MostrarTela("TelaImc", token)
+})
 
 //Ver Clientes/Funcionarios
 document.addEventListener("DOMContentLoaded", async function () {
@@ -481,6 +488,7 @@ async function MostrarTela(tela, token) {
       TelaFicha.style.display = "block";
       TelaDesempenho.style.display = "none";
       TelaPerfil.style.display = "none";
+      TelaImc.style.display = "none";
       await MostrarTelaCriarFicha(idCliente, token)
       break;
     case "TelaDesempenho":
@@ -494,9 +502,11 @@ async function MostrarTela(tela, token) {
       btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
       btnDesempenho.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
       btnPerfil.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnImc.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
       TelaFicha.style.display = "none";
       TelaDesempenho.style.display = "block";
       TelaPerfil.style.display = "none";
+      TelaImc.style.display = "none";
       break;
     case "TelaPerfil":
       if (TelaPerfil.style.display === "block") {
@@ -510,9 +520,28 @@ async function MostrarTela(tela, token) {
       btnPerfil.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
       btnDesempenho.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
       btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnImc.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
       TelaFicha.style.display = "none";
       TelaDesempenho.style.display = "none";
+      TelaImc.style.display = "none";
       TelaPerfil.style.display = "block";
+      break;
+    case "TelaImc":
+      if (TelaImc.style.display === "block") {
+        TelaImc.style.display = "none";
+        TelaFicha.style.display = "block";
+        btnFicha.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
+        btnImc.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+        return;
+      }
+      btnFicha.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      btnDesempenho.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
+      btnPerfil.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
+      btnImc.firstChild.parentNode.style.backgroundColor = "#2e2e2e";
+      TelaFicha.style.display = "none";
+      TelaPerfil.style.display = "none";
+      TelaDesempenho.style.display = "none";
+      TelaImc.style.display = "block";
       break;
     default:
       btnFicha.firstChild.parentNode.style.backgroundColor = "#3EB1E2";
@@ -715,4 +744,54 @@ async function preencherMetaExercicios(idCliente, token) {
   }
 }
 
+//Calcular Imc
 
+const formImc = document.getElementById('imc-formImc');
+
+formImc.addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const peso = parseFloat(document.getElementById('imc-peso').value.replace(',', '.'));
+  const altura = parseFloat(document.getElementById('imc-altura').value.replace(',', '.'));
+
+  if (isNaN(peso) || isNaN(altura)) {
+    alert('Por favor, insira números válidos para peso e altura.');
+    return;
+  }
+
+  const imc = getImc(peso, altura);
+
+  const valor = document.getElementById("imc-resultadoImc");
+  const descricaoElement = document.getElementById('imc-descricao').querySelector('span');
+  let descricao = "";
+
+  valor.classList.remove('imc-normal', 'imc-atencao');
+
+  if (imc < 18.5) {
+    descricao = 'Abaixo do Peso';
+    valor.classList.add('imc-atencao');
+  } else if (imc >= 18.5 && imc <= 25) {
+    descricao = 'Peso Normal';
+    valor.classList.add('imc-normal');
+  } else if (imc >= 25 && imc <= 30) {
+    descricao = 'Acima do Peso';
+    valor.classList.add('imc-atencao');
+  } else if (imc >= 30 && imc <= 35) {
+    descricao = 'Obesidade Grau 1';
+    valor.classList.add('imc-atencao');
+  } else if (imc >= 35 && imc <= 40) {
+    descricao = 'Obesidade Grau 2';
+    valor.classList.add('imc-atencao');
+  } else {
+    descricao = 'Obesidade Grau 3';
+    valor.classList.add('imc-atencao');
+  }
+
+  function getImc(peso, altura) {
+    const imc = peso / (altura ** 2);
+    return imc.toFixed(2);
+  }
+
+  valor.textContent = imc.replace('.', ',');
+  descricaoElement.textContent = descricao;
+});

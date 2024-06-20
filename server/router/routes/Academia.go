@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"fmt"
 	"net/http"
 
 	UTILS "example.com/fitConnect/Utils"
@@ -108,6 +109,7 @@ func (h *AcademiaHandlers) AddAdministrador(context *gin.Context) {
 	}
 
 	if err := h.service.AddAdministrador(adm); err != nil {
+		fmt.Println(err)
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao cadastrar adm"})
 		return
 	}

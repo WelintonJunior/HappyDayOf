@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title id="titleAcad"></title>
   <link rel="shortcut icon" href="/public/images/icon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/public/styles/calculadoraImc.css">
   <link rel="stylesheet" href="/public/styles/index.css" />
   <link rel="stylesheet" href="/public/styles/funcionario.css" />
   <link rel="stylesheet" href="/public/styles/nav.css" />
@@ -47,12 +48,12 @@
       <div id="content">
 
         <button class="btn btn-info" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
-        aria-controls="offcanvasScrolling"><i class="fas fa-align-left"></i> Alernar Menu</button>
+          aria-controls="offcanvasScrolling"><i class="fas fa-align-left"></i> Alernar Menu</button>
 
         <div class="offcanvas offcanvas-start offcanvas-start show text-bg-dark" data-bs-scroll="true" data-b
           s-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
-          
-          
+
+
 
           <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasScrollingLabel">
@@ -61,11 +62,12 @@
               </div>
             </h5>
             <button type="button" class="btn-close btn-close-white text-reset" aria-label="Close"
-             data-bs-dismiss="offcanvas"></button>
-          
+              data-bs-dismiss="offcanvas"></button>
+
           </div>
 
           <div class="offcanvas-body" id="sidebar">
+            <span class="ps-2" id="isAtendimento"> </span>
             <ul class="list-unstyled components ps-2">
               <li id="btnFicha">
                 <a> <i class="bi bi-card-list"></i> Ficha</a>
@@ -76,8 +78,11 @@
               <li id="btnPerfil">
                 <a><i class="bi bi-person"></i> Perfil</a>
               </li>
+              <li id="btnCalculadoraImc">
+                <a><i class="bi bi-person"></i> Calcular IMC</a>
+              </li>
             </ul>
-      
+
             <ul class="list-unstyled CTAs">
               <!-- <li>
                 <a href="#" class="btn1">Botão 1</a>
@@ -89,7 +94,7 @@
 
 
           </div>
-        </div>  
+        </div>
 
 
 
@@ -131,7 +136,7 @@
 
 
             </div>
-          </div>  
+          </div>
         </div>
 
 
@@ -140,17 +145,17 @@
         <div id="TelaFicha" style="display: block">
           <div class="container">
             <div class="container">
-            <form class="mt-3 mb-3 lh-sm fs-5 bg-body">
-              Cliente: <span id="cliNomeCriarFicha"></span> <br />
-              Professor:<span id="funNomeCriarFicha"></span> <br />
-              <select style="display: none" name="funSelectCriarFicha" id="funSelectCriarFicha"></select>
-              Restrições:
-              <input type="checkbox" name="cliRestricoesCriarFicha" id="cliRestricoesCriarFicha" />
-              <span style="display: none" id="cliRestricoesTipoCriarFicha">Tipo de Restrições:
-              </span>
-              Intervalo: <span id="cliIntervaloCriarFicha"></span><br />
-            </form>
-          </div>
+              <form class="mt-3 mb-3 lh-sm fs-5 bg-body">
+                Cliente: <span id="cliNomeCriarFicha"></span> <br />
+                Professor:<span id="funNomeCriarFicha"></span> <br />
+                <select style="display: none" name="funSelectCriarFicha" id="funSelectCriarFicha"></select>
+                Restrições:
+                <input type="checkbox" name="cliRestricoesCriarFicha" id="cliRestricoesCriarFicha" />
+                <span style="display: none" id="cliRestricoesTipoCriarFicha">Tipo de Restrições:
+                </span>
+                Intervalo: <span id="cliIntervaloCriarFicha"></span><br />
+              </form>
+            </div>
 
             <div class="container">
               <div class="row flex-container pt-5 pb-4">
@@ -169,7 +174,7 @@
                     </div>
                   </div>
                 </div>
-              
+
                 <!-- Treino B -->
                 <div class="ficha_treino col-sm-12 col-md-8 col-lg-4">
                   <div class="inner">
@@ -185,7 +190,7 @@
                     </div>
                   </div>
                 </div>
-              
+
                 <!-- Treino C -->
                 <div class="ficha_treino col-sm-12 col-md-8 col-lg-4">
                   <div class="inner">
@@ -203,16 +208,16 @@
                 </div>
               </div>
             </div>
-              
+
 
           </div>
         </div>
 
         <!-- Tela Detalhes Clientes -->
-        <section class="container bg-light mt-5">
+        <section id="TelaPerfil" style="display: none" class="container bg-light mt-5">
           <div class="row">
             <div class="col-12 border border-5">
-              <div id="TelaPerfil" style="display: none">
+              <div>
                 <form id="formDetalhesCliente">
                   <div class="row">
 
@@ -326,6 +331,54 @@
 
                   </div>
                 </form>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tela Imc -->
+        <section id="TelaImc" style="display: none" class="container bg-light mt-5">
+          <div class="row">
+            <div class="col-12">
+              <div>
+                <section id="imc-calculator">
+                  <form action="formulário" id="imc-formImc">
+                    <h1 id="imc-titulo">
+                      Calculadora - IMC
+                    </h1>
+        
+                    <div class="imc-input-box mt-3">
+                      <label for="imc-peso">Peso em Kg</label>
+                      <div class="imc-input-field mt-2">
+                        <i class="fa-solid fa-weight-hanging"></i>
+                        <input type="text" id="imc-peso" required>
+                        <span>Kg</span>
+                      </div>
+                    </div>
+        
+                    <div class="imc-input-box mt-3">
+                      <label for="imc-altura">Altura em Metros</label>
+                      <div class="imc-input-field mt-2">
+                        <i class="fa-solid fa-ruler"></i>
+                        <input type="text" id="imc-altura" required>
+                        <span>M</span>
+                      </div>
+                    </div>
+        
+                    <button class="mt-2 btnImc-calcular col-4" type="submit">Calcular</button>
+                  </form>
+        
+                  <div id="imc-infos">
+                    <div class="imc-resultadoImc">
+                      <div id="imc-imc">
+                        <span id="imc-resultadoImc"></span>
+                      </div>
+                      <div id="imc-descricao">
+                        <span></span>
+                      </div>
+                    </div>
+                  </div>
+                </section>
               </div>
             </div>
           </div>
