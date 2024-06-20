@@ -30,6 +30,7 @@ func AtendimentoRoutes(server *gin.Engine, handlers *routes.AtendimentoHandlers)
 	server.POST("/Atendimento/RegisterAtendimento", handlers.RegisterAtendimento)
 	server.POST("/Atendimento/ValidacaoAtendimento", handlers.ValidacaoAtendimento)
 	server.POST("/Atendimento/UpdateStatusAtendimento", handlers.UpdateStatusAtendimento)
+	server.GET("/Atendimento/Quantidade", handlers.VerificarQuantidadeAtendimento)
 
 }
 
