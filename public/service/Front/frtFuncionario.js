@@ -494,7 +494,7 @@ async function UpdateListaClienteFicha(token, filtroNome = "") {
         botaoCriarFicha.addEventListener("click", async function () {
           document.getElementById("funFicha").innerHTML = "";
           await UpdateCriarFichaTreinoA(item.CliId, token)
-          await PreencherSelectProfessores();
+          await PreencherSelectProfessores(token);
           modalCriarBaseFicha.style.display = "block";
           // introJs().start();
           document.getElementById("cliIdFicha").value = item.CliId;
