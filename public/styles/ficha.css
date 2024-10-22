@@ -182,7 +182,7 @@ body {
 #listaTreinoA,
 .listaTreino {
   overflow: auto;
-  max-height: 300px;
+  max-height: 100%;
   max-width: 100%;
 }
 
@@ -391,7 +391,7 @@ tbody td.active {
   border-radius: 12px;
   position: relative;
   box-shadow: 0 30px 30px -25px rgba(0, 38, 255, 0.205);
-  width: 305px; 
+  width: 350px; 
   height: 450px; 
 }
 

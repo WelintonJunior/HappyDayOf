@@ -13,6 +13,8 @@ type DashboardRepository interface {
 	ReadFuncNome(FunId int64) (string, error)
 	ReadAllAtendimentos(AcaId int64) ([]domain.Atendimento, error)
 	ReadAllEngajamentos(AcaId int64) ([]domain.Engajamento, error)
+	ReadAllClientes(idAcademia int64) (domain.IdAcadData, error)
+	ReadEvasao(idAcademia int64) (float64, error)
 }
 
 type localDashboardRepository struct{}
@@ -119,4 +121,41 @@ func (r *localDashboardRepository) ReadAllEngajamentos(AcaId int64) ([]domain.En
 	}
 
 	return engajamento, nil
+}
+
+func (r *localDashboardRepository) ReadAllClientes(idAcademia int64) (domain.IdAcadData, error) {
+	query := "select count(*) as AllClientes from tblCliente where cliIdACad = ?"
+	row := database.DB.QueryRow(query, idAcademia)
+
+	var allClientes domain.IdAcadData
+	if err := row.Scan(&allClientes.IdAcad); err != nil {
+		return domain.IdAcadData{}, err
+	}
+
+	return allClientes, nil
+}
+
+func (r *localDashboardRepository) ReadEvasao(idAcademia int64) (float64, error) {
+	totalClientesQuery := "SELECT COUNT(*) as TotalClientes FROM tblCliente WHERE cliIdACad = ?"
+	var totalClientes int64
+	row := database.DB.QueryRow(totalClientesQuery, idAcademia)
+	if err := row.Scan(&totalClientes); err != nil {
+		return 0, err
+	}
+
+	evasaoClientesQuery := "SELECT COUNT(*) as EvasaoClientes FROM tblCliente WHERE cliIdACad = ? AND cliStatus = 0"
+	var evasaoClientes int64
+	row = database.DB.QueryRow(evasaoClientesQuery, idAcademia)
+	if err := row.Scan(&evasaoClientes); err != nil {
+		return 0, err
+	}
+
+	var porcentagemEvasao float64
+	if totalClientes > 0 {
+		porcentagemEvasao = (float64(evasaoClientes) / float64(totalClientes)) * 100
+	} else {
+		porcentagemEvasao = 0
+	}
+
+	return porcentagemEvasao, nil
 }

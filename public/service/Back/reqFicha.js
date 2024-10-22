@@ -10,12 +10,6 @@ class FichaServices {
         }),
       });
       const result = await response.json();
-       if (result.message === "Não autorizado") {
-            alert("Sessão expirada faça login novamente!")
-            localStorage.clear()
-            window.location.href = "/"
-          }
-
       return result;
     } catch (err) {
       console.error("Erro as fichas dos clientes")
@@ -35,12 +29,6 @@ class FichaServices {
         )
       })
       const result = await response.json();
-       if (result.message === "Não autorizado") {
-            alert("Sessão expirada faça login novamente!")
-            localStorage.clear()
-            window.location.href = "/"
-          }
-
       return result;
     } catch (err) {
       console.error("Erro ao ver os detalhes da ficha do cliente")
@@ -58,12 +46,6 @@ class FichaServices {
         })
       })
       const result = await response.json();
-       if (result.message === "Não autorizado") {
-            alert("Sessão expirada faça login novamente!")
-            localStorage.clear()
-            window.location.href = "/"
-          }
-
       return result;
     } catch (err) {
       console.error("Erro ao ver os detalhes gerais da ficha do cliente")

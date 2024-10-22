@@ -546,6 +546,12 @@ async function renderNumeracaoChart() {
     dashNumeracao.innerHTML = allClientes.IdAcad
 }
 
+async function renderEvasaoChart() {
+    const evasaoP = await dashboardServices.ReadEvasao(idAcademia, token)
+    const dashEvasao = document.getElementById("dashEvasao")
+    dashEvasao.innerHTML = evasaoP.toFixed(1) + "%"
+}
+
 let reloadBtnSatisfacao = document.getElementById("reloadBtnSatisfacao")
 if (reloadBtnSatisfacao) {
     reloadBtnSatisfacao.addEventListener("click", async (e) => {
@@ -596,6 +602,16 @@ if (reloadBtnNumeracao) {
     });
 }
 
+let reloadBtnEvasao = document.getElementById("reloadBtnEvasao")
+if (reloadBtnEvasao) {
+    reloadBtnEvasao.addEventListener("click", async (e) => {
+        e.preventDefault();
+        const dashEvasao = document.getElementById('dashEvasao');
+        dashEvasao.innerHTML = '';
+        await renderEvasaoChart();
+    });
+}
+
 if (reloadBtnAtendimento) {
     document.addEventListener("DOMContentLoaded", async () => {
         await renderSatisfacaoChart();
@@ -603,6 +619,7 @@ if (reloadBtnAtendimento) {
         await renderAtendimentoChart();
         await renderEngajamentoChart();
         await renderNumeracaoChart();
+        await renderEvasaoChart();
     });
 }
 

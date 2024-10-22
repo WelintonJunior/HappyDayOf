@@ -97,6 +97,19 @@ class DashboardServices {
         const result = await response.json();
         return result
     }
+    
+    async ReadEvasao(idAcademia, token) {
+        const response = await fetch("/Dashboard/ReadEvasao", {
+            headers: { "Content-Type": "application/json", "Authorization": `${token}` },
+            method: "POST",
+            body: JSON.stringify({
+                IdAcad: parseInt(idAcademia)
+            })
+        })
+
+        const result = await response.json();
+        return result
+    }
 
 
 }

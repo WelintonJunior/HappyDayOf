@@ -36,3 +36,7 @@ func (s *AtendimentoService) Validar(a domain.Atendimento) (bool, error) {
 func (s *AtendimentoService) UpdateStatusAtendimento(a domain.Atendimento) error {
 	return s.repo.UpdateStatusAtendimento(a)
 }
+
+func (s *AtendimentoService) VerificarQuantidadeAtendimento() (int64, error) {
+	return s.repo.VerificarQuantidadeAtendimento()
+}

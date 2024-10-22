@@ -222,3 +222,14 @@ func (h *AtendimentoHandlers) UpdateStatusAtendimento(context *gin.Context) {
 
 	context.JSON(http.StatusOK, gin.H{"message": "Sucesso"})
 }
+
+func (h *AtendimentoHandlers) VerificarQuantidadeAtendimento(c *gin.Context) {
+	qtd, err := h.service.VerificarQuantidadeAtendimento()
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao buscar quantidade de atendimento"})
+		return
+	}
+
+	c.JSON(http.StatusOK, qtd)
+}

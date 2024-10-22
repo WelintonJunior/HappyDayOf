@@ -219,11 +219,6 @@ class AdministradorServices extends FichaServices {
         }),
       });
       const result = await response.json();
-      if (result.message === "Não autorizado") {
-        alert("Sessão expirada faça login novamente!")
-        localStorage.clear()
-        window.location.href = "/"
-      }
       return result;
     } catch (err) {
       console.error("Erro ao ler o Funcionario")
@@ -362,6 +357,44 @@ class AdministradorServices extends FichaServices {
       return result;
     } catch (err) {
       console.error("Erro ao registrar o funcionario")
+      throw err
+    }
+  }
+
+  async AddAdministrador(data, idAcademia, token) {
+    console.log(data)
+    console.log(idAcademia)
+    try {
+      const response = await fetch("/Academia/AddAdministrador", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `${token}` },
+        body: JSON.stringify({
+          AdmNome: data.admNome,
+          AdmCelular: data.admCelular,
+          AdmCep: data.admCep,
+          AdmCidade: data.admCidade,
+          AdmEstado: data.admEstado,
+          AdmRua: data.admRua,
+          AdmNumeroRua: parseInt(data.admNumeroRua),
+          AdmSexo: data.admSexo,
+          AdmCpf: data.admCpf,
+          AdmEmail: data.admEmail,
+          AdmDataCmc: data.admDataCmc,
+          AdmStatus: parseInt(data.admStatus),
+          AdmIdAcad: parseInt(idAcademia),
+          AdmSenha: data.admSenha
+        }),
+      });
+      const result = await response.json();
+       if (result.message === "Não autorizado") {
+            alert("Sessão expirada faça login novamente!")
+            localStorage.clear()
+            window.location.href = "/"
+          }
+
+      return result;
+    } catch (err) {
+      console.error("Erro ao adicionar administrador")
       throw err
     }
   }
@@ -658,12 +691,14 @@ class AdministradorServices extends FichaServices {
 
 const cliCelular = document.getElementById("cliCelular");
 const funCelular = document.getElementById("funCelular");
+const admCelular = document.getElementById("admCelular");
 const cliDetCelular = document.getElementById("cliDetCelular");
 const funDetCelular = document.getElementById("funDetCelular");
 const funDetCpf = document.getElementById("funDetCpf");
 const cliDetCpf = document.getElementById("cliDetCpf");
 const cliCpf = document.getElementById("cliCpf");
 const funCpf = document.getElementById("funCpf");
+const admCpf = document.getElementById("admCpf");
 const cliEmail = document.getElementById("cliEmail");
 const cliDetEmail = document.getElementById("cliDetEmail");
 const funEmail = document.getElementById("funEmail");
