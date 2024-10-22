@@ -214,10 +214,10 @@ btnExercicio.addEventListener("click", (e) => {
 });
 
 //btnAddAdministrador
-btnAddAdministrador.addEventListener("click", (e) => {
-  e.preventDefault()
-  AbrirModalAddAdministrador()
-})
+// btnAddAdministrador.addEventListener("click", (e) => {
+//   e.preventDefault()
+//   AbrirModalAddAdministrador()
+// })
 
 function AbrirModalAddAdministrador() {
   modalCadastrarAdministradorAcademia.style.display = "block"

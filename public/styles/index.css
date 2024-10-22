@@ -21,8 +21,7 @@ body{
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, #3498db 10%, transparent 20%),
-    radial-gradient(circle, transparent 10%, #3498db 20%);
+  background: radial-gradient(circle, #6fc5ff 10%, transparent 20%), radial-gradient(circle, transparent 10%, #92bfdd 20%);
   background-size: 30px 30px; /* Adjust the size of the pattern */
   animation: moveBackground 8s linear infinite; /* Adjust the animation duration and timing function */
 }
@@ -101,7 +100,7 @@ body{
 .fc {
     /* width: 60vw; */
     height: 70vh;
-    background-color: rgba(0, 0, 0, 0.333);
+    background-color: rgb(50 137 141 / 51%);;
     backdrop-filter: blur(3px);
     box-shadow: 0 .4rem .8rem #0005;
     border-radius: .8rem;
