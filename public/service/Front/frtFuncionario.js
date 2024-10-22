@@ -1271,43 +1271,10 @@ pesquisarAtendimento.addEventListener("keyup", async (e) => {
   await UpdateListaAtendimento(token, nomePesquisa);
 })
 
-//Criar Ficha
-
-const innerA = document.getElementById("innerA");
-const innerB = document.getElementById("innerB");
-const innerC = document.getElementById("innerC");
-let auxInner = "";
-
-function ZerarAuxIneer() {
-  innerA.style.border = "none"
-  innerB.style.border = "none"
-  innerC.style.border = "none"
-  auxInner = "";
-}
-
-innerA.addEventListener('click', (e) => {
-  ZerarAuxIneer();
-  auxInner = "A"
-  innerA.style.border = "1px solid black"
-
-})
-innerB.addEventListener('click', (e) => {
-  ZerarAuxIneer();
-  auxInner = "B"
-  innerB.style.border = "1px solid black"
-
-})
-innerC.addEventListener('click', (e) => {
-  ZerarAuxIneer();
-  auxInner = "C"
-  innerC.style.border = "1px solid black"
-
-})
-
 async function PreencherBoxExercicios() {
   const result = await funServices.ReadExercicio(idAcademia, token);
   let BoxExerciciosFicha = document.getElementById("BoxExerciciosFicha");
-  ZerarAuxIneer()
+  // ZerarAuxIneer()
   BoxExerciciosFicha.innerHTML = ""
 
   result.forEach((item) => {
@@ -1325,62 +1292,57 @@ async function PreencherBoxExercicios() {
 }
 
 async function handleClick(item) {
-  if (auxInner === "") {
-    alert("Você precisa selecionar um tipo!")
-    return
-  } else {
-    let data = {
-      detIdFicha: 0,
-      detTreino: 0,
-      cliIdFicha: 0,
-      detVariacao: 0,
-      detCarga: 0,
-      detSerie: 0,
-      detRepeticao: 0,
-      detDataAdicionado: ""
-    };
-    const cliIdFichaTreino = document.getElementById("cliIdFichaTreino").value;
-    const idFicha = document.getElementById("idCriarFichaTreino").value;
+  let data = {
+    detIdFicha: 0,
+    detTreino: 0,
+    cliIdFicha: 0,
+    detVariacao: 0,
+    detCarga: 0,
+    detSerie: 0,
+    detRepeticao: 0,
+    detDataAdicionado: ""
+  };
+  const cliIdFichaTreino = document.getElementById("cliIdFichaTreino").value;
+  const idFicha = document.getElementById("idCriarFichaTreino").value;
 
-    const dateTimeString = await getFormattedDateTime();
-    const dateOnly = dateTimeString.split(" ")[0]; // Pega apenas a parte da data
-    data.detDataAdicionado = dateOnly
+  const dateTimeString = await getFormattedDateTime();
+  const dateOnly = dateTimeString.split(" ")[0]; // Pega apenas a parte da data
+  data.detDataAdicionado = dateOnly
 
-    switch (auxInner) {
-      case "A":
-        data.detIdFicha = idFicha;
-        data.detTreino = "A";
-        data.cliIdFicha = document.getElementById("cliIdAtual").value;
-        data.detVariacao = item.ExeNome
-        data.detCarga = 0
-        data.detSerie = 0
-        data.detRepeticao = 0
-        await funServices.RegisterDetalhesFicha(data, token);
-        await UpdateCriarFichaTreinoA(cliIdFichaTreino, token);
-        break;
-      case "B":
-        data.detIdFicha = idFicha;
-        data.detTreino = "B";
-        data.cliIdFicha = document.getElementById("cliIdAtual").value;
-        data.detVariacao = item.ExeNome
-        data.detCarga = 0
-        data.detSerie = 0
-        data.detRepeticao = 0
-        await funServices.RegisterDetalhesFicha(data, token);
-        await UpdateCriarFichaTreinoB(cliIdFichaTreino, token);
-        break;
-      case "C":
-        data.detIdFicha = idFicha;
-        data.detTreino = "C";
-        data.cliIdFicha = document.getElementById("cliIdAtual").value;
-        data.detVariacao = item.ExeNome
-        data.detCarga = 0
-        data.detSerie = 0
-        data.detRepeticao = 0
-        await funServices.RegisterDetalhesFicha(data, token);
-        await UpdateCriarFichaTreinoC(cliIdFichaTreino, token);
-        break;
-    }
+  switch (countFicha) {
+    case 1:
+      data.detIdFicha = idFicha;
+      data.detTreino = "A";
+      data.cliIdFicha = document.getElementById("cliIdAtual").value;
+      data.detVariacao = item.ExeNome
+      data.detCarga = 0
+      data.detSerie = 0
+      data.detRepeticao = 0
+      await funServices.RegisterDetalhesFicha(data, token);
+      await UpdateCriarFichaTreinoA(cliIdFichaTreino, token);
+      break;
+    case 2:
+      data.detIdFicha = idFicha;
+      data.detTreino = "B";
+      data.cliIdFicha = document.getElementById("cliIdAtual").value;
+      data.detVariacao = item.ExeNome
+      data.detCarga = 0
+      data.detSerie = 0
+      data.detRepeticao = 0
+      await funServices.RegisterDetalhesFicha(data, token);
+      await UpdateCriarFichaTreinoB(cliIdFichaTreino, token);
+      break;
+    case 3:
+      data.detIdFicha = idFicha;
+      data.detTreino = "C";
+      data.cliIdFicha = document.getElementById("cliIdAtual").value;
+      data.detVariacao = item.ExeNome
+      data.detCarga = 0
+      data.detSerie = 0
+      data.detRepeticao = 0
+      await funServices.RegisterDetalhesFicha(data, token);
+      await UpdateCriarFichaTreinoC(cliIdFichaTreino, token);
+      break;
   }
 }
 
@@ -1547,6 +1509,56 @@ async function UpdateCriarFichaTreinoC(cliId, token) {
     document.getElementById("listaTreinoC").appendChild(tabela);
   }
 }
+
+
+//Criar Ficha
+
+let countFicha = 1;
+
+const innerA = document.getElementById("innerA");
+const innerB = document.getElementById("innerB");
+const innerC = document.getElementById("innerC");
+const btnVoltarFicha = document.getElementById("btnVoltarFicha")
+const btnAvancarFicha = document.getElementById("btnAvancarFicha")
+
+btnVoltarFicha.addEventListener("click", () => {
+  if (countFicha >= 2) {
+    countFicha--
+    MudarFicha(countFicha)
+  } else {
+    alert("Não se pode ultrapassar a ficha A")
+  }
+})
+
+btnAvancarFicha.addEventListener("click", () => {
+  if (countFicha <= 2) {
+    countFicha++
+    MudarFicha(countFicha)
+  } else {
+    alert("Não se pode ultrapassar a ficha C")
+  }
+})
+
+async function MudarFicha(count) {
+  switch (count) {
+    case 1:
+      innerA.style.display = "block"
+      innerB.style.display = "none"
+      innerC.style.display = "none"
+      break; 
+    case 2:
+      innerA.style.display = "none"
+      innerB.style.display = "block"
+      innerC.style.display = "none"
+      break; 
+    case 3:
+      innerA.style.display = "none"
+      innerB.style.display = "none"
+      innerC.style.display = "block"
+      break; 
+  }
+}
+
 
 function showLoading() {
   document.getElementById('loadingOverlay').style.display = 'block';
